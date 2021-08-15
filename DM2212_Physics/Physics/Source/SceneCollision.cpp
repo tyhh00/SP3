@@ -24,6 +24,7 @@ void SceneCollision::Init()
 	m_gameWidth = m_worldWidth * 0.75;
 
 	camera.Init(Vector3(m_worldWidth * 0.5f, m_worldHeight * 0.5f, 1), Vector3(m_worldWidth * 0.5f, m_worldHeight * 0.5f, 0), Vector3(0, 1, 0));
+	//camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
 	//Physics code here
 	m_speed = 1.f;
@@ -1898,7 +1899,7 @@ void SceneCollision::Render()
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
 //	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -10, 10);
-	projection.SetToPerspective(m_worldWidth - 1.0, m_worldWidth / m_worldHeight, 0.1f, 1000.f);
+	projection.SetToPerspective(m_worldWidth - 1.0f, m_worldWidth / m_worldHeight, 0.1f, 1000.f);
 	projectionStack.LoadMatrix(projection);
 
 	// Camera matrix

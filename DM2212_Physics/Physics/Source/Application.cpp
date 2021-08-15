@@ -13,8 +13,9 @@
 
 
 #include "SceneCollision.h"
+#include "SceneTest.h"
 
-int Application::index = S_COLLISION;
+int Application::index = S_TEST;
 bool Application::quit = false;
 
 GLFWwindow* m_window;
@@ -133,6 +134,7 @@ void Application::Run()
 {
 	//Main Loop
 	sceneArray[S_COLLISION] = new SceneCollision();
+	sceneArray[S_TEST] = new SceneTest();
 	
 	for (int i = 0; i < SCENE_TOTAL; i++)
 	{

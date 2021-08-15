@@ -11,6 +11,7 @@ public:
 	enum SCENE_TYPE
 	{
 		S_COLLISION,
+		S_TEST,
 		
 
 		SCENE_TOTAL
