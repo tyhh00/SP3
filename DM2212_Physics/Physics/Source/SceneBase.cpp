@@ -110,7 +110,7 @@ void SceneBase::Init()
 	meshList[GEO_BUTTON] = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BUTTON]->textureID = LoadTGA("Image/button.tga");
 
-	bLightEnabled = true;
+	bLightEnabled = false;
 }
 
 void SceneBase::Update(double dt)

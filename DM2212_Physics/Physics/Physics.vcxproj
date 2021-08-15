@@ -163,11 +163,6 @@
     <ClCompile Include="Source\MeshBuilder.cpp" />
     <ClCompile Include="Source\SceneBase.cpp" />
     <ClCompile Include="Source\SceneCollision.cpp" />
-    <ClCompile Include="Source\SceneLevel1.cpp" />
-    <ClCompile Include="Source\SceneLevel2.cpp" />
-    <ClCompile Include="Source\SceneLevel3.cpp" />
-    <ClCompile Include="Source\SceneLevelSelection.cpp" />
-    <ClCompile Include="Source\SceneMainMenu.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
@@ -185,11 +180,6 @@
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneBase.h" />
     <ClInclude Include="Source\SceneCollision.h" />
-    <ClInclude Include="Source\SceneLevel1.h" />
-    <ClInclude Include="Source\SceneLevel2.h" />
-    <ClInclude Include="Source\SceneLevel3.h" />
-    <ClInclude Include="Source\SceneLevelSelection.h" />
-    <ClInclude Include="Source\SceneMainMenu.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />

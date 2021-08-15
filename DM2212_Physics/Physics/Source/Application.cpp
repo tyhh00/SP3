@@ -11,11 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "SceneMainMenu.h"
-#include "SceneLevelSelection.h"
-#include "SceneLevel1.h"
-#include "SceneLevel2.h"
-#include "SceneLevel3.h"
+
 #include "SceneCollision.h"
 
 int Application::index = S_COLLISION;
@@ -99,8 +95,8 @@ void Application::Init()
 	//Create a window and create its OpenGL context
 	m_width = 1600;
 	m_height = 900;
-	m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
-//	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
+//	m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
+	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
 
 
 	//If the window couldn't be created
@@ -136,11 +132,6 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	sceneArray[S_MAINMENU] = new SceneMainMenu();
-	sceneArray[S_LEVELSELECT] = new SceneLevelSelection();
-	sceneArray[S_LEVEL1] = new SceneLevel1();
-	sceneArray[S_LEVEL2] = new SceneLevel2();
-	sceneArray[S_LEVEL3] = new SceneLevel3();
 	sceneArray[S_COLLISION] = new SceneCollision();
 	
 	for (int i = 0; i < SCENE_TOTAL; i++)

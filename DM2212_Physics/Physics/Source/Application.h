@@ -10,11 +10,6 @@ class Application
 public:
 	enum SCENE_TYPE
 	{
-		S_MAINMENU,
-		S_LEVELSELECT,
-		S_LEVEL1,
-		S_LEVEL2,
-		S_LEVEL3,
 		S_COLLISION,
 		
 
