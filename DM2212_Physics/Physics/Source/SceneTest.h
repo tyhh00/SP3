@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include <vector>
 #include "SceneBase.h"
+#include "Player.h"
 
 class SceneTest : public SceneBase
 {
@@ -24,7 +25,8 @@ protected:
 	//Physics
 	std::vector<GameObject *> m_goList;
 	
-	GameObject* player;
+	Player* player;
+	GameObject* testobj;
 
 	float m_speed;
 	float m_screenWidth;

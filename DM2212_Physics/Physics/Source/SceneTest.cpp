@@ -30,11 +30,25 @@ void SceneTest::Init()
 
 	Math::InitRNG();
 
-	player = FetchGO(GameObject::GO_BALL);
+
+	player = new Player;
+	player->Init();
+	player->active = true;
+	player->type = GameObject::GO_BALL;
 	player->pos.Set(m_worldWidth * 0.5, m_worldHeight * 0.5, 0);
 	player->scale.Set(3, 3, 3);
 	player->vel.SetZero();
 
+	m_goList.push_back(player);
+
+
+	testobj = FetchGO(GameObject::GO_BALL);
+	testobj->scale.Set(5, 5, 5);
+	testobj->pos.Set(player->pos.x + 100, player->pos.y, player->pos.z);
+
+
+	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.SetFocusTarget(player);
 }
 
 GameObject* SceneTest::FetchGO()
@@ -107,6 +121,7 @@ void SceneTest::Update(double dt)
 	{
 		bLButtonState = true;
 		std::cout << "LBUTTON DOWN" << std::endl;
+		camera.SetFocusTarget(player, true);
 
 	}
 	else if(bLButtonState && !Application::IsMousePressed(0))
@@ -120,6 +135,7 @@ void SceneTest::Update(double dt)
 	{
 		bRButtonState = true;
 		std::cout << "RBUTTON DOWN" << std::endl;
+		camera.SetFocusTarget(testobj, true);
 		
 	}
 	else if(bRButtonState && !Application::IsMousePressed(1))
@@ -129,7 +145,8 @@ void SceneTest::Update(double dt)
 
 	}
 
-	
+	player->Update(dt);
+	camera.Update(dt);
 
 	// Game Objects
 	for(std::vector<GameObject *>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
@@ -137,14 +154,7 @@ void SceneTest::Update(double dt)
 		GameObject *go = (GameObject *)*it;
 		if(go->active)
 		{		
-			// In case leave screen Unspawn
-			if (go->pos.x >= m_worldWidth + go->scale.x
-				|| go->pos.x + go->scale.x <= 0
-				|| go->pos.y >= m_worldHeight + go->scale.y
-				|| go->pos.y + go->scale.y <= 0)
-			{
-				ReturnGO(go);
-			}
+			// ...
 
 		}
 	}
@@ -429,9 +439,10 @@ void SceneTest::Render()
 
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
-	projection.SetToOrtho(0, m_screenWidth, 0, m_screenHeight, -10, 10);
+	projection.SetToOrtho(-1 * m_screenWidth * 0.5f, m_screenWidth * 0.5f, -1 * m_screenHeight * 0.5f, m_screenHeight * 0.5f, -10, 10);
 
 	projectionStack.LoadMatrix(projection);
+
 
 	// Camera matrix
 	viewStack.LoadIdentity();
@@ -455,8 +466,17 @@ void SceneTest::Render()
 		}
 	}
 
-
 	std::ostringstream ss;
+	ss.str("");
+	ss << "cam target: " << camera.target;
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
+	ss.str("");
+	ss << "cam pos: " << camera.position;
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);
+	ss.str("");
+	ss << "player: " << player->pos;
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);
+	
 
 
 	// fps tings
