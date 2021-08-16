@@ -1,7 +1,10 @@
 #include "LevelEditor.h"
-
+#include "GL\glew.h"
+#include "Application.h"
 #include <fstream>
 #include <sstream>   
+
+std::vector<std::string> splitStr(std::string str, char delimiter);
 
 LevelEditor::LevelEditor()
 {
@@ -19,6 +22,15 @@ LevelEditor::~LevelEditor()
 
 void LevelEditor::Init()
 {
+	SceneBase::Init();
+
+	// Calculating aspect ratio
+	m_worldHeight = 100.f;
+	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
+	m_gameWidth = m_worldWidth * 0.75;
+
+	camera.Init(Vector3(m_worldWidth * 0.5f, m_worldHeight * 0.5f, 1), Vector3(m_worldWidth * 0.5f, m_worldHeight * 0.5f, 0), Vector3(0, 1, 0));
+	//camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	std::string mapToLoad = "LEVEL_1.txt";
 	LoadMap(mapToLoad);
 }
@@ -83,9 +95,14 @@ bool LevelEditor::LoadMap(std::string filename)
 				DEBUG_MSG("Skipping " << line << " as it has a broken format in configuration");
 				continue;
 			}
-			Vector3 pos, rot, scale;
-			GameObject::GAMEOBJECT_TYPE type = static_cast<GameObject::GAMEOBJECT_TYPE>(std::stoi(split.at(0)));
-			
+			Vector3 pos, normal, scale;
+			GEOMETRY_TYPE type = static_cast<GEOMETRY_TYPE>(std::stoi(split.at(0)));
+			if (!(type > GEOMETRY_TYPE::GEO_TILES_START && type < GEOMETRY_TYPE::GEO_TILES_END))
+			{
+				DEBUG_MSG("Not a valid Tile! GEOMETRY_TYPE ID: " << type << " is out of range of tiles selection");
+				continue;
+			}
+
 			//Find Position
 			std::vector<std::string> posSplit = splitStr(split.at(1), ',');
 			if (posSplit.size() < 3)
@@ -99,10 +116,10 @@ bool LevelEditor::LoadMap(std::string filename)
 			std::vector<std::string> rotSplit = splitStr(split.at(2), ',');
 			if (rotSplit.size() < 3)
 			{
-				DEBUG_MSG("Rotation " << split.at(2) << " attribute has a broken format in configuration. Skipping...");
+				DEBUG_MSG("Normal " << split.at(2) << " attribute has a broken format in configuration. Skipping...");
 				continue;
 			}
-			rot = Vector3(std::stoi(rotSplit.at(0)), std::stoi(rotSplit.at(1)), std::stoi(rotSplit.at(2)));
+			normal = Vector3(std::stoi(rotSplit.at(0)), std::stoi(rotSplit.at(1)), std::stoi(rotSplit.at(2)));
 
 			//Find Scale
 			std::vector<std::string> scaleSplit = splitStr(split.at(3), ',');
@@ -118,13 +135,19 @@ bool LevelEditor::LoadMap(std::string filename)
 				continue;
 			}
 
-
+			GameObject* obj = new GameObject(GameObject::GO_TILE, meshList[type]);
+			obj->pos = pos;
+			obj->normal = normal;
+			obj->scale = scale;
+			gridObjects.push_back(obj);
 
 
 		}
 		
 
 	}
+	DEBUG_MSG("Loaded Level " << filename << " with " << gridObjects.size() << " Tiles");
+	return true;
 }
 
 
@@ -152,7 +175,51 @@ void LevelEditor::Update(double dt)
 
 void LevelEditor::Render()
 {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
+	// Projection matrix : Orthographic Projection
+	Mtx44 projection;
+	//	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -10, 10);
+	projection.SetToPerspective(m_worldWidth - 1.0f, m_worldWidth / m_worldHeight, 0.1f, 1000.f);
+	projectionStack.LoadMatrix(projection);
+
+	// Camera matrix
+	viewStack.LoadIdentity();
+	viewStack.LookAt(
+		camera.position.x, camera.position.y, camera.position.z,
+		camera.target.x, camera.target.y, camera.target.z,
+		camera.up.x, camera.up.y, camera.up.z
+	);
+	// Model matrix : an identity matrix (model will be at the origin)
+	modelStack.LoadIdentity();
+
+	//RenderMesh(meshList[GEO_AXES], false);
+
+	// all gos
+	for (std::vector<GameObject*>::iterator it = gridObjects.begin(); it != gridObjects.end(); ++it)
+	{
+		GameObject* go = (GameObject*)*it;
+		float angle = Math::RadianToDegree(atan2(go->normal.y, go->normal.x));
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Rotate(angle, 0, 0, 1);
+
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(go->mesh, false);
+		modelStack.PopMatrix();
+	}
+
+
+	// fps tings
+
+	std::ostringstream ss;
+	ss.str("");
+	ss.precision(5);
+	ss << "FPS: " << fps;
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 3);
+
+	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 3, 0, 0);
 }
 
 void LevelEditor::Exit()

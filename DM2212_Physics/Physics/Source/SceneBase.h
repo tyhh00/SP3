@@ -58,19 +58,19 @@ public:
 
 	enum GEOMETRY_TYPE
 	{
-		GEO_AXES = 1,
-		GEO_TEXT = 2,
+		GEO_AXES = 0,
+		GEO_TEXT = 1,
 
-		GEO_BALL = 3,
-		GEO_CUBE = 4,
+		GEO_BALL = 2,
+		GEO_CUBE = 3,
 
 		//Tiles Enum Start
 		//NOTE: DO NOT ADD ANY NEW TILES ABOVE EXISTING ONES.
 		//Add it right before GEO_TILES_END.
-		GEO_TILES_START = 5,
+		GEO_TILES_START = 4,
 		//
 		GEO_BLOCK_UP_RED,
-		GEO_BLOCK_DOWN_RED,
+
 		//Tiles End
 		GEO_TILES_END,
 
