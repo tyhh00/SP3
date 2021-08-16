@@ -16,8 +16,6 @@ private:
 
 	float speed;
 	bool AkeyDown, DkeyDown;
-
-	Physics* physics;
 };
 
 

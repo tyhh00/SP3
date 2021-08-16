@@ -32,10 +32,9 @@ void SceneTest::Init()
 
 
 	player = new Player;
+	player->scale.Set(5, 5, 5);
 	player->Init();
-	player->active = true;
 	player->pos.Set(m_worldWidth * 0.5, m_worldHeight * 0.5, 0);
-	player->scale.Set(3, 3, 3);
 
 //	m_goList.push_back(player);
 
@@ -473,12 +472,12 @@ void SceneTest::Render()
 	modelStack.PopMatrix();
 
 	std::ostringstream ss;
-	//ss.str("");
-	//ss << "cam target: " << camera.target;
-	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
-	//ss.str("");
-	//ss << "cam pos: " << camera.position;
-	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);
+	ss.str("");
+	ss << "player vel: " << player->physics->GetVelocity();
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
+	ss.str("");
+	ss << "player pos: " << player->pos;
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);
 	//ss.str("");
 	//ss << "player: " << player->pos;
 	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);

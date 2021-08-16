@@ -12,7 +12,7 @@ void Player::Init()
 
 	speed = 1000.0f;
 
-	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 5.0f, 5.0f);
+	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, scale.x, scale.y);
 	animatedSprites->AddAnimation("idle", 0, 1);
 	animatedSprites->AddAnimation("right", 6, 8);
 	animatedSprites->AddAnimation("left", 3, 5);
@@ -60,6 +60,8 @@ void Player::Update(double dt)
 		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, 0, 0));
 	}
 
+	// TO BE REMOVED ONCE GO MANAGER IS COMPLETE
+	physics->Update(dt);
 	pos += physics->GetVelocity() * dt;
 	physics->pos = pos;
 
