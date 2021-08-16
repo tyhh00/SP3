@@ -1,6 +1,8 @@
 
 #include "Player.h"
 #include "Application.h"
+#include "MeshBuilder.h"
+#include "LoadTGA.h"
 
 void Player::Init()
 {
@@ -8,10 +10,20 @@ void Player::Init()
 	DkeyDown = false;
 
 	speed = 1000.0f;
+
+	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 5.0f, 5.0f);
+	animatedSprites->AddAnimation("idle", 0, 1);
+	animatedSprites->AddAnimation("right", 6, 8);
+	animatedSprites->AddAnimation("left", 3, 5);
+	animatedSprites->PlayAnimation("idle", -1, 1.0f);
+	mesh = animatedSprites;
+	mesh->textureID = LoadTGA("Image/girlsprite.tga");
 }
 
 void Player::Update(double dt)
 {
+	animatedSprites->Update(dt);
+
 	if (AkeyDown && !Application::IsKeyPressed('A'))
 	{
 		AkeyDown = false;

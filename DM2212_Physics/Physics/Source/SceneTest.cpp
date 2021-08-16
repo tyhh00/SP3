@@ -34,12 +34,11 @@ void SceneTest::Init()
 	player = new Player;
 	player->Init();
 	player->active = true;
-	player->type = GameObject::GO_BALL;
 	player->pos.Set(m_worldWidth * 0.5, m_worldHeight * 0.5, 0);
 	player->scale.Set(3, 3, 3);
 	player->vel.SetZero();
 
-	m_goList.push_back(player);
+//	m_goList.push_back(player);
 
 
 	testobj = FetchGO(GameObject::GO_BALL);
@@ -465,6 +464,11 @@ void SceneTest::Render()
 			RenderGO(go);
 		}
 	}
+
+	modelStack.PushMatrix();
+	modelStack.Translate(player->pos.x, player->pos.y, player->pos.z);
+	RenderMesh(player->mesh, false);
+	modelStack.PopMatrix();
 
 	std::ostringstream ss;
 	//ss.str("");

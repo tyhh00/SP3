@@ -1,7 +1,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <GL\glew.h>
 
 #include "LoadTGA.h"
 

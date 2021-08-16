@@ -22,14 +22,16 @@ public:
 		DRAW_LINES,
 		DRAW_MODE_LAST,
 	};
+
 	Mesh();
 	Mesh(const std::string &meshName);
 	~Mesh();
-	void Render();
+	virtual void Render();
 	void Render(unsigned offset, unsigned count);
 
 	const std::string name;
 	DRAW_MODE mode;
+
 	unsigned vertexBuffer;
 	unsigned indexBuffer;
 	unsigned indexSize;
