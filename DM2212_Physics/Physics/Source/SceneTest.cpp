@@ -34,7 +34,7 @@ void SceneTest::Init()
 	meshList[GEO_BALL] = MeshBuilder::GenerateCircle("circle", 1.0f, Color(1, 1, 1));
 
 	player = new Player;
-	player->scale.Set(5, 5, 5);
+	player->scale.Set(3, 3, 3);
 	player->Init();
 	player->pos.Set(m_worldWidth * 0.5, m_worldHeight * 0.5, 0);
 
@@ -43,7 +43,7 @@ void SceneTest::Init()
 	testobj->scale.Set(5, 5, 5);
 	testobj->pos.Set(player->pos.x + 100, player->pos.y, player->pos.z);
 
-	testWall = FetchGO(true);
+	testWall = FetchGO(false);
 	testWall->type = GameObject::GO_WALL;
 	testWall->physics->SetVelocity(Vector3(1, 0, 0));
 	testWall->physics->shapeType = RECTANGLE;
@@ -104,26 +104,25 @@ GameObject* SceneTest::FetchGO(GameObject::GAMEOBJECT_TYPE type)
 
 GameObject* SceneTest::FetchGO(bool isMovable)
 {
-	if (isMovable)
+
+	// Fetch a game object from m_goList and return it
+	for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
 	{
-		// Fetch a game object from m_goList and return it
-		for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
+		GameObject* go = (GameObject*)*it;
+		if (!go->active)
 		{
-			GameObject* go = (GameObject*)*it;
-			if (!go->active)
-			{
-				go->active = true;
-				go->physics->SetMovable(isMovable);
-				return go;
-			}
-		}
-		for (int i = 0; i < 10; i++)
-		{
-			GameObject* temp = new GameObject;
-			m_goList.push_back(temp);
+			go->active = true;
+			go->physics->SetMovable(isMovable);
+			return go;
 		}
 	}
-	
+	for (int i = 0; i < 10; i++)
+	{
+		GameObject* temp = new GameObject;
+		m_goList.push_back(temp);
+	}
+
+
 	return FetchGO(isMovable);
 }
 
