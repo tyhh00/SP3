@@ -15,7 +15,10 @@ private:
 	SpriteAnimation* animatedSprites;
 
 	float speed;
+	float jump_force;
+
 	bool AkeyDown, DkeyDown;
+	bool spaceKeyDown;
 };
 
 

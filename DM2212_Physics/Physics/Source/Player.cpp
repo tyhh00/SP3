@@ -6,13 +6,17 @@
 
 void Player::Init()
 {
-	physics = new Physics(RECTANGLE, pos, scale);
 	AkeyDown = false;
 	DkeyDown = false;
+	spaceKeyDown = false;
+
+	physics = new Physics(RECTANGLE, pos, scale);
+	physics->SetMass(5);
 
 	speed = 1000.0f;
+	jump_force = 5000.0f;
 
-	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, scale.x, scale.y);
+	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, scale.x * 2, scale.y * 2);
 	animatedSprites->AddAnimation("idle", 0, 1);
 	animatedSprites->AddAnimation("right", 6, 8);
 	animatedSprites->AddAnimation("left", 3, 5);
@@ -33,14 +37,14 @@ void Player::Update(double dt)
 		{
 			animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		}
-		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, 0, 0));
+		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
 	}
 	else if (!AkeyDown && Application::IsKeyPressed('A'))
 	{
 		AkeyDown = true;
 		std::cout << "A Key Pressed" << std::endl;
 		animatedSprites->PlayAnimation("left", -1, 1.0f);
-		physics->SetVelocity(Vector3(physics->GetVelocity().x - speed * dt, 0, 0));
+		physics->SetVelocity(Vector3(physics->GetVelocity().x - speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
 	}
 	if (DkeyDown && !Application::IsKeyPressed('D'))
 	{
@@ -50,19 +54,28 @@ void Player::Update(double dt)
 		{
 			animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		}
-		physics->SetVelocity(Vector3(physics->GetVelocity().x - speed * dt, 0, 0));
+		physics->SetVelocity(Vector3(physics->GetVelocity().x - speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
 	}
 	else if (!DkeyDown && Application::IsKeyPressed('D'))
 	{
 		DkeyDown = true;
 		std::cout << "D Key Pressed" << std::endl;
 		animatedSprites->PlayAnimation("right", -1, 1.0f);
-		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, 0, 0));
+		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
 	}
 
-	// TO BE REMOVED ONCE GO MANAGER IS COMPLETE
-	physics->Update(dt);
-	pos += physics->GetVelocity() * dt;
-	physics->pos = pos;
+	if (spaceKeyDown && !Application::IsKeyPressed(VK_SPACE))
+	{
+		spaceKeyDown = false;
+		std::cout << "Space Key Released" << std::endl;
+		
+	}
+	else if (!spaceKeyDown && Application::IsKeyPressed(VK_SPACE))
+	{
+		spaceKeyDown = true;
+		std::cout << "Space Key Pressed" << std::endl;
+		float accel_amt = jump_force / physics->GetMass();
+		physics->SetVelocity(Vector3(physics->GetVelocity().x, physics->GetVelocity().y + accel_amt * dt, physics->GetVelocity().z));
+	}
 
 }

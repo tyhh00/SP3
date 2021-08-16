@@ -22,7 +22,7 @@ Physics::~Physics()
 
 void Physics::Update(double dt)
 {
-	vel.y += gravity.y * dt * mass;
+	vel.y += gravity.y * dt;
 }
 
 void Physics::SetVelocity(Vector3 _vel)
