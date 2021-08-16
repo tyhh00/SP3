@@ -12,8 +12,8 @@
 #include <stdlib.h>
 
 
-#include "SceneCollision.h"
-#include "SceneTest.h"
+#include "ScenePhysics.h"
+//#include "SceneTest.h"
 
 int Application::index = S_TEST;
 bool Application::quit = false;
@@ -133,18 +133,19 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	sceneArray[S_COLLISION] = new SceneCollision();
-	sceneArray[S_TEST] = new SceneTest();
+	sceneArray[S_COLLISION] = new ScenePhysics();
+	sceneArray[S_COLLISION]->Init();
+	//sceneArray[S_TEST] = new SceneTest();
 	
-	for (int i = 0; i < SCENE_TOTAL; i++)
-	{
-		sceneArray[i]->Init();
-	}
+	//for (int i = 0; i < SCENE_TOTAL; i++)
+	//{
+	//	sceneArray[i]->Init();
+	//}
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !quit && !IsKeyPressed(VK_ESCAPE))
 	{
-		sceneArray[index]->Update(m_timer.getElapsedTime());
-		sceneArray[index]->Render();
+		sceneArray[S_COLLISION]->Update(m_timer.getElapsedTime());
+		sceneArray[S_COLLISION]->Render();
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
@@ -153,12 +154,15 @@ void Application::Run()
 
 	} //Check if the ESC key had been pressed or if the window had been closed
 
-	//delete everyth
-	for (int i = 0; i < SCENE_TOTAL; i++)
-	{
-		sceneArray[i]->Exit();
-		delete sceneArray[i];
-	}
+	////delete everyth
+	//for (int i = 0; i < SCENE_TOTAL; i++)
+	//{
+	//	sceneArray[i]->Exit();
+	//	delete sceneArray[i];
+	//}
+	sceneArray[S_COLLISION]->Exit();
+	delete sceneArray[S_COLLISION];
+	
 }
 
 void Application::SwitchScene(SCENE_TYPE type)

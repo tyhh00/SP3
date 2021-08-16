@@ -57,15 +57,7 @@ struct GameObject
 	GAMEOBJECT_TYPE type;
 	bool active;
 	Vector3 pos;
-	Vector3 vel;
 	Vector3 scale;
-
-	float rotateZ;
-	Vector3 dir;
-
-	Vector3 normal;
-	float momentOfInertia;
-	float angularVelocity;
 	float mass;
 
 	double fireInterval;
