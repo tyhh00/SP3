@@ -13,3 +13,15 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue)
 GameObject::~GameObject()
 {
 }
+
+void GameObject::Init()
+{
+}
+
+void GameObject::Update()
+{
+}
+
+void GameObject::Render()
+{
+}
