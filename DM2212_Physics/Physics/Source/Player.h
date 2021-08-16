@@ -8,7 +8,7 @@ public:
 	void Init();
 	void Update(double dt);
 private:
-	float SPEED;
+	bool AkeyDown, DkeyDown;
 };
 
 

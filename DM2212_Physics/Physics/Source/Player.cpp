@@ -4,25 +4,37 @@
 
 void Player::Init()
 {
-	SPEED = 25.0f;
+	AkeyDown = false;
+	DkeyDown = false;
 }
 
 void Player::Update(double dt)
 {
-	if (Application::IsKeyPressed('A'))
+	float walking_vel = 20.0f;
+	if (AkeyDown && !Application::IsKeyPressed('A'))
 	{
-		pos.x -= SPEED * dt;
+		AkeyDown = false;
+		std::cout << "A Key Released" << std::endl;
+		vel.x += walking_vel;
 	}
-	else if (Application::IsKeyPressed('D'))
+	else if (!AkeyDown && Application::IsKeyPressed('A'))
 	{
-		pos.x += SPEED * dt;
+		AkeyDown = true;
+		std::cout << "A Key Pressed" << std::endl;
+		vel.x -= walking_vel;
 	}
-	else if (Application::IsKeyPressed('W'))
+	if (DkeyDown && !Application::IsKeyPressed('D'))
 	{
-		pos.y += SPEED * dt;
+		DkeyDown = false;
+		std::cout << "D Key Released" << std::endl;
+		vel.x -= walking_vel;
 	}
-	else if (Application::IsKeyPressed('S'))
+	else if (!DkeyDown && Application::IsKeyPressed('D'))
 	{
-		pos.y -= SPEED * dt;
+		DkeyDown = true;
+		std::cout << "D Key Pressed" << std::endl;
+		vel.x += walking_vel;
 	}
+
+	pos += vel * dt;
 }
