@@ -6,6 +6,7 @@
 #include "Application.h"
 #include "Utility.h"
 #include "LoadTGA.h"
+#include "Debug.h"
 #include <sstream>
 
 SceneBase::SceneBase()
@@ -100,17 +101,62 @@ void SceneBase::Init()
 	for(int i = 0; i < NUM_GEOMETRY; ++i)
 	{
 		meshList[i] = NULL;
+		tileSize[i] = NULL;
 	}
-	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
-	meshList[GEO_BALL] = MeshBuilder::GenerateSphere("ball", Color(1, 1, 1), 10, 10, 1.f);
-	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(1, 1, 1), 2.f);
+
+	//Fonts
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 	meshList[GEO_TEXT]->material.kAmbient.Set(1, 0, 0);
+
+	//Tiles (Player tile, environmental tiles)
+	LoadTile(GEO_BLOCK_UP_RED, "Scene2D_GroundTile.png", 1, 1, SHAPE_TYPE::RECTANGLE);
+
+	//Entities (Player, etc)
+
+	//Shapes
+	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
+	meshList[GEO_BALL] = MeshBuilder::GenerateSphere("ball", Color(1, 1, 1), 10, 10, 1.f);
+	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(1, 1, 1), 2.f);
 	meshList[GEO_BUTTON] = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BUTTON]->textureID = LoadTGA("Image/button.tga");
 
 	bLightEnabled = false;
+}
+
+void SceneBase::LoadTile(GEOMETRY_TYPE type, std::string fileName, int length, int height, SHAPE_TYPE shapeType)
+{
+	std::string path = "Image//Tiles//" + fileName;
+	if (type > GEO_TILES_START && type < GEO_TILES_END)
+	{
+		//Generate cube mesh
+		switch (shapeType)
+		{
+		case RECTANGLE:
+			meshList[type] = MeshBuilder::GenerateQuad("Tile-" + fileName, Color(1, 1, 1), 2.f);
+			meshList[type]->textureID = LoadTGA(path.c_str());
+			break;
+		case CIRCLE:
+			meshList[type] = MeshBuilder::GenerateCircle("Tile-" + fileName, 1.f, Color(1,1,1));
+			meshList[type]->textureID = LoadTGA(path.c_str());
+			break;
+		}
+
+		//Set TileSize to understand how big the tile is
+		if (tileSize[type]) delete tileSize[type];
+		tileSize[type] = new TileSetting(length, height, shapeType);
+	}
+	else
+		DEBUG_MSG("Unable to load tile of path " << path << ". With GEOMETRY_TYPE ID: " << type << ".");
+	
+}
+
+TileSetting* SceneBase::GetTileSetting(GEOMETRY_TYPE type)
+{
+	if (type > GEO_TILES_START && type < GEO_TILES_END)
+		return tileSize[type];
+	else
+		DEBUG_MSG("Unable to get tile setting of GEOMETRY_TYPE ID: " << type << ". Are you sure this is even a tile?");
 }
 
 void SceneBase::Update(double dt)
@@ -333,6 +379,8 @@ void SceneBase::Exit()
 	{
 		if(meshList[i])
 			delete meshList[i];
+		if (tileSize[i])
+			delete tileSize[i];
 	}
 	glDeleteProgram(m_programID);
 	glDeleteVertexArrays(1, &m_vertexArrayID);

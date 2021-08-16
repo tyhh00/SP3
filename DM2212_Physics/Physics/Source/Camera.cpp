@@ -30,6 +30,8 @@ void Camera::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	if (NEWD_X >= MAXD_X || NEWD_Y >= MAXD_Y)
 		std::cout << "Camera new distance values must be smaller than max distance values!" << std::endl;
 
+	screenWidth = screenHeight = worldWidth = worldHeight = 0;
+
 	Creleased = false;
 }
 
@@ -54,41 +56,61 @@ void Camera::Update(double dt)
 	}
 
 	// if focus target exceeds maxd, set new target 
-	if (view_locked)
+	if (view_locked) // if view is locked to follow focustarget
 	{
-		if (focusTarget->pos.x - target.x > MAXD_X)
+		if (focusTarget->pos.x - target.x > MAXD_X) // move camera to RIGHT
 		{
 			newTarget.x = focusTarget->pos.x + NEWD_X;
+			if (newTarget.x + screenWidth * 0.5 > worldWidth)
+			{
+				newTarget.x = worldWidth - screenWidth * 0.5;
+			}
 		}
-		else if (target.x - focusTarget->pos.x > MAXD_X)
+		else if (target.x - focusTarget->pos.x > MAXD_X) // move camera to LEFT
 		{
 			newTarget.x = focusTarget->pos.x - NEWD_X;
+			if (newTarget.x - screenWidth * 0.5 < 0)
+			{
+				newTarget.x = screenWidth * 0.5;
+			}
 		}
 
-		if (focusTarget->pos.y - target.y > MAXD_Y)
+		if (focusTarget->pos.y - target.y > MAXD_Y) // move camera UP
 		{
 			newTarget.y = focusTarget->pos.y + NEWD_Y;
+			if (newTarget.y + screenHeight * 0.5 > worldHeight)
+			{
+				newTarget.y = worldHeight - screenHeight * 0.5;
+			}
 		}
-		else if (target.y - focusTarget->pos.y > MAXD_Y)
+		else if (target.y - focusTarget->pos.y > MAXD_Y) // move camera DOWN
 		{
 			newTarget.y = focusTarget->pos.y - NEWD_Y;
+			if (newTarget.y - screenHeight * 0.5 < 0)
+			{
+				newTarget.y = screenHeight * 0.5;
+			}
 		}
 	}
 	
 	// move camera using arrow keys
-	if (Application::IsKeyPressed(VK_LEFT))
+	if (Application::IsKeyPressed(VK_LEFT) 
+		&& target.x - screenWidth * 0.5 > 0)
 	{
 		newTarget.x = target.x - 1;
 	}
-	else if (Application::IsKeyPressed(VK_RIGHT))
+	else if (Application::IsKeyPressed(VK_RIGHT)
+		&& target.x + screenWidth * 0.5 < worldWidth)
 	{
 		newTarget.x = target.x + 1;
 	}
-	if (Application::IsKeyPressed(VK_UP))
+	if (Application::IsKeyPressed(VK_UP)
+		&& target.y + screenHeight * 0.5 < worldHeight)
 	{
 		newTarget.y = target.y + 1;
 	}
-	else if (Application::IsKeyPressed(VK_DOWN))
+	else if (Application::IsKeyPressed(VK_DOWN)
+		&& target.y - screenHeight * 0.5 > 0)
 	{
 		newTarget.y = target.y - 1;
 	}
@@ -120,18 +142,31 @@ void Camera::SetFocusTarget(GameObject* go, bool slide)
 	}
 }
 
+void Camera::SetLimits(float screenx, float screeny, float worldx, float worldy)
+{
+	screenWidth = screenx;
+	screenHeight = screeny;
+	worldWidth = worldx;
+	worldHeight = worldy;
+}
+
+void Camera::SetSlidingSpeed(float spd)
+{
+	SLIDE_SPEED = spd;
+}
+
 void Camera::ToggleAutoLock()
 {
 	auto_lock = !auto_lock;
 	if (auto_lock)
 	{
-		std::cout << "Auto Lock has been turned on" << std::endl;
+		std::cout << "Auto Lock has been turned on, camera will follow player upon release." << std::endl;
 		view_locked = true;
 	}
 	else
 	{
-		std::cout << "Auto Lock has been turned off" << std::endl;
-		view_locked = false;
+		std::cout << "Auto Lock has been turned off. Camera no longer follows target and can be more freely controlled." << std::endl;
+		view_locked = false; 
 	}
 }
 

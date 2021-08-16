@@ -6,6 +6,7 @@ Physics::Physics()
 	, dir(1, 0, 0)
 	, momentOfInertia(1)
 	, angularVelocity(0)
+	, rotateZ(0.f)
 	, gravity(0, -9.8f, 0)
 {
 }
@@ -58,4 +59,14 @@ void Physics::SetGravity(Vector3 _gravity)
 Vector3 Physics::GetGravity()
 {
 	return gravity;
+}
+
+void Physics::SetRotateZ(float _rotateZ)
+{
+	rotateZ = _rotateZ;
+}
+
+float Physics::GetRotateZ()
+{
+	return rotateZ;
 }

@@ -11,6 +11,7 @@ private:
 	Vector3 gravity;
 	float momentOfInertia;
 	float angularVelocity;
+	float rotateZ;
 public:
 	Physics();
 	~Physics();
@@ -27,5 +28,8 @@ public:
 
 	void SetGravity(Vector3 _gravity);
 	Vector3 GetGravity();
+
+	void SetRotateZ(float _rotateZ);
+	float GetRotateZ();
 };
 #endif

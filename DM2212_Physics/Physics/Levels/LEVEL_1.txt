@@ -1,1 +1,5 @@
 # Format: "TILE_ID Enum Val":"Position":"Rotation":"Scale"
+GridLength: 1
+GridHeight: 1
+Tiles:
+0::0,0,0::0,0,0::1,1,1
