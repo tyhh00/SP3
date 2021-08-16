@@ -118,6 +118,7 @@ void SceneCollision::Init()
 	springHolder->scale.Set(0.5 * 0.3f, 0.5 * sholder_ori_height, 1);
 	springHolder->normal.Set(1, 0, 0);
 	springHolder->mat.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	spring->physics->Update();
 
 	// PLAYER BALL
 	pBall = FetchGO(GameObject::GO_BALL);

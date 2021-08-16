@@ -4,6 +4,7 @@
 #include "Vector3.h"
 #include "Material.h"
 #include "Mesh.h"
+#include "Physics.h"
 
 struct GameObject
 {
@@ -73,6 +74,7 @@ struct GameObject
 
 	Material mat;
 
+	Physics* physics;
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_NONE);
 	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh) : type(typeValue), mesh(mesh)
