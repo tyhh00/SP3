@@ -32,7 +32,7 @@ class LevelEditor : public SceneBase
 
 protected:
 	std::vector<GameObject*> gridObjects; //Disassociation with GameObjectManager
-	int gridLength, gridHeight;
+	double gridLength, gridHeight;
 	
 	bool mapLoaded;
 	std::string mapName;

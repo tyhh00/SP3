@@ -66,17 +66,15 @@ bool LevelEditor::LoadMap(std::string filename)
 		key = "GridLength:";
 		if (strncmp(key.c_str(), buf, key.size()) == 0)
 		{
-			char split[1028];
-			strcpy_s(split, buf + (buf[key.size()] == ' ' ? key.size() + 1 : key.size()));
-			gridLength = std::stoi(split);
+			std::vector<std::string> split = splitStr(std::string(buf), ' ');
+			gridLength = std::stod(split.at(1));
 		}
 
 		key = "GridHeight:";
 		if (strncmp(key.c_str(), buf, key.size()) == 0)
 		{
-			char split[1028];
-			strcpy_s(split, buf + (buf[key.size()] == ' ' ? key.size() + 1 : key.size()));
-			gridHeight = std::stoi(split);
+			std::vector<std::string> split = splitStr(std::string(buf), ' ');
+			gridHeight = std::stod(split.at(1));
 		}
 
 		key = "Tiles:";
@@ -138,7 +136,7 @@ bool LevelEditor::LoadMap(std::string filename)
 			GameObject* obj = new GameObject(GameObject::GO_TILE, meshList[type]);
 			obj->pos = pos;
 			obj->physics->SetNormal(normal);
-			obj->scale = scale;
+			obj->scale = scale * gridLength;
 			gridObjects.push_back(obj);
 
 
@@ -170,6 +168,7 @@ void LevelEditor::RemoveGO(GameObject* go)
 
 void LevelEditor::Update(double dt)
 {
+	fps = 1 / dt;
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
 		bLButtonState = true; //Down
@@ -228,18 +227,23 @@ void LevelEditor::Render()
 		modelStack.PopMatrix();
 	}
 
-	for (int x = camera.position.x - m_worldWidth * 0.5 - 2; x < camera.position.x + m_worldWidth * 0.5 + 2; ++x)
+	int loops = 0;
+	double xAdd = gridLength * 2.0;
+	double yAdd = gridHeight * 2.0;
+	for (int x = camera.position.x - (m_worldWidth * 0.5 - 2); x < camera.position.x + (m_worldWidth * 0.5 + 2); x += xAdd)
 	{
-		for (int y = camera.position.y - m_worldHeight * 0.5 - 2; y < camera.position.y + m_worldHeight * 0.5 + 2; ++y)
+		for (int y = camera.position.y - (m_worldHeight * 0.5 - 2); y < camera.position.y + (m_worldHeight * 0.5 + 2); y += yAdd)
 		{
+			loops++;
 			modelStack.PushMatrix();
-			modelStack.Translate(x, y, 1);
-
+			modelStack.Translate(x, y, 0);
+			modelStack.Rotate(0, 0, 0, 1);
 			modelStack.Scale(gridLength, gridHeight, 1);
 			RenderMesh(meshList[GEO_TILEGRID], false);
 			modelStack.PopMatrix();
 		}
 	}
+	DEBUG_MSG("Looped " << loops << " to cover all grids in viewable scene");
 
 
 
