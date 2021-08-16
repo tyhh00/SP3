@@ -4,6 +4,7 @@
 
 #include "GameObject.h"
 #include "SceneBase.h"
+#include "Debug.h"
 
 //LevelEditor itself will be a scene
 class LevelEditor : public SceneBase
@@ -25,7 +26,7 @@ public:
 
 	bool LoadMap(std::string filename)
 	{
-
+		DEBUG_MSG("test");
 	}
 };
 
