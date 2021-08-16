@@ -59,8 +59,8 @@ struct GameObject
 
 	Physics* physics;
 
-	GameObject(GAMEOBJECT_TYPE typeValue = GO_NONE);
-	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh);
+	GameObject(GAMEOBJECT_TYPE typeValue = GO_NONE, SHAPE_TYPE shapeType = RECTANGLE);
+	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, SHAPE_TYPE shapeType = RECTANGLE);
 
 	~GameObject();
 

@@ -25,9 +25,12 @@ protected:
 	float m_gameWidth;
 	float m_worldHeight;
 
-	std::vector<GameObject*> m_goList;
+	std::vector<GameObject*> m_movableGOList;
+	std::vector<GameObject*> m_stationaryGOList;
 
-	GameObject* FetchGO();
+	GameObject* go;
+
+	GameObject* FetchGO(bool isMovable);
 	bool CheckCollision(GameObject* go1, GameObject* go2, float dt); // Checks for collision
 	void ApplyFriction(GameObject* ball, Vector3 normal, double dt); // Apply Friction
 	void ApplyInelastic(GameObject* ball, Vector3 normal, double dt); //Decrease vel of object

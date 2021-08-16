@@ -44,31 +44,79 @@ void ScenePhysics::Init()
 	meshList[GEO_HIGHLIGHT] = MeshBuilder::GenerateCircle("highlight", 1.0f, Color(0.0f, 1.0f, 0.0f));
 
 	// PILLARs
-	GameObject* go = FetchGO();
-	go->type = GameObject::GO_PILLAR;
+	go = FetchGO(true);
+	go->type = GameObject::GO_WALL;
+	go->physics->shapeType = RECTANGLE;
+	go->physics->SetMass(3);
 	go->pos.Set(m_worldWidth * 0.5f, m_worldHeight * 0.5f, 0);
 	go->scale.Set(2.5, 2.5, 2.5);
 	go->mat.kAmbient.Set(1.0f, 1.0f, 1.0f);
+
+	GameObject* go2 = FetchGO(false);
+	go2->type = GameObject::GO_WALL;
+	go2->physics->SetNormal(Vector3(cos(Math::DegreeToRadian(45)), sin(Math::DegreeToRadian(45)), 0));
+	go2->physics->shapeType = RECTANGLE;
+	go2->pos.Set(m_worldWidth * 0.25f, m_worldHeight * 0.15f, 0);
+	go2->scale.Set(10, 10, 1);
+	go2->mat.kAmbient.Set(1.0f, 1.0f, 1.0f);
+
+	go2 = FetchGO(true);
+	go2->type = GameObject::GO_WALL;
+	go2->physics->SetVelocity(Vector3(1, 0, 0));
+	go2->physics->shapeType = RECTANGLE;
+	go2->pos.Set(m_worldWidth * 0.5f, m_worldHeight * 0.35f, 0);
+	go2->scale.Set(5, 5, 1);
+	go2->mat.kAmbient.Set(1.0f, 1.0f, 1.0f);
+
+	go2 = FetchGO(false);
+	go2->type = GameObject::GO_WALL;
+	go2->physics->shapeType = RECTANGLE;
+	go2->pos.Set(m_worldWidth * 0.5f, m_worldHeight * 0.15f, 0);
+	go2->scale.Set(2.5, 70, 2.5);
+	go2->mat.kAmbient.Set(1.0f, 1.0f, 1.0f);
 }
 
-GameObject* ScenePhysics::FetchGO()
+GameObject* ScenePhysics::FetchGO(bool isMovable)
 {
-	// Fetch a game object from m_goList and return it
-	for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
+	if (isMovable)
 	{
-		GameObject* go = (GameObject*)*it;
-		if (!go->active)
+		// Fetch a game object from m_goList and return it
+		for (std::vector<GameObject*>::iterator it = m_movableGOList.begin(); it != m_movableGOList.end(); ++it)
 		{
-			go->active = true;
-			return go;
+			GameObject* go = (GameObject*)*it;
+			if (!go->active)
+			{
+				go->active = true;
+				go->physics->SetMovable(true);
+				return go;
+			}
+		}
+		for (int i = 0; i < 10; i++)
+		{
+			GameObject* temp = new GameObject;
+			m_movableGOList.push_back(temp);
 		}
 	}
-	for (int i = 0; i < 10; i++)
+	else
 	{
-		GameObject* temp = new GameObject;
-		m_goList.push_back(temp);
+		// Fetch a game object from m_goList and return it
+		for (std::vector<GameObject*>::iterator it = m_stationaryGOList.begin(); it != m_stationaryGOList.end(); ++it)
+		{
+			GameObject* go = (GameObject*)*it;
+			if (!go->active)
+			{
+				go->active = true;
+				go->physics->SetMovable(false);
+				return go;
+			}
+		}
+		for (int i = 0; i < 10; i++)
+		{
+			GameObject* temp = new GameObject;
+			m_stationaryGOList.push_back(temp);
+		}
 	}
-	return FetchGO();
+	return FetchGO(isMovable);
 }
 
 void ScenePhysics::Update(double dt)
@@ -84,14 +132,29 @@ void ScenePhysics::Update(double dt)
 		m_speed += 0.1f;
 	}
 
+	if (Application::IsKeyPressed(VK_KEY_A))
+	{
+		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(-5,0,0));
+	}
+	else if (Application::IsKeyPressed(VK_KEY_D))
+	{
+		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(5, 0, 0));
+	}
+	else
+	{
+		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(0, 0, 0));
+	}
+
 	// Game Objects
-	for(std::vector<GameObject *>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
+	for(std::vector<GameObject *>::iterator it = m_movableGOList.begin(); it != m_movableGOList.end(); ++it)
 	{
 		GameObject *go = (GameObject *)*it;
 		if(go->active)
 		{
 			go->physics->Update(dt);
 			go->pos += go->physics->GetVelocity() * m_speed * dt;
+			go->physics->pos = go->pos;
+			go->physics->scale = go->scale;
 
 			// In case leave screen Unspawn
 			if (go->pos.x >= m_worldWidth + go->scale.x
@@ -102,29 +165,37 @@ void ScenePhysics::Update(double dt)
 				go->active = false;
 			}
 
-			// Collision
-			for (std::vector<GameObject*>::iterator it2 = it + 1; it2 != m_goList.end(); ++it2)
+			// Collision with moving and moving
+			for (std::vector<GameObject*>::iterator it2 = it + 1; it2 != m_movableGOList.end(); ++it2)
 			{
 				GameObject* go2 = (GameObject*)*it2;
 
 				if (go2->active)
 				{
-					GameObject* ball = go;
-					GameObject* other = go2;
-
-					if (ball->type != GameObject::GO_BALL)
+					if (CheckCollision(go, go2, dt))
 					{
-						ball = go2;
-						other = go;
-						if (ball->type != GameObject::GO_BALL)
-						{
-							continue;
-						}
+						go->physics->CollisionResponse(go->physics, go2->physics, dt);
+						continue; //remove if stays at the end
 					}
+
 					
-					if (CheckCollision(ball, other, dt))
+				}
+			}
+			
+			// Collision with moving and stationary
+			for (std::vector<GameObject*>::iterator it2 = m_stationaryGOList.begin(); it2 != m_stationaryGOList.end(); ++it2)
+			{
+				GameObject* go2 = (GameObject*)*it2;
+
+				if (go2->active)
+				{
+					go2->physics->pos = go2->pos;
+					go2->physics->scale = go2->scale;
+					if (CheckCollision(go, go2, dt))
 					{
-						ball->physics->CollisionResponse(ball, other, dt);
+						go->physics->CollisionResponse(go->physics, go2->physics, dt);
+						go->pos = go->physics->pos;
+						go2->pos = go2->physics->pos;
 						continue; //remove if stays at the end
 					}
 
@@ -142,7 +213,130 @@ bool ScenePhysics::CheckCollision(GameObject* go1, GameObject* go2, float dt)
 	{
 		return false;
 	}*/
-	switch (go2->type)
+	if (go1->physics->shapeType == CIRCLE)
+	{
+		switch (go2->physics->shapeType)
+		{
+		case CIRCLE:
+		{
+			Vector3 dis = go2->pos - go1->pos;
+			float disSquared = dis.LengthSquared();
+			if (disSquared <= (go1->scale.x + go2->scale.x) * (go1->scale.x + go2->scale.x) && dis.Dot(go1->physics->GetVelocity() - go2->physics->GetVelocity()) > 0)
+			{
+				return true;
+			}
+		}
+		break;
+		case RECTANGLE:
+			Vector3 dis = go2->pos - go1->pos;
+			Vector3 N = go2->physics->GetNormal();
+			if (dis.Dot(N) < 0)
+			{
+				N = -1 * N;
+			}
+			Vector3 NP(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1->scale.x + go2->scale.x
+				&& abs(dis.Dot(NP)) < go2->scale.y
+				&& go1->physics->GetVelocity().Dot(N) > 0)
+			{
+				go2->physics->SetCollisionNormal(N);
+				return true;
+			}
+
+			N = NP;
+			if (dis.Dot(N) < 0)
+			{
+				N = -1 * N;
+			}
+			NP.Set(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1->scale.y + go2->scale.y
+				&& abs(dis.Dot(NP)) < go2->scale.x
+				&& go1->physics->GetVelocity().Dot(N) > 0)
+			{
+				go2->physics->SetCollisionNormal(N);
+				return true;
+			}
+			break;
+		}
+		return false;
+	}
+	else
+	{
+		switch (go2->physics->shapeType)
+		{
+		case CIRCLE:
+		{
+			Vector3 dis = go2->pos - go1->pos;
+			Vector3 N = go2->physics->GetNormal();
+			if (dis.Dot(N) < 0)
+			{
+				N = -1 * N;
+			}
+			Vector3 NP(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1->scale.x + go2->scale.x
+				&& abs(dis.Dot(NP)) < go2->scale.y
+				&& go1->physics->GetVelocity().Dot(N) > 0)
+			{
+				go2->physics->SetCollisionNormal(N);
+				return true;
+			}
+
+			N = NP;
+			if (dis.Dot(N) < 0)
+			{
+				N = -1 * N;
+			}
+			NP.Set(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1->scale.y + go2->scale.y
+				&& abs(dis.Dot(NP)) < go2->scale.x
+				&& go1->physics->GetVelocity().Dot(N) > 0)
+			{
+				go2->physics->SetCollisionNormal(N);
+				return true;
+			}
+		}
+		break;
+		case RECTANGLE:
+			Vector3 dis = go2->pos - go1->pos;
+			Vector3 N = go2->physics->GetNormal();
+			if (dis.Dot(N) < 0)
+			{
+				N = -1 * N;
+			}
+			Vector3 NP(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1->scale.x + go2->scale.x
+				&& abs(dis.Dot(NP)) < go2->scale.y
+				&& go1->physics->GetVelocity().Dot(N) > 0)
+			{
+				go2->physics->SetCollisionNormal(N);
+				return true;
+			}
+
+			N = NP;
+			if (dis.Dot(N) < 0)
+			{
+				N = -1 * N;
+			}
+			NP.Set(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1->scale.y + go2->scale.y
+				&& abs(dis.Dot(NP)) < go2->scale.x
+				&& go1->physics->GetVelocity().Dot(N) > 0)
+			{
+				go2->physics->SetCollisionNormal(N);
+				return true;
+			}
+			break;
+		}
+	}
+	
+
+	/*switch (go2->type)
 	{
 	case GameObject::GO_BALL:
 	{
@@ -205,7 +399,7 @@ bool ScenePhysics::CheckCollision(GameObject* go1, GameObject* go2, float dt)
 	break;
 	default:
 		break;
-	}
+	}*/
 	return false;
 }
 
@@ -353,7 +547,15 @@ void ScenePhysics::Render()
 	modelStack.LoadIdentity();
 
 	// all gos
-	for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
+	for (std::vector<GameObject*>::iterator it = m_movableGOList.begin(); it != m_movableGOList.end(); ++it)
+	{
+		GameObject* go = (GameObject*)*it;
+		if (go->active)
+		{
+			RenderGO(go);
+		}
+	}
+	for (std::vector<GameObject*>::iterator it = m_stationaryGOList.begin(); it != m_stationaryGOList.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
 		if (go->active)
@@ -367,10 +569,16 @@ void ScenePhysics::Exit()
 {
 	SceneBase::Exit();
 	//Cleanup GameObjects
-	while(m_goList.size() > 0)
+	while(m_movableGOList.size() > 0)
 	{
-		GameObject *go = m_goList.back();
+		GameObject *go = m_movableGOList.back();
 		delete go;
-		m_goList.pop_back();
+		m_movableGOList.pop_back();
+	}
+	while (m_stationaryGOList.size() > 0)
+	{
+		GameObject* go = m_stationaryGOList.back();
+		delete go;
+		m_stationaryGOList.pop_back();
 	}
 }

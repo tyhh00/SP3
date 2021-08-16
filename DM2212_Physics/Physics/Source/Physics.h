@@ -2,11 +2,10 @@
 #define PHYSICS_H
 
 #include "Vector3.h"
-#include "SceneBase.h"
+#include "Shape.h"
 
 class Physics {
 private:
-	Vector3 pos;
 	Vector3 vel;
 	Vector3 normal;
 	Vector3 dir;
@@ -18,9 +17,14 @@ private:
 	float angularVelocity;
 	float rotateZ;
 
-	SceneBase::SHAPE_TYPE shapeType;
+	bool isMovable;
+
 public:
-	Physics(SceneBase::SHAPE_TYPE, Vector3& pos);
+	Vector3 pos;
+	Vector3 scale;
+	SHAPE_TYPE shapeType;
+
+	Physics(SHAPE_TYPE, Vector3 pos, Vector3 scale);
 	~Physics();
 	void Update(double dt);
 
@@ -44,8 +48,11 @@ public:
 	void SetRotateZ(float _rotateZ);
 	float GetRotateZ();
 
+	void SetMovable(bool _movable);
+
 	void CollisionResponse(Physics* go1, Physics* go2, double dt);
 	void ApplyFriction(Physics* ball, Vector3 normal, double dt);
 	void ApplyInelastic(Physics* ball, Vector3 normal, double dt);
+	void ApplyContactForce(Physics* go1, Physics* go2, bool applyForBall = false);
 };
 #endif
