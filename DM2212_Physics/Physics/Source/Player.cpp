@@ -59,5 +59,4 @@ void Player::Update(double dt)
 		vel.x += speed * dt;
 	}
 
-	pos += vel * dt;
 }

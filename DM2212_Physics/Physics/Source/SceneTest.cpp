@@ -503,5 +503,11 @@ void SceneTest::Exit()
 		delete go;
 		m_goList.pop_back();
 	}
+
+	if (player)
+	{
+		delete player;
+		player = NULL;
+	}
 	
 }
