@@ -36,7 +36,6 @@ void SceneTest::Init()
 	player->active = true;
 	player->pos.Set(m_worldWidth * 0.5, m_worldHeight * 0.5, 0);
 	player->scale.Set(3, 3, 3);
-	player->vel.SetZero();
 
 //	m_goList.push_back(player);
 
@@ -174,27 +173,27 @@ void SceneTest::Constraint(GameObject* ball, GameObject* other)
 	}
 	else if (other->type == GameObject::GO_RPILLAR)
 	{
-		float angle = atan2(other->dir.y, other->dir.x);
-		float theta = Math::DegreeToRadian(other->rotateZ);
+		float angle = atan2(other->physics->GetDir().y, other->physics->GetDir().x);
+		float theta = Math::DegreeToRadian(other->physics->GetRotateZ());
 		otherPos.Set(other->pos.x + 8.0f * cos(angle + theta), other->pos.y + 8.0f * sin(angle + theta), 0);
 		iN = (ball->pos - otherPos).Normalized();
 	}
 	else if (other->type == GameObject::GO_WALL || other->type == GameObject::GO_ONESIDEDWALL 
 		|| other->type == GameObject::GO_MWALL || other->type == GameObject::GO_BWALL)
 	{
-		if (ball->vel.Dot(other->normal) < 0)
+		if (ball->physics->GetVelocity().Dot(other->physics->GetNormal()) < 0)
 		{
-			iN = other->normal;
+			iN = other->physics->GetNormal();
 		}
 		else
 		{
-			iN = -1 * other->normal;
+			iN = -1 * other->physics->GetNormal();
 		}
 	}
 	else if (other->type == GameObject::GO_RWALL)
 	{
-		float angle = atan2(other->normal.y, other->normal.x);
-		float theta = Math::DegreeToRadian(other->rotateZ);
+		float angle = atan2(other->physics->GetNormal().y, other->physics->GetNormal().x);
+		float theta = Math::DegreeToRadian(other->physics->GetRotateZ());
 		float angle90 = Math::DegreeToRadian(90);
 		Vector3 wallpos(other->pos.x + other->scale.y * cos(angle + theta + angle90), other->pos.y + other->scale.y * sin(angle + theta + angle90), 0);
 		otherPos = wallpos;
@@ -207,13 +206,13 @@ void SceneTest::Constraint(GameObject* ball, GameObject* other)
 	}
 	else if (other->type == GameObject::GO_SPRING)
 	{
-		if (ball->vel.Dot(other->normal) < 0)
+		if (ball->physics->GetVelocity().Dot(other->physics->GetNormal()) < 0)
 		{
-			iN = other->normal;
+			iN = other->physics->GetNormal();
 		}
 		else
 		{
-			iN = -1 * other->normal;
+			iN = -1 * other->physics->GetNormal();
 		}
 	}
 	else if (other->type == GameObject::GO_BALL || other->type == GameObject::GO_100
@@ -223,7 +222,7 @@ void SceneTest::Constraint(GameObject* ball, GameObject* other)
 	}
 	else if (other->type == GameObject::GO_BONUS)
 	{
-		iN = -1 * other->normal;
+		iN = -1 * other->physics->GetNormal();
 		otherPos = other->pos;
 		otherPos.y -= other->scale.y * 0.5;
 		combinedR = ball->scale.x;
@@ -272,7 +271,7 @@ void SceneTest::RenderGO(GameObject *go)
 	case GameObject::GO_MWALL:
 	case GameObject::GO_BWALL:
 	{
-		float angle = Math::RadianToDegree(atan2(go->normal.y, go->normal.x));
+		float angle = Math::RadianToDegree(atan2(go->physics->GetNormal().y, go->physics->GetNormal().x));
 		
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
@@ -284,10 +283,10 @@ void SceneTest::RenderGO(GameObject *go)
 	break;
 	case GameObject::GO_RWALL:
 	{
-		float angle = Math::RadianToDegree(atan2(go->normal.y, go->normal.x));
+		float angle = Math::RadianToDegree(atan2(go->physics->GetNormal().y, go->physics->GetNormal().x));
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(angle + go->rotateZ, 0, 0, 1);
+		modelStack.Rotate(angle + go->physics->GetRotateZ(), 0, 0, 1);
 		modelStack.Translate(0, go->scale.y, 0);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_WALL], false);
@@ -321,8 +320,8 @@ void SceneTest::RenderGO(GameObject *go)
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 
-		modelStack.Rotate(go->rotateZ, 0, 0, 1);
-		modelStack.Translate(go->dir.x * 8.0f, go->dir.y * 8.0f, 0);
+		modelStack.Rotate(go->physics->GetRotateZ(), 0, 0, 1);
+		modelStack.Translate(go->physics->GetDir().x * 8.0f, go->physics->GetDir().y * 8.0f, 0);
 
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		modelStack.Rotate(90, 1, 0, 0);

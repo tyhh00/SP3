@@ -49,15 +49,7 @@ struct GameObject
 
 	bool active;
 	Vector3 pos;
-	Vector3 vel;
 	Vector3 scale;
-
-	float rotateZ;
-	Vector3 dir;
-
-	Vector3 normal;
-	float momentOfInertia;
-	float angularVelocity;
 	float mass;
 
 	double fireInterval;
@@ -69,8 +61,7 @@ struct GameObject
 	Physics* physics;
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_NONE);
-	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh) : type(typeValue), mesh(mesh)
-	{}
+	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh);
 
 	~GameObject();
 

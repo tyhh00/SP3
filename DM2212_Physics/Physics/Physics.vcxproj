@@ -166,6 +166,7 @@
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\SceneBase.cpp" />
     <ClCompile Include="Source\SceneCollision.cpp" />
+    <ClCompile Include="Source\ScenePhysics.cpp" />
     <ClCompile Include="Source\SceneTest.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\SpriteAnimation.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneBase.h" />
     <ClInclude Include="Source\SceneCollision.h" />
+    <ClInclude Include="Source\ScenePhysics.h" />
     <ClInclude Include="Source\SceneTest.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Shape.h" />

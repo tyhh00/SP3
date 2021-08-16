@@ -15,6 +15,8 @@
 #include "SceneCollision.h"
 #include "SceneTest.h"
 #include "LevelEditor.h"
+#include "ScenePhysics.h"
+//#include "SceneTest.h"
 
 int Application::index = S_LEVELEDITOR;
 bool Application::quit = false;
@@ -134,7 +136,7 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	sceneArray[S_COLLISION] = new SceneCollision();
+	sceneArray[S_PHYSICS] = new ScenePhysics();
 	sceneArray[S_TEST] = new SceneTest();
 	sceneArray[S_LEVELEDITOR] = new LevelEditor();
 	

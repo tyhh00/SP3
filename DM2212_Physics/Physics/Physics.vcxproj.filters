@@ -74,6 +74,9 @@
     <ClCompile Include="Source\Physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ScenePhysics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -152,6 +155,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Shape.h">
+	      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScenePhysics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
