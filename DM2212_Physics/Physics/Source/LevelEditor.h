@@ -7,6 +7,7 @@
 #include "Debug.h"
 
 //LevelEditor itself will be a scene
+//Since we dont need GO_Type, we just use GEO_TYPE(Since its directly working with art)
 class LevelEditor : public SceneBase
 {
 
@@ -26,7 +27,7 @@ public:
 
 	bool LoadMap(std::string filename)
 	{
-		DEBUG_MSG("test");
+		
 	}
 };
 
