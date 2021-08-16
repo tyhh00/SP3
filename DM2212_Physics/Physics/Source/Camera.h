@@ -11,15 +11,17 @@ public:
 	Vector3 target;
 	Vector3 up;
 
-	float MAXD_X, MAXD_Y, NEWD_X, NEWD_Y;
+	float screenWidth, screenHeight, worldWidth, worldHeight;
+
+	float MAXD_X, MAXD_Y, NEWD_X, NEWD_Y; // offset distance before shifting and offset distance amount after shifting
 	float SLIDE_SPEED; // speed of sliding of camera
 
-	GameObject* focusTarget;
-	Vector3 newTarget;
+	GameObject* focusTarget; // GO to focus on
+	Vector3 newTarget; // target pos to slide to
 	bool view_locked; // whether view is set to focus on target
 	bool auto_lock; // whether view will return to target once last transition is complete
 
-	bool Creleased;
+	bool Creleased; 
 
 	Camera();
 	~Camera();
@@ -28,10 +30,12 @@ public:
 	virtual void Update(double dt);
 
 	void SetFocusTarget(GameObject* go, bool slide = false);
-	void ToggleAutoLock();
+	void SetLimits(float screenx, float screeny, float worldx, float worldy);
+	void SetSlidingSpeed(float spd);
 
 private:
 	void UpdateTarget(double dt);
+	void ToggleAutoLock();
 };
 
 #endif
