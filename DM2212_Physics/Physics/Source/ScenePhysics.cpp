@@ -91,7 +91,7 @@ void ScenePhysics::Update(double dt)
 		if(go->active)
 		{
 			go->physics->Update(dt);
-			go->pos += go->physics->GetVelocity() * dt;
+			go->pos += go->physics->GetVelocity() * m_speed * dt;
 
 			// In case leave screen Unspawn
 			if (go->pos.x >= m_worldWidth + go->scale.x
@@ -124,7 +124,7 @@ void ScenePhysics::Update(double dt)
 					
 					if (CheckCollision(ball, other, dt))
 					{
-						CollisionResponse(ball, other, dt);
+						ball->physics->CollisionResponse(ball, other, dt);
 						continue; //remove if stays at the end
 					}
 
@@ -169,6 +169,22 @@ bool ScenePhysics::CheckCollision(GameObject* go1, GameObject* go2, float dt)
 			&& abs(dis.Dot(NP)) < go2->scale.y
 			&& go1->physics->GetVelocity().Dot(N) > 0)
 		{
+			go2->physics->SetCollisionNormal(N);
+			return true;
+		}
+
+		N = NP;
+		if (dis.Dot(N) < 0)
+		{
+			N = -1 * N;
+		}
+		NP.Set(N.y, -1 * N.x, 0);
+
+		if (dis.Dot(N) < go1->scale.x + go2->scale.x
+			&& abs(dis.Dot(NP)) < go2->scale.y
+			&& go1->physics->GetVelocity().Dot(N) > 0)
+		{
+			go2->physics->SetCollisionNormal(N);
 			return true;
 		}
 		return false;
@@ -199,8 +215,8 @@ void ScenePhysics::CollisionResponse(GameObject* go1, GameObject* go2, float dt)
 	{
 	case GameObject::GO_BALL:
 	{
-		int m1 = go1->mass;
-		int m2 = go2->mass;
+		int m1 = go1->physics->GetMass();
+		int m2 = go2->physics->GetMass();
 		Vector3 u1 = go1->physics->GetVelocity();
 		Vector3 u2 = go2->physics->GetVelocity();
 
@@ -248,7 +264,7 @@ void ScenePhysics::ApplyFriction(GameObject* ball, Vector3 normal, double dt)
 {
 	// - velocity parallel to surface by amount of Nforce
 	const float FRICTION_K = 0.0005f;
-	float Nforce = abs(Vector3(ball->mass * ball->physics->GetGravity()).Dot(normal));
+	float Nforce = abs(Vector3(ball->physics->GetMass() * ball->physics->GetGravity()).Dot(normal));
 	Vector3 plane = normal.Cross(Vector3(0, 0, 1));
 	if (ball->physics->GetVelocity().Dot(plane) < 0)
 	{

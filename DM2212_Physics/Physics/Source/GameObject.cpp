@@ -6,8 +6,8 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue)
 	scale(1, 1, 1),
 	active(false),
 	fireInterval(0),
-	mass(1.f), maxHP(0), currentHP(0), timeout(0)
-	, physics(new Physics)
+	maxHP(0), currentHP(0), timeout(0),
+	physics(new Physics(SceneBase::SHAPE_TYPE::RECTANGLE, pos))
 {
 }
 
@@ -16,11 +16,10 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh)
 	scale(1, 1, 1),
 	active(false),
 	fireInterval(0),
-	mass(1.f),
 	maxHP(0),
 	currentHP(0),
 	timeout(0),
-	physics(new Physics),
+	physics(new Physics(SceneBase::SHAPE_TYPE::RECTANGLE, pos)),
 	mesh(mesh)
 {
 }

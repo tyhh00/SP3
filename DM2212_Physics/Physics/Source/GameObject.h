@@ -50,7 +50,6 @@ struct GameObject
 	bool active;
 	Vector3 pos;
 	Vector3 scale;
-	float mass;
 
 	double fireInterval;
 	int maxHP, currentHP;
