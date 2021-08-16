@@ -19,10 +19,10 @@ void SceneTest::Init()
 	SceneBase::Init();
 
 	// Calculating aspect ratio
-	m_worldHeight = 100.f;
-	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	m_screenHeight = 100.f;
-	m_screenWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
+	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
+	m_worldHeight = m_screenHeight * 3;
+	m_worldWidth = m_screenWidth * 5;
 
 	//Physics code here
 	m_speed = 1.f;
@@ -48,6 +48,7 @@ void SceneTest::Init()
 
 	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	camera.SetFocusTarget(player);
+	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 }
 
 GameObject* SceneTest::FetchGO()
