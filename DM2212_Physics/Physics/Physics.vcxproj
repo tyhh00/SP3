@@ -194,6 +194,7 @@
     <ClInclude Include="Source\SceneCollision.h" />
     <ClInclude Include="Source\SceneTest.h" />
     <ClInclude Include="Source\shader.hpp" />
+    <ClInclude Include="Source\Shape.h" />
     <ClInclude Include="Source\SpriteAnimation.h" />
     <ClInclude Include="Source\Inventory.h" />
     <ClInclude Include="Source\Item.h" />

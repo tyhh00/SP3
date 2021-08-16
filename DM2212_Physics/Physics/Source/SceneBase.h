@@ -10,6 +10,7 @@
 #include "GameObject.h"
 #include <vector>
 #include "Button.h"
+#include "Shape.h"
 
 typedef struct TileSetting TileSetting;
 
@@ -45,16 +46,7 @@ class SceneBase : public Scene
 	};
 public:
 
-	//Used for Physics Collision
-	//Original Solution was use GameObject_Type to figure out the shape. I.e. GO_WALL = RECTANGLE so calc base on rectangle shape
-	//But this meant RenderGO() we had to do switch case base on GameObject_Type. If we have 800 GameObject_Types, we can't
-	//possibly do a 800 case switch case so we need to move the GEOMETRY_TYPE Mesh into GameObject class itself and call
-	//go->RenderMesh();
-	enum SHAPE_TYPE
-	{
-		RECTANGLE,
-		CIRCLE,
-	};
+
 
 	enum GEOMETRY_TYPE
 	{
@@ -168,8 +160,8 @@ protected:
 struct TileSetting
 {
 	int gridLength, gridHeight;
-	SceneBase::SHAPE_TYPE shapeType;
-	TileSetting(int length = 1, int height = 1, SceneBase::SHAPE_TYPE shape = SceneBase::RECTANGLE) : gridLength(length), gridHeight(height), shapeType(shape) {}
+	SHAPE_TYPE shapeType;
+	TileSetting(int length = 1, int height = 1, SHAPE_TYPE shape = SHAPE_TYPE::RECTANGLE) : gridLength(length), gridHeight(height), shapeType(shape) {}
 };
 
 #endif
