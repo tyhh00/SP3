@@ -12,6 +12,7 @@ public:
 	{
 		S_COLLISION,
 		S_TEST,
+		S_LEVELEDITOR,
 		
 
 		SCENE_TOTAL

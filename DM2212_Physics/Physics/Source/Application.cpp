@@ -14,8 +14,9 @@
 
 #include "SceneCollision.h"
 #include "SceneTest.h"
+#include "LevelEditor.h"
 
-int Application::index = S_TEST;
+int Application::index = S_LEVELEDITOR;
 bool Application::quit = false;
 
 GLFWwindow* m_window;
@@ -135,6 +136,7 @@ void Application::Run()
 	//Main Loop
 	sceneArray[S_COLLISION] = new SceneCollision();
 	sceneArray[S_TEST] = new SceneTest();
+	sceneArray[S_LEVELEDITOR] = new LevelEditor();
 	
 	for (int i = 0; i < SCENE_TOTAL; i++)
 	{

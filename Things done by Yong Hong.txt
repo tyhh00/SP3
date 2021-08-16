@@ -1,0 +1,12 @@
+DEBUG_MSG System
+Restructuring Engine (I.e. Using shapes for physics detection instead of GO_Type,
+Planning managers like GOManager, Physics Handler, Level Editor)
+
+
+TODO
+Level Editor:
+	Action Reverter
+	Text File Reading/Writing
+	Mouse Controls
+	Keyboard Controls
+	Background Mesh

@@ -11,6 +11,8 @@
 #include <vector>
 #include "Button.h"
 
+typedef struct TileSetting TileSetting;
+
 class SceneBase : public Scene
 {
 	enum UNIFORM_TYPE
@@ -42,13 +44,36 @@ class SceneBase : public Scene
 		U_TOTAL,
 	};
 public:
+
+	//Used for Physics Collision
+	//Original Solution was use GameObject_Type to figure out the shape. I.e. GO_WALL = RECTANGLE so calc base on rectangle shape
+	//But this meant RenderGO() we had to do switch case base on GameObject_Type. If we have 800 GameObject_Types, we can't
+	//possibly do a 800 case switch case so we need to move the GEOMETRY_TYPE Mesh into GameObject class itself and call
+	//go->RenderMesh();
+	enum SHAPE_TYPE
+	{
+		RECTANGLE,
+		CIRCLE,
+	};
+
 	enum GEOMETRY_TYPE
 	{
-		GEO_AXES,
-		GEO_TEXT,
+		GEO_AXES = 1,
+		GEO_TEXT = 2,
 
-		GEO_BALL,
-		GEO_CUBE,
+		GEO_BALL = 3,
+		GEO_CUBE = 4,
+
+		//Tiles Enum Start
+		//NOTE: DO NOT ADD ANY NEW TILES ABOVE EXISTING ONES.
+		//Add it right before GEO_TILES_END.
+		GEO_TILES_START = 5,
+		//
+		GEO_BLOCK_UP_RED,
+		GEO_BLOCK_DOWN_RED,
+		//Tiles End
+		GEO_TILES_END,
+
 
 		GEO_BG,
 
@@ -108,6 +133,9 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
+	void LoadTile(GEOMETRY_TYPE type, std::string fileName, int length, int height, SHAPE_TYPE shapeType);
+	TileSetting* GetTileSetting(GEOMETRY_TYPE type);
+
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int limit);
@@ -119,6 +147,8 @@ public:
 protected:
 	unsigned m_vertexArrayID;
 	Mesh* meshList[NUM_GEOMETRY];
+	TileSetting* tileSize[NUM_GEOMETRY];
+
 	unsigned m_programID;
 	unsigned m_parameters[U_TOTAL];
 
@@ -133,6 +163,13 @@ protected:
 	bool bLightEnabled;
 
 	float fps;
+};
+
+struct TileSetting
+{
+	int gridLength, gridHeight;
+	SceneBase::SHAPE_TYPE shapeType;
+	TileSetting(int length = 1, int height = 1, SceneBase::SHAPE_TYPE shape = SceneBase::RECTANGLE) : gridLength(length), gridHeight(height), shapeType(shape) {}
 };
 
 #endif
