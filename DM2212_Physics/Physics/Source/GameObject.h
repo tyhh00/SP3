@@ -8,16 +8,6 @@
 
 struct GameObject
 {
-	//Used for Physics Collision
-	//Original Solution was use GameObject_Type to figure out the shape. I.e. GO_WALL = RECTANGLE so calc base on rectangle shape
-	//But this meant RenderGO() we had to do switch case base on GameObject_Type. If we have 800 GameObject_Types, we can't
-	//possibly do a 800 case switch case so we need to move the GEOMETRY_TYPE Mesh into GameObject class itself and call
-	//go->RenderMesh();
-	enum SHAPE_TYPE
-	{
-		RECTANGLE,
-		CIRCLE,
-	};
 	enum GAMEOBJECT_TYPE
 	{
 		GO_NONE = 0,
@@ -46,6 +36,7 @@ struct GameObject
 		GO_10, // ELASTIC + SCORE
 
 		GO_TILE, //Size 2.f Object representing all Grid Tiles
+		GO_TILE_DECORATIVE,
 
 		GO_HIGHLIGHT,
 
@@ -55,18 +46,10 @@ struct GameObject
 	Mesh* mesh;
 
 	GAMEOBJECT_TYPE type;
+
 	bool active;
 	Vector3 pos;
-	Vector3 vel;
 	Vector3 scale;
-
-	float rotateZ;
-	Vector3 dir;
-
-	Vector3 normal;
-	float momentOfInertia;
-	float angularVelocity;
-	float mass;
 
 	double fireInterval;
 	int maxHP, currentHP;
@@ -76,9 +59,8 @@ struct GameObject
 
 	Physics* physics;
 
-	GameObject(GAMEOBJECT_TYPE typeValue = GO_NONE);
-	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh) : type(typeValue), mesh(mesh)
-	{}
+	GameObject(GAMEOBJECT_TYPE typeValue = GO_NONE, SHAPE_TYPE shapeType = RECTANGLE);
+	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, SHAPE_TYPE shapeType = RECTANGLE);
 
 	~GameObject();
 
