@@ -132,11 +132,11 @@ void ScenePhysics::Update(double dt)
 		m_speed += 0.1f;
 	}
 
-	if (Application::IsKeyPressed(VK_KEY_A))
+	if (Application::IsKeyPressed('A'))
 	{
 		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(-5,0,0));
 	}
-	else if (Application::IsKeyPressed(VK_KEY_D))
+	else if (Application::IsKeyPressed('D'))
 	{
 		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(5, 0, 0));
 	}

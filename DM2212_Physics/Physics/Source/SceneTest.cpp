@@ -46,7 +46,7 @@ void SceneTest::Init()
 
 
 	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
-	camera.SetFocusTarget(player);
+	camera.SetFocusTarget(player->pos);
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 }
 
@@ -120,7 +120,8 @@ void SceneTest::Update(double dt)
 	{
 		bLButtonState = true;
 		std::cout << "LBUTTON DOWN" << std::endl;
-		camera.SetFocusTarget(player, true);
+		camera.ToggleAutoLock(true);
+		camera.SetFocusTarget(player->pos, true);
 
 	}
 	else if(bLButtonState && !Application::IsMousePressed(0))
@@ -134,7 +135,8 @@ void SceneTest::Update(double dt)
 	{
 		bRButtonState = true;
 		std::cout << "RBUTTON DOWN" << std::endl;
-		camera.SetFocusTarget(testobj, true);
+		camera.ToggleAutoLock(false);
+		camera.SetFocusTarget(testobj->pos, true);
 		
 	}
 	else if(bRButtonState && !Application::IsMousePressed(1))
@@ -145,7 +147,7 @@ void SceneTest::Update(double dt)
 	}
 
 	player->Update(dt);
-	camera.Update(dt);
+	camera.Update(player->pos, dt);
 
 	// Game Objects
 	for(std::vector<GameObject *>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)

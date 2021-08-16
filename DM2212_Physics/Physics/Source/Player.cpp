@@ -61,4 +61,6 @@ void Player::Update(double dt)
 	}
 
 	pos += physics->GetVelocity() * dt;
+	physics->pos = pos;
+
 }

@@ -17,7 +17,7 @@ void Camera::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	this->target = target;
 	this->up = up;
 
-	focusTarget = nullptr;
+	
 	newTarget = target;
 	view_locked = true;
 	auto_lock = true;
@@ -42,7 +42,7 @@ void Camera::Reset()
 	up.Set(0, 1, 0);
 }
 
-void Camera::Update(double dt)
+void Camera::Update(Vector3 focusTarget, double dt)
 {
 	// use C to unlock view and move camera freely
 	if (!Application::IsKeyPressed('C'))
@@ -55,43 +55,6 @@ void Camera::Update(double dt)
 		ToggleAutoLock();
 	}
 
-	// if focus target exceeds maxd, set new target 
-	if (view_locked) // if view is locked to follow focustarget
-	{
-		if (focusTarget->pos.x - target.x > MAXD_X) // move camera to RIGHT
-		{
-			newTarget.x = focusTarget->pos.x + NEWD_X;
-			if (newTarget.x + screenWidth * 0.5 > worldWidth)
-			{
-				newTarget.x = worldWidth - screenWidth * 0.5;
-			}
-		}
-		else if (target.x - focusTarget->pos.x > MAXD_X) // move camera to LEFT
-		{
-			newTarget.x = focusTarget->pos.x - NEWD_X;
-			if (newTarget.x - screenWidth * 0.5 < 0)
-			{
-				newTarget.x = screenWidth * 0.5;
-			}
-		}
-
-		if (focusTarget->pos.y - target.y > MAXD_Y) // move camera UP
-		{
-			newTarget.y = focusTarget->pos.y + NEWD_Y;
-			if (newTarget.y + screenHeight * 0.5 > worldHeight)
-			{
-				newTarget.y = worldHeight - screenHeight * 0.5;
-			}
-		}
-		else if (target.y - focusTarget->pos.y > MAXD_Y) // move camera DOWN
-		{
-			newTarget.y = focusTarget->pos.y - NEWD_Y;
-			if (newTarget.y - screenHeight * 0.5 < 0)
-			{
-				newTarget.y = screenHeight * 0.5;
-			}
-		}
-	}
 	
 	// move camera using arrow keys
 	if (Application::IsKeyPressed(VK_LEFT) 
@@ -116,6 +79,30 @@ void Camera::Update(double dt)
 	}
 
 	// update target based on new/next target
+	// if focus target exceeds maxd, set new target 
+	if (view_locked) // if view is locked to follow focustarget
+	{
+		if (focusTarget.x - target.x > MAXD_X) // move camera to RIGHT
+		{
+			newTarget.x = focusTarget.x + NEWD_X;
+		}
+		else if (target.x - focusTarget.x > MAXD_X) // move camera to LEFT
+		{
+			newTarget.x = focusTarget.x - NEWD_X;
+		}
+
+		if (focusTarget.y - target.y > MAXD_Y) // move camera UP
+		{
+			newTarget.y = focusTarget.y + NEWD_Y;
+		}
+		else if (target.y - focusTarget.y > MAXD_Y) // move camera DOWN
+		{
+			newTarget.y = focusTarget.y - NEWD_Y;
+		}
+	}
+
+	Constraint();
+
 	if (target != newTarget)
 	{
 		UpdateTarget(dt);
@@ -126,15 +113,14 @@ void Camera::Update(double dt)
 
 }
 
-void Camera::SetFocusTarget(GameObject* go, bool slide)
+void Camera::SetFocusTarget(Vector3 focustarget, bool slide)
 {
-	focusTarget = go;
-	newTarget = focusTarget->pos;
+	newTarget = focustarget;
 	if (!slide)
 	{
 		target = newTarget;
-		position.x = focusTarget->pos.x;
-		position.y = focusTarget->pos.y;
+		position.x = focustarget.x;
+		position.y = focustarget.y;
 	}
 	else
 	{
@@ -160,13 +146,49 @@ void Camera::ToggleAutoLock()
 	auto_lock = !auto_lock;
 	if (auto_lock)
 	{
-		std::cout << "Auto Lock has been turned on, camera will follow player upon release." << std::endl;
+		std::cout << "Auto Lock has been turned on, camera will follow target upon release." << std::endl;
 		view_locked = true;
 	}
 	else
 	{
 		std::cout << "Auto Lock has been turned off. Camera no longer follows target and can be more freely controlled." << std::endl;
 		view_locked = false; 
+	}
+}
+
+void Camera::ToggleAutoLock(bool on)
+{
+	auto_lock = on;
+	if (auto_lock)
+	{
+		std::cout << "Auto Lock has been turned on, camera will follow target upon release." << std::endl;
+		view_locked = true;
+	}
+	else
+	{
+		std::cout << "Auto Lock has been turned off. Camera no longer follows target and can be more freely controlled." << std::endl;
+		view_locked = false;
+	}
+}
+
+void Camera::Constraint()
+{
+	if (newTarget.x + screenWidth * 0.5 > worldWidth)
+	{
+		newTarget.x = worldWidth - screenWidth * 0.5;
+	}
+	else if (newTarget.x - screenWidth * 0.5 < 0)
+	{
+		newTarget.x = screenWidth * 0.5;
+	}
+
+	if (newTarget.y + screenHeight * 0.5 > worldHeight)
+	{
+		newTarget.y = worldHeight - screenHeight * 0.5;
+	}
+	else if (newTarget.y - screenHeight * 0.5 < 0)
+	{
+		newTarget.y = screenHeight * 0.5;
 	}
 }
 

@@ -18,7 +18,7 @@
 #include "ScenePhysics.h"
 //#include "SceneTest.h"
 
-int Application::index = S_LEVELEDITOR;
+int Application::index = S_TEST;
 bool Application::quit = false;
 
 GLFWwindow* m_window;
@@ -147,8 +147,8 @@ void Application::Run()
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !quit && !IsKeyPressed(VK_ESCAPE))
 	{
-		sceneArray[S_PHYSICS]->Update(m_timer.getElapsedTime());
-		sceneArray[S_PHYSICS]->Render();
+		sceneArray[index]->Update(m_timer.getElapsedTime());
+		sceneArray[index]->Render();
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
