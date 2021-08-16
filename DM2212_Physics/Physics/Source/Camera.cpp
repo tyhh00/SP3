@@ -42,6 +42,7 @@ void Camera::Reset()
 
 void Camera::Update(double dt)
 {
+	// use C to unlock view and move camera freely
 	if (!Application::IsKeyPressed('C'))
 	{
 		Creleased = true;
@@ -74,7 +75,7 @@ void Camera::Update(double dt)
 		}
 	}
 	
-
+	// move camera using arrow keys
 	if (Application::IsKeyPressed(VK_LEFT))
 	{
 		newTarget.x = target.x - 1;
@@ -92,12 +93,11 @@ void Camera::Update(double dt)
 		newTarget.y = target.y - 1;
 	}
 
-
+	// update target based on new/next target
 	if (target != newTarget)
 	{
 		UpdateTarget(dt);
 	}
-
 	// update cam pos based on target
 	position.x = target.x;
 	position.y = target.y;

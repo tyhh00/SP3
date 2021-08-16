@@ -3,10 +3,21 @@
 
 #include "Vector3.h"
 #include "Material.h"
+#include "Mesh.h"
 #include "Physics.h"
 
 struct GameObject
 {
+	//Used for Physics Collision
+	//Original Solution was use GameObject_Type to figure out the shape. I.e. GO_WALL = RECTANGLE so calc base on rectangle shape
+	//But this meant RenderGO() we had to do switch case base on GameObject_Type. If we have 800 GameObject_Types, we can't
+	//possibly do a 800 case switch case so we need to move the GEOMETRY_TYPE Mesh into GameObject class itself and call
+	//go->RenderMesh();
+	enum SHAPE_TYPE
+	{
+		RECTANGLE,
+		CIRCLE,
+	};
 	enum GAMEOBJECT_TYPE
 	{
 		GO_NONE = 0,
@@ -34,10 +45,15 @@ struct GameObject
 		GO_50, // ELASTIC + SCORE
 		GO_10, // ELASTIC + SCORE
 
+		GO_TILE, //Size 2.f Object representing all Grid Tiles
+
 		GO_HIGHLIGHT,
 
 		GO_TOTAL, //must be last
 	};
+
+	Mesh* mesh;
+
 	GAMEOBJECT_TYPE type;
 	bool active;
 	Vector3 pos;
@@ -60,12 +76,14 @@ struct GameObject
 
 	Physics* physics;
 
-	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);
+	GameObject(GAMEOBJECT_TYPE typeValue = GO_NONE);
+	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh) : type(typeValue), mesh(mesh)
+	{}
+
 	~GameObject();
 
 	virtual void Init();
 	virtual void Update();
-	virtual void Render();
 
 };
 

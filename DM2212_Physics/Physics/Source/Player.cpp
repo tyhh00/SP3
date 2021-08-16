@@ -1,28 +1,63 @@
 
 #include "Player.h"
 #include "Application.h"
+#include "MeshBuilder.h"
+#include "LoadTGA.h"
 
 void Player::Init()
 {
-	SPEED = 25.0f;
+	AkeyDown = false;
+	DkeyDown = false;
+
+	speed = 1000.0f;
+
+	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 5.0f, 5.0f);
+	animatedSprites->AddAnimation("idle", 0, 1);
+	animatedSprites->AddAnimation("right", 6, 8);
+	animatedSprites->AddAnimation("left", 3, 5);
+	animatedSprites->PlayAnimation("idle", -1, 1.0f);
+	mesh = animatedSprites;
+	mesh->textureID = LoadTGA("Image/girlsprite.tga");
 }
 
 void Player::Update(double dt)
 {
-	if (Application::IsKeyPressed('A'))
+	animatedSprites->Update(dt);
+
+	if (AkeyDown && !Application::IsKeyPressed('A'))
 	{
-		pos.x -= SPEED * dt;
+		AkeyDown = false;
+		std::cout << "A Key Released" << std::endl;
+		if (animatedSprites->GetCurrentAnimation() == "left")
+		{
+			animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		}
+		vel.x += speed * dt;
 	}
-	else if (Application::IsKeyPressed('D'))
+	else if (!AkeyDown && Application::IsKeyPressed('A'))
 	{
-		pos.x += SPEED * dt;
+		AkeyDown = true;
+		std::cout << "A Key Pressed" << std::endl;
+		animatedSprites->PlayAnimation("left", -1, 1.0f);
+		vel.x -= speed * dt;
 	}
-	else if (Application::IsKeyPressed('W'))
+	if (DkeyDown && !Application::IsKeyPressed('D'))
 	{
-		pos.y += SPEED * dt;
+		DkeyDown = false;
+		std::cout << "D Key Released" << std::endl;
+		if (animatedSprites->GetCurrentAnimation() == "right")
+		{
+			animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		}
+		vel.x -= speed * dt;
 	}
-	else if (Application::IsKeyPressed('S'))
+	else if (!DkeyDown && Application::IsKeyPressed('D'))
 	{
-		pos.y -= SPEED * dt;
+		DkeyDown = true;
+		std::cout << "D Key Pressed" << std::endl;
+		animatedSprites->PlayAnimation("right", -1, 1.0f);
+		vel.x += speed * dt;
 	}
+
+	pos += vel * dt;
 }
