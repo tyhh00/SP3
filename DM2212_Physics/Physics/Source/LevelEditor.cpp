@@ -170,7 +170,25 @@ void LevelEditor::RemoveGO(GameObject* go)
 
 void LevelEditor::Update(double dt)
 {
-
+	static bool bLButtonState = false;
+	if (!bLButtonState && Application::IsMousePressed(0))
+		bLButtonState = true; //Down
+	else if (bLButtonState && !Application::IsMousePressed(0))
+		bLButtonState = false; //Up
+	
+	static bool bRButtonState = false;
+	if(!bRButtonState && Application::IsMousePressed(1))
+		bRButtonState = true; //Down
+	else if(bRButtonState && !Application::IsMousePressed(1))
+		bRButtonState = false; //Up
+	
+	static bool bMButtonState = false;
+	if (!bMButtonState && Application::IsMousePressed(2))
+		bMButtonState = true; //Down
+	else if (bMButtonState && !Application::IsMousePressed(2))
+		bMButtonState = false; //Up
+	
+	
 }
 
 void LevelEditor::Render()
@@ -210,16 +228,38 @@ void LevelEditor::Render()
 		modelStack.PopMatrix();
 	}
 
+	for (int x = camera.position.x - m_worldWidth * 0.5 - 2; x < camera.position.x + m_worldWidth * 0.5 + 2; ++x)
+	{
+		for (int y = camera.position.y - m_worldHeight * 0.5 - 2; y < camera.position.y + m_worldHeight * 0.5 + 2; ++y)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(x, y, 1);
+
+			modelStack.Scale(gridLength, gridHeight, 1);
+			RenderMesh(meshList[GEO_TILEGRID], false);
+			modelStack.PopMatrix();
+		}
+	}
+
+
 
 	// fps tings
 
 	std::ostringstream ss;
 	ss.str("");
-	ss.precision(5);
+	ss.precision(4);
 	ss << "FPS: " << fps;
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 3);
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 3, 0, 0);
+
+	double x,y;
+	CursorPosition(x, y);
+	ss.str("");
+	ss.precision(3);
+	ss << "Cursor Position: (" << x << ", " << y << ")";
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 64, 97);
+
+	RenderTextOnScreen(meshList[GEO_TEXT], mapName, Color(1, 1, 1), 3, 0, 0);
 }
 
 void LevelEditor::Exit()
@@ -228,6 +268,21 @@ void LevelEditor::Exit()
 }
 
 //Utilities
+
+void LevelEditor::CursorPosition(double& theX, double& theY)
+{
+	double x, y;
+	Application::GetCursorPos(&x, &y);
+	int w = Application::GetWindowWidth();
+	int h = Application::GetWindowHeight();
+	// convert to world space
+	x /= (w / m_worldWidth);
+	y = h - y;
+	y /= (h / m_worldHeight);
+	theX = x;
+	theY = y;
+}
+
 std::vector<std::string> splitStr(std::string str, char delimiter) {
 	std::vector<std::string> internal;
 	std::stringstream ss(str); // Turn the string into a stream. 

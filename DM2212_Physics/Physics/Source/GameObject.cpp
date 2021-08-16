@@ -12,7 +12,7 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, SHAPE_TYPE shapeType)
 	physics = new Physics(shapeType, pos, scale);
 }
 
-GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* meshm, SHAPE_TYPE shapeType)
+GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, SHAPE_TYPE shapeType)
 	: type(typeValue),
 	pos(1, 1, 1),
 	scale(1, 1, 1),
