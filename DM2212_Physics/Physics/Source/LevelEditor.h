@@ -67,5 +67,8 @@ public:
 
 	//Remove GameObject from gridObjects
 	void RemoveGO(GameObject* go);
+
+	//Utility Functions
+	void CursorPosition(double& theX, double& theY);
 };
 

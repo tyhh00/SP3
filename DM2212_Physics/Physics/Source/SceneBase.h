@@ -60,7 +60,8 @@ public:
 		//NOTE: DO NOT ADD ANY NEW TILES ABOVE EXISTING ONES.
 		//Add it right before GEO_TILES_END.
 		GEO_TILES_START = 4,
-		//
+		GEO_TILEGRID,
+
 		GEO_BLOCK_UP_RED,
 
 		//Tiles End
