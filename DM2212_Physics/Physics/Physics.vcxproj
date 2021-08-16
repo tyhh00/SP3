@@ -153,6 +153,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\GameObjectManager.cpp" />
+    <ClCompile Include="Source\Inventory.cpp" />
+    <ClCompile Include="Source\Item.cpp" />
     <ClCompile Include="Source\LevelEditor.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Button.cpp" />
@@ -174,6 +176,8 @@
   <ItemGroup>
     <ClInclude Include="Source\Debug.h" />
     <ClInclude Include="Source\GameObjectManager.h" />
+    <ClInclude Include="Source\Inventory.h" />
+    <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\LevelEditor.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Button.h" />
