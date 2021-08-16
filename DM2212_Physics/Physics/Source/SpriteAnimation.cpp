@@ -284,6 +284,11 @@ void SpriteAnimation::PlayAnimation(std::string anim_name, int repeat, float tim
 	}
 }
 
+std::string SpriteAnimation::GetCurrentAnimation()
+{
+	return currentAnimation;
+}
+
 /******************************************************************************/
 /*!
 \brief

@@ -28,7 +28,10 @@ void Player::Update(double dt)
 	{
 		AkeyDown = false;
 		std::cout << "A Key Released" << std::endl;
-		animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		if (animatedSprites->GetCurrentAnimation() == "left")
+		{
+			animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		}
 		vel.x += speed * dt;
 	}
 	else if (!AkeyDown && Application::IsKeyPressed('A'))
@@ -42,7 +45,10 @@ void Player::Update(double dt)
 	{
 		DkeyDown = false;
 		std::cout << "D Key Released" << std::endl;
-		animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		if (animatedSprites->GetCurrentAnimation() == "right")
+		{
+			animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		}
 		vel.x -= speed * dt;
 	}
 	else if (!DkeyDown && Application::IsKeyPressed('D'))
