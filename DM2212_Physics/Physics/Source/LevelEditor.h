@@ -1,14 +1,16 @@
 #pragma once
 #include <vector>
-#include "GameObject.h"
-#include "GameObjectManager.h"
+#include <string>
 
-class LevelEditor
+#include "GameObject.h"
+#include "SceneBase.h"
+
+//LevelEditor itself will be a scene
+class LevelEditor : public SceneBase
 {
-	friend GameObjectManager;
 
 protected:
-	GameObjectManager* goManager;
+	std::vector<GameObject*> gridObjects; //Disassociation with GameObjectManager
 	int gridLength, gridHeight;
 
 
@@ -16,5 +18,14 @@ public:
 	LevelEditor();
 	~LevelEditor();
 
+	virtual void Init();
+	virtual void Update(double dt);
+	virtual void Render();
+	virtual void Exit();
+
+	bool LoadMap(std::string filename)
+	{
+
+	}
 };
 
