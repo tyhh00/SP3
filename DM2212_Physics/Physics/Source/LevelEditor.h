@@ -43,6 +43,9 @@ protected:
 	bool snapScaleToGrid;
 
 	//How to do inventory of tiles
+	float m_worldWidth;
+	float m_gameWidth;
+	float m_worldHeight;
 
 public:
 	LevelEditor();
