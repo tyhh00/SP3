@@ -168,6 +168,7 @@
     <ClCompile Include="Source\SceneCollision.cpp" />
     <ClCompile Include="Source\SceneTest.cpp" />
     <ClCompile Include="Source\shader.cpp" />
+    <ClCompile Include="Source\SpriteAnimation.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +190,7 @@
     <ClInclude Include="Source\SceneCollision.h" />
     <ClInclude Include="Source\SceneTest.h" />
     <ClInclude Include="Source\shader.hpp" />
+    <ClInclude Include="Source\SpriteAnimation.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />
   </ItemGroup>

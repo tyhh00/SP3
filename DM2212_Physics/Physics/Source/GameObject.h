@@ -57,13 +57,11 @@ struct GameObject
 
 	Material mat;
 
-
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);
 	~GameObject();
 
 	virtual void Init();
 	virtual void Update();
-	virtual void Render();
 
 };
 

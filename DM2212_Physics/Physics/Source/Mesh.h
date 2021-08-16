@@ -3,6 +3,14 @@
 
 #include <string>
 #include "Material.h"
+#include "Vertex.h"
+
+
+/**
+	Vertex Class
+	Used for 2D texture.
+	Create a version with normals for 3D normal
+*/
 
 class Mesh
 {
@@ -14,6 +22,7 @@ public:
 		DRAW_LINES,
 		DRAW_MODE_LAST,
 	};
+	Mesh();
 	Mesh(const std::string &meshName);
 	~Mesh();
 	void Render();
