@@ -26,7 +26,7 @@ protected:
 	std::vector<GameObject *> m_goList;
 	
 	Player* player;
-	GameObject* testobj;
+	GameObject* testobj, *testWall;
 
 	float m_speed;
 	float m_screenWidth;
@@ -37,10 +37,12 @@ protected:
 	
 	GameObject* FetchGO();
 	GameObject* FetchGO(GameObject::GAMEOBJECT_TYPE type);
+	GameObject* FetchGO(bool isMovable);
 	void ReturnGO(GameObject *go);
 
 	bool CheckZero(double number); // Checks if a number is 0 [EPSILON things]
-
+	bool CheckCollision(GameObject* go1, GameObject* go2, float dt); // Checks for collision
+	
 	void Constraint(GameObject* ball, GameObject* other); // Moves ball out of other object upon collision
 
 };
