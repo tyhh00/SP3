@@ -467,15 +467,15 @@ void SceneTest::Render()
 	}
 
 	std::ostringstream ss;
-	ss.str("");
-	ss << "cam target: " << camera.target;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
-	ss.str("");
-	ss << "cam pos: " << camera.position;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);
-	ss.str("");
-	ss << "player: " << player->pos;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);
+	//ss.str("");
+	//ss << "cam target: " << camera.target;
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
+	//ss.str("");
+	//ss << "cam pos: " << camera.position;
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);
+	//ss.str("");
+	//ss << "player: " << player->pos;
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);
 	
 
 
