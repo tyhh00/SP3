@@ -509,19 +509,19 @@ SpriteAnimation* MeshBuilder::GenerateSpriteAnimation(unsigned numRow, unsigned 
 			float u1 = j * width;
 			float v1 = 1.f - height - i * height;
 			v.pos = Position(-0.5f * tile_width, -0.5f * tile_height, 0);
-			v.texCoord = TexCoord(u1, v1);
+			v.texCoord = TexCoord(u1, v1); //0
 			vertex_buffer_data.push_back(v);
 
 			v.pos = Position(0.5f * tile_width, -0.5f * tile_height, 0);
-			v.texCoord = TexCoord(u1 + width, v1);
+			v.texCoord = TexCoord(u1 + width, v1); //1
 			vertex_buffer_data.push_back(v);
 
 			v.pos = Position(0.5f * tile_width, 0.5f * tile_height, 0);
-			v.texCoord = TexCoord(u1 + width, v1 + height);
+			v.texCoord = TexCoord(u1 + width, v1 + height); //2
 			vertex_buffer_data.push_back(v);
 
 			v.pos = Position(-0.5f * tile_width, 0.5f * tile_height, 0);
-			v.texCoord = TexCoord(u1, v1 + height);
+			v.texCoord = TexCoord(u1, v1 + height); //3
 			vertex_buffer_data.push_back(v);
 
 			index_buffer_data.push_back(offset + 3);
