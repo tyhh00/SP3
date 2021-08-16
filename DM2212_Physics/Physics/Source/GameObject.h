@@ -61,8 +61,7 @@ struct GameObject
 	Physics* physics;
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_NONE);
-	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh) : type(typeValue), mesh(mesh)
-	{}
+	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh);
 
 	~GameObject();
 

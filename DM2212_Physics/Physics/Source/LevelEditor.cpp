@@ -137,7 +137,7 @@ bool LevelEditor::LoadMap(std::string filename)
 
 			GameObject* obj = new GameObject(GameObject::GO_TILE, meshList[type]);
 			obj->pos = pos;
-			obj->normal = normal;
+			obj->physics->SetNormal(normal);
 			obj->scale = scale;
 			gridObjects.push_back(obj);
 
@@ -200,7 +200,7 @@ void LevelEditor::Render()
 	for (std::vector<GameObject*>::iterator it = gridObjects.begin(); it != gridObjects.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
-		float angle = Math::RadianToDegree(atan2(go->normal.y, go->normal.x));
+		float angle = Math::RadianToDegree(atan2(go->physics->GetNormal().y, go->physics->GetNormal().x));
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 		modelStack.Rotate(angle, 0, 0, 1);
