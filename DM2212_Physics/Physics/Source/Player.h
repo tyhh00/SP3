@@ -7,7 +7,9 @@ class Player : public GameObject {
 public:
 	void Init();
 	void Update(double dt);
+
 private:
+	float speed;
 	bool AkeyDown, DkeyDown;
 };
 
