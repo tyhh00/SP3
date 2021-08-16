@@ -3,6 +3,7 @@
 
 #include "Vector3.h"
 #include "Material.h"
+#include "Physics.h"
 
 struct GameObject
 {
@@ -57,6 +58,7 @@ struct GameObject
 
 	Material mat;
 
+	Physics* physics;
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);
 	~GameObject();
