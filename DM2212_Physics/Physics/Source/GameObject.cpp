@@ -13,12 +13,13 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, SHAPE_TYPE shapeType)
 	physics = new Physics(shapeType, pos, scale);
 }
 
-GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, SHAPE_TYPE shapeType)
+GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHAPE_TYPE shapeType)
 	: type(typeValue),
 	pos(1, 1, 1),
 	scale(1, 1, 1),
 	active(false),
 	fireInterval(0),
+	geoTypeID(geoTypeID),
 	maxHP(0),
 	currentHP(0),
 	timeout(0),
@@ -49,6 +50,7 @@ GameObject* GameObject::Clone()
 	go->active = this->active;
 	go->currentHP = this->currentHP;
 	go->fireInterval = this->fireInterval;
+	go->geoTypeID = this->geoTypeID;
 	go->mat = this->mat;
 	go->maxHP = this->maxHP;
 	go->mesh = this->mesh;

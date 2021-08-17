@@ -1,4 +1,8 @@
-﻿
+﻿/**
+ Physics Class
+ By: Jordan Low
+ Date: 16 Aug 2021
+ */
 #include "Physics.h"
 
 Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale)
@@ -167,6 +171,11 @@ float Physics::GetRotateZ()
 void Physics::SetMovable(bool _movable)
 {
 	isMovable = _movable;
+}
+
+bool Physics::GetMovable()
+{
+	return isMovable;
 }
 
 /**

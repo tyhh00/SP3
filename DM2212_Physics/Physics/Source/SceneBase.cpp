@@ -112,6 +112,7 @@ void SceneBase::Init()
 	//Tiles (Player tile, environmental tiles)
 	LoadTile(GEO_TILEGRID, "Grid.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_BLOCK_UP_RED, "Scene2D_GroundTile.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_PLAYER_GIRL1, "Player_Girl1.tga", 1.5, 1, SHAPE_TYPE::RECTANGLE);
 
 	//Entities (Player, etc)
 
@@ -125,7 +126,7 @@ void SceneBase::Init()
 	bLightEnabled = false;
 }
 
-void SceneBase::LoadTile(GEOMETRY_TYPE type, std::string fileName, int length, int height, SHAPE_TYPE shapeType)
+void SceneBase::LoadTile(GEOMETRY_TYPE type, std::string fileName, double length, double height, SHAPE_TYPE shapeType)
 {
 	std::string path = "Image//Tiles//" + fileName;
 	if (type > GEO_TILES_START && type < GEO_TILES_END)

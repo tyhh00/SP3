@@ -54,6 +54,7 @@ public:
 	float GetRotateZ();
 
 	void SetMovable(bool _movable);
+	bool GetMovable();
 
 	void CollisionResponse(Physics* go1, Physics* go2, double dt);
 	void ApplyFriction(Physics* ball, Vector3 normal, double dt);

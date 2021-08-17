@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "Keyboard.h"
+
 //Gamestate manager
 #include "GameStateManagement/GameStateManager.h"
 #include "GameStateManagement/IntroState.h"
@@ -50,6 +52,10 @@ void resize_callback(GLFWwindow* window, int w, int h)
 bool Application::IsKeyPressed(unsigned short key)
 {
     return ((GetAsyncKeyState(key) & 0x8001) != 0);
+}
+bool Application::IsKeyReleased(unsigned short key)
+{
+	return ((GetAsyncKeyState(key) & 0x0001) != 0);
 }
 bool Application::IsMousePressed(unsigned short key) //0 - Left, 1 - Right, 2 - Middle
 {
@@ -159,6 +165,7 @@ void Application::Run()
 			dElapsedTime = 0.0166666666666667;*/
 
 		//update gamestate manager
+		Keyboard::GetInstance()->Update(m_timer.getElapsedTime());
 		if (CGameStateManager::GetInstance()->Update(m_timer.getElapsedTime()) == false)
 		{
 			break;

@@ -45,6 +45,7 @@ struct GameObject
 		GO_TOTAL, //must be last
 	};
 
+	int geoTypeID;
 	Mesh* mesh;
 	Attachment* bottomSprite;
 
@@ -63,7 +64,7 @@ struct GameObject
 	Physics* physics;
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_NONE, SHAPE_TYPE shapeType = RECTANGLE);
-	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, SHAPE_TYPE shapeType = RECTANGLE);
+	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHAPE_TYPE shapeType = RECTANGLE);
 
 	~GameObject();
 
