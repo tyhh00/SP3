@@ -1,7 +1,7 @@
 ﻿/**
  Physics Class
  By: Jordan Low
- Date: 17 Aug 2021
+ Date: 16 Aug 2021
  */
 #include "Physics.h"
 
