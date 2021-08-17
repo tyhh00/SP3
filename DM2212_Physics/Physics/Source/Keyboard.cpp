@@ -1,6 +1,6 @@
 #include "Keyboard.h"
-bool Keyboard::prevStatus[];
-bool Keyboard::currStatus[];
+#include "Application.h"
+#include <iostream>
 
 Keyboard::Keyboard()
 {
@@ -17,10 +17,26 @@ void Keyboard::Init()
 
 void Keyboard::Update(double dt)
 {
+	std::cout << "kb updating" << std::endl;
 	for (int i = 0; i < MAX_KEYS; i++)
 	{
 		prevStatus[i] = currStatus[i];
-		currStatus[i] = false;
+		if ((GetAsyncKeyState(i) & 0x8001) != 0)
+		{
+			currStatus[i] = true;
+		}
+		else
+		{
+			currStatus[i] = false;
+		}
+	}
+}
+
+void Keyboard::PostUpdate(double dt)
+{
+	for (int i = 0; i < MAX_KEYS; i++)
+	{
+		prevStatus[i] = currStatus[i];
 	}
 }
 

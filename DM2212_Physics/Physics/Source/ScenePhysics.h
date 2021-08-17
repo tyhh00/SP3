@@ -8,6 +8,7 @@
 #include "Inventory.h"
 #include "Apple.h"
 #include "Cheese.h"
+#include "Keyboard.h"
 
 class ScenePhysics : public SceneBase
 {
@@ -34,6 +35,7 @@ protected:
 
 	GameObject* go;
 	Inventory* inventory;
+	Keyboard kb;
 
 	GameObject* FetchGO(bool isMovable);
 	bool CheckCollision(GameObject* go1, GameObject* go2, float dt); // Checks for collision

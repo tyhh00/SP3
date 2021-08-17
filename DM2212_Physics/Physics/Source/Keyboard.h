@@ -6,15 +6,16 @@ public:
 	Keyboard();
 	void Init();
 	void Update(double dt);
+	void PostUpdate(double dt);
 
-	static bool IsKeyPressed(unsigned short key);
-	static bool IsKeyDown(unsigned short key);
-	static bool IsKeyReleased(unsigned short key);
+	bool IsKeyPressed(unsigned short key);
+	bool IsKeyDown(unsigned short key);
+	bool IsKeyReleased(unsigned short key);
 	
 private:
 	static const unsigned short MAX_KEYS = 348;
-	static bool prevStatus[MAX_KEYS];
-	static bool currStatus[MAX_KEYS];
+	bool prevStatus[MAX_KEYS];
+	bool currStatus[MAX_KEYS];
 };
 
 
