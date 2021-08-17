@@ -10,6 +10,9 @@
 #include "GameObject.h"
 #include <vector>
 #include "Button.h"
+#include "Shape.h"
+
+typedef struct TileSetting TileSetting;
 
 class SceneBase : public Scene
 {
@@ -42,13 +45,28 @@ class SceneBase : public Scene
 		U_TOTAL,
 	};
 public:
+
+
+
 	enum GEOMETRY_TYPE
 	{
-		GEO_AXES,
-		GEO_TEXT,
+		GEO_AXES = 0,
+		GEO_TEXT = 1,
 
-		GEO_BALL,
-		GEO_CUBE,
+		GEO_BALL = 2,
+		GEO_CUBE = 3,
+
+		//Tiles Enum Start
+		//NOTE: DO NOT ADD ANY NEW TILES ABOVE EXISTING ONES.
+		//Add it right before GEO_TILES_END.
+		GEO_TILES_START = 4,
+		GEO_TILEGRID,
+
+		GEO_BLOCK_UP_RED,
+
+		//Tiles End
+		GEO_TILES_END,
+
 
 		GEO_BG,
 
@@ -108,6 +126,9 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
+	void LoadTile(GEOMETRY_TYPE type, std::string fileName, int length, int height, SHAPE_TYPE shapeType);
+	TileSetting* GetTileSetting(GEOMETRY_TYPE type);
+
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int limit);
@@ -119,6 +140,8 @@ public:
 protected:
 	unsigned m_vertexArrayID;
 	Mesh* meshList[NUM_GEOMETRY];
+	TileSetting* tileSize[NUM_GEOMETRY];
+
 	unsigned m_programID;
 	unsigned m_parameters[U_TOTAL];
 
@@ -133,6 +156,13 @@ protected:
 	bool bLightEnabled;
 
 	float fps;
+};
+
+struct TileSetting
+{
+	int gridLength, gridHeight;
+	SHAPE_TYPE shapeType;
+	TileSetting(int length = 1, int height = 1, SHAPE_TYPE shape = SHAPE_TYPE::RECTANGLE) : gridLength(length), gridHeight(height), shapeType(shape) {}
 };
 
 #endif

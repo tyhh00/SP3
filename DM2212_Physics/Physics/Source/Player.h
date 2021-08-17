@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include "SpriteAnimation.h"
+#include "Physics.h"
 
 class Player : public GameObject {
 public:
@@ -14,7 +15,10 @@ private:
 	SpriteAnimation* animatedSprites;
 
 	float speed;
+	float jump_force;
+
 	bool AkeyDown, DkeyDown;
+	bool spaceKeyDown;
 };
 
 

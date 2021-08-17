@@ -74,6 +74,9 @@
     <ClCompile Include="Source\Physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ScenePhysics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Weapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -158,6 +161,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Shape.h">
+	      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScenePhysics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Weapon.h">
