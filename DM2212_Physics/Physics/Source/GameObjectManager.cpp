@@ -222,7 +222,7 @@ void GameObjectManager::Render(SceneBase* scene)
 			scene->modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 			scene->modelStack.Rotate(angle + go->physics->GetRotateZ(), 0, 0, 1);
 			scene->modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			scene->RenderMesh(go->mesh, false);
+			scene->RenderMesh(go->mesh, true);
 			scene->modelStack.PopMatrix();
 			
 			// test things; to see bottomSprite
@@ -250,7 +250,7 @@ void GameObjectManager::Render(SceneBase* scene)
 			scene->modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 			scene->modelStack.Rotate(angle + go->physics->GetRotateZ(), 0, 0, 1);
 			scene->modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			scene->RenderMesh(go->mesh, false);
+			scene->RenderMesh(go->mesh, true);
 			scene->modelStack.PopMatrix();
 		}
 	}

@@ -90,6 +90,7 @@ void Camera::Update(Vector3 focusTarget, double dt)
 	{
 		newTarget.y = target.y - 1;
 	}
+	
 
 	// update target based on new/next target
 	// if focus target exceeds maxd, set new target 

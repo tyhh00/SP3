@@ -17,10 +17,10 @@ void SceneManager::init()
 {
 	physics = new ScenePhysics();
 	physics->Init();
-	test = new SceneTest();
-	test->Init();
 	levelEditor = new LevelEditor();
 	levelEditor->Init();
+	test = new SceneTest();
+	test->Init();
 }
 
 void SceneManager::setScene(worlds sceneType)

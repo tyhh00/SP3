@@ -5,6 +5,7 @@
 //Worlds
 #include "ScenePhysics.h"
 #include "SceneTest.h"
+#include "SceneLight.h"
 #include "LevelEditor.h"
 
 enum worlds
