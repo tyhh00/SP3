@@ -6,7 +6,7 @@
 
 std::vector<std::string> splitStr(std::string str, char delimiter);
 
-LevelEditor::LevelEditor()
+LevelEditor::LevelEditor() : heldOnTo(nullptr)
 {
 
 }
@@ -25,11 +25,12 @@ void LevelEditor::Init()
 	SceneBase::Init();
 
 	// Calculating aspect ratio
-	m_worldHeight = 100.f;
-	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_gameWidth = m_worldWidth * 0.75;
+	m_screenHeight = 100.f;
+	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
+	m_worldHeight = m_screenHeight * 3;
+	m_worldWidth = m_screenWidth * 5;
 
-	camera.Init(Vector3(m_worldWidth * 0.5f, m_worldHeight * 0.5f, 1), Vector3(m_worldWidth * 0.5f, m_worldHeight * 0.5f, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(0,0, 1), Vector3(0,0, 0), Vector3(0, 1, 0));
 	//camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	std::string mapToLoad = "LEVEL_1.txt";
 	LoadMap(mapToLoad);
@@ -187,7 +188,78 @@ void LevelEditor::Update(double dt)
 	else if (bMButtonState && !Application::IsMousePressed(2))
 		bMButtonState = false; //Up
 	
-	
+	for (std::vector<GameObject*>::iterator it = gridObjects.begin(); it != gridObjects.end(); ++it)
+	{
+		GameObject* go = (GameObject*)*it;
+		double curs_tw_X, curs_tw_Y;
+		CursorToWorldPosition(curs_tw_X, curs_tw_Y);
+		//DEBUG_MSG("curs_tw_X: " <<  curs_tw_X << " curs_tw_Y: " <<  curs_tw_Y << " || " << go->pos.x << "x " << go->pos.y << "y");
+		//curs_tw_or Collided With Object
+		if (PosCollidedWithGO(curs_tw_X, curs_tw_Y, go))
+		{
+
+			if (heldOnTo == nullptr && bLButtonState)
+			{
+				heldOnTo = go;
+			}
+			else if (heldOnTo != nullptr && !bLButtonState)
+			{
+				heldOnTo = nullptr;
+			}
+
+		}
+	}
+	double curs_tw_X, curs_tw_Y;
+	CursorToWorldPosition(curs_tw_X, curs_tw_Y);
+
+	double snap_X, snap_Y;
+	double gridDiameter = gridLength * 2;
+	snap_X = floor((curs_tw_X) / gridDiameter) * gridDiameter + gridLength;
+	snap_Y = floor((curs_tw_Y)/ gridDiameter) * gridDiameter;
+
+	if (heldOnTo != nullptr)
+	{
+		if (!CursorWithinScreen())
+		{
+			heldOnTo = nullptr;
+		}
+		else 
+		{
+			if (snapPosToGrid)
+			{
+				heldOnTo->pos.x = snap_X;
+				heldOnTo->pos.y = snap_Y;
+			}
+			else
+			{
+				heldOnTo->pos.x = curs_tw_X;
+				heldOnTo->pos.y = curs_tw_Y;
+			}
+			if (Application::IsKeyPressed(VK_CONTROL) && GetCollidedGOs(heldOnTo->pos.x, heldOnTo->pos.y).size() == 1)
+			{
+				gridObjects.push_back(heldOnTo->Clone());
+			}
+		}
+	}
+	//DEBUG_MSG("Cursor within screen? " << CursorWithinScreen());
+}
+
+std::vector<GameObject*> LevelEditor::GetCollidedGOs(double worldPos_X, double worldPos_Y)
+{
+	std::vector<GameObject*> coll;
+	for (std::vector<GameObject*>::iterator it = gridObjects.begin(); it != gridObjects.end(); ++it)
+	{
+		GameObject* go = (GameObject*)*it;
+		if (PosCollidedWithGO(worldPos_X, worldPos_Y, go))
+			coll.push_back(go);
+	}
+	return coll;
+}
+
+bool LevelEditor::PosCollidedWithGO(double worldPos_X, double worldPos_Y, GameObject* go)
+{
+	return (worldPos_X > go->pos.x - go->scale.x && worldPos_X <  go->pos.x + go->scale.x
+		&& worldPos_Y > go->pos.y - go->scale.y && worldPos_Y < go->pos.y + go->scale.y);
 }
 
 void LevelEditor::Render()
@@ -197,8 +269,8 @@ void LevelEditor::Render()
 
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
-	//	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -10, 10);
-	projection.SetToPerspective(m_worldWidth - 1.0f, m_worldWidth / m_worldHeight, 0.1f, 1000.f);
+	projection.SetToOrtho(-1 * m_screenWidth * 0.5f, m_screenWidth * 0.5f, -1 * m_screenHeight * 0.5f, m_screenHeight * 0.5f, -10, 10);
+
 	projectionStack.LoadMatrix(projection);
 
 	// Camera matrix
@@ -230,9 +302,9 @@ void LevelEditor::Render()
 	int loops = 0;
 	double xAdd = gridLength * 2.0;
 	double yAdd = gridHeight * 2.0;
-	for (int x = camera.position.x - (m_worldWidth * 0.5 - 2); x < camera.position.x + (m_worldWidth * 0.5 + 2); x += xAdd)
+	for (int x = camera.position.x - (m_screenWidth * 0.5 - 2); x < camera.position.x + (m_screenWidth * 0.5 + 2); x += xAdd)
 	{
-		for (int y = camera.position.y - (m_worldHeight * 0.5 - 2); y < camera.position.y + (m_worldHeight * 0.5 + 2); y += yAdd)
+		for (int y = camera.position.y - (m_screenHeight * 0.5 - 2); y < camera.position.y + (m_screenHeight * 0.5 + 2); y += yAdd)
 		{
 			loops++;
 			modelStack.PushMatrix();
@@ -243,7 +315,7 @@ void LevelEditor::Render()
 			modelStack.PopMatrix();
 		}
 	}
-	DEBUG_MSG("Looped " << loops << " to cover all grids in viewable scene");
+	//DEBUG_MSG("Looped " << loops << " to cover all grids in viewable scene");
 
 
 
@@ -257,11 +329,11 @@ void LevelEditor::Render()
 
 
 	double x,y;
-	CursorPosition(x, y);
+	CursorToWorldPosition(x, y);
 	ss.str("");
 	ss.precision(3);
 	ss << "Cursor Position: (" << x << ", " << y << ")";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 64, 97);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 1), 3, 64, 97);
 
 	RenderTextOnScreen(meshList[GEO_TEXT], mapName, Color(1, 1, 1), 3, 0, 0);
 }
@@ -286,6 +358,37 @@ void LevelEditor::CursorPosition(double& theX, double& theY)
 	theX = x;
 	theY = y;
 }
+
+void LevelEditor::CursorToWorldPosition(double& theX, double& theY)
+{
+	double x, y;
+	Application::GetCursorPos(&x, &y);
+	int w = Application::GetWindowWidth();
+	int h = Application::GetWindowHeight();
+	// convert to world space
+	x /= (w / m_screenWidth);
+	y = h - y;
+	y /= (h / m_screenHeight);
+	x -= m_screenWidth * 0.5;
+	y -= m_screenHeight * 0.5;
+
+	theX = x;
+	theY = y;
+}
+
+bool LevelEditor::CursorWithinScreen()
+{
+	double x, y;
+	Application::GetCursorPos(&x, &y);
+
+	if (x < 0 || x > Application::GetWindowWidth()
+		|| y < 0 || y > Application::GetWindowHeight())
+		return false;
+	return true;
+
+}
+
+
 
 std::vector<std::string> splitStr(std::string str, char delimiter) {
 	std::vector<std::string> internal;

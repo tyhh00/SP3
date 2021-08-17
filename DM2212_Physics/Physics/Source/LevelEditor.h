@@ -42,9 +42,12 @@ protected:
 	bool snapRotToGrid;
 	bool snapScaleToGrid;
 
+	GameObject* heldOnTo;
+
 	//How to do inventory of tiles
+	float m_screenWidth;
+	float m_screenHeight;
 	float m_worldWidth;
-	float m_gameWidth;
 	float m_worldHeight;
 
 public:
@@ -68,7 +71,12 @@ public:
 	//Remove GameObject from gridObjects
 	void RemoveGO(GameObject* go);
 
+	std::vector<GameObject*> GetCollidedGOs(double worldPos_X, double worldPos_Y);
+	bool PosCollidedWithGO(double worldPos_X, double worldPos_Y, GameObject* go);
+
 	//Utility Functions
 	void CursorPosition(double& theX, double& theY);
+	void CursorToWorldPosition(double& theX, double& theY);
+	bool CursorWithinScreen();
 };
 

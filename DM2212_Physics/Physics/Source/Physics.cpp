@@ -21,6 +21,23 @@ Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale)
 {
 }
 
+Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale, Vector3 vel, Vector3 normal, Vector3 dir, Vector3 gravity,
+	Vector3 collisionNormal, float mass, float momentOfIntertia, float angularVelocity, float rotateZ,
+	bool isMoveable)
+	: pos(_pos)
+	, scale(_scale)
+	, vel(vel)
+	, normal(normal)
+	, dir(dir)
+	, mass(mass)
+	, momentOfInertia(momentOfInertia)
+	, angularVelocity(angularVelocity)
+	, rotateZ(rotateZ)
+	, gravity(gravity)
+	, shapeType(_shapeType)
+	, isMovable(isMoveable)
+{}
+
 Physics::~Physics()
 {
 }
@@ -372,4 +389,12 @@ void Physics::ApplyContactForce(Physics* go1, Physics* go2, bool applyForBall)
 		go1->pos = go2->pos - line + N * (go1->scale.x + go2->scale.x); //set the ball to the top of the wall in the direction of the normal
 	}
 
+}
+
+Physics* Physics::Clone()
+{
+	Physics* newPhy = new Physics(this->shapeType, this->pos, this->scale, this->vel,
+		this->normal, this->dir, this->gravity, this->collisionNormal, this->mass,
+		this->momentOfInertia, this->angularVelocity, this->rotateZ, this->isMovable);
+	return newPhy;
 }

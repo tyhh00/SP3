@@ -40,3 +40,20 @@ void GameObject::Update()
 {
 }
 
+GameObject* GameObject::Clone()
+{
+	GameObject* go = new GameObject();
+	go->type = this->type;
+	go->active = this->active;
+	go->currentHP = this->currentHP;
+	go->fireInterval = this->fireInterval;
+	go->mat = this->mat;
+	go->maxHP = this->maxHP;
+	go->mesh = this->mesh;
+	go->physics = this->physics->Clone();
+	go->pos = this->pos;
+	go->scale = this->scale;
+	go->timeout = this->timeout;
+	return go;
+}
+

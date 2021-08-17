@@ -17,7 +17,8 @@
 #include "LevelEditor.h"
 #include "ScenePhysics.h"
 
-int Application::index = S_PHYSICS;
+
+int Application::index = S_LEVELEDITOR;
 bool Application::quit = false;
 
 GLFWwindow* m_window;
