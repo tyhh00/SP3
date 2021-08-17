@@ -34,14 +34,13 @@ protected:
 	GameObject* go;
 	Inventory* inventory;
 	Keyboard* keyboard;
+	GameObjectManager* goManager;
 
 	GameObject* FetchGO(bool isMovable);
 	bool CheckCollision(GameObject* go1, GameObject* go2, float dt); // Checks for collision
 	void ApplyFriction(GameObject* ball, Vector3 normal, double dt); // Apply Friction
 	void ApplyInelastic(GameObject* ball, Vector3 normal, double dt); //Decrease vel of object
 	void CollisionResponse(GameObject* go1, GameObject* go2, float dt);
-	Keyboard kb;
-	GameObjectManager* goManager;
 };
 
 #endif
