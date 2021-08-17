@@ -35,8 +35,11 @@ void SceneTest::Init()
 
 	player = new Player;
 	player->scale.Set(3, 3, 3);
-	player->Init();
 	player->pos.Set(m_worldWidth * 0.5, m_worldHeight * 0.5, 0);
+	/*player->attachment = new Attachment(GameObject::GO_WALL,
+		Vector3(0, -1 * player->scale.y, 0),
+		Vector3(0.5f, player->scale.y, 1));*/
+	player->Init();
 
 
 	testobj = FetchGO(GameObject::GO_BALL);

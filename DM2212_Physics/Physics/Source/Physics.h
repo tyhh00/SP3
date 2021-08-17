@@ -19,6 +19,8 @@ private:
 
 	bool isMovable;
 
+	bool onGround;
+
 public:
 	Vector3 pos;
 	Vector3 scale;

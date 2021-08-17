@@ -7,7 +7,8 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, SHAPE_TYPE shapeType)
 	scale(1, 1, 1),
 	active(false),
 	fireInterval(0),
-	maxHP(0), currentHP(0), timeout(0)
+	maxHP(0), currentHP(0), timeout(0),
+	bottomSprite(NULL)
 {
 	physics = new Physics(shapeType, pos, scale);
 }
@@ -22,7 +23,8 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, SHAPE_TYPE shapeTy
 	currentHP(0),
 	timeout(0),
 	physics(new Physics(shapeType, pos, scale)),
-	mesh(mesh)
+	mesh(mesh),
+	bottomSprite(NULL)
 {
 }
 
@@ -57,3 +59,10 @@ GameObject* GameObject::Clone()
 	return go;
 }
 
+void GameObject::AddBottomSprite()
+{
+	bottomSprite = new Attachment(GameObject::GO_WALL,
+		Vector3(0, -1 * scale.y + 0.25, 0),
+		Vector3(0.5, scale.x, 1));
+	bottomSprite->physics->SetNormal(Vector3(0, 1, 0));
+}

@@ -6,6 +6,8 @@
 #include "Mesh.h"
 #include "Physics.h"
 
+typedef struct Attachment Attachment;
+
 struct GameObject
 {
 	enum GAMEOBJECT_TYPE
@@ -44,6 +46,7 @@ struct GameObject
 	};
 
 	Mesh* mesh;
+	Attachment* bottomSprite;
 
 	GAMEOBJECT_TYPE type;
 
@@ -68,6 +71,18 @@ struct GameObject
 	virtual void Update();
 	virtual GameObject* Clone();
 
+
+	void AddBottomSprite();
+	
 };
 
+struct Attachment : public GameObject
+{
+	Vector3 relativePos;
+	Attachment(GAMEOBJECT_TYPE type, Vector3 relativePos, Vector3 scale) : relativePos(relativePos)
+	{
+		this->type = type;
+		this->scale = scale;
+	}
+};
 #endif
