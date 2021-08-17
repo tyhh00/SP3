@@ -96,6 +96,14 @@ void Inventory::SwitchItem(int index)
  */
 void Inventory::AddItem(Item* newItem)
 {
+	bool itemExist = true;
+	for (Item* item : itemVector)
+	{
+		if (newItem == item)
+		{
+			item->AddQuantity(1);
+		}
+	}
 	itemVector.push_back(newItem);
 	currentItem = newItem;
 }

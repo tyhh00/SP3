@@ -26,10 +26,16 @@ public:
 
 	int GetQuantity();
 	void SetQuantity(int _quantity);
-private:
+	int AddQuantity(int _quantity);
+
+	int GetMaxQuantity();
+	void SetMaxQuantity(int _maxQuantity);
+protected:
 	GROUP_TYPE groupType;
 	ITEM_TYPE itemType;
 	int quantity;
+	int maxQuantity;
+	bool isStackable;
 };
 
 

@@ -1,7 +1,9 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
+#include "SingletonTemplate.h"
 
-class Keyboard {
+class Keyboard : public CSingletonTemplate<Keyboard> {
+	friend CSingletonTemplate<Keyboard>;
 public:
 	Keyboard();
 	void Init();

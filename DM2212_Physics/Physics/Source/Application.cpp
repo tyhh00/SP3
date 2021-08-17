@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "Keyboard.h"
+
 //Gamestate manager
 #include "GameStateManagement/GameStateManager.h"
 #include "GameStateManagement/IntroState.h"
@@ -163,6 +165,7 @@ void Application::Run()
 			dElapsedTime = 0.0166666666666667;*/
 
 		//update gamestate manager
+		Keyboard::GetInstance()->Update(m_timer.getElapsedTime());
 		if (CGameStateManager::GetInstance()->Update(m_timer.getElapsedTime()) == false)
 		{
 			break;

@@ -35,7 +35,7 @@ protected:
 
 	GameObject* go;
 	Inventory* inventory;
-	Keyboard kb;
+	Keyboard* keyboard;
 
 	GameObject* FetchGO(bool isMovable);
 	bool CheckCollision(GameObject* go1, GameObject* go2, float dt); // Checks for collision

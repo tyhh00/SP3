@@ -11,6 +11,8 @@ ScenePhysics::ScenePhysics()
 
 ScenePhysics::~ScenePhysics()
 {
+	go = NULL;
+	keyboard = NULL;
 }
 
 void ScenePhysics::Init()
@@ -29,6 +31,8 @@ void ScenePhysics::Init()
 	m_speed = 1.f;
 
 	Math::InitRNG();
+
+	keyboard = Keyboard::GetInstance();
 
 	meshList[GEO_UIFRAME] = MeshBuilder::GenerateQuad("UI Frame", Color(1, 1, 1), 1.0f);
 	meshList[GEO_UIFRAME]->textureID = LoadTGA("Image/uiframe.tga");
@@ -126,16 +130,15 @@ void ScenePhysics::Update(double dt)
 	SceneBase::Update(dt);
 	inventory->Update(dt);
 
-	kb.Update(dt);
-	if (kb.IsKeyDown('P'))
+	if (keyboard->IsKeyDown('P'))
 	{
 		std::cout << "P" << std::endl;
 	}
-	if (kb.IsKeyPressed('O'))
+	if (keyboard->IsKeyPressed('O'))
 	{
 		std::cout << "O" << std::endl;
 	}
-	if (kb.IsKeyReleased('L'))
+	if (keyboard->IsKeyReleased('L'))
 	{
 		std::cout << "L" << std::endl;
 	}

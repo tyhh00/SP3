@@ -17,7 +17,6 @@ void Keyboard::Init()
 
 void Keyboard::Update(double dt)
 {
-	std::cout << "kb updating" << std::endl;
 	for (int i = 0; i < MAX_KEYS; i++)
 	{
 		prevStatus[i] = currStatus[i];
