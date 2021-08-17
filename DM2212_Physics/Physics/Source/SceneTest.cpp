@@ -59,19 +59,19 @@ void SceneTest::Init()
 	testWall->active = true;
 	testWall->type = GameObject::GO_WALL;
 	testWall->pos.Set(player->pos.x, player->pos.y - 20, 0);
-	testWall->scale.Set(5, 20, 1);
+	testWall->scale.Set(5, 100, 1);
 	testWall->physics->SetVelocity(Vector3(1, 0, 0));
 	testWall->physics->shapeType = RECTANGLE;
 	testWall->physics->SetNormal(Vector3(0, 1, 0));
 	testWall->mesh = meshList[GEO_WALL];
 	goManager->AddGO(testWall);
 
-	/*GameObject* go;
+	GameObject* go;
 	go = new GameObject;
 	go->active = true;
 	go->type = GameObject::GO_WALL;
-	go->pos.Set(player->pos.x - 10, player->pos.y, 0);
-	go->scale.Set(5, 20, 1);
+	go->pos.Set(player->pos.x - 10, player->pos.y - 15, 0);
+	go->scale.Set(5, 5, 1);
 	go->physics->SetVelocity(Vector3(1, 0, 0));
 	go->physics->shapeType = RECTANGLE;
 	go->physics->SetNormal(Vector3(1, 0, 0));
@@ -81,13 +81,13 @@ void SceneTest::Init()
 	go = new GameObject;
 	go->active = true;
 	go->type = GameObject::GO_WALL;
-	go->pos.Set(player->pos.x + 10, player->pos.y, 0);
-	go->scale.Set(5, 20, 1);
+	go->pos.Set(player->pos.x + 10, player->pos.y - 15, 0);
+	go->scale.Set(5, 5, 1);
 	go->physics->SetVelocity(Vector3(1, 0, 0));
 	go->physics->shapeType = RECTANGLE;
 	go->physics->SetNormal(Vector3(1, 0, 0));
 	go->mesh = meshList[GEO_WALL];
-	goManager->AddGO(go);*/
+	goManager->AddGO(go);
 
 	
 	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));

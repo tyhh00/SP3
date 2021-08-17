@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "Mtx44.h"
 
-Camera::Camera()
+Camera::Camera() : mode(EDGE)
 {
 	Reset();
 }
@@ -23,16 +23,23 @@ void Camera::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	auto_lock = true;
 
 	SLIDE_SPEED = 100.0f;
-	MAXD_X = 50.0f;
-	NEWD_X = 45.0f;
-	MAXD_Y = 30.0f;
-	NEWD_Y = 25.0f;
+	defaultMAXD_X = 50.0f;
+	defaultNEWD_X = 45.0f;
+	defaultMAXD_Y = 30.0f;
+	defaultNEWD_Y = 25.0f;
+	MAXD_X = defaultMAXD_X;
+	NEWD_X = defaultNEWD_X;
+	MAXD_Y = defaultMAXD_Y;
+	NEWD_Y = defaultNEWD_Y;
+	
 	if (NEWD_X >= MAXD_X || NEWD_Y >= MAXD_Y)
 		std::cout << "Camera new distance values must be smaller than max distance values!" << std::endl;
 
 	screenWidth = screenHeight = worldWidth = worldHeight = 0;
 
-	Creleased = false;
+	//Creleased = false;
+	keyboard = Keyboard::GetInstance();
+
 }
 
 void Camera::Reset()
@@ -44,15 +51,21 @@ void Camera::Reset()
 
 void Camera::Update(Vector3 focusTarget, double dt)
 {
-	// use C to unlock view and move camera freely
-	if (!Application::IsKeyPressed('C'))
-	{
-		Creleased = true;
-	}
-	else if (Creleased)
-	{
-		Creleased = false;
+
+	// use C to unlock view and move camera freely (for editing level/just viewing level purposes etc)
+	if (keyboard->IsKeyPressed('C'))
+	{		
 		ToggleAutoLock();
+	}
+	
+	// example of switching mode;; to be removed in final product zz
+	if (keyboard->IsKeyPressed('M'))
+	{
+		SetMode(CENTER);
+	}
+	if (keyboard->IsKeyPressed('N'))
+	{
+		SetMode(EDGE);
 	}
 
 	
@@ -139,6 +152,30 @@ void Camera::SetLimits(float screenx, float screeny, float worldx, float worldy)
 void Camera::SetSlidingSpeed(float spd)
 {
 	SLIDE_SPEED = spd;
+}
+
+void Camera::SetMode(MODE mode)
+{
+	this->mode = mode;
+	switch (mode)
+	{
+	case CENTER:
+		MAXD_X = 0;
+		NEWD_X = 0;
+		MAXD_Y = 0;
+		NEWD_Y = 0;
+		std::cout << "Mode has been set to CENTER." << std::endl;
+		break;
+	case EDGE:
+		MAXD_X = defaultMAXD_X;
+		NEWD_X = defaultNEWD_X;
+		MAXD_Y = defaultMAXD_Y;
+		NEWD_Y = defaultNEWD_Y;
+		std::cout << "Mode has been set to EDGE." << std::endl;
+		break;
+	default:
+		break;
+	}
 }
 
 void Camera::ToggleAutoLock()

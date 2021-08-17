@@ -17,7 +17,7 @@ void Player::Init()
 	physics->SetNormal(Vector3(1, 0, 0));
 
 	speed = 1000.0f;
-	jump_force = 5000.0f;
+	jump_force = 6000.0f;
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("idle", 0, 1);

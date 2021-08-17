@@ -3,10 +3,17 @@
 
 #include "GameObject.h"
 #include "Vector3.h"
+#include "Keyboard.h"
 
 class Camera
 {
 public:
+
+	enum MODE {
+		EDGE,
+		CENTER
+	};
+
 	Vector3 position;
 	Vector3 target;
 	Vector3 up;
@@ -14,14 +21,19 @@ public:
 	float screenWidth, screenHeight, worldWidth, worldHeight;
 
 	float MAXD_X, MAXD_Y, NEWD_X, NEWD_Y; // offset distance before shifting and offset distance amount after shifting
+	float defaultMAXD_X, defaultMAXD_Y, defaultNEWD_X, defaultNEWD_Y; // offset distance before shifting and offset distance amount after shifting
 	float SLIDE_SPEED; // speed of sliding of camera
 
-//	Vector3 focusTarget; // GO to focus on
+	MODE mode;
+
 	Vector3 newTarget; // target pos to slide to
 	bool view_locked; // whether view is set to focus on target
 	bool auto_lock; // whether view will return to target once last transition is complete
 
-	bool Creleased; 
+	//bool Creleased; 
+
+
+	Keyboard* keyboard;
 
 	Camera();
 	~Camera();
@@ -32,6 +44,7 @@ public:
 	void SetFocusTarget(Vector3 focustarget, bool slide = false);
 	void SetLimits(float screenx, float screeny, float worldx, float worldy);
 	void SetSlidingSpeed(float spd);
+	void SetMode(MODE mode);
 	void ToggleAutoLock(bool on);
 
 private:

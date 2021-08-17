@@ -225,7 +225,8 @@ void GameObjectManager::Render(SceneBase* scene)
 			scene->RenderMesh(go->mesh, false);
 			scene->modelStack.PopMatrix();
 			
-			if (go->bottomSprite)
+			// test things; to see bottomSprite
+			/*if (go->bottomSprite)
 			{
 				GameObject* sprite = go->bottomSprite;
 				float angle = Math::RadianToDegree(atan2(sprite->physics->GetNormal().y, sprite->physics->GetNormal().x));
@@ -235,7 +236,7 @@ void GameObjectManager::Render(SceneBase* scene)
 				scene->modelStack.Scale(sprite->scale.x, sprite->scale.y, sprite->scale.z);
 				scene->RenderMesh(sprite->mesh, false);
 				scene->modelStack.PopMatrix();
-			}
+			}*/
 
 		}
 	}
