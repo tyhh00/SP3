@@ -17,6 +17,7 @@
 #include "LevelEditor.h"
 #include "ScenePhysics.h"
 
+
 int Application::index = S_LEVELEDITOR;
 bool Application::quit = false;
 

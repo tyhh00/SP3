@@ -74,6 +74,9 @@ void ScenePhysics::Init()
 	go2->pos.Set(m_worldWidth * 0.5f, m_worldHeight * 0.15f, 0);
 	go2->scale.Set(2.5, 70, 2.5);
 	go2->mat.kAmbient.Set(1.0f, 1.0f, 1.0f);
+
+
+	inventory = new Inventory();
 }
 
 GameObject* ScenePhysics::FetchGO(bool isMovable)
@@ -122,7 +125,23 @@ GameObject* ScenePhysics::FetchGO(bool isMovable)
 void ScenePhysics::Update(double dt)
 {
 	SceneBase::Update(dt);
+	inventory->Update(dt);
 	
+	if (Application::IsKeyPressed('Q'))
+	{
+		inventory->CycleItem();
+	}
+	if (Application::IsKeyPressed('W'))
+	{
+		Apple* newApple = new Apple();
+		inventory->AddItem(newApple);
+	}
+	if (Application::IsKeyPressed('E'))
+	{
+		Cheese* newCheese = new Cheese();
+		inventory->AddItem(newCheese);
+	}
+
 	if(Application::IsKeyPressed('9'))
 	{
 		m_speed = Math::Max(0.f, m_speed - 0.1f);
