@@ -45,6 +45,9 @@ public:
 	void SetGravity(Vector3 _gravity);
 	Vector3 GetGravity();
 
+	void SetOnGround(bool onGround);
+	bool GetOnGround();
+
 	void SetCollisionNormal(Vector3 _collisionNormal);
 
 	void SetMass(float _mass);

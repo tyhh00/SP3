@@ -69,7 +69,7 @@ struct GameObject
 	~GameObject();
 
 	virtual void Init();
-	virtual void Update();
+	virtual void Update(double dt);
 	virtual GameObject* Clone();
 
 

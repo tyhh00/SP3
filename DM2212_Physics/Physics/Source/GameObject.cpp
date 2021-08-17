@@ -39,7 +39,7 @@ void GameObject::Init()
 {
 }
 
-void GameObject::Update()
+void GameObject::Update(double dt)
 {
 }
 
@@ -65,6 +65,6 @@ void GameObject::AddBottomSprite()
 {
 	bottomSprite = new Attachment(GameObject::GO_WALL,
 		Vector3(0, -1 * scale.y + 0.25, 0),
-		Vector3(0.5, scale.x, 1));
+		Vector3(0.5, scale.x * 0.75, 1));
 	bottomSprite->physics->SetNormal(Vector3(0, 1, 0));
 }

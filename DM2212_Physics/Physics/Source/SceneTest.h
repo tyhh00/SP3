@@ -5,6 +5,7 @@
 #include <vector>
 #include "SceneBase.h"
 #include "Player.h"
+#include "GameObjectManager.h"
 
 class SceneTest : public SceneBase
 {
@@ -27,6 +28,8 @@ protected:
 	
 	Player* player;
 	GameObject* testobj, *testWall;
+
+	GameObjectManager* goManager;
 
 	float m_speed;
 	float m_screenWidth;

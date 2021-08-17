@@ -121,6 +121,16 @@ Vector3 Physics::GetGravity()
 	return gravity;
 }
 
+void Physics::SetOnGround(bool onGround)
+{
+	this->onGround = onGround;
+}
+
+bool Physics::GetOnGround()
+{
+	return onGround;
+}
+
 /**
  @brief Set Collision Normal
  @param _collisioNormal A vector3 which sets the collision Normal
