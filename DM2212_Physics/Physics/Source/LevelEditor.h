@@ -36,6 +36,7 @@ protected:
 	
 	bool mapLoaded;
 	std::string mapName;
+	bool unsavedChanges;
 
 	bool showGrid;
 	bool snapPosToGrid;

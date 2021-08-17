@@ -57,12 +57,13 @@ public:
 		GEO_CUBE = 3,
 
 		//Tiles Enum Start
-		//NOTE: DO NOT ADD ANY NEW TILES ABOVE EXISTING ONES.
-		//Add it right before GEO_TILES_END.
+		//Make sure to use = to ensure maintenance of IDs (to never conflict)
 		GEO_TILES_START = 4,
-		GEO_TILEGRID,
+		GEO_TILEGRID = 5,
 
-		GEO_BLOCK_UP_RED,
+		GEO_PLAYER_GIRL1 = 10,
+
+		GEO_BLOCK_UP_RED = 25,
 
 		//Tiles End
 		GEO_TILES_END,
@@ -126,7 +127,7 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	void LoadTile(GEOMETRY_TYPE type, std::string fileName, int length, int height, SHAPE_TYPE shapeType);
+	void LoadTile(GEOMETRY_TYPE type, std::string fileName, double length, double height, SHAPE_TYPE shapeType);
 	TileSetting* GetTileSetting(GEOMETRY_TYPE type);
 
 	void RenderText(Mesh* mesh, std::string text, Color color);
@@ -160,9 +161,9 @@ protected:
 
 struct TileSetting
 {
-	int gridLength, gridHeight;
+	double gridLength, gridHeight;
 	SHAPE_TYPE shapeType;
-	TileSetting(int length = 1, int height = 1, SHAPE_TYPE shape = SHAPE_TYPE::RECTANGLE) : gridLength(length), gridHeight(height), shapeType(shape) {}
+	TileSetting(double length = 1, double height = 1, SHAPE_TYPE shape = SHAPE_TYPE::RECTANGLE) : gridLength(length), gridHeight(height), shapeType(shape) {}
 };
 
 #endif
