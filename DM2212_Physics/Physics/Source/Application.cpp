@@ -14,6 +14,8 @@
 
 #include "SceneCollision.h"
 #include "SceneTest.h"
+#include "LevelEditor.h"
+#include "ScenePhysics.h"
 
 //Gamestate manager
 #include "GameStateManagement/GameStateManager.h"

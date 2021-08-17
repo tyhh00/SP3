@@ -19,10 +19,10 @@ void SceneTest::Init()
 	SceneBase::Init();
 
 	// Calculating aspect ratio
-	m_worldHeight = 100.f;
-	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	m_screenHeight = 100.f;
-	m_screenWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
+	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
+	m_worldHeight = m_screenHeight * 3;
+	m_worldWidth = m_screenWidth * 5;
 
 	//Physics code here
 	m_speed = 1.f;
@@ -30,25 +30,31 @@ void SceneTest::Init()
 
 	Math::InitRNG();
 
+	meshList[GEO_WALL] = MeshBuilder::GenerateQuad("Wall", Color(1, 1, 1), 2.0f);
+	meshList[GEO_BALL] = MeshBuilder::GenerateCircle("circle", 1.0f, Color(1, 1, 1));
 
 	player = new Player;
-	player->Init();
-	player->active = true;
-	player->type = GameObject::GO_BALL;
-	player->pos.Set(m_worldWidth * 0.5, m_worldHeight * 0.5, 0);
 	player->scale.Set(3, 3, 3);
-	player->vel.SetZero();
-
-	m_goList.push_back(player);
+	player->Init();
+	player->pos.Set(m_worldWidth * 0.5, m_worldHeight * 0.5, 0);
 
 
 	testobj = FetchGO(GameObject::GO_BALL);
 	testobj->scale.Set(5, 5, 5);
 	testobj->pos.Set(player->pos.x + 100, player->pos.y, player->pos.z);
 
+	testWall = FetchGO(false);
+	testWall->type = GameObject::GO_WALL;
+	testWall->physics->SetVelocity(Vector3(1, 0, 0));
+	testWall->physics->shapeType = RECTANGLE;
+	testWall->pos.Set(player->pos.x, player->pos.y - 20, 0);
+	testWall->scale.Set(5, 10, 1);
+	testWall->physics->SetNormal(Vector3(0, 1, 0));
 
+	
 	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
-	camera.SetFocusTarget(player);
+	camera.SetFocusTarget(player->pos);
+	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 }
 
 GameObject* SceneTest::FetchGO()
@@ -96,6 +102,30 @@ GameObject* SceneTest::FetchGO(GameObject::GAMEOBJECT_TYPE type)
 	return FetchGO(type);
 }
 
+GameObject* SceneTest::FetchGO(bool isMovable)
+{
+
+	// Fetch a game object from m_goList and return it
+	for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
+	{
+		GameObject* go = (GameObject*)*it;
+		if (!go->active)
+		{
+			go->active = true;
+			go->physics->SetMovable(isMovable);
+			return go;
+		}
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		GameObject* temp = new GameObject;
+		m_goList.push_back(temp);
+	}
+
+
+	return FetchGO(isMovable);
+}
+
 void SceneTest::ReturnGO(GameObject *go)
 {
 	go->active = false;
@@ -121,7 +151,8 @@ void SceneTest::Update(double dt)
 	{
 		bLButtonState = true;
 		std::cout << "LBUTTON DOWN" << std::endl;
-		camera.SetFocusTarget(player, true);
+		camera.ToggleAutoLock(true);
+		//camera.SetFocusTarget(player->pos, true);
 
 	}
 	else if(bLButtonState && !Application::IsMousePressed(0))
@@ -135,7 +166,8 @@ void SceneTest::Update(double dt)
 	{
 		bRButtonState = true;
 		std::cout << "RBUTTON DOWN" << std::endl;
-		camera.SetFocusTarget(testobj, true);
+		camera.ToggleAutoLock(false);
+		camera.SetFocusTarget(testobj->pos, true);
 		
 	}
 	else if(bRButtonState && !Application::IsMousePressed(1))
@@ -146,19 +178,221 @@ void SceneTest::Update(double dt)
 	}
 
 	player->Update(dt);
-	camera.Update(dt);
+	camera.Update(player->pos, dt);
 
 	// Game Objects
-	for(std::vector<GameObject *>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
-	{
-		GameObject *go = (GameObject *)*it;
-		if(go->active)
-		{		
-			// ...
+	
+		
+		
+	player->physics->Update(dt);
+	player->pos += player->physics->GetVelocity() * m_speed * dt;
+	player->physics->pos = player->pos;
+	player->physics->scale = player->scale;
 
+	if (CheckCollision(player, testWall, dt))
+	{
+		player->physics->CollisionResponse(player->physics, testWall->physics, dt);
+	}
+		
+	
+
+}
+
+bool SceneTest::CheckCollision(GameObject* go1, GameObject* go2, float dt)
+{
+	// in case of self collision
+	/*if (go1 == go2)
+	{
+		return false;
+	}*/
+	if (go1->physics->shapeType == CIRCLE)
+	{
+		switch (go2->physics->shapeType)
+		{
+		case CIRCLE:
+		{
+			Vector3 dis = go2->pos - go1->pos;
+			float disSquared = dis.LengthSquared();
+			if (disSquared <= (go1->scale.x + go2->scale.x) * (go1->scale.x + go2->scale.x) && dis.Dot(go1->physics->GetVelocity() - go2->physics->GetVelocity()) > 0)
+			{
+				return true;
+			}
+		}
+		break;
+		case RECTANGLE:
+			Vector3 dis = go2->pos - go1->pos;
+			Vector3 N = go2->physics->GetNormal();
+			if (dis.Dot(N) < 0)
+			{
+				N = -1 * N;
+			}
+			Vector3 NP(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1->scale.x + go2->scale.x
+				&& abs(dis.Dot(NP)) < go2->scale.y
+				&& go1->physics->GetVelocity().Dot(N) > 0)
+			{
+				go2->physics->SetCollisionNormal(N);
+				return true;
+			}
+
+			N = NP;
+			if (dis.Dot(N) < 0)
+			{
+				N = -1 * N;
+			}
+			NP.Set(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1->scale.y + go2->scale.y
+				&& abs(dis.Dot(NP)) < go2->scale.x
+				&& go1->physics->GetVelocity().Dot(N) > 0)
+			{
+				go2->physics->SetCollisionNormal(N);
+				return true;
+			}
+			break;
+		}
+		return false;
+	}
+	else
+	{
+		switch (go2->physics->shapeType)
+		{
+		case CIRCLE:
+		{
+			Vector3 dis = go2->pos - go1->pos;
+			Vector3 N = go2->physics->GetNormal();
+			if (dis.Dot(N) < 0)
+			{
+				N = -1 * N;
+			}
+			Vector3 NP(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1->scale.x + go2->scale.x
+				&& abs(dis.Dot(NP)) < go2->scale.y
+				&& go1->physics->GetVelocity().Dot(N) > 0)
+			{
+				go2->physics->SetCollisionNormal(N);
+				return true;
+			}
+
+			N = NP;
+			if (dis.Dot(N) < 0)
+			{
+				N = -1 * N;
+			}
+			NP.Set(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1->scale.y + go2->scale.y
+				&& abs(dis.Dot(NP)) < go2->scale.x
+				&& go1->physics->GetVelocity().Dot(N) > 0)
+			{
+				go2->physics->SetCollisionNormal(N);
+				return true;
+			}
+		}
+		break;
+		case RECTANGLE:
+			Vector3 dis = go2->pos - go1->pos;
+			Vector3 N = go2->physics->GetNormal();
+			if (dis.Dot(N) < 0)
+			{
+				N = -1 * N;
+			}
+			Vector3 NP(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1->scale.x + go2->scale.x
+				&& abs(dis.Dot(NP)) < go2->scale.y
+				&& go1->physics->GetVelocity().Dot(N) > 0)
+			{
+				go2->physics->SetCollisionNormal(N);
+				return true;
+			}
+
+			N = NP;
+			if (dis.Dot(N) < 0)
+			{
+				N = -1 * N;
+			}
+			NP.Set(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1->scale.y + go2->scale.y
+				&& abs(dis.Dot(NP)) < go2->scale.x
+				&& go1->physics->GetVelocity().Dot(N) > 0)
+			{
+				go2->physics->SetCollisionNormal(N);
+				return true;
+			}
+			break;
 		}
 	}
 
+
+	/*switch (go2->type)
+	{
+	case GameObject::GO_BALL:
+	{
+		Vector3 dis = go2->pos - go1->pos;
+		float disSquared = dis.LengthSquared();
+		if (disSquared <= (go1->scale.x + go2->scale.x) * (go1->scale.x + go2->scale.x) && dis.Dot(go1->physics->GetVelocity() - go2->physics->GetVelocity()) > 0)
+		{
+			return true;
+		}
+		return false;
+	}
+	break;
+	case GameObject::GO_MWALL:
+	{
+		Vector3 dis = go2->pos - go1->pos;
+		Vector3 N = go2->physics->GetNormal();
+		if (dis.Dot(N) < 0)
+		{
+			N = -1 * N;
+		}
+		Vector3 NP(N.y, -1 * N.x, 0);
+
+		if (dis.Dot(N) < go1->scale.x + go2->scale.x
+			&& abs(dis.Dot(NP)) < go2->scale.y
+			&& go1->physics->GetVelocity().Dot(N) > 0)
+		{
+			go2->physics->SetCollisionNormal(N);
+			return true;
+		}
+
+		N = NP;
+		if (dis.Dot(N) < 0)
+		{
+			N = -1 * N;
+		}
+		NP.Set(N.y, -1 * N.x, 0);
+
+		if (dis.Dot(N) < go1->scale.x + go2->scale.x
+			&& abs(dis.Dot(NP)) < go2->scale.y
+			&& go1->physics->GetVelocity().Dot(N) > 0)
+		{
+			go2->physics->SetCollisionNormal(N);
+			return true;
+		}
+		return false;
+	}
+	break;
+	case GameObject::GO_MPILLAR:
+	{
+		Vector3 u = go1->physics->GetVelocity();
+		Vector3 go2pos(go2->pos.x, go2->pos.y, 0);
+		Vector3 dis = go2pos - go1->pos;
+		if (dis.Length() < go1->scale.x + go2->scale.x
+			&& u.Dot(dis) > 0)
+		{
+			return true;
+		}
+		return false;
+	}
+	break;
+	default:
+		break;
+	}*/
+	return false;
 }
 
 void SceneTest::Constraint(GameObject* ball, GameObject* other)
@@ -174,27 +408,27 @@ void SceneTest::Constraint(GameObject* ball, GameObject* other)
 	}
 	else if (other->type == GameObject::GO_RPILLAR)
 	{
-		float angle = atan2(other->dir.y, other->dir.x);
-		float theta = Math::DegreeToRadian(other->rotateZ);
+		float angle = atan2(other->physics->GetDir().y, other->physics->GetDir().x);
+		float theta = Math::DegreeToRadian(other->physics->GetRotateZ());
 		otherPos.Set(other->pos.x + 8.0f * cos(angle + theta), other->pos.y + 8.0f * sin(angle + theta), 0);
 		iN = (ball->pos - otherPos).Normalized();
 	}
 	else if (other->type == GameObject::GO_WALL || other->type == GameObject::GO_ONESIDEDWALL 
 		|| other->type == GameObject::GO_MWALL || other->type == GameObject::GO_BWALL)
 	{
-		if (ball->vel.Dot(other->normal) < 0)
+		if (ball->physics->GetVelocity().Dot(other->physics->GetNormal()) < 0)
 		{
-			iN = other->normal;
+			iN = other->physics->GetNormal();
 		}
 		else
 		{
-			iN = -1 * other->normal;
+			iN = -1 * other->physics->GetNormal();
 		}
 	}
 	else if (other->type == GameObject::GO_RWALL)
 	{
-		float angle = atan2(other->normal.y, other->normal.x);
-		float theta = Math::DegreeToRadian(other->rotateZ);
+		float angle = atan2(other->physics->GetNormal().y, other->physics->GetNormal().x);
+		float theta = Math::DegreeToRadian(other->physics->GetRotateZ());
 		float angle90 = Math::DegreeToRadian(90);
 		Vector3 wallpos(other->pos.x + other->scale.y * cos(angle + theta + angle90), other->pos.y + other->scale.y * sin(angle + theta + angle90), 0);
 		otherPos = wallpos;
@@ -207,13 +441,13 @@ void SceneTest::Constraint(GameObject* ball, GameObject* other)
 	}
 	else if (other->type == GameObject::GO_SPRING)
 	{
-		if (ball->vel.Dot(other->normal) < 0)
+		if (ball->physics->GetVelocity().Dot(other->physics->GetNormal()) < 0)
 		{
-			iN = other->normal;
+			iN = other->physics->GetNormal();
 		}
 		else
 		{
-			iN = -1 * other->normal;
+			iN = -1 * other->physics->GetNormal();
 		}
 	}
 	else if (other->type == GameObject::GO_BALL || other->type == GameObject::GO_100
@@ -223,7 +457,7 @@ void SceneTest::Constraint(GameObject* ball, GameObject* other)
 	}
 	else if (other->type == GameObject::GO_BONUS)
 	{
-		iN = -1 * other->normal;
+		iN = -1 * other->physics->GetNormal();
 		otherPos = other->pos;
 		otherPos.y -= other->scale.y * 0.5;
 		combinedR = ball->scale.x;
@@ -272,7 +506,7 @@ void SceneTest::RenderGO(GameObject *go)
 	case GameObject::GO_MWALL:
 	case GameObject::GO_BWALL:
 	{
-		float angle = Math::RadianToDegree(atan2(go->normal.y, go->normal.x));
+		float angle = Math::RadianToDegree(atan2(go->physics->GetNormal().y, go->physics->GetNormal().x));
 		
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
@@ -284,10 +518,10 @@ void SceneTest::RenderGO(GameObject *go)
 	break;
 	case GameObject::GO_RWALL:
 	{
-		float angle = Math::RadianToDegree(atan2(go->normal.y, go->normal.x));
+		float angle = Math::RadianToDegree(atan2(go->physics->GetNormal().y, go->physics->GetNormal().x));
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(angle + go->rotateZ, 0, 0, 1);
+		modelStack.Rotate(angle + go->physics->GetRotateZ(), 0, 0, 1);
 		modelStack.Translate(0, go->scale.y, 0);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_WALL], false);
@@ -321,8 +555,8 @@ void SceneTest::RenderGO(GameObject *go)
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 
-		modelStack.Rotate(go->rotateZ, 0, 0, 1);
-		modelStack.Translate(go->dir.x * 8.0f, go->dir.y * 8.0f, 0);
+		modelStack.Rotate(go->physics->GetRotateZ(), 0, 0, 1);
+		modelStack.Translate(go->physics->GetDir().x * 8.0f, go->physics->GetDir().y * 8.0f, 0);
 
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		modelStack.Rotate(90, 1, 0, 0);
@@ -466,16 +700,21 @@ void SceneTest::Render()
 		}
 	}
 
+	modelStack.PushMatrix();
+	modelStack.Translate(player->pos.x, player->pos.y, player->pos.z);
+	RenderMesh(player->mesh, false);
+	modelStack.PopMatrix();
+
 	std::ostringstream ss;
 	ss.str("");
-	ss << "cam target: " << camera.target;
+	ss << "player vel: " << player->physics->GetVelocity();
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
 	ss.str("");
-	ss << "cam pos: " << camera.position;
+	ss << "player pos: " << player->pos;
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);
-	ss.str("");
-	ss << "player: " << player->pos;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);
+	//ss.str("");
+	//ss << "player: " << player->pos;
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);
 	
 
 
@@ -497,6 +736,12 @@ void SceneTest::Exit()
 		GameObject *go = m_goList.back();
 		delete go;
 		m_goList.pop_back();
+	}
+
+	if (player)
+	{
+		delete player;
+		player = NULL;
 	}
 	
 }

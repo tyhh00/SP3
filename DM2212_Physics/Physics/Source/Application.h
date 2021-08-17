@@ -10,8 +10,9 @@ class Application
 public:
 	enum SCENE_TYPE
 	{
-		S_COLLISION,
+		S_PHYSICS,
 		S_TEST,
+		S_LEVELEDITOR,
 		
 
 		SCENE_TOTAL

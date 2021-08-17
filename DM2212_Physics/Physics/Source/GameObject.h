@@ -3,6 +3,8 @@
 
 #include "Vector3.h"
 #include "Material.h"
+#include "Mesh.h"
+#include "Physics.h"
 
 struct GameObject
 {
@@ -33,23 +35,21 @@ struct GameObject
 		GO_50, // ELASTIC + SCORE
 		GO_10, // ELASTIC + SCORE
 
+		GO_TILE, //Size 2.f Object representing all Grid Tiles
+		GO_TILE_DECORATIVE,
+
 		GO_HIGHLIGHT,
 
 		GO_TOTAL, //must be last
 	};
+
+	Mesh* mesh;
+
 	GAMEOBJECT_TYPE type;
+
 	bool active;
 	Vector3 pos;
-	Vector3 vel;
 	Vector3 scale;
-
-	float rotateZ;
-	Vector3 dir;
-
-	Vector3 normal;
-	float momentOfInertia;
-	float angularVelocity;
-	float mass;
 
 	double fireInterval;
 	int maxHP, currentHP;
@@ -57,13 +57,15 @@ struct GameObject
 
 	Material mat;
 
+	Physics* physics;
 
-	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);
+	GameObject(GAMEOBJECT_TYPE typeValue = GO_NONE, SHAPE_TYPE shapeType = RECTANGLE);
+	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, SHAPE_TYPE shapeType = RECTANGLE);
+
 	~GameObject();
 
 	virtual void Init();
 	virtual void Update();
-	virtual void Render();
 
 };
 
