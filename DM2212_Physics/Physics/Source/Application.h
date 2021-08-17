@@ -34,6 +34,8 @@ public:
 	static int GetWindowWidth();
 	static int GetWindowHeight();
 
+
+
 private:
 	Scene* sceneArray[SCENE_TOTAL];
 	static int index;
@@ -43,6 +45,7 @@ private:
 
 	//Declare a window object
 	StopWatch m_timer;
+
 };
 
 #endif
