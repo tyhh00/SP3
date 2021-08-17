@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Apple.cpp" />
+    <ClCompile Include="Source\Cheese.cpp" />
     <ClCompile Include="Source\Consumable.cpp" />
     <ClCompile Include="Source\GameObjectManager.cpp" />
     <ClCompile Include="Source\LevelEditor.cpp" />
@@ -180,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Apple.h" />
+    <ClInclude Include="Source\Cheese.h" />
     <ClInclude Include="Source\Consumable.h" />
     <ClInclude Include="Source\Debug.h" />
     <ClInclude Include="Source\GameObjectManager.h" />

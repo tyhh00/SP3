@@ -1,4 +1,5 @@
-﻿#include "Physics.h"
+﻿
+#include "Physics.h"
 
 Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale)
 	: pos(_pos)
@@ -20,87 +21,147 @@ Physics::~Physics()
 {
 }
 
+/**
+ @brief Update Physics
+ @param dt A double for delta time
+ */
 void Physics::Update(double dt)
 {
 	vel.y += gravity.y * dt;
 }
 
+/**
+ @brief Set Velocity
+ @param _vel A vector3 which sets the vel
+ */
 void Physics::SetVelocity(Vector3 _vel)
 {
 	vel = _vel;
 }
 
+/**
+ @brief Get Velocity
+ */
 Vector3 Physics::GetVelocity()
 {
 	return vel;
 }
 
+/**
+ @brief Set Normal
+ @param _normal A vector3 which sets the normal
+ */
 void Physics::SetNormal(Vector3 _normal)
 {
 	normal = _normal;
 }
 
+/**
+ @brief Get Normal
+ */
 Vector3 Physics::GetNormal()
 {
 	return normal;
 }
 
+/**
+ @brief Set Dir
+ @param _dir A vector3 which sets the dir
+ */
 void Physics::SetDir(Vector3 _dir)
 {
 	dir = _dir;
 }
 
+/**
+ @brief Get Dir
+ */
 Vector3 Physics::GetDir()
 {
 	return dir;
 }
 
+/**
+ @brief Set Gravity
+ @param _gravity A vector3 which sets the gravity
+ */
 void Physics::SetGravity(Vector3 _gravity)
 {
 	gravity = _gravity;
 }
 
+/**
+ @brief Get Gravity
+ */
 Vector3 Physics::GetGravity()
 {
 	return gravity;
 }
 
+/**
+ @brief Set Collision Normal
+ @param _collisioNormal A vector3 which sets the collision Normal
+ */
 void Physics::SetCollisionNormal(Vector3 _collisionNormal)
 {
 	collisionNormal = _collisionNormal;
 }
 
+/**
+ @brief Set Mass
+ @param _mass A float which sets the mass
+ */
 void Physics::SetMass(float _mass)
 {
 	mass = _mass;
 }
 
+/**
+ @brief Get Mass
+ */
 float Physics::GetMass()
 {
 	return mass;
 }
 
+/**
+ @brief Set RotateZ
+ @param _rotateZ A float which sets the rotateZ
+ */
 void Physics::SetRotateZ(float _rotateZ)
 {
 	rotateZ = _rotateZ;
 }
 
+/**
+ @brief Get RotateZ
+ */
 float Physics::GetRotateZ()
 {
 	return rotateZ;
 }
 
+/**
+ @brief Sets the object to be movable or not
+ @param _movable A bool which sets the movable
+ */
 void Physics::SetMovable(bool _movable)
 {
 	isMovable = _movable;
 }
 
+/**
+ @brief Collision Response between 2 objects
+ @param go1 A physics component of the first object
+ @param go2 A physics component of the second object
+ @param dt A double for delta time
+ */
 void Physics::CollisionResponse(Physics* go1, Physics* go2, double dt)
 {
 	//no need to check if go1 is movable since go1 will only represent moving entities
 	if (go2->isMovable)
 	{
-		if (go1->shapeType == CIRCLE)
+		if (go1->shapeType == CIRCLE) //if go1 is moving circle
 		{
 			int m1 = go1->mass;
 			int m2 = go2->mass;
@@ -110,13 +171,13 @@ void Physics::CollisionResponse(Physics* go1, Physics* go2, double dt)
 			Vector3 N = (go1->pos - go2->pos).Normalized();
 			switch (go2->shapeType)
 			{
-			case CIRCLE:
+			case CIRCLE: //if go2 is moving circle
 				go1->vel = u1 + (2 * m2 / (m1 + m2)) * ((u2 - u1).Dot(N)) * N;
 				go2->vel = u2 + (2 * m1 / (m1 + m2)) * ((u1 - u2).Dot(N)) * N;
 				ApplyFriction(go1, N, dt);
 				ApplyFriction(go2, N, dt);
 				break;
-			case RECTANGLE:
+			case RECTANGLE: //if go2 is moving rectangle
 				Vector3 N = go2->collisionNormal;
 				Vector3 Rvel = go1->vel - go2->vel;
 				go1->vel = go1->vel - 2 * Rvel.Dot(N) * (N);
@@ -127,12 +188,12 @@ void Physics::CollisionResponse(Physics* go1, Physics* go2, double dt)
 				break;
 			}
 		}
-		else
+		else //if go1 is moving rectangle
 		{
 
 			switch (go2->shapeType)
 			{
-			case CIRCLE:
+			case CIRCLE: //if go2 is moving circle
 			{
 				int m1 = go1->mass;
 				int m2 = go2->mass;
@@ -147,7 +208,7 @@ void Physics::CollisionResponse(Physics* go1, Physics* go2, double dt)
 				ApplyFriction(go2, N, dt);
 			}
 			break;
-			case RECTANGLE:
+			case RECTANGLE: //if go2 is moving rectangle
 				Vector3 N = go2->collisionNormal;
 				Vector3 Rvel = go1->vel - go2->vel;
 				go1->vel = go1->vel - 2 * Rvel.Dot(N) * (N);
@@ -227,6 +288,12 @@ void Physics::CollisionResponse(Physics* go1, Physics* go2, double dt)
 	}
 }
 
+/**
+ @brief Apply friction between 2 physics components
+ @param ball A physics component of the first object
+ @param normal A Vector3 for the normal of the second object
+ @param dt A double for delta time
+ */
 void Physics::ApplyFriction(Physics* ball, Vector3 normal, double dt)
 {
 	// - velocity parallel to surface by amount of Nforce
@@ -240,6 +307,12 @@ void Physics::ApplyFriction(Physics* ball, Vector3 normal, double dt)
 	ball->vel = ball->vel - FRICTION_K * Nforce * plane * dt;
 }
 
+/**
+ @brief Apply inelastic collision between 2 physics components
+ @param ball A physics component of the first object
+ @param normal A Vector3 for the normal of the second object
+ @param dt A double for delta time
+ */
 void Physics::ApplyInelastic(Physics* ball, Vector3 normal, double dt)
 {
 	// - 50% of velocity in the direction of the normal
@@ -252,6 +325,12 @@ void Physics::ApplyInelastic(Physics* ball, Vector3 normal, double dt)
 	ball->vel = ball->vel - 0.5f * proj;
 }
 
+/**
+ @brief Apply normal contact force between 2 physics components
+ @param go1 A physics component of the first object
+ @param go2 A physics component of the second object
+ @param dt A double for delta time
+ */
 void Physics::ApplyContactForce(Physics* go1, Physics* go2, bool applyForBall)
 {
 	//get go2's collision normal
