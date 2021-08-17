@@ -1,4 +1,8 @@
-﻿
+﻿/**
+ Physics Class
+ By: Jordan Low
+ Date: 17 Aug 2021
+ */
 #include "Physics.h"
 
 Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale)
