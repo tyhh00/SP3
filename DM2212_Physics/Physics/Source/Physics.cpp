@@ -171,6 +171,11 @@ void Physics::SetMovable(bool _movable)
 	isMovable = _movable;
 }
 
+bool Physics::GetMovable()
+{
+	return isMovable;
+}
+
 /**
  @brief Collision Response between 2 objects
  @param go1 A physics component of the first object

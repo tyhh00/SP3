@@ -9,6 +9,7 @@
 #include "Apple.h"
 #include "Cheese.h"
 #include "Keyboard.h"
+#include "GameObjectManager.h"
 
 class ScenePhysics : public SceneBase
 {
@@ -30,9 +31,6 @@ protected:
 	float m_gameWidth;
 	float m_worldHeight;
 
-	std::vector<GameObject*> m_movableGOList;
-	std::vector<GameObject*> m_stationaryGOList;
-
 	GameObject* go;
 	Inventory* inventory;
 	Keyboard* keyboard;
@@ -42,6 +40,8 @@ protected:
 	void ApplyFriction(GameObject* ball, Vector3 normal, double dt); // Apply Friction
 	void ApplyInelastic(GameObject* ball, Vector3 normal, double dt); //Decrease vel of object
 	void CollisionResponse(GameObject* go1, GameObject* go2, float dt);
+	Keyboard kb;
+	GameObjectManager* goManager;
 };
 
 #endif
