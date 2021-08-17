@@ -49,12 +49,13 @@ bool CPlayGameState::Init(void)
  */
 bool CPlayGameState::Update(const double dElapsedTime)
 {
-	sceneManager->getScene()->Update(dElapsedTime);
-	if (Application::IsKeyPressed(VK_ESCAPE))
+	sceneManager->update(dElapsedTime);
+
+	if (Application::IsKeyPressed('5'))
 	{
 		// Load the menu state
-		cout << "Loading MenuState" << endl;
-		CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
+		cout << "Loading LobbyState" << endl;
+		CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
 		return true;
 	}
 	return true;
@@ -66,7 +67,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 void CPlayGameState::Render(void)
 {
 	cout << "CPlayGameState::Render()\n" << endl;
-	sceneManager->getScene()->Render();
+	sceneManager->render();
 
 }
 

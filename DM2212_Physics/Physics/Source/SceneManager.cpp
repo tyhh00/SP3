@@ -5,9 +5,8 @@
 using namespace std;
 
 SceneManager::SceneManager()
+	: activeScene(NULL)
 {
-	Scene* worldScene = new SceneCollision();
-	scenes.push_back(worldScene);
 }
 
 SceneManager::~SceneManager()
@@ -16,23 +15,50 @@ SceneManager::~SceneManager()
 
 void SceneManager::init()
 {
-	for (int i = 0; i < scenes.size(); i++)
-	{
-		scenes.at(i)->Init();
-	}
-	activeScene = collision;
+	physics = new ScenePhysics();
+	physics->Init();
+	test = new SceneTest();
+	test->Init();
+	levelEditor = new LevelEditor();
+	levelEditor->Init();
 }
 
-Scene* SceneManager::getScene()
+void SceneManager::setScene(worlds sceneType)
 {
-	return scenes[activeScene];
+	
+
+	switch (sceneType)
+	{
+	case w_physics:
+		activeScene = physics;
+		break;
+	case w_test:
+		activeScene = test;
+		break;
+	case w_levelEditor:
+		activeScene = levelEditor;
+		break;
+	}
+	
+}
+void SceneManager::update(double dt)
+{
+	activeScene->Update(dt);
+
+}
+
+void SceneManager::render()
+{
+	activeScene->Render();
 }
 
 void SceneManager::destroy()
 {
-	for (int i = 0; i < scenes.size(); i++)
-	{
-		scenes.at(i)->Exit();
-	}
+	
+	physics->Exit();
+	
+	test->Exit();
+	
+	levelEditor->Exit();
 }
 

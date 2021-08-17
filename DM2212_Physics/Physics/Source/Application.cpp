@@ -11,22 +11,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-#include "SceneCollision.h"
-#include "SceneTest.h"
-#include "LevelEditor.h"
-#include "ScenePhysics.h"
-
 //Gamestate manager
 #include "GameStateManagement/GameStateManager.h"
 #include "GameStateManagement/IntroState.h"
 #include "GameStateManagement/MenuState.h"
+#include "GameStateManagement/LobbyState.h"
 #include "GameStateManagement/PlayGameState.h"
 
-//scene manager
-#include "SceneManager.h"
-
-int Application::index = S_TEST;
 bool Application::quit = false;
 
 GLFWwindow* m_window;
@@ -113,6 +104,7 @@ void Application::Init()
 	//create gamestates
 	CGameStateManager::GetInstance()->AddGameState("IntroState", new CIntroState());
 	CGameStateManager::GetInstance()->AddGameState("MenuState", new CMenuState());
+	CGameStateManager::GetInstance()->AddGameState("LobbyState", new CLobbyState());
 	CGameStateManager::GetInstance()->AddGameState("PlayGameState", new CPlayGameState());
 
 	//set active scene
@@ -154,7 +146,7 @@ void Application::Run()
 	//sceneArray[S_COLLISION] = new SceneCollision();
 	//sceneArray[S_TEST] = new SceneTest();
 	
-	double dElapsedTime = 0.0;
+	//double dElapsedTime = 0.0;
 
 	/*for (int i = 0; i < SCENE_TOTAL; i++)
 	{
@@ -167,7 +159,7 @@ void Application::Run()
 			dElapsedTime = 0.0166666666666667;*/
 
 		//update gamestate manager
-		if (CGameStateManager::GetInstance()->Update(dElapsedTime) == false)
+		if (CGameStateManager::GetInstance()->Update(m_timer.getElapsedTime()) == false)
 		{
 			break;
 		}
@@ -190,11 +182,6 @@ void Application::Run()
 		sceneArray[i]->Exit();
 		delete sceneArray[i];
 	}*/
-}
-
-void Application::SwitchScene(SCENE_TYPE type)
-{
-	index = type;
 }
 
 void Application::Exit()

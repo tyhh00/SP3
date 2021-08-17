@@ -107,7 +107,7 @@ bool CMenuState::Update(const double dElapsedTime)
 		cout << "space key pressed" << endl;
 		// Load the menu state
 		cout << "Loading PlayGameState" << endl;
-		CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+		CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
 		return true;
 	}
 	return true;

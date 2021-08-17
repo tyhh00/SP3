@@ -8,15 +8,6 @@ class Application
 {
 	
 public:
-	enum SCENE_TYPE
-	{
-		S_PHYSICS,
-		S_TEST,
-		S_LEVELEDITOR,
-		
-
-		SCENE_TOTAL
-	};
 	static Application& GetInstance()
 	{
 		static Application app;
@@ -31,16 +22,12 @@ public:
 	static bool IsKeyPressed(unsigned short key);
 	static bool IsMousePressed(unsigned short key);
 	static void GetCursorPos(double *xpos, double *ypos);
-	static void SwitchScene(SCENE_TYPE type);
 	static int GetWindowWidth();
 	static int GetWindowHeight();
 
 
 
 private:
-	Scene* sceneArray[SCENE_TOTAL];
-	static int index;
-
 	Application();
 	~Application();
 

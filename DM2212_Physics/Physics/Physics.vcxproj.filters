@@ -95,6 +95,9 @@
     <ClCompile Include="Source\GameStateManagement\PlayGameState.cpp">
       <Filter>Source Files\GameStateManagement</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GameStateManagement\LobbyState.cpp">
+      <Filter>Source Files\GameStateManagement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -173,7 +176,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Shape.h">
-	      <Filter>Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\ScenePhysics.h">
       <Filter>Header Files</Filter>
@@ -194,6 +197,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameStateManagement\PlayGameState.h">
+      <Filter>Source Files\GameStateManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameStateManagement\LobbyState.h">
       <Filter>Source Files\GameStateManagement</Filter>
     </ClInclude>
   </ItemGroup>

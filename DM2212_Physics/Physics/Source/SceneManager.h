@@ -3,28 +3,32 @@
 #include "SingletonTemplate.h"
 
 //Worlds
-#include "SceneCollision.h"
+#include "ScenePhysics.h"
 #include "SceneTest.h"
+#include "LevelEditor.h"
 
 enum worlds
 {
-	collision = 0,
-	test,
-	sceneTotal
+	w_physics = 0,
+	w_test,
+	w_levelEditor,
+	w_sceneTotal
 };
 
 class SceneManager : public SceneBase, public CSingletonTemplate<SceneManager>
 {
 	friend CSingletonTemplate<SceneManager>;
 public:
-	int sceneNum;
-	std::vector<Scene*>scenes;
-	worlds activeScene;
+	int sceneNum; 
+	Scene* physics, * test, * levelEditor;
+	Scene* activeScene;
 
 	SceneManager();
 	~SceneManager();
 
 	void init();
-	Scene* getScene();
+	void setScene(worlds sceneType);
+	void update(double dt);
+	void render();
 	void destroy();
 };
