@@ -4,6 +4,10 @@
 #include "GameObject.h"
 #include <vector>
 #include "SceneBase.h"
+#include "Item.h"
+#include "Inventory.h"
+#include "Apple.h"
+#include "Cheese.h"
 
 class ScenePhysics : public SceneBase
 {
@@ -29,6 +33,7 @@ protected:
 	std::vector<GameObject*> m_stationaryGOList;
 
 	GameObject* go;
+	Inventory* inventory;
 
 	GameObject* FetchGO(bool isMovable);
 	bool CheckCollision(GameObject* go1, GameObject* go2, float dt); // Checks for collision

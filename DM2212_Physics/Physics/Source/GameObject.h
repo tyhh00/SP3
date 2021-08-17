@@ -66,6 +66,7 @@ struct GameObject
 
 	virtual void Init();
 	virtual void Update();
+	virtual GameObject* Clone();
 
 };
 

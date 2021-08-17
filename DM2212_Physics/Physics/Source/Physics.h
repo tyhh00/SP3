@@ -25,6 +25,9 @@ public:
 	SHAPE_TYPE shapeType;
 
 	Physics(SHAPE_TYPE, Vector3 pos, Vector3 scale);
+	Physics(SHAPE_TYPE, Vector3 pos, Vector3 scale, Vector3 vel, Vector3 normal, Vector3 dir, Vector3 gravity,
+		Vector3 collisionNormal, float mass, float momentOfIntertia, float angularVelocity, float rotateZ,
+		bool isMoveable);
 	~Physics();
 	void Update(double dt);
 
@@ -54,5 +57,7 @@ public:
 	void ApplyFriction(Physics* ball, Vector3 normal, double dt);
 	void ApplyInelastic(Physics* ball, Vector3 normal, double dt);
 	void ApplyContactForce(Physics* go1, Physics* go2, bool applyForBall = false);
+
+	Physics* Clone();
 };
 #endif
