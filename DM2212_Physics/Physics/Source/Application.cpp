@@ -11,14 +11,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//Gamestate manager
+#include "GameStateManagement/GameStateManager.h"
+#include "GameStateManagement/IntroState.h"
+#include "GameStateManagement/MenuState.h"
+#include "GameStateManagement/LobbyState.h"
+#include "GameStateManagement/PlayGameState.h"
 
-#include "SceneCollision.h"
-#include "SceneTest.h"
-#include "LevelEditor.h"
-#include "ScenePhysics.h"
-
-
-int Application::index = S_PHYSICS;
 bool Application::quit = false;
 
 GLFWwindow* m_window;
@@ -105,7 +104,15 @@ void Application::Init()
 	m_height = 900;
 //	m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
 	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
+	
+	//create gamestates
+	CGameStateManager::GetInstance()->AddGameState("IntroState", new CIntroState());
+	CGameStateManager::GetInstance()->AddGameState("MenuState", new CMenuState());
+	CGameStateManager::GetInstance()->AddGameState("LobbyState", new CLobbyState());
+	CGameStateManager::GetInstance()->AddGameState("PlayGameState", new CPlayGameState());
 
+	//set active scene
+	CGameStateManager::GetInstance()->SetActiveGameState("IntroState");
 
 	//If the window couldn't be created
 	if (!m_window)
@@ -140,19 +147,31 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	sceneArray[S_PHYSICS] = new ScenePhysics();
-	sceneArray[S_TEST] = new SceneTest();
-	sceneArray[S_LEVELEDITOR] = new LevelEditor();
+	//sceneArray[S_COLLISION] = new SceneCollision();
+	//sceneArray[S_TEST] = new SceneTest();
 	
-	for (int i = 0; i < SCENE_TOTAL; i++)
+	//double dElapsedTime = 0.0;
+
+	/*for (int i = 0; i < SCENE_TOTAL; i++)
 	{
 		sceneArray[i]->Init();
-	}
+	}*/
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !quit && !IsKeyPressed(VK_ESCAPE))
 	{
-		sceneArray[index]->Update(m_timer.getElapsedTime());
-		sceneArray[index]->Render();
+		/*if (dElapsedTime > 0.0166666666666667)
+			dElapsedTime = 0.0166666666666667;*/
+
+		//update gamestate manager
+		if (CGameStateManager::GetInstance()->Update(m_timer.getElapsedTime()) == false)
+		{
+			break;
+		}
+		//call active gamestate render method
+		CGameStateManager::GetInstance()->Render();
+
+		//sceneArray[index]->Update(m_timer.getElapsedTime());
+		//sceneArray[index]->Render();
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
@@ -162,20 +181,18 @@ void Application::Run()
 	} //Check if the ESC key had been pressed or if the window had been closed
 
 	//delete everyth
-	for (int i = 0; i < SCENE_TOTAL; i++)
+	/*for (int i = 0; i < SCENE_TOTAL; i++)
 	{
 		sceneArray[i]->Exit();
 		delete sceneArray[i];
-	}
-}
-
-void Application::SwitchScene(SCENE_TYPE type)
-{
-	index = type;
+	}*/
 }
 
 void Application::Exit()
 {
+	//Destroy CGameStateManager
+	CGameStateManager::GetInstance()->Destroy();
+
 	//Close OpenGL window and terminate GLFW
 	glfwDestroyWindow(m_window);
 	//Finalize and clean up GLFW
