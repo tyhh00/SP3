@@ -65,13 +65,22 @@
     <ClCompile Include="Source\SpriteAnimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	<ClCompile Include="Source\Inventory.cpp">
+    <ClCompile Include="Source\Inventory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	<ClCompile Include="Source\Item.cpp">
+    <ClCompile Include="Source\Item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	<ClCompile Include="Source\Physics.cpp">
+    <ClCompile Include="Source\Physics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Weapon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Consumable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Apple.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -139,16 +148,25 @@
     <ClInclude Include="Source\SpriteAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-	 <ClInclude Include="Source\Inventory.h">
+    <ClInclude Include="Source\Inventory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-	<ClInclude Include="Source\Item.h">
+    <ClInclude Include="Source\Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-	<ClInclude Include="Source\Physics.h">
+    <ClInclude Include="Source\Physics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Weapon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Consumable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Apple.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
