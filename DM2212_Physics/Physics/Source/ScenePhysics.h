@@ -8,6 +8,8 @@
 #include "Inventory.h"
 #include "Apple.h"
 #include "Cheese.h"
+#include "Keyboard.h"
+#include "GameObjectManager.h"
 
 class ScenePhysics : public SceneBase
 {
@@ -29,11 +31,10 @@ protected:
 	float m_gameWidth;
 	float m_worldHeight;
 
-	std::vector<GameObject*> m_movableGOList;
-	std::vector<GameObject*> m_stationaryGOList;
-
 	GameObject* go;
 	Inventory* inventory;
+	Keyboard* keyboard;
+	GameObjectManager* goManager;
 
 	GameObject* FetchGO(bool isMovable);
 	bool CheckCollision(GameObject* go1, GameObject* go2, float dt); // Checks for collision

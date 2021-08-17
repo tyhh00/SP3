@@ -1,4 +1,3 @@
-
 #include "Item.h"
 #include "Application.h"
 #include "MeshBuilder.h"
@@ -47,4 +46,26 @@ int Item::GetQuantity()
 void Item::SetQuantity(int _quantity)
 {
 	quantity = _quantity;
+}
+
+int Item::AddQuantity(int _quantity)
+{
+	int newQuantity = quantity + _quantity;
+	if (newQuantity > maxQuantity)
+	{
+		int remainderQuantity = newQuantity - maxQuantity;
+		return remainderQuantity;
+	}
+
+	quantity = newQuantity;
+}
+
+int Item::GetMaxQuantity()
+{
+	return maxQuantity;
+}
+
+void Item::SetMaxQuantity(int _maxQuantity)
+{
+	maxQuantity = _maxQuantity;
 }

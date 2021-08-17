@@ -119,6 +119,9 @@ public:
 		NUM_GEOMETRY,
 	};
 public:
+
+	MS modelStack;
+
 	SceneBase();
 	~SceneBase();
 
@@ -148,7 +151,6 @@ protected:
 
 	Camera camera;
 
-	MS modelStack;
 	MS viewStack;
 	MS projectionStack;
 
