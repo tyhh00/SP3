@@ -13,7 +13,6 @@
  */
 void Inventory::Init()
 {
-	
 }
 
 /**
@@ -24,12 +23,34 @@ void Inventory::Update(double dt)
 {
 	if (currentItem)
 		currentItem->Update(dt);
+
+
+	if (Application::IsKeyReleased(VK_LEFT))
+	{
+		std::cout << "cycle backward" << std::endl;
+		CycleItem(false);
+	}
+	if (Application::IsKeyReleased(VK_RIGHT))
+	{
+		std::cout << "cycle forward" << std::endl;
+		CycleItem(true);
+	}
+	if (Application::IsKeyReleased('5'))
+	{
+		std::cout << "1" << std::endl;
+		SwitchItem(0);
+	}
+	if (Application::IsKeyReleased('6'))
+	{
+		std::cout << "2" << std::endl;
+		SwitchItem(1);
+	}
 }
 
 /**
  @brief Cycle through current item with item vector
  */
-void Inventory::CycleItem()
+void Inventory::CycleItem(bool forward)
 {
 	int currentItemIndex = -1;
 	
@@ -38,14 +59,35 @@ void Inventory::CycleItem()
 	if (it != itemVector.end())
 		currentItemIndex = std::distance(itemVector.begin(), it);
 
-	//if successfully found curr item index
-	if (currentItemIndex != -1)
+	if (forward) //cycle forward
 	{
-		//if curr item index is the last element in vector
-		if (currentItemIndex == itemVector.size() - 1)
-			currentItemIndex = -1;
-		currentItem = itemVector[currentItemIndex + 1];
+		//if successfully found curr item index
+		if (currentItemIndex != -1)
+		{
+			//if curr item index is the last element in vector
+			if (currentItemIndex == itemVector.size() - 1)
+				currentItemIndex = -1;
+			currentItem = itemVector[currentItemIndex + 1];
+		}
 	}
+	else //cycle backwards
+	{
+		//if successfully found curr item index
+		if (currentItemIndex != -1)
+		{
+			//if curr item index is the last element in vector
+			if (currentItemIndex == 0)
+				currentItemIndex = itemVector.size();
+			currentItem = itemVector[currentItemIndex - 1];
+		}
+	}
+}
+
+void Inventory::SwitchItem(int index)
+{
+	if (index >= itemVector.size())
+		return;
+	currentItem = itemVector[index];
 }
 
 /**

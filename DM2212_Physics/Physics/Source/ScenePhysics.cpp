@@ -3,7 +3,7 @@
 #include "MeshBuilder.h"
 #include "Application.h"
 #include "LoadTGA.h"
-
+#include "Keyboard.h"
 #include <sstream>
 
 ScenePhysics::ScenePhysics()
@@ -126,17 +126,19 @@ void ScenePhysics::Update(double dt)
 {
 	SceneBase::Update(dt);
 	inventory->Update(dt);
-	
-	if (Application::IsKeyPressed('Q'))
+
+	if (Keyboard::IsKeyPressed('P'))
 	{
-		inventory->CycleItem();
+		std::cout << "W" << std::endl;
 	}
-	if (Application::IsKeyPressed('W'))
+
+	if (Application::IsKeyReleased('W'))
 	{
+		std::cout << "PRESSESD" << std::endl;
 		Apple* newApple = new Apple();
 		inventory->AddItem(newApple);
 	}
-	if (Application::IsKeyPressed('E'))
+	if (Application::IsKeyReleased('E'))
 	{
 		Cheese* newCheese = new Cheese();
 		inventory->AddItem(newCheese);

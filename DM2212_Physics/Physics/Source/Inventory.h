@@ -10,7 +10,8 @@ public:
 	void Init();
 	void Update(double dt);
 
-	void CycleItem();
+	void CycleItem(bool forward = true);
+	void SwitchItem(int index);
 	void AddItem(Item* newItem);
 private:
 	std::vector<Item*> itemVector;
