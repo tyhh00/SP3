@@ -293,7 +293,7 @@
       <Filter>Header Files\Items</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneManager.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneLobby.h">
       <Filter>Header Files</Filter>
