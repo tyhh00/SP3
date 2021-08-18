@@ -15,19 +15,26 @@
 
 SceneGraveyard::SceneGraveyard()
 {
-	goManager = new GameObjectManager();
 }
 
 SceneGraveyard::~SceneGraveyard()
 {
-	go = NULL;
 	keyboard = NULL;
+	if (goManager)
+	{
+		delete goManager;
+		goManager = NULL;
+	}
+	if (inventory)
+	{
+		delete inventory;
+		inventory = NULL;
+	}
 }
 
 void SceneGraveyard::Init()
 {
 	SceneBase::Init();
-	goManager->Init();
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
@@ -35,18 +42,21 @@ void SceneGraveyard::Init()
 	m_worldHeight = 143;
 	m_worldWidth = 250;
 
-
-	//Inventory init
-	inventory = new Inventory();
-	inventory->Init();
-
 	//Physics code here
 	m_speed = 1.f;
 	Math::InitRNG();
 
+	// GO Manager
+	goManager = new GameObjectManager();
+	goManager->Init();
+	// Inventory 
+	inventory = new Inventory();
+	inventory->Init();
+
 	//Store keyboard instance
 	keyboard = Keyboard::GetInstance();
 
+	// Unique Meshes
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BG]->textureID = LoadTGA("Image/GraveyardBG.tga");
 
@@ -63,6 +73,8 @@ void SceneGraveyard::Init()
 			player->scale = go->scale;
 			player->pos = go->pos;
 			player->physics = go->physics->Clone();
+			player->physics->SetInelasticity(0.99f);
+			player->physics->SetIsBouncable(false);
 			player->Init();
 
 			player->AddBottomSprite();
@@ -79,10 +91,10 @@ void SceneGraveyard::Init()
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	
-	//Add all remainding tiles
+	// Add all remaining tiles
 	goManager->AddAllGO(tiles);
 
-	//Camera init
+	// Camera 
 	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);
@@ -94,10 +106,17 @@ void SceneGraveyard::Update(double dt)
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
 
+	// Updating of light things
 	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
 	double mouseposx, mouseposy;
 	CursorToWorldPosition(mouseposx, mouseposy);
 	lights[1].position.Set(mouseposx, mouseposy, 10);
+
+	
+	if (Application::IsMousePressed(2))
+	{
+
+	}
 
 	if(Application::IsKeyPressed('9'))
 	{
@@ -219,12 +238,12 @@ void SceneGraveyard::SetLights()
 	lights[0].kQ = 0.001f;
 	lights[0].cosCutoff = cos(Math::DegreeToRadian(45));
 	lights[0].cosInner = cos(Math::DegreeToRadian(30));
-	lights[0].exponent = 1.f;
+	lights[0].exponent = 3.f;
 	lights[0].spotDirection.Set(0.f, 0.f, 1.f);
 
 	lights[1].type = Light::LIGHT_SPOT;
 	lights[1].position.Set(0, 0, 1);
-	lights[1].color.Set(1, 1, 1);
+	lights[1].color.Set(0, 0, 1);
 	lights[1].power = 2;
 	lights[1].kC = 1.f;
 	lights[1].kL = 0.01f;

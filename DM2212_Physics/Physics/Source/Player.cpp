@@ -10,11 +10,13 @@ void Player::Init()
 	DkeyDown = false;
 	spaceKeyDown = false;
 
-	physics->SetMass(5);
+	physics->SetMass(1);
 	physics->SetMovable(true);
 
 	speed = 1000.0f;
-	jump_force = 7000.0f;
+	jump_force = 10000.0f;
+
+	keyboard = Keyboard::GetInstance();
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("idle", 0, 1);
@@ -22,7 +24,11 @@ void Player::Init()
 	animatedSprites->AddAnimation("left", 3, 5);
 	animatedSprites->PlayAnimation("idle", -1, 1.0f);
 	mesh = animatedSprites;
-	mesh->textureID = LoadTGA("Image/girlsprite.tga");	
+	mesh->textureID = LoadTGA("Image/girlsprite.tga");
+
+	// CHEAT FIX - TBC; LIGHTING NOT WORKING ON SPRITE ANIMATION MESH
+	mesh->material.kAmbient.Set(1, 1, 1);
+
 }
 
 void Player::Update(double dt)
@@ -76,7 +82,7 @@ void Player::Update(double dt)
 		spaceKeyDown = true;
 		std::cout << "Space Key Pressed" << std::endl;
 		float accel_amt = jump_force / physics->GetMass();
-		physics->SetVelocity(Vector3(physics->GetVelocity().x, physics->GetVelocity().y + accel_amt * dt, physics->GetVelocity().z));
+		physics->AddVelocity(Vector3(0, physics->GetVelocity().y + accel_amt * dt, 0));
 	}
 
 }

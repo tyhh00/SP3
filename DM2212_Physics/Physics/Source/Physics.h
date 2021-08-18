@@ -16,9 +16,11 @@ private:
 	float momentOfInertia;
 	float angularVelocity;
 	float rotateZ;
+	float inelasticity;
 
 	bool isMovable;
 	bool onGround;
+	bool isBouncable;
 
 public:
 	Vector3 pos;
@@ -27,8 +29,8 @@ public:
 
 	Physics(SHAPE_TYPE, Vector3 pos, Vector3 scale);
 	Physics(SHAPE_TYPE, Vector3 pos, Vector3 scale, Vector3 vel, Vector3 normal, Vector3 dir, Vector3 gravity,
-		Vector3 collisionNormal, float mass, float momentOfIntertia, float angularVelocity, float rotateZ,
-		bool isMoveable);
+		Vector3 collisionNormal, float mass, float momentOfIntertia, float angularVelocity, float rotateZ, float inelasticity,
+		bool isMoveable, bool isBouncable);
 	~Physics();
 	void Update(double dt);
 
@@ -60,7 +62,10 @@ public:
 	void SetMovable(bool _movable);
 	bool GetMovable();
 
-	void CollisionResponse(Physics* go1, Physics* go2, double dt);
+	void SetInelasticity(float _inelasticity);
+	void SetIsBouncable(bool _isBouncable);
+
+	void CollisionResponse(Physics* go2, double dt);
 	void ApplyFriction(Physics* ball, Vector3 normal, double dt);
 	void ApplyInelastic(Physics* ball, Vector3 normal, double dt);
 	void ApplyContactForce(Physics* go1, Physics* go2, bool applyForBall = false);

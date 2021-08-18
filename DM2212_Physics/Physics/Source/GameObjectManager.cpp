@@ -124,7 +124,7 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 			}
 			NP.Set(N.y, -1 * N.x, 0);
 
-			if (dis.Dot(N) < go1->scale.y + go2->scale.y
+			if (dis.Dot(N) < go1->scale.y + go2->scale.x
 				&& abs(dis.Dot(NP)) < go2->scale.x
 				&& go1->physics->GetVelocity().Dot(N) > 0)
 			{
@@ -145,6 +145,10 @@ void GameObjectManager::Update(double dt)
 		GameObject* go = (GameObject*)*it;
 		if (go->active)
 		{
+			if (go->geoTypeID == SceneBase::GEOMETRY_TYPE::GEO_PLAYER_GIRL1)
+			{
+				std::cout << go->pos.y << std::endl;
+			}
 			go->Update(dt);
 			go->physics->Update(dt);
 			go->pos += go->physics->GetVelocity() * m_speed * dt;
@@ -154,6 +158,8 @@ void GameObjectManager::Update(double dt)
 			{
 				go->physics->SetOnGround(false);
 				go->bottomSprite->pos = go->pos + go->bottomSprite->relativePos;
+				go->bottomSprite->physics->pos = go->bottomSprite->pos;
+				go->bottomSprite->physics->scale = go->bottomSprite->scale;
 				go->bottomSprite->physics->SetVelocity(go->physics->GetVelocity());
 			}
 			// Collision with moving and moving
@@ -165,9 +171,12 @@ void GameObjectManager::Update(double dt)
 				{
 					if (CheckCollision(go, go2, dt))
 					{
-						go->physics->CollisionResponse(go->physics, go2->physics, dt);
+						go->physics->CollisionResponse(go2->physics, dt);
+						go->pos = go->physics->pos;
+						go2->pos = go2->physics->pos;
 						continue; //remove if stays at the end
 					}
+
 				}
 			}
 			// Collision with moving and stationary
@@ -175,25 +184,26 @@ void GameObjectManager::Update(double dt)
 			{
 				GameObject* go2 = (GameObject*)*it2;
 
-
 				// attachment for checking if onGround
 				if (go->bottomSprite != nullptr)
 				{
 					if (CheckCollision(go->bottomSprite, go2, dt))
 					{
 						go->physics->SetOnGround(true);
+						continue;
 					}
 				}
 
-				go2->physics->pos = go2->pos;
-				go2->physics->scale = go2->scale;
 				if (CheckCollision(go, go2, dt))
 				{
-					go->physics->CollisionResponse(go->physics, go2->physics, dt);
+					go2->physics->pos = go2->pos;
+					go2->physics->scale = go2->scale;
+					go->physics->CollisionResponse(go2->physics, dt);
 					go->pos = go->physics->pos;
 					go2->pos = go2->physics->pos;
 					continue; //remove if stays at the end
 				}
+
 			}
 		}
 	}

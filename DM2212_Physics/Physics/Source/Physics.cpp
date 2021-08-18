@@ -15,16 +15,18 @@ Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale)
 	, momentOfInertia(1)
 	, angularVelocity(0)
 	, rotateZ(0.f)
-	, gravity(0, -25.f, 0)
+	, inelasticity(0.5f)
+	, gravity(0, -98.f, 0)
 	, shapeType(_shapeType)
 	, isMovable(false)
+	, isBouncable(true)
 	, onGround(true)
 {
 }
 
 Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale, Vector3 vel, Vector3 normal, Vector3 dir, Vector3 gravity,
-	Vector3 collisionNormal, float mass, float momentOfIntertia, float angularVelocity, float rotateZ,
-	bool isMoveable)
+	Vector3 collisionNormal, float mass, float momentOfIntertia, float angularVelocity, float rotateZ, float inelasticity,
+	bool isMoveable, bool isBouncable)
 	: pos(_pos)
 	, scale(_scale)
 	, vel(vel)
@@ -34,9 +36,11 @@ Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale, Vector3 ve
 	, momentOfInertia(momentOfInertia)
 	, angularVelocity(angularVelocity)
 	, rotateZ(rotateZ)
+	, inelasticity(inelasticity)
 	, gravity(gravity)
 	, shapeType(_shapeType)
 	, isMovable(isMoveable)
+	, isBouncable(isBouncable)
 	, onGround(true)
 {}
 
@@ -201,39 +205,38 @@ bool Physics::GetMovable()
 
 /**
  @brief Collision Response between 2 objects
- @param go1 A physics component of the first object
  @param go2 A physics component of the second object
  @param dt A double for delta time
  */
-void Physics::CollisionResponse(Physics* go1, Physics* go2, double dt)
+void Physics::CollisionResponse(Physics* go2, double dt)
 {
 	//no need to check if go1 is movable since go1 will only represent moving entities
 	if (go2->isMovable)
 	{
-		if (go1->shapeType == CIRCLE) //if go1 is moving circle
+		if (this->shapeType == CIRCLE) //if go1 is moving circle
 		{
-			int m1 = go1->mass;
+			int m1 = this->mass;
 			int m2 = go2->mass;
 
-			Vector3 u1 = go1->vel;
+			Vector3 u1 = this->vel;
 			Vector3 u2 = go2->vel;
-			Vector3 N = (go1->pos - go2->pos).Normalized();
+			Vector3 N = (this->pos - go2->pos).Normalized();
 			switch (go2->shapeType)
 			{
 			case CIRCLE: //if go2 is moving circle
-				go1->vel = u1 + (2 * m2 / (m1 + m2)) * ((u2 - u1).Dot(N)) * N;
+				this->vel = u1 + (2 * m2 / (m1 + m2)) * ((u2 - u1).Dot(N)) * N;
 				go2->vel = u2 + (2 * m1 / (m1 + m2)) * ((u1 - u2).Dot(N)) * N;
-				ApplyFriction(go1, N, dt);
+				ApplyFriction(this, N, dt);
 				ApplyFriction(go2, N, dt);
 				break;
 			case RECTANGLE: //if go2 is moving rectangle
 				Vector3 N = go2->collisionNormal;
-				Vector3 Rvel = go1->vel - go2->vel;
-				go1->vel = go1->vel - 2 * Rvel.Dot(N) * (N);
+				Vector3 Rvel = this->vel - go2->vel;
+				this->vel = this->vel - 2 * Rvel.Dot(N) * (N);
 
-				ApplyFriction(go1, N, dt);
-				ApplyInelastic(go1, N, dt);
-				ApplyContactForce(go1, go2);
+				ApplyFriction(this, N, dt);
+				ApplyInelastic(this, N, dt);
+				ApplyContactForce(this, go2);
 				break;
 			}
 		}
@@ -244,64 +247,69 @@ void Physics::CollisionResponse(Physics* go1, Physics* go2, double dt)
 			{
 			case CIRCLE: //if go2 is moving circle
 			{
-				int m1 = go1->mass;
+				int m1 = this->mass;
 				int m2 = go2->mass;
 
-				Vector3 u1 = go1->vel;
+				Vector3 u1 = this->vel;
 				Vector3 u2 = go2->vel;
-				Vector3 N = (go1->pos - go2->pos).Normalized();
+				Vector3 N = (this->pos - go2->pos).Normalized();
 
-				go1->vel = u1 + (2 * m2 / (m1 + m2)) * ((u2 - u1).Dot(N)) * N;
+				this->vel = u1 + (2 * m2 / (m1 + m2)) * ((u2 - u1).Dot(N)) * N;
 				go2->vel = u2 + (2 * m1 / (m1 + m2)) * ((u1 - u2).Dot(N)) * N;
-				ApplyFriction(go1, N, dt);
+				ApplyFriction(this, N, dt);
 				ApplyFriction(go2, N, dt);
 			}
 			break;
 			case RECTANGLE: //if go2 is moving rectangle
 				Vector3 N = go2->collisionNormal;
-				Vector3 Rvel = go1->vel - go2->vel;
-				go1->vel = go1->vel - 2 * Rvel.Dot(N) * (N);
 
-				ApplyFriction(go1, N, dt);
-				ApplyInelastic(go1, N, dt);
-				ApplyContactForce(go1, go2);
+				//check if this object is bouncable
+				if (this->isBouncable)
+				{
+					Vector3 Rvel = this->vel - go2->vel;
+					this->vel = this->vel - 2 * Rvel.Dot(N) * (N);
+				}
+
+				ApplyInelastic(this, N, dt);
+				ApplyFriction(this, N, dt);
+				ApplyContactForce(this, go2);
 				break;
 			}
 		}
 	}
 	else
 	{
-		if (go1->shapeType == CIRCLE) //if go1 is moving circle
+		if (this->shapeType == CIRCLE) //if go1 is moving circle
 		{
 
 			switch (go2->shapeType)
 			{
 			case CIRCLE: //if go2 is stationary circle
 			{
-				int m1 = go1->mass;
+				int m1 = this->mass;
 				int m2 = go2->mass;
 
-				Vector3 u1 = go1->vel;
+				Vector3 u1 = this->vel;
 				Vector3 u2 = go2->vel;
-				Vector3 N = (go1->pos - go2->pos).Normalized();
+				Vector3 N = (this->pos - go2->pos).Normalized();
 
-				Vector3 Rvel = go1->vel - go2->vel;
-				go1->vel = go1->vel - 2 * Rvel.Dot(N) * (N);
+				Vector3 Rvel = this->vel - go2->vel;
+				this->vel = this->vel - 2 * Rvel.Dot(N) * (N);
 
-				ApplyFriction(go1, N, dt);
-				ApplyInelastic(go1, N, dt);
-				ApplyContactForce(go1, go2, true);
+				ApplyFriction(this, N, dt);
+				ApplyInelastic(this, N, dt);
+				ApplyContactForce(this, go2, true);
 			}
 				break;
 			case RECTANGLE: //if go2 is stationary rectangle
 				Vector3 N = go2->collisionNormal;
 
-				Vector3 Rvel = go1->vel - go2->vel;
-				go1->vel = go1->vel - 2 * Rvel.Dot(N) * (N);
+				Vector3 Rvel = this->vel - go2->vel;
+				this->vel = this->vel - 2 * Rvel.Dot(N) * (N);
 
-				ApplyFriction(go1, N, dt);
-				ApplyInelastic(go1, N, dt);
-				ApplyContactForce(go1, go2);
+				ApplyFriction(this, N, dt);
+				ApplyInelastic(this, N, dt);
+				ApplyContactForce(this, go2);
 				break;
 			}
 		}
@@ -313,24 +321,28 @@ void Physics::CollisionResponse(Physics* go1, Physics* go2, double dt)
 			{
 				//get collision normal and response
 				Vector3 N = go2->collisionNormal;
-				Vector3 Rvel = go1->vel - go2->vel;
-				go1->vel = go1->vel - 2 * Rvel.Dot(N) * (N);
+				Vector3 Rvel = this->vel - go2->vel;
+				this->vel = this->vel - 2 * Rvel.Dot(N) * (N);
 
-				ApplyFriction(go1, N, dt);
-				ApplyInelastic(go1, N, dt);
-				ApplyContactForce(go1, go2);
+				ApplyFriction(this, N, dt);
+				ApplyInelastic(this, N, dt);
+				ApplyContactForce(this, go2);
 				break;
 			}
 			break;
 			case RECTANGLE: //if go2 is stationary rectangle
-				//get collision normal and response
 				Vector3 N = go2->collisionNormal;
-				Vector3 Rvel = go1->vel - go2->vel;
-				go1->vel = go1->vel - 2 * Rvel.Dot(N) * (N);
 
-				ApplyFriction(go1, N, dt);
-				ApplyInelastic(go1, N, dt);
-				ApplyContactForce(go1, go2);
+				//check if this object is bouncable
+				if (this->isBouncable)
+				{
+					Vector3 Rvel = this->vel - go2->vel;
+					this->vel = this->vel - 2 * Rvel.Dot(N) * (N);
+				}
+
+				ApplyInelastic(this, N, dt);
+				ApplyFriction(this, N, dt);
+				ApplyContactForce(this, go2);
 				break;
 			}
 		}
@@ -346,7 +358,7 @@ void Physics::CollisionResponse(Physics* go1, Physics* go2, double dt)
 void Physics::ApplyFriction(Physics* ball, Vector3 normal, double dt)
 {
 	// - velocity parallel to surface by amount of Nforce
-	const float FRICTION_K = 0.005f;
+	const float FRICTION_K = 0.01f;
 	float Nforce = abs(Vector3(ball->mass * ball->gravity).Dot(normal));
 	Vector3 plane = normal.Cross(Vector3(0, 0, 1));
 	if (ball->vel.Dot(plane) < 0)
@@ -371,7 +383,7 @@ void Physics::ApplyInelastic(Physics* ball, Vector3 normal, double dt)
 		iN = -1 * iN;
 	}
 	Vector3 proj = ball->vel.Dot(iN) * iN;
-	ball->vel = ball->vel - 0.9f * proj;
+	ball->vel = ball->vel - ball->inelasticity * proj;
 }
 
 /**
@@ -385,6 +397,40 @@ void Physics::ApplyContactForce(Physics* go1, Physics* go2, bool applyForBall)
 	//get go2's collision normal
 	Vector3 N = go2->collisionNormal;
 
+	float displacement = go1->scale.x + go2->scale.x;
+
+	bool flip = true;
+
+	if (go1->pos.x < go2->pos.x)
+		flip = false;
+
+	Vector3 go1N = go1->normal;
+	if (flip)
+		go1N = -go1N;
+	Vector3 NP(go1N.y, -1 * go1N.x, 0);
+	
+	Vector3 pos1 = go1->pos + go1N;
+	Vector3 pos2 = go1->pos + NP;
+
+	Vector3 newPos1 = go2->pos - pos1;
+	Vector3 newPos2 = go2->pos - pos2;
+
+	if (newPos1.Length() < newPos2.Length())
+	{
+		std::cout << "y is the nearer side" << std::endl;
+		displacement = go1->scale.y + go2->scale.x;
+	}
+
+	//if (N == Vector3(0, -1, 0) || N == Vector3(0, 1, 0))
+	//	displacement = go1->scale.x + go2->scale.x;
+	//else if (N == Vector3(-1, 0, 0) || N == Vector3(1, 0, 0))
+	//	displacement = go1->scale.y + go2->scale.x;
+
+	//if (N != go2->normal || N != -go2->normal)
+	//{
+	//	displacement = go1->scale.y + go2->scale.x;
+	//}
+
 	//get inward normal
 	Vector3 w0_b1 = go2->pos - go1->pos;
 	if (w0_b1.Dot(N) > 0)
@@ -392,10 +438,10 @@ void Physics::ApplyContactForce(Physics* go1, Physics* go2, bool applyForBall)
 
 	//ensure that it doesnt sink into the object
 	Vector3 projection = (w0_b1.Dot(N) / N.Dot(N)) * N; //find the projection of the direction vector on the normal
-	if (projection.Length() < go1->scale.x + go2->scale.x)
+	if (projection.Length() < displacement)
 	{
 		Vector3 line = w0_b1 - projection;
-		go1->pos = go2->pos - line + N * (go1->scale.x + go2->scale.x); //set the ball to the top of the wall in the direction of the normal
+		go1->pos = go2->pos - line + N * (displacement); //set the ball to the top of the wall in the direction of the normal
 	}
 
 	if (!applyForBall)
@@ -423,6 +469,17 @@ Physics* Physics::Clone()
 {
 	Physics* newPhy = new Physics(this->shapeType, this->pos, this->scale, this->vel,
 		this->normal, this->dir, this->gravity, this->collisionNormal, this->mass,
-		this->momentOfInertia, this->angularVelocity, this->rotateZ, this->isMovable);
+		this->momentOfInertia, this->angularVelocity, this->rotateZ, this->inelasticity, this->isMovable, this->isBouncable);
 	return newPhy;
+}
+
+void Physics::SetInelasticity(float _inelasticity)
+{
+	inelasticity = _inelasticity;
+	inelasticity = Math::Clamp(inelasticity, 0.01f, 0.99f);
+}
+
+void Physics::SetIsBouncable(bool _isBouncable)
+{
+	isBouncable = _isBouncable;
 }

@@ -32,12 +32,12 @@ protected:
 	float m_worldWidth;
 	float m_worldHeight;
 
-
-	GameObject* go;
 	Inventory* inventory;
 	Keyboard* keyboard;
 	GameObjectManager* goManager;
 	Player* player;
+
+	float flashlight_radius;
 
 	double gridLength, gridHeight;
 	void CursorToWorldPosition(double& theX, double& theY);

@@ -60,6 +60,10 @@ void Inventory::Update(double dt)
  */
 void Inventory::CycleItem(bool forward)
 {
+	//check if item vector is empty, then return as there are no items to cycle through
+	if (itemVector.empty())
+		return;
+
 	int currentItemIndex = -1;
 	
 	//search for the current item's index in the vector
