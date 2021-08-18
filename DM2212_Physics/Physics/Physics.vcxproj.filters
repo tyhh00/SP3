@@ -119,9 +119,6 @@
     <ClCompile Include="Source\Keyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneLight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\LevelLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -251,9 +248,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Keyboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\LevelLoader.h">
