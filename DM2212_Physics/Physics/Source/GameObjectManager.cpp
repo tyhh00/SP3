@@ -6,7 +6,6 @@ void GameObjectManager::Init()
 	m_speed = 1.f;
 }
 
-
 bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float dt)
 {
 	// in case of self collision
@@ -151,14 +150,12 @@ void GameObjectManager::Update(double dt)
 			go->pos += go->physics->GetVelocity() * m_speed * dt;
 			go->physics->pos = go->pos;
 			go->physics->scale = go->scale;
-
 			if (go->bottomSprite != nullptr)
 			{
 				go->physics->SetOnGround(false);
 				go->bottomSprite->pos = go->pos + go->bottomSprite->relativePos;
 				go->bottomSprite->physics->SetVelocity(go->physics->GetVelocity());
 			}
-
 			// Collision with moving and moving
 			for (std::vector<GameObject*>::iterator it2 = it + 1; it2 != m_movableGOList.end(); ++it2)
 			{
@@ -171,11 +168,8 @@ void GameObjectManager::Update(double dt)
 						go->physics->CollisionResponse(go->physics, go2->physics, dt);
 						continue; //remove if stays at the end
 					}
-
-
 				}
 			}
-
 			// Collision with moving and stationary
 			for (std::vector<GameObject*>::iterator it2 = m_stationaryGOList.begin(); it2 != m_stationaryGOList.end(); ++it2)
 			{
@@ -200,10 +194,6 @@ void GameObjectManager::Update(double dt)
 					go2->pos = go2->physics->pos;
 					continue; //remove if stays at the end
 				}
-
-
-
-				
 			}
 		}
 	}
@@ -224,7 +214,6 @@ void GameObjectManager::Render(SceneBase* scene)
 			scene->modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 			scene->RenderMesh(go->mesh, true);
 			scene->modelStack.PopMatrix();
-			
 			// test things; to see bottomSprite
 			/*if (go->bottomSprite)
 			{
@@ -237,7 +226,6 @@ void GameObjectManager::Render(SceneBase* scene)
 				scene->RenderMesh(sprite->mesh, false);
 				scene->modelStack.PopMatrix();
 			}*/
-
 		}
 	}
 	for (std::vector<GameObject*>::iterator it = m_stationaryGOList.begin(); it != m_stationaryGOList.end(); ++it)
@@ -270,53 +258,6 @@ void GameObjectManager::AddAllGO(std::vector<GameObject*> gos)
 	for (auto& go : gos)
 		AddGO(go);
 }
-
-//
-//void GameObjectManager::RenderGO(GameObject* go)
-//{
-//	switch (go->type)
-//	{
-//	case GameObject::GO_BALL:
-//		meshList[GEO_BALL]->material.kAmbient = go->mat.kAmbient;
-//		modelStack.PushMatrix();
-//		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-//		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-//		modelStack.Rotate(90, 1, 0, 0);
-//		RenderMesh(meshList[GEO_BALL], true);
-//		modelStack.PopMatrix();
-//		break;
-//	case GameObject::GO_WALL:
-//	case GameObject::GO_SPRING:
-//	case GameObject::GO_ONESIDEDWALL:
-//	case GameObject::GO_MWALL:
-//	case GameObject::GO_BWALL:
-//	{
-//		float angle = Math::RadianToDegree(atan2(go->physics->GetNormal().y, go->physics->GetNormal().x));
-//		meshList[GEO_WALL]->material.kAmbient = go->mat.kAmbient;
-//		modelStack.PushMatrix();
-//		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-//		modelStack.Rotate(angle, 0, 0, 1);
-//		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-//		RenderMesh(meshList[GEO_WALL], true);
-//		modelStack.PopMatrix();
-//	}
-//	break;
-//	case GameObject::GO_PILLAR:
-//	case GameObject::GO_BPILLAR:
-//	case GameObject::GO_EPILLAR:
-//	case GameObject::GO_MPILLAR:
-//		meshList[GEO_BALL]->material.kAmbient = go->mat.kAmbient;
-//		modelStack.PushMatrix();
-//		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-//		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-//		modelStack.Rotate(90, 1, 0, 0);
-//		RenderMesh(meshList[GEO_BALL], true);
-//		modelStack.PopMatrix();
-//		break;
-//	default:
-//		break;
-//	}
-//}
 
 void GameObjectManager::Exit()
 {
