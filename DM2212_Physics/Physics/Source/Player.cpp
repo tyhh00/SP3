@@ -10,11 +10,8 @@ void Player::Init()
 	DkeyDown = false;
 	spaceKeyDown = false;
 
-
-	physics = new Physics(RECTANGLE, pos, scale);
 	physics->SetMass(5);
 	physics->SetMovable(true);
-	physics->SetNormal(Vector3(1, 0, 0));
 
 	speed = 1000.0f;
 	jump_force = 6000.0f;

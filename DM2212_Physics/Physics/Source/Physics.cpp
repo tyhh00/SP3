@@ -76,6 +76,7 @@ Vector3 Physics::GetVelocity()
  */
 void Physics::SetNormal(Vector3 _normal)
 {
+
 	normal = _normal;
 }
 
