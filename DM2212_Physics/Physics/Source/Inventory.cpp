@@ -110,11 +110,11 @@ void Inventory::SwitchItem(int index)
  */
 void Inventory::AddItem(Item* newItem)
 {
-	if (itemVector.size() <= 0)
+	//check if item vector is empty, then just add the item into the item vector
+	if (itemVector.empty())
 	{
 		itemVector.push_back(newItem);
 		currentItem = newItem;
-		std::cout << currentItem->GetType() << std::endl;
 		return;
 	}
 
@@ -123,10 +123,13 @@ void Inventory::AddItem(Item* newItem)
 
 	for (Item* item : itemVector)
 	{
+		//loop through entire item vector to check for the same item type
 		if (newItem->GetType() == item->GetType())
 		{
-			if (newItem->GetIsStackable() && item->IsEqual(newItem))
+			//check if the item is stackable, and if its equal to one another
+			if (item->GetIsStackable() && item->IsEqual(newItem))
 			{
+				//add the quantity to the existing item
 				std::cout << "adding new qty to item: " << item->GetType() << std::endl;
 				AddQuantity(item, newItem->GetQuantity());
 				return;
@@ -134,6 +137,7 @@ void Inventory::AddItem(Item* newItem)
 		}
 	}
 
+	//if cannot find an existing item or is existing item is not stackable, add it to the item vector
 	std::cout << "adding new item to vector" << std::endl;
 	itemVector.push_back(newItem);
 	currentItem = newItem;
@@ -149,11 +153,13 @@ int Inventory::AddQuantity(Item* item, int _quantity)
 	//new qty to be added
 	int newQuantity = item->GetQuantity() + _quantity;
 
-	//if new qty exceeds max qty, return remainder
+	//check if new qty exceeds max qty
 	if (newQuantity > maxQuantity[item->GetType()])
 	{
+		//set item's qty to max, and return remainder
 		int remainderQuantity = newQuantity - maxQuantity[item->GetType()];
 		item->SetQuantity(maxQuantity[item->GetType()]);
+
 		return remainderQuantity;
 	}
 
