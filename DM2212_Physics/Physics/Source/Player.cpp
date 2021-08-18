@@ -29,7 +29,7 @@ void Player::Init()
 }
 
 void Player::Update(double dt)
-{
+{ 
 	animatedSprites->Update(dt);
 
 	if (AkeyDown && !Application::IsKeyPressed('A'))
@@ -40,14 +40,14 @@ void Player::Update(double dt)
 		{
 			animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		}
-		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		physics->AddVelocity(speed * dt);
 	}
 	else if (!AkeyDown && Application::IsKeyPressed('A'))
 	{
 		AkeyDown = true;
 		std::cout << "A Key Pressed" << std::endl;
 		animatedSprites->PlayAnimation("left", -1, 1.0f);
-		physics->SetVelocity(Vector3(physics->GetVelocity().x - speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		physics->AddVelocity(-speed * dt);
 	}
 	if (DkeyDown && !Application::IsKeyPressed('D'))
 	{
@@ -57,14 +57,14 @@ void Player::Update(double dt)
 		{
 			animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		}
-		physics->SetVelocity(Vector3(physics->GetVelocity().x - speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		physics->AddVelocity(-speed * dt);
 	}
 	else if (!DkeyDown && Application::IsKeyPressed('D'))
 	{
 		DkeyDown = true;
 		std::cout << "D Key Pressed" << std::endl;
 		animatedSprites->PlayAnimation("right", -1, 1.0f);
-		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		physics->AddVelocity(speed * dt);
 	}
 
 	if (spaceKeyDown && !Application::IsKeyPressed(VK_SPACE))

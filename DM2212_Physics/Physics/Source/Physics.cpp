@@ -70,6 +70,16 @@ Vector3 Physics::GetVelocity()
 	return vel;
 }
 
+void Physics::AddVelocity(float scalar)
+{
+	vel += scalar;
+}
+
+void Physics::AddVelocity(Vector3 _vel)
+{
+	vel += _vel;
+}
+
 /**
  @brief Set Normal
  @param _normal A vector3 which sets the normal
@@ -335,7 +345,7 @@ void Physics::CollisionResponse(Physics* go1, Physics* go2, double dt)
 void Physics::ApplyFriction(Physics* ball, Vector3 normal, double dt)
 {
 	// - velocity parallel to surface by amount of Nforce
-	const float FRICTION_K = 0.0005f;
+	const float FRICTION_K = 0.005f;
 	float Nforce = abs(Vector3(ball->mass * ball->gravity).Dot(normal));
 	Vector3 plane = normal.Cross(Vector3(0, 0, 1));
 	if (ball->vel.Dot(plane) < 0)

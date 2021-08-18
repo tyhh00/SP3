@@ -18,7 +18,6 @@ private:
 	float rotateZ;
 
 	bool isMovable;
-
 	bool onGround;
 
 public:
@@ -35,6 +34,8 @@ public:
 
 	void SetVelocity(Vector3 _vel);
 	Vector3 GetVelocity();
+	void AddVelocity(float scalar);
+	void AddVelocity(Vector3 _vel);
 	
 	void SetNormal(Vector3 _normal);
 	Vector3 GetNormal();
