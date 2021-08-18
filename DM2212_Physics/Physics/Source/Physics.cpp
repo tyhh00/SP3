@@ -15,9 +15,10 @@ Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale)
 	, momentOfInertia(1)
 	, angularVelocity(0)
 	, rotateZ(0.f)
-	, gravity(0, -9.8f, 0)
+	, gravity(0, -25.f, 0)
 	, shapeType(_shapeType)
 	, isMovable(false)
+	, onGround(true)
 {
 }
 
@@ -36,6 +37,7 @@ Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale, Vector3 ve
 	, gravity(gravity)
 	, shapeType(_shapeType)
 	, isMovable(isMoveable)
+	, onGround(true)
 {}
 
 Physics::~Physics()
@@ -117,6 +119,16 @@ void Physics::SetGravity(Vector3 _gravity)
 Vector3 Physics::GetGravity()
 {
 	return gravity;
+}
+
+void Physics::SetOnGround(bool onGround)
+{
+	this->onGround = onGround;
+}
+
+bool Physics::GetOnGround()
+{
+	return onGround;
 }
 
 /**

@@ -6,6 +6,8 @@
 #include "Mesh.h"
 #include "Physics.h"
 
+typedef struct Attachment Attachment;
+
 struct GameObject
 {
 	enum GAMEOBJECT_TYPE
@@ -43,7 +45,9 @@ struct GameObject
 		GO_TOTAL, //must be last
 	};
 
+	int geoTypeID;
 	Mesh* mesh;
+	Attachment* bottomSprite;
 
 	GAMEOBJECT_TYPE type;
 
@@ -60,14 +64,26 @@ struct GameObject
 	Physics* physics;
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_NONE, SHAPE_TYPE shapeType = RECTANGLE);
-	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, SHAPE_TYPE shapeType = RECTANGLE);
+	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHAPE_TYPE shapeType = RECTANGLE);
 
 	~GameObject();
 
 	virtual void Init();
-	virtual void Update();
+	virtual void Update(double dt);
 	virtual GameObject* Clone();
 
+
+	void AddBottomSprite();
+	
 };
 
+struct Attachment : public GameObject
+{
+	Vector3 relativePos;
+	Attachment(GAMEOBJECT_TYPE type, Vector3 relativePos, Vector3 scale) : relativePos(relativePos)
+	{
+		this->type = type;
+		this->scale = scale;
+	}
+};
 #endif

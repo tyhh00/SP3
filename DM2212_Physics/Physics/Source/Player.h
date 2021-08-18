@@ -10,7 +10,6 @@ public:
 	void Init();
 	void Update(double dt);
 	
-
 private:
 	SpriteAnimation* animatedSprites;
 

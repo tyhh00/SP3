@@ -31,6 +31,7 @@ void LevelEditor::Init()
 	m_worldWidth = m_screenWidth * 5;
 
 	camera.Init(Vector3(0,0, 1), Vector3(0,0, 0), Vector3(0, 1, 0));
+	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	//camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	std::string mapToLoad = "LEVEL_1.txt";
 	LoadMap(mapToLoad);
@@ -39,6 +40,7 @@ void LevelEditor::Init()
 bool LevelEditor::LoadMap(std::string filename)
 {
 	std::string path = file_path + filename;
+	mapName = filename;
 	std::ifstream fileStream(path.c_str(), std::ios::binary);
 	if (!fileStream.is_open())
 	{
@@ -134,10 +136,12 @@ bool LevelEditor::LoadMap(std::string filename)
 				continue;
 			}
 
-			GameObject* obj = new GameObject(GameObject::GO_TILE, meshList[type]);
+			GameObject* obj = new GameObject(GameObject::GO_TILE, meshList[type], type);
 			obj->pos = pos;
 			obj->physics->SetNormal(normal);
 			obj->scale = scale * gridLength;
+			obj->scale.x *= tileSize[type]->gridLength;
+			obj->scale.y *= tileSize[type]->gridHeight;
 			gridObjects.push_back(obj);
 
 
@@ -154,7 +158,27 @@ bool LevelEditor::LoadMap(std::string filename)
 
 void LevelEditor::SaveMap()
 {
+	if (unsavedChanges)
+	{
+		unsavedChanges = false;
+		DEBUG_MSG("Saving " << mapName << ".txt ...");
 
+		std::ofstream file("Levels\\" + mapName);
+		file << "# Format: \"TILE_ID Enum Val\":\"Position\":\"Rotation\":\"Scale\"" << std::endl;
+		file << "GridLength: " << gridLength << std::endl;
+		file << "GridHeight: " << gridHeight << std::endl;
+		file << "Tiles: " << std::endl;
+
+		for (auto& go : gridObjects)
+		{
+			file << go->geoTypeID << ":" <<
+				go->pos.x << "," << go->pos.y << "," << go->pos.z << ":" <<
+				go->physics->GetNormal().x << "," << go->physics->GetNormal().y << "," << go->physics->GetNormal().z << ":" <<
+				go->scale.x / gridLength << "," << go->scale.y / gridLength << "," << go->scale.z / gridLength << std::endl;
+		}
+
+		DEBUG_MSG("Saved " << mapName);
+	}
 }
 
 void LevelEditor::ClearMap()
@@ -169,6 +193,7 @@ void LevelEditor::RemoveGO(GameObject* go)
 
 void LevelEditor::Update(double dt)
 {
+	camera.Update(camera.position, dt);
 	fps = 1 / dt;
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
@@ -187,6 +212,16 @@ void LevelEditor::Update(double dt)
 		bMButtonState = true; //Down
 	else if (bMButtonState && !Application::IsMousePressed(2))
 		bMButtonState = false; //Up
+
+	static bool bCTRLState = false;
+	bool CTRLKeyRelease = false;
+	if (!bCTRLState && Application::IsKeyPressed(VK_CONTROL))
+		bCTRLState = true; //Down
+	else if (bCTRLState && !Application::IsKeyPressed(VK_CONTROL))
+	{
+		bCTRLState = false; //Up
+		CTRLKeyRelease = true;
+	}
 	
 	for (std::vector<GameObject*>::iterator it = gridObjects.begin(); it != gridObjects.end(); ++it)
 	{
@@ -197,14 +232,15 @@ void LevelEditor::Update(double dt)
 		//curs_tw_or Collided With Object
 		if (PosCollidedWithGO(curs_tw_X, curs_tw_Y, go))
 		{
-
+			unsavedChanges = true;
 			if (heldOnTo == nullptr && bLButtonState)
 			{
 				heldOnTo = go;
 			}
 			else if (heldOnTo != nullptr && !bLButtonState)
 			{
-				heldOnTo = nullptr;
+				if(GetCollidedGOs(heldOnTo->pos.x, heldOnTo->pos.y).size() == 1)
+					heldOnTo = nullptr;
 			}
 
 		}
@@ -212,13 +248,24 @@ void LevelEditor::Update(double dt)
 	double curs_tw_X, curs_tw_Y;
 	CursorToWorldPosition(curs_tw_X, curs_tw_Y);
 
-	double snap_X, snap_Y;
-	double gridDiameter = gridLength * 2;
-	snap_X = floor((curs_tw_X) / gridDiameter) * gridDiameter + gridLength;
-	snap_Y = floor((curs_tw_Y)/ gridDiameter) * gridDiameter;
 
 	if (heldOnTo != nullptr)
 	{
+		double snap_X, snap_Y;
+		double gridDiameter_X = (gridLength) * 2;
+		double gridDiameter_Y = (gridHeight) * 2;
+		snap_X = floor((curs_tw_X) / gridDiameter_X) * gridDiameter_X;
+		snap_Y = floor((curs_tw_Y) / gridDiameter_Y) * gridDiameter_Y;
+		if (heldOnTo->scale.y > 1.0)
+		{
+			snap_Y += (heldOnTo->scale.y - 1) * 0.5;
+		}
+		else if (heldOnTo->scale.x > 1.0)
+		{
+			snap_X += (heldOnTo->scale.x - 1) * 0.5;
+		}
+
+		unsavedChanges = true;
 		if (!CursorWithinScreen())
 		{
 			heldOnTo = nullptr;
@@ -235,12 +282,71 @@ void LevelEditor::Update(double dt)
 				heldOnTo->pos.x = curs_tw_X;
 				heldOnTo->pos.y = curs_tw_Y;
 			}
-			if (Application::IsKeyPressed(VK_CONTROL) && GetCollidedGOs(heldOnTo->pos.x, heldOnTo->pos.y).size() == 1)
+			static bool pastedOnce = false;
+			if (bCTRLState && heldOnTo != nullptr) //Holding Down control
 			{
-				gridObjects.push_back(heldOnTo->Clone());
+				if (GetCollidedGOs(heldOnTo->pos.x, heldOnTo->pos.y).size() == 1)
+				{
+					gridObjects.push_back(heldOnTo->Clone());
+					pastedOnce = true;
+				}
+			}
+			else if (!bCTRLState && !bLButtonState && pastedOnce)
+			{
+				pastedOnce = false;
+				//Delete HeldOnTo
+				for (auto& go : gridObjects)
+				{
+					if (go == heldOnTo)
+					{
+						delete go;
+						go = nullptr;
+					}
+				}
+				heldOnTo = nullptr;
+				gridObjects.erase(std::remove(gridObjects.begin(), gridObjects.end(), nullptr), gridObjects.end());
 			}
 		}
+		if (bRButtonState)
+		{
+			for(auto& go : gridObjects)
+			{
+				if (go != heldOnTo && PosCollidedWithGO(heldOnTo->pos.x, heldOnTo->pos.y, go))
+				{
+					delete go;
+					go = nullptr;
+				}
+			}
+			gridObjects.erase(std::remove(gridObjects.begin(), gridObjects.end(), nullptr), gridObjects.end());
+			
+		}
 	}
+	else
+	{
+		if (bRButtonState)
+		{
+			for (auto& go : gridObjects)
+			{
+				double curs_tw_X, curs_tw_Y;
+				CursorToWorldPosition(curs_tw_X, curs_tw_Y);
+				if (PosCollidedWithGO(curs_tw_X, curs_tw_Y, go))
+				{
+					unsavedChanges = true;
+					delete go;
+					go = nullptr;
+				}
+			}
+			gridObjects.erase(std::remove(gridObjects.begin(), gridObjects.end(), nullptr), gridObjects.end());
+
+		}
+	}
+
+	if (bCTRLState && Application::IsKeyPressed('S'))
+	{
+		if(unsavedChanges)
+			SaveMap();
+	}
+
 	//DEBUG_MSG("Cursor within screen? " << CursorWithinScreen());
 }
 
@@ -302,9 +408,11 @@ void LevelEditor::Render()
 	int loops = 0;
 	double xAdd = gridLength * 2.0;
 	double yAdd = gridHeight * 2.0;
-	for (int x = camera.position.x - (m_screenWidth * 0.5 - 2); x < camera.position.x + (m_screenWidth * 0.5 + 2); x += xAdd)
+	int startX = floor((camera.position.x - (m_screenWidth * 0.5 - 2)) / xAdd) * xAdd;
+	int startY = floor((camera.position.y - (m_screenWidth * 0.5 - 2)) / yAdd) * yAdd;
+	for (int x = startX; x < camera.position.x + (m_screenWidth * 0.5 + 2); x += xAdd)
 	{
-		for (int y = camera.position.y - (m_screenHeight * 0.5 - 2); y < camera.position.y + (m_screenHeight * 0.5 + 2); y += yAdd)
+		for (int y = startY; y < camera.position.y + (m_screenHeight * 0.5 + 2); y += yAdd)
 		{
 			loops++;
 			modelStack.PushMatrix();
@@ -369,8 +477,8 @@ void LevelEditor::CursorToWorldPosition(double& theX, double& theY)
 	x /= (w / m_screenWidth);
 	y = h - y;
 	y /= (h / m_screenHeight);
-	x -= m_screenWidth * 0.5;
-	y -= m_screenHeight * 0.5;
+	x -= m_screenWidth * 0.5 - camera.position.x;
+	y -= m_screenHeight * 0.5 - camera.position.y;
 
 	theX = x;
 	theY = y;

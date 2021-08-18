@@ -165,7 +165,6 @@ void Application::Run()
 			dElapsedTime = 0.0166666666666667;*/
 
 		//update gamestate manager
-		Keyboard::GetInstance()->Update(m_timer.getElapsedTime());
 		if (CGameStateManager::GetInstance()->Update(m_timer.getElapsedTime()) == false)
 		{
 			break;

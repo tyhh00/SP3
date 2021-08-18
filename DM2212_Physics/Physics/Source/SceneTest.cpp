@@ -3,7 +3,7 @@
 #include "MeshBuilder.h"
 #include "Application.h"
 #include "LoadTGA.h"
-
+#include "Utility.h"
 #include <sstream>
 
 SceneTest::SceneTest()
@@ -32,26 +32,114 @@ void SceneTest::Init()
 
 	meshList[GEO_WALL] = MeshBuilder::GenerateQuad("Wall", Color(1, 1, 1), 2.0f);
 	meshList[GEO_BALL] = MeshBuilder::GenerateCircle("circle", 1.0f, Color(1, 1, 1));
+	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1, 1, 1), 36, 36, 0.1f);
+	
+
+	goManager = new GameObjectManager();
+	goManager->Init();
 
 	player = new Player;
-	player->scale.Set(3, 3, 3);
-	player->Init();
+	player->active = true;
+	player->scale.Set(3, 3, 1);
 	player->pos.Set(m_worldWidth * 0.5, m_worldHeight * 0.5, 0);
+	player->Init();
+	player->AddBottomSprite();
+	player->bottomSprite->mesh = meshList[GEO_WALL];
+	goManager->AddGO(player);
 
 
-	testobj = FetchGO(GameObject::GO_BALL);
+	testobj = new GameObject;
+	testobj->active = true;
+	testobj->type = GameObject::GO_BALL;
 	testobj->scale.Set(5, 5, 5);
 	testobj->pos.Set(player->pos.x + 100, player->pos.y, player->pos.z);
+	testobj->mesh = meshList[GEO_BALL];
+	goManager->AddGO(testobj);
 
-	testWall = FetchGO(false);
+	testWall = new GameObject;
+	testWall->active = true;
 	testWall->type = GameObject::GO_WALL;
+	testWall->pos.Set(player->pos.x, player->pos.y - 20, 0);
+	testWall->scale.Set(5, 100, 1);
 	testWall->physics->SetVelocity(Vector3(1, 0, 0));
 	testWall->physics->shapeType = RECTANGLE;
-	testWall->pos.Set(player->pos.x, player->pos.y - 20, 0);
-	testWall->scale.Set(5, 10, 1);
 	testWall->physics->SetNormal(Vector3(0, 1, 0));
+	testWall->mesh = meshList[GEO_WALL];
+	goManager->AddGO(testWall);
+
+	GameObject* go;
+	go = new GameObject;
+	go->active = true;
+	go->type = GameObject::GO_WALL;
+	go->pos.Set(player->pos.x - 10, player->pos.y - 15, 0);
+	go->scale.Set(5, 5, 1);
+	go->physics->SetVelocity(Vector3(1, 0, 0));
+	go->physics->shapeType = RECTANGLE;
+	go->physics->SetNormal(Vector3(1, 0, 0));
+	go->mesh = meshList[GEO_WALL];
+	goManager->AddGO(go);
+
+	go = new GameObject;
+	go->active = true;
+	go->type = GameObject::GO_WALL;
+	go->pos.Set(player->pos.x + 10, player->pos.y - 15, 0);
+	go->scale.Set(5, 5, 1);
+	go->physics->SetVelocity(Vector3(1, 0, 0));
+	go->physics->shapeType = RECTANGLE;
+	go->physics->SetNormal(Vector3(1, 0, 0));
+	go->mesh = meshList[GEO_WALL];
+	goManager->AddGO(go);
 
 	
+	lights[0].type = Light::LIGHT_POINT;
+	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
+	lights[0].color.Set(1, 1, 0.9);
+	lights[0].power = 1;
+	lights[0].kC = 1.f;
+	lights[0].kL = 0.01f;
+	lights[0].kQ = 0.001f;
+	lights[0].cosCutoff = cos(Math::DegreeToRadian(45));
+	lights[0].cosInner = cos(Math::DegreeToRadian(30));
+	lights[0].exponent = 1.f;
+	lights[0].spotDirection.Set(0.f, 0.f, 1.f);
+
+	lights[1].type = Light::LIGHT_SPOT;
+	lights[1].position.Set(0, 1, 0);
+	lights[1].color.Set(0.6, 0.6, 1);
+	lights[1].power = 1;
+	lights[1].kC = 1.f;
+	lights[1].kL = 0.01f;
+	lights[1].kQ = 0.001f;
+	lights[1].cosCutoff = cos(Math::DegreeToRadian(45));
+	lights[1].cosInner = cos(Math::DegreeToRadian(30));
+	lights[1].exponent = 3.f;
+	lights[1].spotDirection.Set(0.f, 0.f, 1.f);
+
+	// Make sure you pass uniform parameters after glUseProgram()
+	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
+
+	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &lights[0].color.r);
+	glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
+	glUniform1f(m_parameters[U_LIGHT0_KC], lights[0].kC);
+	glUniform1f(m_parameters[U_LIGHT0_KL], lights[0].kL);
+	glUniform1f(m_parameters[U_LIGHT0_KQ], lights[0].kQ);
+	glUniform1i(m_parameters[U_LIGHT0_TYPE], lights[0].type);
+	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], lights[0].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT0_COSINNER], lights[0].cosInner);
+	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], lights[0].exponent);
+
+	glUniform1i(m_parameters[U_LIGHT1_TYPE], lights[1].type);
+	glUniform3fv(m_parameters[U_LIGHT1_COLOR], 1, &lights[1].color.r);
+	glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
+	glUniform1f(m_parameters[U_LIGHT1_KC], lights[1].kC);
+	glUniform1f(m_parameters[U_LIGHT1_KL], lights[1].kL);
+	glUniform1f(m_parameters[U_LIGHT1_KQ], lights[1].kQ);
+	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], lights[1].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT1_COSINNER], lights[1].cosInner);
+	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], lights[1].exponent);
+
+	bLightEnabled = true;
+
 	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	camera.SetFocusTarget(player->pos);
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
@@ -145,6 +233,8 @@ void SceneTest::Update(double dt)
 		m_speed += 0.1f;
 	}
 
+	
+
 	//Mouse Section
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
@@ -177,25 +267,25 @@ void SceneTest::Update(double dt)
 
 	}
 
-	player->Update(dt);
+	if (Application::IsKeyPressed('I'))
+		lights[0].position.z -= (float)(3 * dt);
+	if (Application::IsKeyPressed('K'))
+		lights[0].position.z += (float)(3 * dt);
+	if (Application::IsKeyPressed('J'))
+		lights[0].position.x -= (float)(3 * dt);
+	if (Application::IsKeyPressed('L'))
+		lights[0].position.x += (float)(3 * dt);
+	if (Application::IsKeyPressed('O'))
+		lights[0].position.y -= (float)(3 * dt);
+	if (Application::IsKeyPressed('P'))
+		lights[0].position.y += (float)(3 * dt);
+
+	goManager->Update(dt);
 	camera.Update(player->pos, dt);
-
-	// Game Objects
-	
-		
-		
-	player->physics->Update(dt);
-	player->pos += player->physics->GetVelocity() * m_speed * dt;
-	player->physics->pos = player->pos;
-	player->physics->scale = player->scale;
-
-	if (CheckCollision(player, testWall, dt))
-	{
-		player->physics->CollisionResponse(player->physics, testWall->physics, dt);
-	}
-		
-	
-
+	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
+	double mouseposx, mouseposy;
+	CursorToWorldPosition(mouseposx, mouseposy);
+	lights[1].position.Set(mouseposx, mouseposy, 10);
 }
 
 bool SceneTest::CheckCollision(GameObject* go1, GameObject* go2, float dt)
@@ -488,6 +578,23 @@ bool SceneTest::CheckZero(double number)
 	return false;
 }
 
+void SceneTest::CursorToWorldPosition(double& theX, double& theY)
+{
+	double x, y;
+	Application::GetCursorPos(&x, &y);
+	int w = Application::GetWindowWidth();
+	int h = Application::GetWindowHeight();
+	// convert to world space
+	x /= (w / m_screenWidth);
+	y = h - y;
+	y /= (h / m_screenHeight);
+	x -= m_screenWidth * 0.5 - camera.position.x;
+	y -= m_screenHeight * 0.5 - camera.position.y;
+
+	theX = x;
+	theY = y;
+}
+
 void SceneTest::RenderGO(GameObject *go)
 {
 	switch(go->type)
@@ -674,6 +781,7 @@ void SceneTest::Render()
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
 	projection.SetToOrtho(-1 * m_screenWidth * 0.5f, m_screenWidth * 0.5f, -1 * m_screenHeight * 0.5f, m_screenHeight * 0.5f, -10, 10);
+//	projection.SetToPerspective(45.f, m_screenWidth / m_screenHeight, 0.1f, 1000.f);
 
 	projectionStack.LoadMatrix(projection);
 
@@ -688,33 +796,68 @@ void SceneTest::Render()
 	// Model matrix : an identity matrix (model will be at the origin)
 	modelStack.LoadIdentity();
 
-	RenderMesh(meshList[GEO_AXES], false);
-
-	// all gos
-	for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
+	if (lights[0].type == Light::LIGHT_DIRECTIONAL)
 	{
-		GameObject* go = (GameObject*)*it;
-		if (go->active)
-		{
-			RenderGO(go);
-		}
+		Vector3 lightDir(lights[0].position.x, lights[0].position.y, lights[0].position.z);
+		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
+		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
+	}
+	else if (lights[0].type == Light::LIGHT_SPOT)
+	{
+		Position lightPosition_cameraspace = viewStack.Top() * lights[0].position;
+		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
+		Vector3 spotDirection_cameraspace = viewStack.Top() * lights[0].spotDirection;
+		glUniform3fv(m_parameters[U_LIGHT0_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
+	}
+	else
+	{
+		Position lightPosition_cameraspace = viewStack.Top() * lights[0].position;
+		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
 	}
 
-	modelStack.PushMatrix();
+	if (lights[1].type == Light::LIGHT_DIRECTIONAL)
+	{
+		Vector3 lightDir(lights[1].position.x, lights[1].position.y, lights[1].position.z);
+		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
+		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightDirection_cameraspace.x);
+	}
+	else if (lights[1].type == Light::LIGHT_SPOT)
+	{
+		Position lightPosition_cameraspace = viewStack.Top() * lights[1].position;
+		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightPosition_cameraspace.x);
+		Vector3 spotDirection_cameraspace = viewStack.Top() * lights[1].spotDirection;
+		glUniform3fv(m_parameters[U_LIGHT1_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
+	}
+	else
+	{
+		Position lightPosition_cameraspace = viewStack.Top() * lights[1].position;
+		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightPosition_cameraspace.x);
+	}
+
+	RenderMesh(meshList[GEO_AXES], false);
+
+	//modelStack.PushMatrix();
+	//modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);
+	//RenderMesh(meshList[GEO_LIGHTBALL], false);
+	//modelStack.PopMatrix();
+
+	goManager->Render(this);
+
+	/*modelStack.PushMatrix();
 	modelStack.Translate(player->pos.x, player->pos.y, player->pos.z);
 	RenderMesh(player->mesh, false);
-	modelStack.PopMatrix();
+	modelStack.PopMatrix();*/
 
 	std::ostringstream ss;
 	ss.str("");
-	ss << "player vel: " << player->physics->GetVelocity();
+	ss << "player onground: " << player->physics->GetOnGround();
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
 	ss.str("");
 	ss << "player pos: " << player->pos;
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);
-	//ss.str("");
-	//ss << "player: " << player->pos;
-	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);
+	ss.str("");
+	ss << "camera pos: " << camera.position;
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);
 	
 
 
@@ -730,18 +873,7 @@ void SceneTest::Render()
 void SceneTest::Exit()
 {
 	SceneBase::Exit();
-	//Cleanup GameObjects
-	while(m_goList.size() > 0)
-	{
-		GameObject *go = m_goList.back();
-		delete go;
-		m_goList.pop_back();
-	}
-
-	if (player)
-	{
-		delete player;
-		player = NULL;
-	}
 	
+
+	goManager->Exit();
 }

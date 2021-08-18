@@ -10,13 +10,16 @@ void Player::Init()
 	DkeyDown = false;
 	spaceKeyDown = false;
 
+
 	physics = new Physics(RECTANGLE, pos, scale);
 	physics->SetMass(5);
+	physics->SetMovable(true);
+	physics->SetNormal(Vector3(1, 0, 0));
 
 	speed = 1000.0f;
-	jump_force = 5000.0f;
+	jump_force = 6000.0f;
 
-	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, scale.x * 2, scale.y * 2);
+	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("idle", 0, 1);
 	animatedSprites->AddAnimation("right", 6, 8);
 	animatedSprites->AddAnimation("left", 3, 5);
@@ -70,7 +73,8 @@ void Player::Update(double dt)
 		std::cout << "Space Key Released" << std::endl;
 		
 	}
-	else if (!spaceKeyDown && Application::IsKeyPressed(VK_SPACE))
+	else if (!spaceKeyDown && Application::IsKeyPressed(VK_SPACE) 
+		&& physics->GetOnGround())
 	{
 		spaceKeyDown = true;
 		std::cout << "Space Key Pressed" << std::endl;
