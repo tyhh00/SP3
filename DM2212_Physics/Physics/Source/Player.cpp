@@ -22,8 +22,7 @@ void Player::Init()
 	animatedSprites->AddAnimation("left", 3, 5);
 	animatedSprites->PlayAnimation("idle", -1, 1.0f);
 	mesh = animatedSprites;
-	mesh->textureID = LoadTGA("Image/girlsprite.tga");
-	
+	mesh->textureID = LoadTGA("Image/girlsprite.tga");	
 }
 
 void Player::Update(double dt)
