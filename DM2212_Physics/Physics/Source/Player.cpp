@@ -10,7 +10,7 @@ void Player::Init()
 	DkeyDown = false;
 	spaceKeyDown = false;
 
-	physics->SetMass(5);
+	physics->SetMass(1);
 	physics->SetMovable(true);
 
 	speed = 1000.0f;

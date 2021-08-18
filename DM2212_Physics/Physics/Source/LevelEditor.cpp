@@ -89,7 +89,7 @@ void LevelEditor::RemoveGO(GameObject* go)
 void LevelEditor::Update(double dt)
 {
 	SceneBase::Update(dt);
-	camera.Update(camera.position, dt);
+	camera.Update(dt);
 	fps = 1 / dt;
 
 	canScrollIn -= dt;

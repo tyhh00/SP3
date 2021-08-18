@@ -39,7 +39,8 @@ public:
 	~Camera();
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
 	virtual void Reset();
-	virtual void Update(Vector3 focusTarget, double dt);
+	virtual void Update(Vector3 focusTarget, double dt); // Update based on a target to focus on
+	void Update(double dt); // Update by input; editor mode things
 
 	void SetFocusTarget(Vector3 focustarget, bool slide = false);
 	void SetLimits(float screenx, float screeny, float worldx, float worldy);

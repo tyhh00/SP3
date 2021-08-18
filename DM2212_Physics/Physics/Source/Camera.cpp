@@ -127,6 +127,44 @@ void Camera::Update(Vector3 focusTarget, double dt)
 
 }
 
+void Camera::Update(double dt)
+{
+	double mousePosX, mousePosY;
+	Application::GetCursorPos(&mousePosX, &mousePosY);
+	mousePosY = Application::GetWindowHeight() - mousePosY;
+
+
+	if ((Application::IsKeyPressed(VK_LEFT) 
+		|| mousePosX < 0.3 * Application::GetWindowWidth())
+		&& target.x - screenWidth * 0.5 > 0)
+	{
+		target.x -= 100 * dt;
+	}
+	else if ((Application::IsKeyPressed(VK_RIGHT)
+		|| mousePosX > 0.7 * Application::GetWindowWidth())
+		&& target.x + screenWidth * 0.5 < worldWidth)
+	{
+		target.x += 100 * dt;
+	}
+	if ((Application::IsKeyPressed(VK_UP)
+		|| mousePosY > 0.7 * Application::GetWindowHeight())
+		&& target.y + screenHeight * 0.5 < worldHeight)
+	{
+		target.y += 100 * dt;
+	}
+	else if ((Application::IsKeyPressed(VK_DOWN)
+		|| mousePosY < 0.3 * Application::GetWindowHeight())
+		&& target.y - screenHeight * 0.5 > 0)
+	{
+		target.y -= 100 * dt;
+	}
+
+	// update cam pos based on target
+	position.x = target.x;
+	position.y = target.y;
+
+}
+
 void Camera::SetFocusTarget(Vector3 focustarget, bool slide)
 {
 	newTarget = focustarget;
