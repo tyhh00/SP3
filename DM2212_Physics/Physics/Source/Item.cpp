@@ -7,10 +7,12 @@ Item::Item()
 {
 }
 
-Item::Item(GROUP_TYPE _groupType, ITEM_TYPE _itemType, int _quantity)
+Item::Item(GROUP_TYPE _groupType, ITEM_TYPE _itemType, int _quantity, int _maxQuantity, bool _isStackable)
 	: groupType(_groupType)
 	, itemType(_itemType)
 	, quantity(_quantity)
+	, maxQuantity(_maxQuantity)
+	, isStackable(_isStackable)
 {
 }
 
@@ -68,4 +70,9 @@ int Item::GetMaxQuantity()
 void Item::SetMaxQuantity(int _maxQuantity)
 {
 	maxQuantity = _maxQuantity;
+}
+
+bool Item::GetIsStackable()
+{
+	return isStackable;
 }

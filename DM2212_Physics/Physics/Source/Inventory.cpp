@@ -29,11 +29,13 @@ void Inventory::Update(double dt)
 	{
 		std::cout << "cycle backward" << std::endl;
 		CycleItem(false);
+		std::cout << currentItem->GetQuantity() << std::endl;
 	}
 	if (Application::IsKeyReleased(VK_RIGHT))
 	{
 		std::cout << "cycle forward" << std::endl;
 		CycleItem(true);
+		std::cout << currentItem->GetQuantity();
 	}
 	if (Application::IsKeyReleased('5'))
 	{
@@ -97,13 +99,22 @@ void Inventory::SwitchItem(int index)
 void Inventory::AddItem(Item* newItem)
 {
 	bool itemExist = true;
+	bool isStackable = true;
 	for (Item* item : itemVector)
 	{
 		if (newItem == item)
 		{
-			item->AddQuantity(1);
+			itemExist = true;
+			if (newItem->GetIsStackable() && item->IsEqual(newItem))
+				item->AddQuantity(1);
+			else
+				isStackable = false;
 		}
 	}
-	itemVector.push_back(newItem);
-	currentItem = newItem;
+
+	if (!itemExist && !isStackable)
+	{
+		itemVector.push_back(newItem);
+		currentItem = newItem;
+	}
 }

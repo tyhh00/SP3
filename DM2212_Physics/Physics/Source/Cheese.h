@@ -7,7 +7,8 @@ public:
 	Cheese();
 	void Init() override;
 	void Update(double dt) override;
-	
+	bool IsEqual(Item* item) override;
+
 private:
 	
 };

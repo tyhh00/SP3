@@ -16,10 +16,11 @@ protected:
 	};
 public:
 	Item();
-	Item(GROUP_TYPE, ITEM_TYPE, int);
+	Item(GROUP_TYPE, ITEM_TYPE, int _quantity, int _maxQuantity, bool _isStackable);
 	~Item();
 	virtual void Init() = 0;
 	virtual void Update(double dt) = 0;
+	virtual bool IsEqual(Item* item) = 0;
 
 	GROUP_TYPE GetGroupType();
 	ITEM_TYPE GetType();
@@ -30,6 +31,8 @@ public:
 
 	int GetMaxQuantity();
 	void SetMaxQuantity(int _maxQuantity);
+
+	bool GetIsStackable();
 protected:
 	GROUP_TYPE groupType;
 	ITEM_TYPE itemType;

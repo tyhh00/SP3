@@ -19,3 +19,8 @@ void Cheese::Update(double dt)
 		std::cout << "consumed a cheese" << std::endl;
 	}
 }
+
+bool Cheese::IsEqual(Item* item1)
+{
+	return false;
+}

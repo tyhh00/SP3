@@ -100,29 +100,21 @@ void ScenePhysics::Update(double dt)
 	SceneBase::Update(dt);
 	inventory->Update(dt);
 
-	if (keyboard->IsKeyDown('P'))
+	if (keyboard->IsKeyPressed('P'))
 	{
-		std::cout << "P" << std::endl;
-	}
-	if (keyboard->IsKeyPressed('O'))
-	{
-		std::cout << "O" << std::endl;
-	}
-	if (keyboard->IsKeyReleased('L'))
-	{
-		std::cout << "L" << std::endl;
-	}
-
-	if (Application::IsKeyReleased('E'))
-	{
-		std::cout << "PRESSESD" << std::endl;
+		std::cout << "PRESSESD P" << std::endl;
 		Apple* newApple = new Apple();
 		inventory->AddItem(newApple);
 	}
-	if (Application::IsKeyReleased('E'))
+	if (keyboard->IsKeyPressed('O'))
 	{
+		std::cout << "PRESSESD O" << std::endl;
 		Cheese* newCheese = new Cheese();
 		inventory->AddItem(newCheese);
+	}
+	if (keyboard->IsKeyPressed('L'))
+	{
+		std::cout << "PRESSED L" << std::endl;
 	}
 
 	if(Application::IsKeyPressed('9'))
