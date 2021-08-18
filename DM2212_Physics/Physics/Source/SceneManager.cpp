@@ -19,8 +19,8 @@ void SceneManager::init()
 	physics->Init();
 	levelEditor = new LevelEditor();
 	levelEditor->Init();
-	test = new SceneTest();
-	test->Init();
+	graveyard = new SceneGraveyard();
+	graveyard->Init();
 	
 }
 
@@ -31,8 +31,8 @@ void SceneManager::setScene(worlds sceneType)
 	case w_physics:
 		activeScene = physics;
 		break;
-	case w_test:
-		activeScene = test;
+	case w_graveyard:
+		activeScene = graveyard;
 		break;
 	case w_levelEditor:
 		activeScene = levelEditor;
@@ -57,7 +57,7 @@ void SceneManager::destroy()
 {
 	
 	physics->Exit();
-	test->Exit();
+	graveyard->Exit();
 	levelEditor->Exit();
 }
 

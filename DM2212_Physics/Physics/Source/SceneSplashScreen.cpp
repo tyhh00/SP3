@@ -37,8 +37,8 @@ void SceneSplashScreen::Init()
 	meshList[GEO_BG]->textureID = LoadTGA("Image/WASABILogo.tga");
 
 	// left eye
-	lights[0].type = Light::LIGHT_SPOT;
-	lights[0].position.Set(m_worldWidth * 0.5 - 25, m_worldHeight * 0.5 + 8, 10);
+	lights[0].type = Light::LIGHT_POINT;
+	lights[0].position.Set(m_worldWidth * 0.5 - 25, m_worldHeight * 0.5 + 8, 1);
 	lights[0].color.Set(1, 0, 0);
 	lights[0].power = 0;
 	lights[0].kC = 1.f;
@@ -50,8 +50,8 @@ void SceneSplashScreen::Init()
 	lights[0].spotDirection.Set(0.f, 0.f, 1.f);
 
 	// right eye
-	lights[1].type = Light::LIGHT_SPOT;
-	lights[1].position.Set(m_worldWidth * 0.5 + 23, m_worldHeight * 0.5 + 7, 10);
+	lights[1].type = Light::LIGHT_POINT;
+	lights[1].position.Set(m_worldWidth * 0.5 + 23, m_worldHeight * 0.5 + 7, 1);
 	lights[1].color.Set(1, 0, 0);
 	lights[1].power = 0;
 	lights[1].kC = 1.f;

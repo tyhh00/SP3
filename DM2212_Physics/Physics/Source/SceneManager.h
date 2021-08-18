@@ -5,12 +5,13 @@
 //Worlds
 #include "ScenePhysics.h"
 #include "SceneTest.h"
+#include "SceneGraveyard.h"
 #include "LevelEditor.h"
 
 enum worlds
 {
 	w_physics = 0,
-	w_test,
+	w_graveyard,
 	w_levelEditor,
 	w_sceneTotal
 };
@@ -20,7 +21,7 @@ class SceneManager : public SceneBase, public CSingletonTemplate<SceneManager>
 	friend CSingletonTemplate<SceneManager>;
 public:
 	int sceneNum; 
-	SceneBase* physics, * test, * levelEditor;
+	SceneBase* physics, * graveyard, * levelEditor;
 	SceneBase* activeScene;
 
 	SceneManager();

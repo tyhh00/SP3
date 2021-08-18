@@ -14,7 +14,7 @@ void Player::Init()
 	physics->SetMovable(true);
 
 	speed = 1000.0f;
-	jump_force = 6000.0f;
+	jump_force = 7000.0f;
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("idle", 0, 1);
