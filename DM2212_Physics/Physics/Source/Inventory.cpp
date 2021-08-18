@@ -93,6 +93,10 @@ void Inventory::CycleItem(bool forward)
 	}
 }
 
+/**
+ @brief Switch between inventory item using index for the vector
+ @param index An Int for the index of the vector
+ */
 void Inventory::SwitchItem(int index)
 {
 	if (index >= itemVector.size())
@@ -135,6 +139,11 @@ void Inventory::AddItem(Item* newItem)
 	currentItem = newItem;
 }
 
+/**
+ @brief Add quantity to an existing item
+ @param item An Item* which is for the quantity to be added to the item
+ @param _quantity An int for the number of quantity to be added to the item
+ */
 int Inventory::AddQuantity(Item* item, int _quantity)
 {
 	//new qty to be added

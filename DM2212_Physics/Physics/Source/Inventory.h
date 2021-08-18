@@ -20,6 +20,7 @@ private:
 	Item* currentItem;
 	Keyboard* keyboard;
 	
+	//array to store all max Quantity
 	int maxQuantity[Item::I_TOTAL];
 };
 
