@@ -1,6 +1,7 @@
 #include "LevelEditor.h"
 #include "GL\glew.h"
 #include "Application.h"
+#include "Keyboard.h"
 #include <fstream>
 #include <sstream>   
 
@@ -29,6 +30,9 @@ void LevelEditor::Init()
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	m_worldHeight = m_screenHeight * 3;
 	m_worldWidth = m_screenWidth * 5;
+
+	canScrollIn = scrollingSpeed;
+	scrolledGeo = static_cast<GEOMETRY_TYPE>(GEOMETRY_TYPE::GEO_TILES_START + 1);
 
 	camera.Init(Vector3(0,0, 1), Vector3(0,0, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
@@ -111,7 +115,7 @@ bool LevelEditor::LoadMap(std::string filename)
 				DEBUG_MSG("Position " << split.at(1) << " attribute has a broken format in configuration. Skipping...");
 				continue;
 			}
-			pos = Vector3(std::stoi(posSplit.at(0)), std::stoi(posSplit.at(1)), std::stoi(posSplit.at(2)));
+			pos = Vector3(std::stod(posSplit.at(0)), std::stod(posSplit.at(1)), std::stod(posSplit.at(2)));
 
 			//Find Rotation
 			std::vector<std::string> rotSplit = splitStr(split.at(2), ',');
@@ -120,7 +124,7 @@ bool LevelEditor::LoadMap(std::string filename)
 				DEBUG_MSG("Normal " << split.at(2) << " attribute has a broken format in configuration. Skipping...");
 				continue;
 			}
-			normal = Vector3(std::stoi(rotSplit.at(0)), std::stoi(rotSplit.at(1)), std::stoi(rotSplit.at(2)));
+			normal = Vector3(std::stod(rotSplit.at(0)), std::stod(rotSplit.at(1)), std::stod(rotSplit.at(2)));
 
 			//Find Scale
 			std::vector<std::string> scaleSplit = splitStr(split.at(3), ',');
@@ -129,7 +133,7 @@ bool LevelEditor::LoadMap(std::string filename)
 				DEBUG_MSG("Scale " << split.at(3) << " attribute has a broken format in configuration. Skipping...");
 				continue;
 			}
-			scale = Vector3(std::stoi(scaleSplit.at(0)), std::stoi(scaleSplit.at(1)), std::stoi(scaleSplit.at(2)));
+			scale = Vector3(std::stod(scaleSplit.at(0)), std::stod(scaleSplit.at(1)), std::stod(scaleSplit.at(2)));
 			if (scale.x <= 0 || scale.y <= 0 || scale.z <= 0)
 			{
 				DEBUG_MSG("Scale " << split.at(3) << " attribute cannot have values less than or equal to 0. Skipping...");
@@ -174,7 +178,7 @@ void LevelEditor::SaveMap()
 			file << go->geoTypeID << ":" <<
 				go->pos.x << "," << go->pos.y << "," << go->pos.z << ":" <<
 				go->physics->GetNormal().x << "," << go->physics->GetNormal().y << "," << go->physics->GetNormal().z << ":" <<
-				go->scale.x / gridLength << "," << go->scale.y / gridLength << "," << go->scale.z / gridLength << std::endl;
+				go->scale.x / (tileSize[go->geoTypeID]->gridLength * gridLength) << "," << go->scale.y / (tileSize[go->geoTypeID]->gridHeight  * gridHeight) << "," << go->scale.z / gridLength << std::endl;
 		}
 
 		DEBUG_MSG("Saved " << mapName);
@@ -193,25 +197,29 @@ void LevelEditor::RemoveGO(GameObject* go)
 
 void LevelEditor::Update(double dt)
 {
+	SceneBase::Update(dt);
 	camera.Update(camera.position, dt);
 	fps = 1 / dt;
+
+	canScrollIn -= dt;
+	if (canScrollIn < 0.0)
+		canScrollIn = 0.0;
+
+	bool LKeyRelease = false;
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
 		bLButtonState = true; //Down
 	else if (bLButtonState && !Application::IsMousePressed(0))
+	{
 		bLButtonState = false; //Up
-	
+		LKeyRelease = true;
+	}
+
 	static bool bRButtonState = false;
 	if(!bRButtonState && Application::IsMousePressed(1))
 		bRButtonState = true; //Down
 	else if(bRButtonState && !Application::IsMousePressed(1))
 		bRButtonState = false; //Up
-	
-	static bool bMButtonState = false;
-	if (!bMButtonState && Application::IsMousePressed(2))
-		bMButtonState = true; //Down
-	else if (bMButtonState && !Application::IsMousePressed(2))
-		bMButtonState = false; //Up
 
 	static bool bCTRLState = false;
 	bool CTRLKeyRelease = false;
@@ -222,32 +230,145 @@ void LevelEditor::Update(double dt)
 		bCTRLState = false; //Up
 		CTRLKeyRelease = true;
 	}
+
+	scrollState = SCROLLER_GEOSWITCHER;
+	if (Application::IsKeyPressed('S'))
+		scrollState = SCROLLER_SCALE;
+	else if (Application::IsKeyPressed('R'))
+		scrollState = SCROLLER_ROTATE;
+	else if (Application::IsKeyPressed('T'))
+		scrollState = SCROLLER_TRANSLATE;
+
+	if(Keyboard::GetInstance()->IsKeyReleased('1'))
+	{
+		snapPosToGrid = !snapPosToGrid;
+	}
+
+	static bool cannotPasteYet = true; //after pressing Left-Click, you must let go of left click once before u can start placing blocks
+	static bool pastedOnce = false;
 	
 	for (std::vector<GameObject*>::iterator it = gridObjects.begin(); it != gridObjects.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
+		go->Update(dt);
+		go->physics->Update(dt);
 		double curs_tw_X, curs_tw_Y;
 		CursorToWorldPosition(curs_tw_X, curs_tw_Y);
 		//DEBUG_MSG("curs_tw_X: " <<  curs_tw_X << " curs_tw_Y: " <<  curs_tw_Y << " || " << go->pos.x << "x " << go->pos.y << "y");
 		//curs_tw_or Collided With Object
 		if (PosCollidedWithGO(curs_tw_X, curs_tw_Y, go))
 		{
-			unsavedChanges = true;
 			if (heldOnTo == nullptr && bLButtonState)
 			{
 				heldOnTo = go;
+				cannotPasteYet = true;
 			}
-			else if (heldOnTo != nullptr && !bLButtonState)
+			else if (heldOnTo != nullptr && !bLButtonState && !bCTRLState)
 			{
-				if(GetCollidedGOs(heldOnTo->pos.x, heldOnTo->pos.y).size() == 1)
+				if (GetCollidedGOs(heldOnTo->pos.x, heldOnTo->pos.y).size() == 1)
+				{
 					heldOnTo = nullptr;
+					unsavedChanges = true;
+				}
 			}
 
 		}
 	}
 	double curs_tw_X, curs_tw_Y;
 	CursorToWorldPosition(curs_tw_X, curs_tw_Y);
+	
+	//Enable Pasting
+	if (bCTRLState && LKeyRelease && cannotPasteYet)
+	{
+		cannotPasteYet = false;
+	}
 
+	//Scroll System
+	if (bCTRLState && Application::mouseScrollingUp > 0)
+	{
+		int scrollVal = 0;
+		if (Application::mouseScrollingUp == 1)
+			scrollVal -= 1;
+		else if (Application::mouseScrollingUp == 2)
+			scrollVal += 1;
+
+		switch (scrollState)
+		{
+		case SCROLLER_GEOSWITCHER:
+		{
+			cannotPasteYet = true;
+			if (canScrollIn <= 0.0)
+			{
+				canScrollIn = scrollingSpeed;
+				scrolledGeo = static_cast<GEOMETRY_TYPE>(scrolledGeo + scrollVal);
+				if (scrolledGeo >= GEOMETRY_TYPE::GEO_TILES_END)
+					scrolledGeo = static_cast<GEOMETRY_TYPE>(GEOMETRY_TYPE::GEO_TILES_START + 2);
+				if (scrolledGeo <= GEOMETRY_TYPE::GEO_TILES_START)
+					scrolledGeo = static_cast<GEOMETRY_TYPE>(GEOMETRY_TYPE::GEO_TILES_END - 1);
+			}
+			//Delete heldOnTo if it exists & GEO Type != new scrolledGeo
+			if (heldOnTo != nullptr)
+			{
+				pastedOnce = false;
+				//Delete HeldOnTo
+				for (auto& go : gridObjects)
+				{
+					if (go == heldOnTo)
+					{
+						delete go;
+						go = nullptr;
+					}
+				}
+				heldOnTo = nullptr;
+				gridObjects.erase(std::remove(gridObjects.begin(), gridObjects.end(), nullptr), gridObjects.end());
+			}
+			GameObject* obj = new GameObject(GameObject::GO_TILE, meshList[scrolledGeo], scrolledGeo);
+			obj->pos = Vector3(curs_tw_X, curs_tw_Y);
+			obj->physics->SetNormal(Vector3(0, 1, 0));
+			obj->scale = Vector3(1, 1, 1) * gridLength;
+			obj->scale.x *= tileSize[scrolledGeo]->gridLength;
+			obj->scale.y *= tileSize[scrolledGeo]->gridHeight;
+			heldOnTo = obj;
+			gridObjects.push_back(heldOnTo);
+			break;
+		}
+
+		case SCROLLER_TRANSLATE:
+			if (heldOnTo != nullptr)
+			{
+				cannotPasteYet = true;
+				heldOnTo->pos += heldOnTo->physics->GetNormal() * (scrollVal);
+			}
+			break;
+		
+		case SCROLLER_ROTATE:
+			if (heldOnTo != nullptr)
+			{
+				cannotPasteYet = true;
+				float angle = atan2(heldOnTo->physics->GetNormal().y, heldOnTo->physics->GetNormal().x);
+				angle += (scrollVal) * dt * 2.5;
+				heldOnTo->physics->SetNormal(Vector3(cosf(angle), sinf(angle), 0));
+			}
+			break;
+
+		case SCROLLER_SCALE:
+			if (heldOnTo != nullptr)
+			{
+				heldOnTo->scale += heldOnTo->scale * (scrollVal)*dt;
+				if (heldOnTo->scale.x < 0.01)
+					heldOnTo->scale.x = 0.01;
+				if (heldOnTo->scale.y < 0.01)
+					heldOnTo->scale.y = 0.01;
+				if (heldOnTo->scale.z < 0.01)
+					heldOnTo->scale.z = 0.01;
+			}
+			break;
+
+
+		}
+		
+
+	}
 
 	if (heldOnTo != nullptr)
 	{
@@ -256,13 +377,13 @@ void LevelEditor::Update(double dt)
 		double gridDiameter_Y = (gridHeight) * 2;
 		snap_X = floor((curs_tw_X) / gridDiameter_X) * gridDiameter_X;
 		snap_Y = floor((curs_tw_Y) / gridDiameter_Y) * gridDiameter_Y;
-		if (heldOnTo->scale.y > 1.0)
+		if (heldOnTo->scale.y > gridHeight)
 		{
-			snap_Y += (heldOnTo->scale.y - 1) * 0.5;
+			snap_Y += (heldOnTo->scale.y - gridHeight) * 0.5;
 		}
-		else if (heldOnTo->scale.x > 1.0)
+		else if (heldOnTo->scale.x > gridLength)
 		{
-			snap_X += (heldOnTo->scale.x - 1) * 0.5;
+			snap_X += (heldOnTo->scale.x - gridLength) * 0.5;
 		}
 
 		unsavedChanges = true;
@@ -282,10 +403,9 @@ void LevelEditor::Update(double dt)
 				heldOnTo->pos.x = curs_tw_X;
 				heldOnTo->pos.y = curs_tw_Y;
 			}
-			static bool pastedOnce = false;
-			if (bCTRLState && heldOnTo != nullptr) //Holding Down control
+			if (bCTRLState && heldOnTo != nullptr && bLButtonState) //Holding Down control
 			{
-				if (GetCollidedGOs(heldOnTo->pos.x, heldOnTo->pos.y).size() == 1)
+				if (GetCollidedGOs(heldOnTo->pos.x, heldOnTo->pos.y).size() == 1 && !cannotPasteYet)
 				{
 					gridObjects.push_back(heldOnTo->Clone());
 					pastedOnce = true;
@@ -337,11 +457,10 @@ void LevelEditor::Update(double dt)
 				}
 			}
 			gridObjects.erase(std::remove(gridObjects.begin(), gridObjects.end(), nullptr), gridObjects.end());
-
 		}
 	}
 
-	if (bCTRLState && Application::IsKeyPressed('S'))
+	if (bCTRLState && Keyboard::GetInstance()->IsKeyPressed('S'))
 	{
 		if(unsavedChanges)
 			SaveMap();
@@ -437,11 +556,65 @@ void LevelEditor::Render()
 
 
 	double x,y;
-	CursorToWorldPosition(x, y);
+	CursorPosition(x, y);
 	ss.str("");
 	ss.precision(3);
 	ss << "Cursor Position: (" << x << ", " << y << ")";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 1), 3, 64, 97);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 97);
+
+	double wX, wY;
+	CursorToWorldPosition(wX, wY);
+	ss.str("");
+	ss.precision(3);
+	ss << "World Position: (" << wX << ", " << wY << ")";
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 94);
+
+	ss.str("");
+	ss.precision(3);
+	ss << "Editor: ";
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 91);
+
+	ss.str("");
+	ss.precision(3);
+	ss << "Changes " << (unsavedChanges ? "UNSAVED":"SAVED");
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color((unsavedChanges ? 1 : 0), (unsavedChanges ? 0 : 1), 0), 3, 0,88);
+
+	ss.str("");
+	ss.precision(3);
+	ss << "Snap to Grid " << (snapPosToGrid ? "ENABLED" : "Disabled");
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color((snapPosToGrid ? 0 : 1), (snapPosToGrid ? 1 : 0), 0), 3, 0, 85);
+
+	//int line = 88;
+
+	//line -= 3;
+	//ss.str("");
+	//ss.precision(3);
+	//ss << "Left-Click to select block";
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, line);
+
+	//line -= 3;
+	//ss.str("");
+	//ss.precision(3);
+	//ss << "CTRL + Left-Click to paste selected block";
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, line);
+
+	//line -= 3;
+	//ss.str("");
+	//ss.precision(3);
+	//ss << "CTRL + Scroll to paste scroll through all types of blocks";
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, line);
+
+	//line -= 3;
+	//ss.str("");
+	//ss.precision(3);
+	//ss << "Let go of CTRL to unselect tile";
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, line);
+
+	//line -= 3;
+	//ss.str("");
+	//ss.precision(3);
+	//ss << "CTRL + S to save";
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, line);
 
 	RenderTextOnScreen(meshList[GEO_TEXT], mapName, Color(1, 1, 1), 3, 0, 0);
 }

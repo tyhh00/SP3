@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\LevelLoader.cpp" />
     <ClCompile Include="Source\Apple.cpp" />
     <ClCompile Include="Source\Cheese.cpp" />
     <ClCompile Include="Source\Consumable.cpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="Source\Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\LevelLoader.h" />
     <ClInclude Include="Source\Apple.h" />
     <ClInclude Include="Source\Cheese.h" />
     <ClInclude Include="Source\Consumable.h" />

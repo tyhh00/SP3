@@ -26,6 +26,7 @@ GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 int m_width, m_height;
+int Application::mouseScrollingUp = 0;
 
 //Define an error callback
 static void error_callback(int error, const char* description)
@@ -39,6 +40,14 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
+}
+
+static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	if (yoffset > 0)
+		Application::mouseScrollingUp = 1; //Scroll Up
+	else if (yoffset < 0)
+		Application::mouseScrollingUp = 2; //Scroll Down
 }
 
 
@@ -65,6 +74,7 @@ void Application::GetCursorPos(double *xpos, double *ypos)
 {
 	glfwGetCursorPos(m_window, xpos, ypos);
 }
+
 int Application::GetWindowWidth()
 {
 	return m_width;
@@ -130,6 +140,7 @@ void Application::Init()
 	//Sets the key callback
 	//glfwSetKeyCallback(m_window, key_callback);
 	glfwSetWindowSizeCallback(m_window, resize_callback);
+	glfwSetScrollCallback(m_window, scroll_callback);
 
 	glewExperimental = true; // Needed for core profile
 	//Initialize GLEW
@@ -175,6 +186,8 @@ void Application::Run()
 		//sceneArray[index]->Update(m_timer.getElapsedTime());
 		//sceneArray[index]->Render();
 		//Swap buffers
+		Application::mouseScrollingUp = 0; //Reset Scrolling
+
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
 		glfwPollEvents();
