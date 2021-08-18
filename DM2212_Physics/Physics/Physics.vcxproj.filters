@@ -18,6 +18,21 @@
     <Filter Include="Header Files\SoundController">
       <UniqueIdentifier>{6b972421-c4f1-4149-84a0-3aa39f348ed2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Items">
+      <UniqueIdentifier>{e96510ac-a375-4143-808a-7d35a7a09f9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scenes">
+      <UniqueIdentifier>{153f7fc7-cbd6-4594-8933-eec155d73c09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Items">
+      <UniqueIdentifier>{644a2ae9-4e42-4064-85fb-0e21843be559}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scenes">
+      <UniqueIdentifier>{289758db-2b2c-4b48-b54c-aa19f1fed4c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameStateManagement">
+      <UniqueIdentifier>{2ac4f12d-650b-4433-8d25-3bcfd0f7eef1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -56,12 +71,6 @@
     <ClCompile Include="Source\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneCollision.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SceneTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -77,13 +86,7 @@
     <ClCompile Include="Source\Inventory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Item.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Physics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ScenePhysics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameStateManagement\MenuState.cpp">
@@ -104,18 +107,6 @@
     <ClCompile Include="Source\GameStateManagement\LobbyState.cpp">
       <Filter>Source Files\GameStateManagement</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Weapon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Consumable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Apple.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Cheese.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Keyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -128,11 +119,35 @@
     <ClCompile Include="Source\SoundController/SoundInfo.cpp">
       <Filter>Source Files\SoundController</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneSplashScreen.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Source\Apple.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Cheese.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneCollision.cpp">
+      <Filter>Source Files\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\SceneGraveyard.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ScenePhysics.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneSplashScreen.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneTest.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Weapon.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Consumable.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Item.cpp">
+      <Filter>Source Files\Items</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,12 +196,6 @@
     <ClInclude Include="Source\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneCollision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -202,9 +211,6 @@
     <ClInclude Include="Source\Inventory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Item.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Physics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -214,41 +220,8 @@
     <ClInclude Include="Source\Shape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ScenePhysics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GameStateManagement\IntroState.h">
-      <Filter>Source Files\GameStateManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GameStateManagement\GameStateManager.h">
-      <Filter>Source Files\GameStateManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GameStateManagement\GameStateBase.h">
-      <Filter>Source Files\GameStateManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GameStateManagement\MenuState.h">
-      <Filter>Source Files\GameStateManagement</Filter>
-    </ClInclude>
     <ClInclude Include="Source\SceneManager.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GameStateManagement\PlayGameState.h">
-      <Filter>Source Files\GameStateManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GameStateManagement\LobbyState.h">
-      <Filter>Source Files\GameStateManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Weapon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Consumable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Apple.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Cheese.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Keyboard.h">
       <Filter>Header Files</Filter>
@@ -268,11 +241,53 @@
     <ClInclude Include="Source\filesystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneSplashScreen.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Source\Cheese.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Apple.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameStateManagement\GameStateBase.h">
+      <Filter>Header Files\GameStateManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameStateManagement\GameStateManager.h">
+      <Filter>Header Files\GameStateManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameStateManagement\IntroState.h">
+      <Filter>Header Files\GameStateManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameStateManagement\MenuState.h">
+      <Filter>Header Files\GameStateManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameStateManagement\LobbyState.h">
+      <Filter>Header Files\GameStateManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameStateManagement\PlayGameState.h">
+      <Filter>Header Files\GameStateManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneCollision.h">
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneGraveyard.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScenePhysics.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneSplashScreen.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneTest.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Weapon.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Item.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Consumable.h">
+      <Filter>Header Files\Items</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

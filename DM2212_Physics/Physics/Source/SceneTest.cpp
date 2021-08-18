@@ -554,7 +554,7 @@ void SceneTest::SetLights()
 	lights[0].type = Light::LIGHT_POINT;
 	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
 	lights[0].color.Set(1, 1, 0.9);
-	lights[0].power = 2;
+	lights[0].power = 1;
 	lights[0].kC = 1.f;
 	lights[0].kL = 0.01f;
 	lights[0].kQ = 0.001f;
@@ -564,8 +564,8 @@ void SceneTest::SetLights()
 	lights[0].spotDirection.Set(0.f, 0.f, 1.f);
 
 	lights[1].type = Light::LIGHT_SPOT;
-	lights[1].position.Set(0, 0, 1);
-	lights[1].color.Set(0.6, 0.6, 1);
+	lights[1].position.Set(0, 20, 0);
+	lights[1].color.Set(0.0, 0.0, 1);
 	lights[1].power = 1;
 	lights[1].kC = 1.f;
 	lights[1].kL = 0.01f;

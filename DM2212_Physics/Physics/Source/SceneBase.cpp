@@ -148,6 +148,24 @@ void SceneBase::Init()
 	LoadTile(GEO_TILEGRID, "Grid.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_BLOCK_UP_RED, "Scene2D_GroundTile.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_PLAYER_GIRL1, "Player_Girl1.tga", 1, 1.5, SHAPE_TYPE::RECTANGLE);
+	// graveyard
+	LoadTile(GEO_GY_CENTER, "GRAVEYARD_CENTER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_TOP_MID, "GRAVEYARD_TOPMID.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_TOP_LEFT, "GRAVEYARD_TOPLEFT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_TOP_RIGHT, "GRAVEYARD_TOPRIGHT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_LEFT, "GRAVEYARD_LEFT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_RIGHT, "GRAVEYARD_RIGHT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_BOT_MID, "GRAVEYARD_BOTMID.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_BOT_LEFT, "GRAVEYARD_BOT_LEFT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_BOT_RIGHT, "GRAVEYARD_BOT_RIGHT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_PLATFORM_LEFT, "GRAVEYARD_PLATFORM_LEFT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_PLATFORM_RIGHT, "GRAVEYARD_PLATFORM_RIGHT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_PLATFORM_MID, "GRAVEYARD_PLATFORM_MID.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_CORNER_LEFT, "GRAVEYARD_LEFTCORNER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_CORNER_RIGHT, "GRAVEYARD_RIGHTCORNER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_EDGE_LEFT, "GRAVEYARD_LEFTEDGE.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_EDGE_RIGHT, "GRAVEYARD_RIGHTEDGE.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	
 
 	//Entities (Player, etc)
 
@@ -158,8 +176,6 @@ void SceneBase::Init()
 	meshList[GEO_BUTTON] = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BUTTON]->textureID = LoadTGA("Image/button.tga");
 
-	meshList[GEO_UIFRAME] = MeshBuilder::GenerateQuad("UI Frame", Color(1, 1, 1), 1.0f);
-	meshList[GEO_UIFRAME]->textureID = LoadTGA("Image/uiframe.tga");
 	meshList[GEO_WALL] = MeshBuilder::GenerateQuad("Wall", Color(1, 1, 1), 2.0f);
 	meshList[GEO_BALL] = MeshBuilder::GenerateCircle("circle", 1.0f, Color(1, 1, 1));
 	meshList[GEO_100] = MeshBuilder::GenerateCircle("score tings", 1.0f, Color(1, 1, 1));
