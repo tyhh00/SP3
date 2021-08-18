@@ -7,7 +7,6 @@ Cheese::Cheese(int _numOfHoles)
 {
 	isStackable = true;
 	quantity = 1;
-	maxQuantity = 3;
 	numOfHoles = _numOfHoles;
 	itemType = I_CHEESE;
 }

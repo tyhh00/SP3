@@ -14,10 +14,14 @@ public:
 	void CycleItem(bool forward = true);
 	void SwitchItem(int index);
 	void AddItem(Item* newItem);
+	int AddQuantity(Item* item, int _quantity);
 private:
 	std::vector<Item*> itemVector;
 	Item* currentItem;
 	Keyboard* keyboard;
+	
+	//array to store all max Quantity
+	int maxQuantity[Item::I_TOTAL];
 };
 
 

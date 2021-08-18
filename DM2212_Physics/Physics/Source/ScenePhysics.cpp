@@ -138,6 +138,7 @@ void ScenePhysics::Update(double dt)
 		std::cout << "PRESSESD P" << std::endl;
 		Apple* newApple = new Apple();
 		inventory->AddItem(newApple);
+		//inventory.setmax(i_apple, 10);
 	}
 	if (keyboard->IsKeyPressed('O'))
 	{

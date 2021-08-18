@@ -14,6 +14,11 @@
 void Inventory::Init()
 {
 	keyboard = Keyboard::GetInstance();
+
+	for (int i = 0; i < sizeof(maxQuantity) / sizeof(maxQuantity[0]); i++)
+	{
+		maxQuantity[i] = 5;
+	}
 }
 
 /**
@@ -88,6 +93,10 @@ void Inventory::CycleItem(bool forward)
 	}
 }
 
+/**
+ @brief Switch between inventory item using index for the vector
+ @param index An Int for the index of the vector
+ */
 void Inventory::SwitchItem(int index)
 {
 	if (index >= itemVector.size())
@@ -101,11 +110,11 @@ void Inventory::SwitchItem(int index)
  */
 void Inventory::AddItem(Item* newItem)
 {
-	if (itemVector.size() <= 0)
+	//check if item vector is empty, then just add the item into the item vector
+	if (itemVector.empty())
 	{
 		itemVector.push_back(newItem);
 		currentItem = newItem;
-		std::cout << currentItem->GetType() << std::endl;
 		return;
 	}
 
@@ -114,18 +123,47 @@ void Inventory::AddItem(Item* newItem)
 
 	for (Item* item : itemVector)
 	{
+		//loop through entire item vector to check for the same item type
 		if (newItem->GetType() == item->GetType())
 		{
-			if (newItem->GetIsStackable() && item->IsEqual(newItem))
+			//check if the item is stackable, and if its equal to one another
+			if (item->GetIsStackable() && item->IsEqual(newItem))
 			{
+				//add the quantity to the existing item
 				std::cout << "adding new qty to item: " << item->GetType() << std::endl;
-				item->AddQuantity(1);
+				AddQuantity(item, newItem->GetQuantity());
 				return;
 			}
 		}
 	}
 
+	//if cannot find an existing item or is existing item is not stackable, add it to the item vector
 	std::cout << "adding new item to vector" << std::endl;
 	itemVector.push_back(newItem);
 	currentItem = newItem;
+}
+
+/**
+ @brief Add quantity to an existing item
+ @param item An Item* which is for the quantity to be added to the item
+ @param _quantity An int for the number of quantity to be added to the item
+ */
+int Inventory::AddQuantity(Item* item, int _quantity)
+{
+	//new qty to be added
+	int newQuantity = item->GetQuantity() + _quantity;
+
+	//check if new qty exceeds max qty
+	if (newQuantity > maxQuantity[item->GetType()])
+	{
+		//set item's qty to max, and return remainder
+		int remainderQuantity = newQuantity - maxQuantity[item->GetType()];
+		item->SetQuantity(maxQuantity[item->GetType()]);
+
+		return remainderQuantity;
+	}
+
+	//else set qty to new qty
+	item->SetQuantity(newQuantity);
+	return 0;
 }
