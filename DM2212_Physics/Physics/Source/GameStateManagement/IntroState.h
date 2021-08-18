@@ -14,6 +14,8 @@
 //#include "../Scene2D/BackgroundEntity.h"
 #include <string>
 
+#include "../SoundController/SoundController.h"
+
 class CIntroState : public CGameStateBase
 {
 public:
@@ -21,6 +23,8 @@ public:
 	CIntroState(void);
 	// Destructor
 	~CIntroState(void);
+
+	CSoundController* soundController;
 
 	// Init this class instance
 	virtual bool Init(void);

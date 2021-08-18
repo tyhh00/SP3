@@ -147,7 +147,7 @@ void SceneBase::Init()
 	//Tiles (Player tile, environmental tiles)
 	LoadTile(GEO_TILEGRID, "Grid.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_BLOCK_UP_RED, "Scene2D_GroundTile.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_PLAYER_GIRL1, "Player_Girl1.tga", 1.5, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_PLAYER_GIRL1, "Player_Girl1.tga", 1, 1.5, SHAPE_TYPE::RECTANGLE);
 
 	//Entities (Player, etc)
 

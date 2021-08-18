@@ -1,5 +1,6 @@
 #include "GameObjectManager.h"
 
+
 void GameObjectManager::Init()
 {
 	m_speed = 1.f;
@@ -250,7 +251,6 @@ void GameObjectManager::Render(SceneBase* scene)
 		scene->modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		scene->RenderMesh(go->mesh, true);
 		scene->modelStack.PopMatrix();
-		
 	}
 }
 void GameObjectManager::AddGO(GameObject* go)
