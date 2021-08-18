@@ -44,8 +44,8 @@ void SceneSplashScreen::Init()
 	lights[0].kC = 1.f;
 	lights[0].kL = 0.01f;
 	lights[0].kQ = 0.001f;
-	lights[0].cosCutoff = cos(Math::DegreeToRadian(60));
-	lights[0].cosInner = cos(Math::DegreeToRadian(45));
+	lights[0].cosCutoff = cos(Math::DegreeToRadian(45));
+	lights[0].cosInner = cos(Math::DegreeToRadian(30));
 	lights[0].exponent = 1.f;
 	lights[0].spotDirection.Set(0.f, 0.f, 1.f);
 
@@ -57,8 +57,8 @@ void SceneSplashScreen::Init()
 	lights[1].kC = 1.f;
 	lights[1].kL = 0.01f;
 	lights[1].kQ = 0.001f;
-	lights[1].cosCutoff = cos(Math::DegreeToRadian(60));
-	lights[1].cosInner = cos(Math::DegreeToRadian(45));
+	lights[1].cosCutoff = cos(Math::DegreeToRadian(45));
+	lights[1].cosInner = cos(Math::DegreeToRadian(30));
 	lights[1].exponent = 3.f;
 	lights[1].spotDirection.Set(0.f, 0.f, 1.f);
 
@@ -154,8 +154,8 @@ void SceneSplashScreen::Update(double dt)
 		if (AS_timer > 0.5f)
 		{
 			AS_timer = 0;
-			lights[0].power = 10;
-			lights[1].power = 10;
+			lights[0].power = 5;
+			lights[1].power = 5;
 			glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
 			glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
 			ASTATE = AS_EVIL;

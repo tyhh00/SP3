@@ -57,7 +57,6 @@ bool CIntroState::Init(void)
 	soundController->LoadSound("Sounds\\Sound_GameBG2.wav", SOUND_TYPE::BG_ARCADE2, true, true);
 	soundController->LoadSound("Sounds\\Sound_MainMenu.wav", SOUND_TYPE::BG_MAINMENU, true, true);
 
-	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_MAINMENU);
 
 	sceneSplash = new SceneSplashScreen();
 	sceneSplash->Init();

@@ -443,5 +443,5 @@ void SceneBase::Exit()
 
 void SceneBase::SetLights()
 {
-	
+	bLightEnabled = false;
 }
