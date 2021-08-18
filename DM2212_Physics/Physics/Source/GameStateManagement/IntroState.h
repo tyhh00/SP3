@@ -8,6 +8,7 @@
  */
 
 #include "GameStateBase.h"
+#include "../SceneSplashScreen.h"
 
 //#include "Primitives/Mesh.h"
 //#include "../Scene2D/BackgroundEntity.h"
@@ -31,5 +32,5 @@ public:
 	virtual void Destroy(void);
 
 protected:
-	//CBackgroundEntity* background;
+	SceneSplashScreen* sceneSplash;
 };

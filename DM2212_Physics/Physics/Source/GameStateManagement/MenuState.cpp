@@ -120,7 +120,7 @@ void CMenuState::Render(void)
 {
 	// Clear the screen and buffer
 	glClearColor(0.0f, 0.55f, 1.00f, 1.00f);
-
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	cout << "CMenuState::Render()\n" << endl;
 }
 

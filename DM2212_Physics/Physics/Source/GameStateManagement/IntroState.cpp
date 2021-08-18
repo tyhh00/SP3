@@ -37,6 +37,8 @@ bool CIntroState::Init(void)
 {
 	cout << "CIntroState::Init()\n" << endl;
 
+	sceneSplash = new SceneSplashScreen();
+	sceneSplash->Init();
 	return true;
 }
 
@@ -57,6 +59,8 @@ bool CIntroState::Update(const double dElapsedTime)
 		return true;
 	}
 
+	sceneSplash->Update(dElapsedTime);
+
 	return true;
 }
 
@@ -66,7 +70,8 @@ bool CIntroState::Update(const double dElapsedTime)
 void CIntroState::Render()
 {
 	// Clear the screen and buffer
-	glClearColor(0.0f, 0.55f, 1.00f, 1.00f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.00f);
+	sceneSplash->Render();
 }
 
 /**
@@ -75,4 +80,11 @@ void CIntroState::Render()
 void CIntroState::Destroy(void)
 {
 	cout << "CIntroState::Destroy()\n" << endl;
+
+	if (sceneSplash)
+	{
+		sceneSplash->Exit();
+		delete sceneSplash;
+		sceneSplash = NULL;
+	}
 }

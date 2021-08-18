@@ -57,9 +57,7 @@ void SceneManager::destroy()
 {
 	
 	physics->Exit();
-	
 	test->Exit();
-	
 	levelEditor->Exit();
 }
 

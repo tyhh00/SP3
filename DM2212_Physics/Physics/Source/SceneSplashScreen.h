@@ -23,6 +23,19 @@ public:
 
 protected:
 
+	enum ANIM_STATE {
+
+		AS_BRIGHTEN,
+		AS_WAIT,
+		AS_EVIL,
+		AS_INNOCENT,
+
+		ASTATE_TOTAL
+	};
+
+	ANIM_STATE ASTATE;
+	double AS_timer;
+
 	float m_speed;
 	float m_screenWidth;
 	float m_screenHeight;
