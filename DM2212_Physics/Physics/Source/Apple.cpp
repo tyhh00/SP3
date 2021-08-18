@@ -6,9 +6,10 @@
 Apple::Apple(int stemLength)
 	: stemLength(stemLength)
 {
-	isStackable = false;
+	isStackable = true;
 	quantity = 1;
-	maxQuantity = 1;
+	maxQuantity = 5;
+	itemType = I_APPLE;
 }
 
 void Apple::Init()
@@ -17,7 +18,6 @@ void Apple::Init()
 
 void Apple::Update(double dt)
 {
-	std::cout << "updating apple" << std::endl;
 	if (Application::IsKeyPressed('G'))
 	{
 		std::cout << "consumed an apple" << std::endl;
@@ -28,6 +28,7 @@ void Apple::Update(double dt)
 bool Apple::IsEqual(Item* item1)
 {
 	Apple* checkApple = static_cast<Apple*>(item1);
+	std::cout << this->stemLength << " " << checkApple->stemLength << std::endl;
 	if (this->stemLength == checkApple->stemLength)
 		return true;
 	return false;

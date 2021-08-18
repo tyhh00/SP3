@@ -11,6 +11,7 @@ protected:
 
 	enum ITEM_TYPE {
 		I_APPLE,
+		I_CHEESE,
 		I_PISTOL,
 		I_TOTAL
 	};

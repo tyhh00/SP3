@@ -3,8 +3,13 @@
 #include "LoadTGA.h"
 #include "Cheese.h"
 
-Cheese::Cheese()
+Cheese::Cheese(int _numOfHoles)
 {
+	isStackable = true;
+	quantity = 1;
+	maxQuantity = 3;
+	numOfHoles = _numOfHoles;
+	itemType = I_CHEESE;
 }
 
 void Cheese::Init()
@@ -13,7 +18,6 @@ void Cheese::Init()
 
 void Cheese::Update(double dt)
 {
-	std::cout << "updating cheese" << std::endl;
 	if (Application::IsKeyPressed('G'))
 	{
 		std::cout << "consumed a cheese" << std::endl;
@@ -22,5 +26,9 @@ void Cheese::Update(double dt)
 
 bool Cheese::IsEqual(Item* item1)
 {
+	Cheese* checkCheese = static_cast<Cheese*>(item1);
+	std::cout << this->numOfHoles << " " << checkCheese->numOfHoles<< std::endl;
+	if (this->numOfHoles == checkCheese->numOfHoles)
+		return true;
 	return false;
 }

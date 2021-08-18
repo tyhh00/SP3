@@ -93,6 +93,7 @@ void ScenePhysics::Init()
 	goManager->AddGO(go2);
 
 	inventory = new Inventory();
+	inventory->Init();
 }
 
 void ScenePhysics::Update(double dt)
@@ -115,6 +116,8 @@ void ScenePhysics::Update(double dt)
 	if (keyboard->IsKeyPressed('L'))
 	{
 		std::cout << "PRESSED L" << std::endl;
+		Cheese* newCheese = new Cheese(2);
+		inventory->AddItem(newCheese);
 	}
 
 	if(Application::IsKeyPressed('9'))

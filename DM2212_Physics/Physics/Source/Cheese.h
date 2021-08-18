@@ -4,13 +4,13 @@
 
 class Cheese : public Consumable {
 public:
-	Cheese();
+	Cheese(int numOfHoles = 1);
 	void Init() override;
 	void Update(double dt) override;
 	bool IsEqual(Item* item) override;
 
 private:
-	
+	int numOfHoles;
 };
 
 

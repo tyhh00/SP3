@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Item.h"
 #include <vector>
+#include "Keyboard.h"
 
 class Inventory {
 public:
@@ -16,6 +17,7 @@ public:
 private:
 	std::vector<Item*> itemVector;
 	Item* currentItem;
+	Keyboard* keyboard;
 };
 
 

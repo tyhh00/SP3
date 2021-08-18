@@ -13,6 +13,7 @@
  */
 void Inventory::Init()
 {
+	keyboard = Keyboard::GetInstance();
 }
 
 /**
@@ -25,17 +26,17 @@ void Inventory::Update(double dt)
 		currentItem->Update(dt);
 
 
-	if (Application::IsKeyReleased(VK_LEFT))
+	if (keyboard->IsKeyPressed(VK_LEFT))
 	{
 		std::cout << "cycle backward" << std::endl;
 		CycleItem(false);
-		std::cout << currentItem->GetQuantity() << std::endl;
+		std::cout << "qty: " << currentItem->GetQuantity() << std::endl;
 	}
-	if (Application::IsKeyReleased(VK_RIGHT))
+	if (keyboard->IsKeyPressed(VK_RIGHT))
 	{
 		std::cout << "cycle forward" << std::endl;
 		CycleItem(true);
-		std::cout << currentItem->GetQuantity();
+		std::cout << "qty: " << currentItem->GetQuantity() << std::endl;
 	}
 	if (Application::IsKeyReleased('5'))
 	{
@@ -70,6 +71,7 @@ void Inventory::CycleItem(bool forward)
 			if (currentItemIndex == itemVector.size() - 1)
 				currentItemIndex = -1;
 			currentItem = itemVector[currentItemIndex + 1];
+			std::cout << "curr: " << currentItem->GetType() << std::endl;
 		}
 	}
 	else //cycle backwards
@@ -81,6 +83,7 @@ void Inventory::CycleItem(bool forward)
 			if (currentItemIndex == 0)
 				currentItemIndex = itemVector.size();
 			currentItem = itemVector[currentItemIndex - 1];
+			std::cout << "curr: " << currentItem->GetType() << std::endl;
 		}
 	}
 }
@@ -98,23 +101,31 @@ void Inventory::SwitchItem(int index)
  */
 void Inventory::AddItem(Item* newItem)
 {
-	bool itemExist = true;
-	bool isStackable = true;
-	for (Item* item : itemVector)
-	{
-		if (newItem == item)
-		{
-			itemExist = true;
-			if (newItem->GetIsStackable() && item->IsEqual(newItem))
-				item->AddQuantity(1);
-			else
-				isStackable = false;
-		}
-	}
-
-	if (!itemExist && !isStackable)
+	if (itemVector.size() <= 0)
 	{
 		itemVector.push_back(newItem);
 		currentItem = newItem;
+		std::cout << currentItem->GetType() << std::endl;
+		return;
 	}
+
+	bool itemExist = false;
+	bool isStackable = false;
+
+	for (Item* item : itemVector)
+	{
+		if (newItem->GetType() == item->GetType())
+		{
+			if (newItem->GetIsStackable() && item->IsEqual(newItem))
+			{
+				std::cout << "adding new qty to item: " << item->GetType() << std::endl;
+				item->AddQuantity(1);
+				return;
+			}
+		}
+	}
+
+	std::cout << "adding new item to vector" << std::endl;
+	itemVector.push_back(newItem);
+	currentItem = newItem;
 }

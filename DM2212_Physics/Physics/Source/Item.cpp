@@ -52,14 +52,19 @@ void Item::SetQuantity(int _quantity)
 
 int Item::AddQuantity(int _quantity)
 {
+	//new qty to be added
 	int newQuantity = quantity + _quantity;
+
+	//if new qty exceeds max qty, return remainder
 	if (newQuantity > maxQuantity)
 	{
 		int remainderQuantity = newQuantity - maxQuantity;
 		return remainderQuantity;
 	}
 
+	//else set qty to new qty
 	quantity = newQuantity;
+	return 0;
 }
 
 int Item::GetMaxQuantity()
