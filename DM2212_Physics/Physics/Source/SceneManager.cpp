@@ -21,6 +21,8 @@ void SceneManager::init()
 	levelEditor->Init();
 	graveyard = new SceneGraveyard();
 	graveyard->Init();
+	lobby = new SceneLobby();
+	lobby->Init();
 	
 }
 
@@ -36,6 +38,9 @@ void SceneManager::setScene(worlds sceneType)
 		break;
 	case w_levelEditor:
 		activeScene = levelEditor;
+		break;
+	case w_lobby:
+		activeScene = lobby;
 		break;
 	}
 	activeScene->SetLights();
@@ -59,5 +64,6 @@ void SceneManager::destroy()
 	physics->Exit();
 	graveyard->Exit();
 	levelEditor->Exit();
+	lobby->Exit();
 }
 
