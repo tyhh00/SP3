@@ -16,6 +16,8 @@ void Player::Init()
 	speed = 1000.0f;
 	jump_force = 7000.0f;
 
+	keyboard = Keyboard::GetInstance();
+
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("idle", 0, 1);
 	animatedSprites->AddAnimation("right", 6, 8);
@@ -23,14 +25,14 @@ void Player::Init()
 	animatedSprites->PlayAnimation("idle", -1, 1.0f);
 	mesh = animatedSprites;
 	mesh->textureID = LoadTGA("Image/girlsprite.tga");
-	
+
 }
 
 void Player::Update(double dt)
 { 
 	animatedSprites->Update(dt);
 
-	if (AkeyDown && !Application::IsKeyPressed('A'))
+	/*if (AkeyDown && !Application::IsKeyPressed('A'))
 	{
 		AkeyDown = false;
 		std::cout << "A Key Released" << std::endl;
@@ -63,7 +65,23 @@ void Player::Update(double dt)
 		std::cout << "D Key Pressed" << std::endl;
 		animatedSprites->PlayAnimation("right", -1, 1.0f);
 		physics->AddVelocity(speed * dt);
-	}
+	}*/
+
+	//temp keyboard controls
+	if (keyboard->IsKeyDown('A'))
+		physics->SetVelocity(Vector3(-speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+	else if (keyboard->IsKeyDown('D'))
+		physics->SetVelocity(Vector3(speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+	else
+		physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
+
+	//animations based on x velocity
+	if (physics->GetVelocity().x > 1)
+		animatedSprites->PlayAnimation("right", -1, 1.0f);
+	else if (physics->GetVelocity().x < -1)
+		animatedSprites->PlayAnimation("left", -1, 1.0f);
+	else
+		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 
 	if (spaceKeyDown && !Application::IsKeyPressed(VK_SPACE))
 	{
@@ -77,7 +95,7 @@ void Player::Update(double dt)
 		spaceKeyDown = true;
 		std::cout << "Space Key Pressed" << std::endl;
 		float accel_amt = jump_force / physics->GetMass();
-		physics->SetVelocity(Vector3(physics->GetVelocity().x, physics->GetVelocity().y + accel_amt * dt, physics->GetVelocity().z));
+		physics->AddVelocity(Vector3(0, physics->GetVelocity().y + accel_amt * dt, 0));
 	}
 
 }
