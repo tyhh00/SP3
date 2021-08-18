@@ -14,7 +14,7 @@ void Player::Init()
 	physics->SetMovable(true);
 
 	speed = 1000.0f;
-	jump_force = 7000.0f;
+	jump_force = 10000.0f;
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("idle", 0, 1);
@@ -22,7 +22,11 @@ void Player::Init()
 	animatedSprites->AddAnimation("left", 3, 5);
 	animatedSprites->PlayAnimation("idle", -1, 1.0f);
 	mesh = animatedSprites;
-	mesh->textureID = LoadTGA("Image/girlsprite.tga");	
+	mesh->textureID = LoadTGA("Image/girlsprite.tga");
+
+	// CHEAT FIX - TBC; LIGHTING NOT WORKING ON SPRITE ANIMATION MESH
+	mesh->material.kAmbient.Set(1, 1, 1);
+
 }
 
 void Player::Update(double dt)

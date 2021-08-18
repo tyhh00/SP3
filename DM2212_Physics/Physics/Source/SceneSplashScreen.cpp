@@ -146,11 +146,11 @@ void SceneSplashScreen::Update(double dt)
 		if (meshList[GEO_BG]->material.kAmbient.r >= 1)
 		{
 			meshList[GEO_BG]->material.kAmbient.Set(1, 1, 1);
-			ASTATE = AS_WAIT;
+			ASTATE = AS_INNOCENT;
 			AS_timer = 0;
 		}
 		break;
-	case AS_WAIT:
+	/*case AS_WAIT:
 		if (AS_timer > 0.5f)
 		{
 			AS_timer = 0;
@@ -182,7 +182,7 @@ void SceneSplashScreen::Update(double dt)
 		else
 		{
 			AS_timer += dt;
-		}
+		}*/
 		break;
 	case AS_INNOCENT:
 		if (AS_timer > 1.0f)
