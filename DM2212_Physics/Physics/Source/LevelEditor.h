@@ -24,11 +24,20 @@ public:
 	Action(GameObject* go) : go(go) {}
 };
 
+enum SCROLLER_STATE
+{
+	SCROLLER_TRANSLATE,
+	SCROLLER_ROTATE,
+	SCROLLER_SCALE,
+	SCROLLER_GEOSWITCHER
+};
+
 //LevelEditor itself will be a scene
 //Since we dont need GO_Type, we just use GEO_TYPE(Since its directly working with art)
 class LevelEditor : public SceneBase
 {
 	const std::string file_path = "Levels\\";
+	const float scrollingSpeed = 0.1;
 
 protected:
 	std::vector<GameObject*> gridObjects; //Disassociation with GameObjectManager
@@ -43,9 +52,13 @@ protected:
 	bool snapRotToGrid;
 	bool snapScaleToGrid;
 
+	SCROLLER_STATE scrollState;
+
 	GameObject* heldOnTo;
 
-	//How to do inventory of tiles
+	double canScrollIn;
+	GEOMETRY_TYPE scrolledGeo;
+
 	float m_screenWidth;
 	float m_screenHeight;
 	float m_worldWidth;

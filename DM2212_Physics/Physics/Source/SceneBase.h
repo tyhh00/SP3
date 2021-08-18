@@ -73,9 +73,9 @@ public:
 		GEO_TILES_START = 4,
 		GEO_TILEGRID = 5,
 
-		GEO_PLAYER_GIRL1 = 10,
+		GEO_PLAYER_GIRL1 = 6,
 
-		GEO_BLOCK_UP_RED = 25,
+		GEO_BLOCK_UP_RED = 7,
 
 		//Tiles End
 		GEO_TILES_END,
