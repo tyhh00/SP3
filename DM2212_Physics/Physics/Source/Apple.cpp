@@ -3,13 +3,14 @@
 #include "LoadTGA.h"
 #include "Apple.h"
 
-Apple::Apple(int stemLength)
+Apple::Apple(int _quantity, int stemLength)
 	: stemLength(stemLength)
 {
 	isStackable = true;
-	quantity = 1;
-	maxQuantity = 5;
+	quantity = _quantity;
 	itemType = I_APPLE;
+
+	keyboard = Keyboard::GetInstance();
 }
 
 void Apple::Init()
@@ -18,7 +19,7 @@ void Apple::Init()
 
 void Apple::Update(double dt)
 {
-	if (Application::IsKeyPressed('G'))
+	if (keyboard->IsKeyPressed('G'))
 	{
 		RemoveQuantity(1);
 	}

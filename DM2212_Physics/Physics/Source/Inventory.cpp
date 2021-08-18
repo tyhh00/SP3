@@ -14,6 +14,11 @@
 void Inventory::Init()
 {
 	keyboard = Keyboard::GetInstance();
+
+	for (int i = 0; i < sizeof(maxQuantity) / sizeof(maxQuantity[0]); i++)
+	{
+		maxQuantity[i] = 5;
+	}
 }
 
 /**
@@ -119,7 +124,7 @@ void Inventory::AddItem(Item* newItem)
 			if (newItem->GetIsStackable() && item->IsEqual(newItem))
 			{
 				std::cout << "adding new qty to item: " << item->GetType() << std::endl;
-				item->AddQuantity(1);
+				AddQuantity(item, newItem->GetQuantity());
 				return;
 			}
 		}
@@ -128,4 +133,22 @@ void Inventory::AddItem(Item* newItem)
 	std::cout << "adding new item to vector" << std::endl;
 	itemVector.push_back(newItem);
 	currentItem = newItem;
+}
+
+int Inventory::AddQuantity(Item* item, int _quantity)
+{
+	//new qty to be added
+	int newQuantity = item->GetQuantity() + _quantity;
+
+	//if new qty exceeds max qty, return remainder
+	if (newQuantity > maxQuantity[item->GetType()])
+	{
+		int remainderQuantity = newQuantity - maxQuantity[item->GetType()];
+		item->SetQuantity(maxQuantity[item->GetType()]);
+		return remainderQuantity;
+	}
+
+	//else set qty to new qty
+	item->SetQuantity(newQuantity);
+	return 0;
 }
