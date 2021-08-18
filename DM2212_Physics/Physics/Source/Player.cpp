@@ -16,6 +16,8 @@ void Player::Init()
 	speed = 1000.0f;
 	jump_force = 10000.0f;
 
+	keyboard = Keyboard::GetInstance();
+
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("idle", 0, 1);
 	animatedSprites->AddAnimation("right", 6, 8);
@@ -80,7 +82,7 @@ void Player::Update(double dt)
 		spaceKeyDown = true;
 		std::cout << "Space Key Pressed" << std::endl;
 		float accel_amt = jump_force / physics->GetMass();
-		physics->SetVelocity(Vector3(physics->GetVelocity().x, physics->GetVelocity().y + accel_amt * dt, physics->GetVelocity().z));
+		physics->AddVelocity(Vector3(0, physics->GetVelocity().y + accel_amt * dt, 0));
 	}
 
 }

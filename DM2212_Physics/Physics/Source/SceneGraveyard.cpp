@@ -73,6 +73,8 @@ void SceneGraveyard::Init()
 			player->scale = go->scale;
 			player->pos = go->pos;
 			player->physics = go->physics->Clone();
+			player->physics->SetInelasticity(0.99f);
+			player->physics->SetIsBouncable(false);
 			player->Init();
 
 			player->AddBottomSprite();

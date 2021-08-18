@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "SpriteAnimation.h"
 #include "Physics.h"
+#include "Keyboard.h"
 
 class Player : public GameObject {
 public:
@@ -18,6 +19,8 @@ private:
 
 	bool AkeyDown, DkeyDown;
 	bool spaceKeyDown;
+
+	Keyboard* keyboard;
 };
 
 
