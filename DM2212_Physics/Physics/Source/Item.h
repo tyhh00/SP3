@@ -29,6 +29,7 @@ public:
 	int GetQuantity();
 	void SetQuantity(int _quantity);
 	int AddQuantity(int _quantity);
+	int RemoveQuantity(int _quantity);
 
 	int GetMaxQuantity();
 	void SetMaxQuantity(int _maxQuantity);

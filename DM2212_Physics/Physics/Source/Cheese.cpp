@@ -27,7 +27,7 @@ void Cheese::Update(double dt)
 bool Cheese::IsEqual(Item* item1)
 {
 	Cheese* checkCheese = static_cast<Cheese*>(item1);
-	std::cout << this->numOfHoles << " " << checkCheese->numOfHoles<< std::endl;
+	std::cout << "first cheese has: " << this->numOfHoles << " holes and second cheese has: " << checkCheese->numOfHoles << " holes" << std::endl;
 	if (this->numOfHoles == checkCheese->numOfHoles)
 		return true;
 	return false;

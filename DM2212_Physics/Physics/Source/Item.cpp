@@ -67,6 +67,22 @@ int Item::AddQuantity(int _quantity)
 	return 0;
 }
 
+int Item::RemoveQuantity(int _quantity)
+{
+	//new qty to be added
+	int newQuantity = quantity - _quantity;
+
+	//if new qty lesser than 0, return new qty
+	if (newQuantity < 0)
+	{
+		return newQuantity;
+	}
+
+	//else set qty to new qty
+	quantity = newQuantity;
+	return 0;
+}
+
 int Item::GetMaxQuantity()
 {
 	return maxQuantity;

@@ -20,15 +20,14 @@ void Apple::Update(double dt)
 {
 	if (Application::IsKeyPressed('G'))
 	{
-		std::cout << "consumed an apple" << std::endl;
-		this->SetQuantity(this->GetQuantity() - 1);
+		RemoveQuantity(1);
 	}
 }
 
 bool Apple::IsEqual(Item* item1)
 {
 	Apple* checkApple = static_cast<Apple*>(item1);
-	std::cout << this->stemLength << " " << checkApple->stemLength << std::endl;
+	std::cout << "first apple has stem length: " << this->stemLength << " and second apple has stem length: " << checkApple->stemLength << std::endl;
 	if (this->stemLength == checkApple->stemLength)
 		return true;
 	return false;
