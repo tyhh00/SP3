@@ -4,6 +4,14 @@
 #include "Application.h"
 #include "LoadTGA.h"
 #include <sstream>
+#include "LevelLoader.h"
+
+#include "Debug.h"
+
+//Entity Includes
+#include "Player.h"
+
+//...
 
 ScenePhysics::ScenePhysics()
 {
@@ -22,38 +30,64 @@ void ScenePhysics::Init()
 	goManager->Init();
 
 	// Calculating aspect ratio
-	m_worldHeight = 100.f;
-	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_gameWidth = m_worldWidth * 0.75;
+	m_screenHeight = 100.f;
+	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
+	m_worldHeight = m_screenHeight * 3;
+	m_worldWidth = m_screenWidth * 5;
 
-	camera.Init(Vector3(m_worldWidth * 0.5f, m_worldHeight * 0.5f, 1), Vector3(m_worldWidth * 0.5f, m_worldHeight * 0.5f, 0), Vector3(0, 1, 0));
-	//camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	//Camera init
+	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
+
+	//Inventory init
+	inventory = new Inventory();
+	inventory->Init();
 
 	//Physics code here
 	m_speed = 1.f;
-
 	Math::InitRNG();
 
+	//Store keyboard instance
 	keyboard = Keyboard::GetInstance();
 
-	meshList[GEO_UIFRAME] = MeshBuilder::GenerateQuad("UI Frame", Color(1, 1, 1), 1.0f);
-	meshList[GEO_UIFRAME]->textureID = LoadTGA("Image/uiframe.tga");
-	meshList[GEO_WALL] = MeshBuilder::GenerateQuad("Wall", Color(1, 1, 1), 2.0f);
-	meshList[GEO_BALL] = MeshBuilder::GenerateCircle("circle", 1.0f, Color(1, 1, 1));
-	meshList[GEO_100] = MeshBuilder::GenerateCircle("score tings", 1.0f, Color(1, 1, 1));
-	meshList[GEO_100]->textureID = LoadTGA("Image/100.tga");
-	meshList[GEO_10] = MeshBuilder::GenerateCircle("score tings", 1.0f, Color(1, 1, 1));
-	meshList[GEO_10]->textureID = LoadTGA("Image/10.tga");
-	meshList[GEO_50] = MeshBuilder::GenerateCircle("score tings", 1.0f, Color(1, 1, 1));
-	meshList[GEO_50]->textureID = LoadTGA("Image/50.tga");
-	meshList[GEO_HIGHLIGHT] = MeshBuilder::GenerateCircle("highlight", 1.0f, Color(0.0f, 1.0f, 0.0f));
+	//Level Loading
+	std::vector<GameObject*> tiles;
+	if(LevelLoader::GetInstance()->LoadTiles("LEVEL_1", this->meshList, this->tileSize, tiles, gridLength, gridHeight))
+		DEBUG_MSG("Level Did not load successfully");
+	for (auto& go : tiles)
+	{
+		if (go->geoTypeID == GEOMETRY_TYPE::GEO_PLAYER_GIRL1)
+		{
+			GameObject* player;
+			player = new Player();
+			player->active = true;
+			player->scale = go->scale;
+			player->pos = go->pos;
+			player->Init();
+			//player->physics->setInelasticValue(0.9f);
 
+			//player->AddBottomSprite();
+			//player->bottomSprite->mesh = meshList[GEO_WALL];
+			goManager->AddGO(player);
+
+			//Delete Grid Player
+			delete go;
+			go = nullptr;
+		}
+	}
+	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
+	
+	//Add all remainding tiles
+	goManager->AddAllGO(tiles);
+
+
+	//Physics Test Initialisations
 	// PILLARs
 	go = new GameObject;
 	go->type = GameObject::GO_WALL;
 	go->physics->shapeType = RECTANGLE;
 	go->physics->SetMass(3);
-	go->pos.Set(m_worldWidth * 0.5f, m_worldHeight * 0.5f, 0);
+	go->pos.Set(m_screenWidth * 0.5f, m_screenHeight * 0.5f, 0);
 	go->scale.Set(2.5, 2.5, 2.5);
 	go->physics->SetMovable(true);
 	go->active = true;
@@ -64,7 +98,7 @@ void ScenePhysics::Init()
 	go2->type = GameObject::GO_WALL;
 	go2->physics->SetNormal(Vector3(cos(Math::DegreeToRadian(45)), sin(Math::DegreeToRadian(45)), 0));
 	go2->physics->shapeType = RECTANGLE;
-	go2->pos.Set(m_worldWidth * 0.25f, m_worldHeight * 0.15f, 0);
+	go2->pos.Set(m_screenWidth * 0.25f, m_screenHeight * 0.15f, 0);
 	go2->scale.Set(10, 10, 1);
 	go2->physics->SetMovable(false);
 	go2->active = true;
@@ -75,7 +109,7 @@ void ScenePhysics::Init()
 	go2->type = GameObject::GO_WALL;
 	go2->physics->SetVelocity(Vector3(1, 0, 0));
 	go2->physics->shapeType = RECTANGLE;
-	go2->pos.Set(m_worldWidth * 0.5f, m_worldHeight * 0.35f, 0);
+	go2->pos.Set(m_screenWidth * 0.5f, m_screenHeight * 0.35f, 0);
 	go2->scale.Set(5, 5, 1);
 	go2->physics->SetMovable(true);
 	go2->active = true;
@@ -85,21 +119,19 @@ void ScenePhysics::Init()
 	go2 = new GameObject;
 	go2->type = GameObject::GO_WALL;
 	go2->physics->shapeType = RECTANGLE;
-	go2->pos.Set(m_worldWidth * 0.5f, m_worldHeight * 0.15f, 0);
+	go2->pos.Set(m_screenWidth * 0.5f, m_screenHeight * 0.15f, 0);
 	go2->scale.Set(2.5, 70, 2.5);
 	go2->physics->SetMovable(false);
 	go2->active = true;
 	go2->mesh = meshList[GEO_WALL];
 	goManager->AddGO(go2);
-
-	inventory = new Inventory();
-	inventory->Init();
 }
 
 void ScenePhysics::Update(double dt)
 {
 	SceneBase::Update(dt);
 	inventory->Update(dt);
+	camera.Update(camera.position, dt);
 
 	if (keyboard->IsKeyPressed('P'))
 	{
@@ -116,8 +148,8 @@ void ScenePhysics::Update(double dt)
 	if (keyboard->IsKeyPressed('L'))
 	{
 		std::cout << "PRESSED L" << std::endl;
-		Cheese* newCheese = new Cheese(2);
-		inventory->AddItem(newCheese);
+		//Cheese* newCheese = new Cheese(2);
+		//inventory->AddItem(newCheese);
 	}
 
 	if(Application::IsKeyPressed('9'))
@@ -153,7 +185,8 @@ void ScenePhysics::Render()
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
 //	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -10, 10);
-	projection.SetToPerspective(m_worldWidth - 1.0f, m_worldWidth / m_worldHeight, 0.1f, 1000.f);
+	projection.SetToOrtho(-1 * m_screenWidth * 0.5f, m_screenWidth * 0.5f, -1 * m_screenHeight * 0.5f, m_screenHeight * 0.5f, -10, 10);
+
 	projectionStack.LoadMatrix(projection);
 
 	// Camera matrix

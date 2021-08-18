@@ -160,6 +160,18 @@ void SceneBase::Init()
 	meshList[GEO_BUTTON] = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BUTTON]->textureID = LoadTGA("Image/button.tga");
 
+	meshList[GEO_UIFRAME] = MeshBuilder::GenerateQuad("UI Frame", Color(1, 1, 1), 1.0f);
+	meshList[GEO_UIFRAME]->textureID = LoadTGA("Image/uiframe.tga");
+	meshList[GEO_WALL] = MeshBuilder::GenerateQuad("Wall", Color(1, 1, 1), 2.0f);
+	meshList[GEO_BALL] = MeshBuilder::GenerateCircle("circle", 1.0f, Color(1, 1, 1));
+	meshList[GEO_100] = MeshBuilder::GenerateCircle("score tings", 1.0f, Color(1, 1, 1));
+	meshList[GEO_100]->textureID = LoadTGA("Image/100.tga");
+	meshList[GEO_10] = MeshBuilder::GenerateCircle("score tings", 1.0f, Color(1, 1, 1));
+	meshList[GEO_10]->textureID = LoadTGA("Image/10.tga");
+	meshList[GEO_50] = MeshBuilder::GenerateCircle("score tings", 1.0f, Color(1, 1, 1));
+	meshList[GEO_50]->textureID = LoadTGA("Image/50.tga");
+	meshList[GEO_HIGHLIGHT] = MeshBuilder::GenerateCircle("highlight", 1.0f, Color(0.0f, 1.0f, 0.0f));
+
 	bLightEnabled = false;
 }
 

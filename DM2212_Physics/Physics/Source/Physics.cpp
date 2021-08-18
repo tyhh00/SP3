@@ -360,7 +360,7 @@ void Physics::ApplyInelastic(Physics* ball, Vector3 normal, double dt)
 		iN = -1 * iN;
 	}
 	Vector3 proj = ball->vel.Dot(iN) * iN;
-	ball->vel = ball->vel - 0.5f * proj;
+	ball->vel = ball->vel - 0.9f * proj;
 }
 
 /**

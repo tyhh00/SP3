@@ -24,6 +24,7 @@ public:
 	void Init();
 	void Render(SceneBase* scene);
 	void AddGO(GameObject* go);
+	void AddAllGO(std::vector<GameObject*> gos);
 	bool CheckCollision(GameObject* go1, GameObject* go2, float dt);
 	void Exit();
 	void Update(double dt);

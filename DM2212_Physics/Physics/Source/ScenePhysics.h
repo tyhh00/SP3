@@ -27,14 +27,19 @@ public:
 protected:
 
 	float m_speed;
+
+	float m_screenWidth;
+	float m_screenHeight;
 	float m_worldWidth;
-	float m_gameWidth;
 	float m_worldHeight;
+
 
 	GameObject* go;
 	Inventory* inventory;
 	Keyboard* keyboard;
 	GameObjectManager* goManager;
+
+	double gridLength, gridHeight;
 
 	GameObject* FetchGO(bool isMovable);
 	bool CheckCollision(GameObject* go1, GameObject* go2, float dt); // Checks for collision

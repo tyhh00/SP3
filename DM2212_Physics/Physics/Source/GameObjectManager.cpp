@@ -180,30 +180,29 @@ void GameObjectManager::Update(double dt)
 			{
 				GameObject* go2 = (GameObject*)*it2;
 
-				if (go2->active)
+
+				// attachment for checking if onGround
+				if (go->bottomSprite != nullptr)
 				{
-					// attachment for checking if onGround
-					if (go->bottomSprite != nullptr)
+					if (CheckCollision(go->bottomSprite, go2, dt))
 					{
-						if (CheckCollision(go->bottomSprite, go2, dt))
-						{
-							go->physics->SetOnGround(true);
-						}
+						go->physics->SetOnGround(true);
 					}
-
-					go2->physics->pos = go2->pos;
-					go2->physics->scale = go2->scale;
-					if (CheckCollision(go, go2, dt))
-					{
-						go->physics->CollisionResponse(go->physics, go2->physics, dt);
-						go->pos = go->physics->pos;
-						go2->pos = go2->physics->pos;
-						continue; //remove if stays at the end
-					}
-
-
-
 				}
+
+				go2->physics->pos = go2->pos;
+				go2->physics->scale = go2->scale;
+				if (CheckCollision(go, go2, dt))
+				{
+					go->physics->CollisionResponse(go->physics, go2->physics, dt);
+					go->pos = go->physics->pos;
+					go2->pos = go2->physics->pos;
+					continue; //remove if stays at the end
+				}
+
+
+
+				
 			}
 		}
 	}
@@ -243,16 +242,15 @@ void GameObjectManager::Render(SceneBase* scene)
 	for (std::vector<GameObject*>::iterator it = m_stationaryGOList.begin(); it != m_stationaryGOList.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go->active)
-		{
-			float angle = Math::RadianToDegree(atan2(go->physics->GetNormal().y, go->physics->GetNormal().x));
-			scene->modelStack.PushMatrix();
-			scene->modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-			scene->modelStack.Rotate(angle + go->physics->GetRotateZ(), 0, 0, 1);
-			scene->modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			scene->RenderMesh(go->mesh, true);
-			scene->modelStack.PopMatrix();
-		}
+
+		float angle = Math::RadianToDegree(atan2(go->physics->GetNormal().y, go->physics->GetNormal().x));
+		scene->modelStack.PushMatrix();
+		scene->modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		scene->modelStack.Rotate(angle + go->physics->GetRotateZ(), 0, 0, 1);
+		scene->modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		scene->RenderMesh(go->mesh, true);
+		scene->modelStack.PopMatrix();
+		
 	}
 }
 void GameObjectManager::AddGO(GameObject* go)
@@ -266,6 +264,13 @@ void GameObjectManager::AddGO(GameObject* go)
 		m_stationaryGOList.push_back(go);
 	}
 }
+
+void GameObjectManager::AddAllGO(std::vector<GameObject*> gos)
+{
+	for (auto& go : gos)
+		AddGO(go);
+}
+
 //
 //void GameObjectManager::RenderGO(GameObject* go)
 //{

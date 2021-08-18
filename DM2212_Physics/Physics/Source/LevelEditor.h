@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "SceneBase.h"
 #include "Debug.h"
+#include "LevelLoader.h"
 
 //Used in Update Loop of Level Editor, CTRL-Z, Find previous action, and base on type of action, revert changes
 enum ACTION_TYPE
@@ -36,7 +37,6 @@ enum SCROLLER_STATE
 //Since we dont need GO_Type, we just use GEO_TYPE(Since its directly working with art)
 class LevelEditor : public SceneBase
 {
-	const std::string file_path = "Levels\\";
 	const float scrollingSpeed = 0.1;
 
 protected:
