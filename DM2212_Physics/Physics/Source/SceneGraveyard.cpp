@@ -60,6 +60,7 @@ void SceneGraveyard::Init()
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BG]->textureID = LoadTGA("Image/GraveyardBG.tga");
 
+
 	//Level Loading
 	std::vector<GameObject*> tiles;
 	if(LevelLoader::GetInstance()->LoadTiles("GRAVEYARD_1_1", this->meshList, this->tileSize, tiles, gridLength, gridHeight))
@@ -94,10 +95,19 @@ void SceneGraveyard::Init()
 	// Add all remaining tiles
 	goManager->AddAllGO(tiles);
 
+	GameObject* obj = new GameObject(GameObject::GO_TILE, meshList[GEO_GY_PLATFORM_LEFT], RECTANGLE);
+	obj->pos.Set(40, 30, 0);
+	obj->physics->SetNormal(Vector3(-1, 0, 0));
+	obj->scale.Set(5, 5, 5);
+	goManager->AddGO(obj);
+
 	// Camera 
 	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);
+
+	abilityManager.Init();
+	abilityManager.SetCamera(&camera);
 }
 
 void SceneGraveyard::Update(double dt)
@@ -113,9 +123,9 @@ void SceneGraveyard::Update(double dt)
 	lights[1].position.Set(mouseposx, mouseposy, 10);
 
 	
-	if (Application::IsMousePressed(2))
+	if (Application::IsMousePressed(0))
 	{
-
+		// flashlgiht power/exponent
 	}
 
 	if(Application::IsKeyPressed('9'))
@@ -126,8 +136,11 @@ void SceneGraveyard::Update(double dt)
 	{
 		m_speed += 0.1f;
 	}
-
+	
 	goManager->Update(dt);
+
+	abilityManager.UpdateCondition(player->physics->GetOnGround());
+	abilityManager.Update(player->pos, dt);
 }
 
 void SceneGraveyard::Render()
@@ -203,6 +216,8 @@ void SceneGraveyard::Render()
 	RenderMesh(meshList[GEO_BG], true);
 	modelStack.PopMatrix();
 
+	abilityManager.Render(this);
+
 	goManager->Render(this);
 
 	std::ostringstream ss;
@@ -229,7 +244,7 @@ void SceneGraveyard::Render()
 
 void SceneGraveyard::SetLights()
 {
-	lights[0].type = Light::LIGHT_POINT;
+	lights[0].type = Light::LIGHT_DIRECTIONAL;
 	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 1);
 	lights[0].color.Set(1, 1, 1);
 	lights[0].power = 4;
@@ -243,7 +258,7 @@ void SceneGraveyard::SetLights()
 
 	lights[1].type = Light::LIGHT_SPOT;
 	lights[1].position.Set(0, 0, 1);
-	lights[1].color.Set(0, 0, 1);
+	lights[1].color.Set(0.8, 0.8, 1);
 	lights[1].power = 2;
 	lights[1].kC = 1.f;
 	lights[1].kL = 0.01f;
@@ -276,7 +291,7 @@ void SceneGraveyard::SetLights()
 	glUniform1f(m_parameters[U_LIGHT1_COSINNER], lights[1].cosInner);
 	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], lights[1].exponent);
 
-	bLightEnabled = true;
+	bLightEnabled = false;
 }
 
 void SceneGraveyard::CursorToWorldPosition(double& theX, double& theY)

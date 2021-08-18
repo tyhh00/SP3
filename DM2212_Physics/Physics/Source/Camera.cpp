@@ -203,14 +203,14 @@ void Camera::SetMode(MODE mode)
 		NEWD_X = 0;
 		MAXD_Y = 0;
 		NEWD_Y = 0;
-		std::cout << "Mode has been set to CENTER." << std::endl;
+		std::cout << "Camera mode has been set to CENTER." << std::endl;
 		break;
 	case EDGE:
 		MAXD_X = defaultMAXD_X;
 		NEWD_X = defaultNEWD_X;
 		MAXD_Y = defaultMAXD_Y;
 		NEWD_Y = defaultNEWD_Y;
-		std::cout << "Mode has been set to EDGE." << std::endl;
+		std::cout << "Camera mode has been set to EDGE." << std::endl;
 		break;
 	default:
 		break;
