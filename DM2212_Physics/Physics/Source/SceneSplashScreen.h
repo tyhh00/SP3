@@ -1,5 +1,5 @@
-#ifndef SCENE_LIGHT_H
-#define SCENE_LIGHT_H
+#ifndef SCENE_SPLASHSCREEN_H
+#define SCENE_SPLASHSCREEN_H
 
 #include "GameObject.h"
 #include <vector>
@@ -8,11 +8,11 @@
 #include "GameObjectManager.h"
 #include "Keyboard.h"
 
-class SceneLight : public SceneBase
+class SceneSplashScreen : public SceneBase
 {
 public:
-	SceneLight();
-	~SceneLight();
+	SceneSplashScreen();
+	~SceneSplashScreen();
 
 	virtual void Init();
 	virtual void Update(double dt);
@@ -23,8 +23,18 @@ public:
 
 protected:
 
+	enum ANIM_STATE {
 
-	
+		AS_BRIGHTEN,
+		AS_WAIT,
+		AS_EVIL,
+		AS_INNOCENT,
+
+		ASTATE_TOTAL
+	};
+
+	ANIM_STATE ASTATE;
+	double AS_timer;
 
 	float m_speed;
 	float m_screenWidth;
@@ -32,7 +42,6 @@ protected:
 	float m_worldWidth;
 	float m_worldHeight;
 	int m_objectCount;
-	
 
 };
 

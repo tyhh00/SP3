@@ -12,6 +12,12 @@
     <Filter Include="Source Files\GameStateManagement">
       <UniqueIdentifier>{58e0c9c4-41ab-4b00-9177-bdb45cdce413}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\SoundController">
+      <UniqueIdentifier>{1802fb18-4500-4e42-ab13-5edd7afb42e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SoundController">
+      <UniqueIdentifier>{6b972421-c4f1-4149-84a0-3aa39f348ed2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -113,10 +119,19 @@
     <ClCompile Include="Source\Keyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneLight.cpp">
+    <ClCompile Include="Source\LevelLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\LevelLoader.cpp">
+    <ClCompile Include="Source\SoundController/SoundController.cpp">
+      <Filter>Source Files\SoundController</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SoundController/SoundInfo.cpp">
+      <Filter>Source Files\SoundController</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneSplashScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneGraveyard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -238,10 +253,25 @@
     <ClInclude Include="Source\Keyboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneLight.h">
+    <ClInclude Include="Source\LevelLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\LevelLoader.h">
+    <ClInclude Include="Source\SoundController/SoundController.h">
+      <Filter>Header Files\SoundController</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SoundController/SoundInfo.h">
+      <Filter>Header Files\SoundController</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SoundController/SoundType.h">
+      <Filter>Header Files\SoundController</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\filesystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneSplashScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneGraveyard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

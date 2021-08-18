@@ -19,26 +19,26 @@ void SceneManager::init()
 	physics->Init();
 	levelEditor = new LevelEditor();
 	levelEditor->Init();
-	test = new SceneTest();
-	test->Init();
+	graveyard = new SceneGraveyard();
+	graveyard->Init();
+	
 }
 
 void SceneManager::setScene(worlds sceneType)
 {
-	
-
 	switch (sceneType)
 	{
 	case w_physics:
 		activeScene = physics;
 		break;
-	case w_test:
-		activeScene = test;
+	case w_graveyard:
+		activeScene = graveyard;
 		break;
 	case w_levelEditor:
 		activeScene = levelEditor;
 		break;
 	}
+	activeScene->SetLights();
 	
 }
 void SceneManager::update(double dt)
@@ -49,6 +49,7 @@ void SceneManager::update(double dt)
 
 void SceneManager::render()
 {
+	glClearColor(0.0f, 0.0f, 0.0f, 1.00f);
 	activeScene->Render();
 }
 
@@ -56,9 +57,7 @@ void SceneManager::destroy()
 {
 	
 	physics->Exit();
-	
-	test->Exit();
-	
+	graveyard->Exit();
 	levelEditor->Exit();
 }
 

@@ -72,10 +72,10 @@ public:
 		//Make sure to use = to ensure maintenance of IDs (to never conflict)
 		GEO_TILES_START = 4,
 		GEO_TILEGRID = 5,
-
 		GEO_PLAYER_GIRL1 = 6,
-
 		GEO_BLOCK_UP_RED = 7,
+		GEO_SOMETHING = 8,
+
 
 		//Tiles End
 		GEO_TILES_END,
@@ -143,6 +143,8 @@ public:
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
+
+	virtual void SetLights();
 
 	void LoadTile(GEOMETRY_TYPE type, std::string fileName, double length, double height, SHAPE_TYPE shapeType);
 	TileSetting* GetTileSetting(GEOMETRY_TYPE type);

@@ -63,12 +63,17 @@ void ScenePhysics::Init()
 			player->active = true;
 			player->scale = go->scale;
 			player->pos = go->pos;
+			player->physics = go->physics->Clone();
 			player->Init();
 			//player->physics->setInelasticValue(0.9f);
 
 			//player->AddBottomSprite();
 			//player->bottomSprite->mesh = meshList[GEO_WALL];
 			goManager->AddGO(player);
+
+
+			DEBUG_MSG("From Phy Editor: " << player->scale);
+			
 
 			//Delete Grid Player
 			delete go;

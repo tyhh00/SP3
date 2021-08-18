@@ -10,14 +10,11 @@ void Player::Init()
 	DkeyDown = false;
 	spaceKeyDown = false;
 
-
-	physics = new Physics(RECTANGLE, pos, scale);
 	physics->SetMass(5);
 	physics->SetMovable(true);
-	physics->SetNormal(Vector3(1, 0, 0));
 
 	speed = 1000.0f;
-	jump_force = 6000.0f;
+	jump_force = 7000.0f;
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("idle", 0, 1);
@@ -26,6 +23,7 @@ void Player::Init()
 	animatedSprites->PlayAnimation("idle", -1, 1.0f);
 	mesh = animatedSprites;
 	mesh->textureID = LoadTGA("Image/girlsprite.tga");
+	
 }
 
 void Player::Update(double dt)

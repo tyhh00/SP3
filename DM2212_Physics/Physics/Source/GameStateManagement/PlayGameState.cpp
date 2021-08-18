@@ -39,7 +39,6 @@ bool CPlayGameState::Init(void)
 	cout << "CPlayGameState::Init()\n" << endl;
 
 	sceneManager = SceneManager::GetInstance();
-	sceneManager->init();
 
 	return true;
 }
@@ -67,7 +66,6 @@ bool CPlayGameState::Update(const double dElapsedTime)
 void CPlayGameState::Render(void)
 {
 	sceneManager->render();
-
 }
 
 /**

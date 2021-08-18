@@ -34,6 +34,8 @@
 //#include "Inputs/KeyboardController.h"
 //#include "../Application.h"
 
+#include "../SoundController/SoundController.h"
+
 #include <iostream>
 using namespace std;
 
@@ -61,36 +63,7 @@ bool CMenuState::Init(void)
 {
 	cout << "CMenuState::Init()\n" << endl;
 
-	//CShaderManager::GetInstance()->Use("2DShader");
-	//CShaderManager::GetInstance()->activeShader->setInt("texture1", 0);
-
-	////Create Background Entity
-	//background = new CBackgroundEntity("Image/MenuBackground.png");
-	//background->SetShader("2DShader");
-	//background->Init();
-
-	// Setup Dear ImGui context
-	//IMGUI_CHECKVERSION();
-	//ImGui::CreateContext();
-	//ImGuiIO& io = ImGui::GetIO(); (void)io;
-
-	//// Setup Dear ImGui style
-	//ImGui::StyleColorsDark();
-	//ImGui::StyleColorsClassic();
-
-	// Setup Platform/Renderer bindings
-	/*ImGui_ImplGlfw_InitForOpenGL(CSettings::GetInstance()->pWindow, true);
-	const char* glsl_version = "#version 330";
-	ImGui_ImplOpenGL3_Init(glsl_version);*/
-
-	// Load the images for buttons
-	//CImageLoader* il = CImageLoader::GetInstance();
-	//startButtonData.fileName = "Image\\GUI\\PlayButton.png";
-	//startButtonData.textureID = il->LoadTextureGetID(startButtonData.fileName.c_str(), false);
-	//optionsButtonData.fileName = "Image\\GUI\\OptionsButton.png";
-	//optionsButtonData.textureID = il->LoadTextureGetID(optionsButtonData.fileName.c_str(), false);
-	//exitButtonData.fileName = "Image\\GUI\\ExitButton.png";
-	//exitButtonData.textureID = il->LoadTextureGetID(exitButtonData.fileName.c_str(), false);
+	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_MAINMENU);
 
 	return true;
 }
@@ -120,7 +93,7 @@ void CMenuState::Render(void)
 {
 	// Clear the screen and buffer
 	glClearColor(0.0f, 0.55f, 1.00f, 1.00f);
-
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	cout << "CMenuState::Render()\n" << endl;
 }
 

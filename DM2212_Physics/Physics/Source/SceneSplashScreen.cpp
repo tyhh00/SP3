@@ -1,29 +1,29 @@
-﻿#include "SceneLight.h"
+﻿#include "SceneSplashScreen.h"
 #include "GL\glew.h"
 #include "MeshBuilder.h"
 #include "Application.h"
 #include "LoadTGA.h"
-#include "shader.hpp"
 #include "Utility.h"
 #include <sstream>
+#include "GameStateManagement/GameStateManager.h"
 
-SceneLight::SceneLight()
+SceneSplashScreen::SceneSplashScreen()
 {
 }
 
-SceneLight::~SceneLight()
+SceneSplashScreen::~SceneSplashScreen()
 {
 }
 
-void SceneLight::Init()
+void SceneSplashScreen::Init()
 {
 	SceneBase::Init();
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = m_screenHeight * 3;
-	m_worldWidth = m_screenWidth * 5;
+	m_worldHeight = m_screenHeight;
+	m_worldWidth = m_screenWidth;
 
 	//Physics code here
 	m_speed = 1.f;
@@ -31,33 +31,36 @@ void SceneLight::Init()
 
 	Math::InitRNG();
 
-	meshList[GEO_WALL] = MeshBuilder::GenerateQuad("Wall", Color(1.f, 1.f, 1.f), 2.0f);
-	meshList[GEO_BALL] = MeshBuilder::GenerateCircle("circle", 1.0f, Color(1, 1, 1));
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1, 1, 1), 36, 36, 0.1f);
-	
+	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	meshList[GEO_BG]->material.kAmbient.Set(0.0, 0.0, 0.0);
+	meshList[GEO_BG]->textureID = LoadTGA("Image/WASABILogo.tga");
+
+	// left eye
 	lights[0].type = Light::LIGHT_POINT;
-	lights[0].position.Set(0, 1, 0);
+	lights[0].position.Set(m_worldWidth * 0.5 - 25, m_worldHeight * 0.5 + 8, 1);
 	lights[0].color.Set(1, 0, 0);
-	lights[0].power = 1;
+	lights[0].power = 0;
 	lights[0].kC = 1.f;
 	lights[0].kL = 0.01f;
 	lights[0].kQ = 0.001f;
 	lights[0].cosCutoff = cos(Math::DegreeToRadian(45));
 	lights[0].cosInner = cos(Math::DegreeToRadian(30));
 	lights[0].exponent = 1.f;
-	lights[0].spotDirection.Set(0.f, 1.f, 0.f);
+	lights[0].spotDirection.Set(0.f, 0.f, 1.f);
 
-	lights[1].type = Light::LIGHT_SPOT;
-	lights[1].position.Set(0, 1, 0);
-	lights[1].color.Set(0, 0, 1);
-	lights[1].power = 1;
+	// right eye
+	lights[1].type = Light::LIGHT_POINT;
+	lights[1].position.Set(m_worldWidth * 0.5 + 23, m_worldHeight * 0.5 + 7, 1);
+	lights[1].color.Set(1, 0, 0);
+	lights[1].power = 0;
 	lights[1].kC = 1.f;
 	lights[1].kL = 0.01f;
 	lights[1].kQ = 0.001f;
 	lights[1].cosCutoff = cos(Math::DegreeToRadian(45));
 	lights[1].cosInner = cos(Math::DegreeToRadian(30));
 	lights[1].exponent = 3.f;
-	lights[1].spotDirection.Set(0.f, 1.f, 0.f);
+	lights[1].spotDirection.Set(0.f, 0.f, 1.f);
 
 	// Make sure you pass uniform parameters after glUseProgram()
 	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
@@ -84,11 +87,15 @@ void SceneLight::Init()
 
 	bLightEnabled = true;
 
-	camera.Init(Vector3(5, 5, 5), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	ASTATE = AS_BRIGHTEN;
+	AS_timer = 0;
 
+	camera.Init(Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, 1), Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, 0), Vector3(0, 1, 0));
+	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 }
 
-void SceneLight::Update(double dt)
+
+void SceneSplashScreen::Update(double dt)
 {
 	SceneBase::Update(dt);
 	
@@ -100,20 +107,7 @@ void SceneLight::Update(double dt)
 	{
 		m_speed += 0.1f;
 	}
-
-	if (Application::IsKeyPressed('I'))
-		lights[1].position.z -= (float)(3 * dt);
-	if (Application::IsKeyPressed('K'))
-		lights[1].position.z += (float)(3 * dt);
-	if (Application::IsKeyPressed('J'))
-		lights[1].position.x -= (float)(3 * dt);
-	if (Application::IsKeyPressed('L'))
-		lights[1].position.x += (float)(3 * dt);
-	if (Application::IsKeyPressed('O'))
-		lights[1].position.y -= (float)(3 * dt);
-	if (Application::IsKeyPressed('P'))
-		lights[1].position.y += (float)(3 * dt);
-
+	
 	//Mouse Section
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
@@ -133,27 +127,86 @@ void SceneLight::Update(double dt)
 	{
 		bRButtonState = true;
 		std::cout << "RBUTTON DOWN" << std::endl;
-		
 	}
 	else if(bRButtonState && !Application::IsMousePressed(1))
 	{
 		bRButtonState = false;
 		std::cout << "RBUTTON UP" << std::endl;
-
 	}
 
-	
+	camera.Update(camera.position, dt);
+
+	switch (ASTATE)
+	{
+	case AS_BRIGHTEN:
+		meshList[GEO_BG]->material.kAmbient.r += 0.5 * dt;
+		meshList[GEO_BG]->material.kAmbient.g += 0.5 * dt;
+		meshList[GEO_BG]->material.kAmbient.b += 0.5 * dt;
+		
+		if (meshList[GEO_BG]->material.kAmbient.r >= 1)
+		{
+			meshList[GEO_BG]->material.kAmbient.Set(1, 1, 1);
+			ASTATE = AS_WAIT;
+			AS_timer = 0;
+		}
+		break;
+	case AS_WAIT:
+		if (AS_timer > 0.5f)
+		{
+			AS_timer = 0;
+			lights[0].power = 5;
+			lights[1].power = 5;
+			glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
+			glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
+			ASTATE = AS_EVIL;
+			meshList[GEO_BG]->material.kAmbient.Set(0.2, 0.2, 0.2);
+			break;
+		}
+		else
+		{
+			AS_timer += dt;
+		}
+		break;
+	case AS_EVIL:
+		if (AS_timer > 0.2f)
+		{
+			AS_timer = 0;
+			lights[0].power = 0;
+			lights[1].power = 0;
+			glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
+			glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
+			ASTATE = AS_INNOCENT;
+			meshList[GEO_BG]->material.kAmbient.Set(1.0, 1.0, 1.0);
+			break;
+		}
+		else
+		{
+			AS_timer += dt;
+		}
+		break;
+	case AS_INNOCENT:
+		if (AS_timer > 1.0f)
+		{
+			CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
+			break;
+		}
+		else
+		{
+			AS_timer += dt;
+		}
+		break;
+	}
 }
 
-void SceneLight::Render()
+void SceneSplashScreen::Render()
 {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
-//	projection.SetToOrtho(-1 * m_screenWidth * 0.5f, m_screenWidth * 0.5f, -1 * m_screenHeight * 0.5f, m_screenHeight * 0.5f, -10, 10);
-	projection.SetToPerspective(45.f, m_screenWidth / m_screenHeight, 0.1f, 1000.f);
-	
+	projection.SetToOrtho(-1 * m_screenWidth * 0.5f, m_screenWidth * 0.5f, -1 * m_screenHeight * 0.5f, m_screenHeight * 0.5f, -10, 10);
+//	projection.SetToPerspective(45.f, m_screenWidth / m_screenHeight, 0.1f, 1000.f);
 
 	projectionStack.LoadMatrix(projection);
 
@@ -167,7 +220,6 @@ void SceneLight::Render()
 	);
 	// Model matrix : an identity matrix (model will be at the origin)
 	modelStack.LoadIdentity();
-
 
 	if (lights[0].type == Light::LIGHT_DIRECTIONAL)
 	{
@@ -207,25 +259,25 @@ void SceneLight::Render()
 		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightPosition_cameraspace.x);
 	}
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	RenderMesh(meshList[GEO_AXES], false);
 
+	//modelStack.PushMatrix();
+	//modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);
+	//RenderMesh(meshList[GEO_LIGHTBALL], false);
+	//modelStack.PopMatrix();
 
-	//main directional
-	modelStack.PushMatrix();
-	modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Rotate(-90, 1, 0, 0);
-	modelStack.Scale(10, 10, 1);
-	RenderMesh(meshList[GEO_WALL], true);
+	modelStack.Translate(m_worldWidth * 0.5, m_worldHeight * 0.5, 0);
+	modelStack.Scale(m_worldWidth, m_worldHeight, 1);
+	RenderMesh(meshList[GEO_BG], true);
 	modelStack.PopMatrix();
 
 	std::ostringstream ss;
 	
+	/*ss.str("");
+	ss << "mat: " << Vector3(meshList[GEO_BG]->material.kAmbient.r, meshList[GEO_BG]->material.kAmbient.g, meshList[GEO_BG]->material.kAmbient.b);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);*/
 
 	// fps tings
 	ss.str("");
@@ -236,9 +288,8 @@ void SceneLight::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 3, 0, 0);
 }
 
-void SceneLight::Exit()
+void SceneSplashScreen::Exit()
 {
 	SceneBase::Exit();
 	
-
 }

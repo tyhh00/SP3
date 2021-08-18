@@ -23,7 +23,7 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
-	std::string mapToLoad = "LEVEL_1";
+	std::string mapToLoad = "GRAVEYARD_1_1";
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
@@ -215,7 +215,7 @@ void LevelEditor::Update(double dt)
 			}
 			GameObject* obj = new GameObject(GameObject::GO_TILE, meshList[scrolledGeo], scrolledGeo);
 			obj->pos = Vector3(curs_tw_X, curs_tw_Y);
-			obj->physics->SetNormal(Vector3(0, 1, 0));
+			obj->physics->SetNormal(Vector3(1, 0, 0));
 			obj->scale = Vector3(1, 1, 1) * gridLength;
 			obj->scale.x *= tileSize[scrolledGeo]->gridLength;
 			obj->scale.y *= tileSize[scrolledGeo]->gridHeight;
@@ -413,6 +413,11 @@ void LevelEditor::Render()
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(go->mesh, false);
 		modelStack.PopMatrix();
+
+		if (go->geoTypeID == GEOMETRY_TYPE::GEO_PLAYER_GIRL1)
+		{
+			DEBUG_MSG("From Level Editor: " << go->scale);
+		}
 	}
 
 	int loops = 0;

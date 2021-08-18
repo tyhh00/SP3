@@ -8,10 +8,13 @@
  */
 
 #include "GameStateBase.h"
+#include "../SceneSplashScreen.h"
 
 //#include "Primitives/Mesh.h"
 //#include "../Scene2D/BackgroundEntity.h"
 #include <string>
+
+#include "../SoundController/SoundController.h"
 
 class CIntroState : public CGameStateBase
 {
@@ -20,6 +23,8 @@ public:
 	CIntroState(void);
 	// Destructor
 	~CIntroState(void);
+
+	CSoundController* soundController;
 
 	// Init this class instance
 	virtual bool Init(void);
@@ -31,5 +36,5 @@ public:
 	virtual void Destroy(void);
 
 protected:
-	//CBackgroundEntity* background;
+	SceneSplashScreen* sceneSplash;
 };

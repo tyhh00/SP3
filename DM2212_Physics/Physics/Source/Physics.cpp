@@ -86,6 +86,7 @@ void Physics::AddVelocity(Vector3 _vel)
  */
 void Physics::SetNormal(Vector3 _normal)
 {
+
 	normal = _normal;
 }
 
