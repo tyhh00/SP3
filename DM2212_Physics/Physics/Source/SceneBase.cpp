@@ -107,7 +107,7 @@ void SceneBase::Init()
 	lights[1].exponent = 3.f;
 	lights[1].spotDirection.Set(0.f, 1.f, 0.f);
 
-	
+
 	glUniform1i(m_parameters[U_NUMLIGHTS], 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 
@@ -130,8 +130,6 @@ void SceneBase::Init()
 	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], lights[1].cosCutoff);
 	glUniform1f(m_parameters[U_LIGHT1_COSINNER], lights[1].cosInner);
 	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], lights[1].exponent);
-
-	
 
 	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
@@ -441,4 +439,9 @@ void SceneBase::Exit()
 	}
 	glDeleteProgram(m_programID);
 	glDeleteVertexArrays(1, &m_vertexArrayID);
+}
+
+void SceneBase::SetLights()
+{
+	
 }

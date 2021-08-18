@@ -21,12 +21,11 @@ void SceneManager::init()
 	levelEditor->Init();
 	test = new SceneTest();
 	test->Init();
+	
 }
 
 void SceneManager::setScene(worlds sceneType)
 {
-	
-
 	switch (sceneType)
 	{
 	case w_physics:
@@ -39,6 +38,7 @@ void SceneManager::setScene(worlds sceneType)
 		activeScene = levelEditor;
 		break;
 	}
+	activeScene->SetLights();
 	
 }
 void SceneManager::update(double dt)
@@ -49,6 +49,7 @@ void SceneManager::update(double dt)
 
 void SceneManager::render()
 {
+	glClearColor(0.0f, 0.0f, 0.0f, 1.00f);
 	activeScene->Render();
 }
 

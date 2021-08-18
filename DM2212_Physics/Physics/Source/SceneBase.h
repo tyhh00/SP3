@@ -144,6 +144,8 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
+	virtual void SetLights();
+
 	void LoadTile(GEOMETRY_TYPE type, std::string fileName, double length, double height, SHAPE_TYPE shapeType);
 	TileSetting* GetTileSetting(GEOMETRY_TYPE type);
 

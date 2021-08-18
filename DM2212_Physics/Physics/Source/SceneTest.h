@@ -19,6 +19,8 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
+	virtual void SetLights();
+
 	void RenderGO(GameObject *go);
 
 protected:
@@ -45,9 +47,7 @@ protected:
 	void ReturnGO(GameObject *go);
 
 	bool CheckZero(double number); // Checks if a number is 0 [EPSILON things]
-	bool CheckCollision(GameObject* go1, GameObject* go2, float dt); // Checks for collision
 	void CursorToWorldPosition(double& theX, double& theY);
-	void Constraint(GameObject* ball, GameObject* other); // Moves ball out of other object upon collision
 
 };
 

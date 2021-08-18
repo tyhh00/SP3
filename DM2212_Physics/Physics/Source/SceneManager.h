@@ -21,8 +21,8 @@ class SceneManager : public SceneBase, public CSingletonTemplate<SceneManager>
 	friend CSingletonTemplate<SceneManager>;
 public:
 	int sceneNum; 
-	Scene* physics, * test, * levelEditor;
-	Scene* activeScene;
+	SceneBase* physics, * test, * levelEditor;
+	SceneBase* activeScene;
 
 	SceneManager();
 	~SceneManager();

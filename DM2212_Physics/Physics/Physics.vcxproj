@@ -179,6 +179,7 @@
     <ClCompile Include="Source\SceneLight.cpp" />
     <ClCompile Include="Source\ScenePhysics.cpp" />
     <ClCompile Include="Source\SceneManager.cpp" />
+    <ClCompile Include="Source\SceneSplashScreen.cpp" />
     <ClCompile Include="Source\SceneTest.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\SpriteAnimation.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="Source\SceneLight.h" />
     <ClInclude Include="Source\ScenePhysics.h" />
     <ClInclude Include="Source\SceneManager.h" />
+    <ClInclude Include="Source\SceneSplashScreen.h" />
     <ClInclude Include="Source\SceneTest.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Shape.h" />
