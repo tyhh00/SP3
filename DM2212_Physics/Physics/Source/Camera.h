@@ -51,7 +51,7 @@ private:
 	void Constraint();
 	void UpdateTarget(double dt);
 	void ToggleAutoLock();
-	void CursorToWorldPosition(double& theX, double& theY);
+	void CursorToScreenPosition(double& theX, double& theY);
 };
 
 #endif
