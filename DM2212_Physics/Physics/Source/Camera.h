@@ -52,6 +52,7 @@ private:
 	void Constraint();
 	void UpdateTarget(double dt);
 	void ToggleAutoLock();
+	void CursorToWorldPosition(double& theX, double& theY);
 };
 
 #endif
