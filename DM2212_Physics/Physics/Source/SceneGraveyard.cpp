@@ -102,6 +102,7 @@ void SceneGraveyard::Init()
 
 	abilityManager.Init();
 	abilityManager.SetCamera(&camera);
+	abilityManager.SetPlayer(player);
 }
 
 void SceneGraveyard::Update(double dt)
@@ -133,8 +134,7 @@ void SceneGraveyard::Update(double dt)
 	
 	goManager->Update(dt);
 
-	abilityManager.UpdateCondition(player->physics->GetOnGround());
-	abilityManager.Update(player->pos, dt);
+	abilityManager.Update(dt);
 }
 
 void SceneGraveyard::Render()
@@ -210,9 +210,9 @@ void SceneGraveyard::Render()
 	RenderMesh(meshList[GEO_BG], true);
 	modelStack.PopMatrix();
 
+	goManager->Render(this);
 	abilityManager.Render(this);
 
-	goManager->Render(this);
 
 	std::ostringstream ss;
 	/*ss.str("");

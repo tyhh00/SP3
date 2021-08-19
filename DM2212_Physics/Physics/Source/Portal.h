@@ -8,6 +8,7 @@
 #include "SceneBase.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
+#include "Ability.h"
 
 
 class Portal : public GameObject {
@@ -26,20 +27,18 @@ public:
 		portalSprite->AddAnimation("idle", 0, 7);
 		portalSprite->AddAnimation("opening", 8, 15);
 		portalSprite->AddAnimation("closing", 16, 22);
-		portalSprite->PlayAnimation("idle", -1, 1.0f);
+		//portalSprite->PlayAnimation("opening", 0, 1.0f);
 		portalSprite->textureID = LoadTGA("Image/portal_sprite.tga");
 		mesh = portalSprite;
 
 		active = false;
-		scale.Set(6, 6, 6);
-
-		// CHEAT FIX - TBC; LIGHTING NOT WORKING ON SPRITE ANIMATION MESH
-		mesh->material.kAmbient.Set(1, 1, 1);
+		scale.Set(7, 7, 7);
 	}
 	void Update(double dt) {
 		portalSprite->Update(dt);
 	}
 	void SetAnimation(std::string anim_name, int repeat, double anim_time) {
+		portalSprite->Reset();
 		portalSprite->PlayAnimation(anim_name, repeat, anim_time);
 	}
 };
@@ -49,12 +48,13 @@ class PortalAbilityManager {
 	
 public:
 	PortalAbilityManager();
+	~PortalAbilityManager();
 
 	void Init();
-	void Update(Vector3 &playerPos, double dt);
+	void Update(double dt);
 	void Render(SceneBase* scene);
 	void SetCamera(Camera* camera);
-	void UpdateCondition(bool met);
+	void SetPlayer(Player* player);
 
 private:
 
@@ -74,15 +74,17 @@ private:
 
 
 	ABILITY_STATE state;
+	Mesh* portalSprite;
 
-	bool conditionsMet;
 	bool ghost_portal;
+	bool ghost_player;
 	double anim_timer;
 
 	Portal startPortal;
 	Portal endPortal;
 
 	Camera* camera;
+	Player* player;
 	Keyboard* keyboard;
 
 	void CursorToWorldPosition(double& theX, double& theY);

@@ -33,40 +33,6 @@ void Player::Update(double dt)
 { 
 	animatedSprites->Update(dt);
 
-	//if (AkeyDown && !Application::IsKeyPressed('A'))
-	//{
-	//	AkeyDown = false;
-	//	std::cout << "A Key Released" << std::endl;
-	//	if (animatedSprites->GetCurrentAnimation() == "left")
-	//	{
-	//		animatedSprites->PlayAnimation("idle", -1, 1.0f);
-	//	}
-	//	physics->AddVelocity(speed * dt);
-	//}
-	//else if (!AkeyDown && Application::IsKeyPressed('A'))
-	//{
-	//	AkeyDown = true;
-	//	std::cout << "A Key Pressed" << std::endl;
-	//	animatedSprites->PlayAnimation("left", -1, 1.0f);
-	//	physics->AddVelocity(-speed * dt);
-	//}
-	//if (DkeyDown && !Application::IsKeyPressed('D'))
-	//{
-	//	DkeyDown = false;
-	//	std::cout << "D Key Released" << std::endl;
-	//	if (animatedSprites->GetCurrentAnimation() == "right")
-	//	{
-	//		animatedSprites->PlayAnimation("idle", -1, 1.0f);
-	//	}
-	//	physics->AddVelocity(-speed * dt);
-	//}
-	//else if (!DkeyDown && Application::IsKeyPressed('D'))
-	//{
-	//	DkeyDown = true;
-	//	std::cout << "D Key Pressed" << std::endl;
-	//	animatedSprites->PlayAnimation("right", -1, 1.0f);
-	//	physics->AddVelocity(speed * dt);
-	//}
 
 	//temp keyboard controls
 	if (keyboard->IsKeyDown('A'))

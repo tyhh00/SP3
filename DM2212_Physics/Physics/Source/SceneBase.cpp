@@ -261,6 +261,7 @@ void SceneBase::Init()
 	meshList[GEO_50]->textureID = LoadTGA("Image/50.tga");
 	meshList[GEO_HIGHLIGHT] = MeshBuilder::GenerateCircle("highlight", 1.0f, Color(0.0f, 1.0f, 0.0f));
 
+
 	bLightEnabled = false;
 }
 
