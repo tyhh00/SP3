@@ -19,6 +19,7 @@
 
 // Include Mesh Builder
 #include "../MeshBuilder.h"
+#include "../Debug.h"
 // Include ImageLoader
 //#include "System\ImageLoader.h"
 // Include Shader Manager
@@ -81,6 +82,12 @@ bool CMenuState::Update(const double dElapsedTime)
 		cout << "space key pressed" << endl;
 		// Load the menu state
 		cout << "Loading PlayGameState" << endl;
+
+		//Fading effect
+		DEBUG_MSG("Fading out");
+		CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_MAINMENU, 3, 0.5);
+
+
 		CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
 		return true;
 	}
