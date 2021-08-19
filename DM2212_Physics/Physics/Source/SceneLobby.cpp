@@ -36,6 +36,8 @@ void SceneLobby::Init()
 {
 	SceneBase::Init();
 
+	SetLights();
+
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
@@ -57,8 +59,8 @@ void SceneLobby::Init()
 	keyboard = Keyboard::GetInstance();
 
 	// Unique Meshes
-	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
-	meshList[GEO_BG]->textureID = LoadTGA("Image/bg_lobby.tga");
+//	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+//	meshList[GEO_BG]->textureID = LoadTGA("Image/bg_lobby.tga");
 
 	//Level Loading
 	std::vector<GameObject*> tiles;
@@ -200,7 +202,7 @@ void SceneLobby::Render()
 	modelStack.PushMatrix();
 	modelStack.Translate(m_worldWidth * 0.5, m_worldHeight * 0.5, -0.01);
 	modelStack.Scale(m_worldWidth, m_worldHeight, 1);
-	RenderMesh(meshList[GEO_BG], true);
+//	RenderMesh(meshList[GEO_BG], true);
 	modelStack.PopMatrix();
 
 	goManager->Render(this);
@@ -230,7 +232,7 @@ void SceneLobby::Render()
 void SceneLobby::SetLights()
 {
 	lights[0].type = Light::LIGHT_POINT;
-	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 1);
+	lights[0].position.Set(0, 20, 0);
 	lights[0].color.Set(1, 1, 1);
 	lights[0].power = 4;
 	lights[0].kC = 1.f;

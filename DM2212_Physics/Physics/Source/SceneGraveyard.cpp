@@ -244,7 +244,7 @@ void SceneGraveyard::Render()
 
 void SceneGraveyard::SetLights()
 {
-	lights[0].type = Light::LIGHT_DIRECTIONAL;
+	lights[0].type = Light::LIGHT_POINT;
 	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 1);
 	lights[0].color.Set(1, 1, 1);
 	lights[0].power = 4;
@@ -291,7 +291,7 @@ void SceneGraveyard::SetLights()
 	glUniform1f(m_parameters[U_LIGHT1_COSINNER], lights[1].cosInner);
 	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], lights[1].exponent);
 
-	bLightEnabled = false;
+	bLightEnabled = true;
 }
 
 void SceneGraveyard::CursorToWorldPosition(double& theX, double& theY)

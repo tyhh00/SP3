@@ -23,13 +23,15 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
-	std::string mapToLoad = "LOBBY";
+	std::string mapToLoad = "GRAVEYARD_1_1";
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	m_worldHeight = m_screenHeight * 3;
 	m_worldWidth = m_screenWidth * 5;
+
+	stackOnGrid = true;
 
 	canScrollIn = scrollingSpeed;
 	scrolledGeo = static_cast<GEOMETRY_TYPE>(GEOMETRY_TYPE::GEO_TILES_START + 1);
@@ -135,6 +137,11 @@ void LevelEditor::Update(double dt)
 		snapPosToGrid = !snapPosToGrid;
 	}
 
+	else if (Keyboard::GetInstance()->IsKeyReleased('2'))
+	{
+		stackOnGrid = !stackOnGrid;
+	}
+
 	static bool cannotPasteYet = true; //after pressing Left-Click, you must let go of left click once before u can start placing blocks
 	static bool pastedOnce = false;
 	
@@ -156,7 +163,21 @@ void LevelEditor::Update(double dt)
 			}
 			else if (heldOnTo != nullptr && !bLButtonState && !bCTRLState)
 			{
-				if (GetCollidedGOs(heldOnTo->pos.x, heldOnTo->pos.y).size() == 1)
+				std::vector<GameObject*> colls = GetCollidedGOs(heldOnTo->pos.x, heldOnTo->pos.y);
+				bool dup = false;
+				for (auto& go : colls)
+				{
+					if (go->geoTypeID == heldOnTo->geoTypeID && go != heldOnTo) {
+						dup = true;
+						break;
+					}
+					else if (heldOnTo != go && go->pos == heldOnTo->pos && go->scale == heldOnTo->scale)
+					{
+						dup = true;
+						break;
+					}
+				}
+				if (!dup)
 				{
 					heldOnTo = nullptr;
 					unsavedChanges = true;
@@ -296,7 +317,22 @@ void LevelEditor::Update(double dt)
 			}
 			if (bCTRLState && heldOnTo != nullptr && bLButtonState) //Holding Down control
 			{
-				if (GetCollidedGOs(heldOnTo->pos.x, heldOnTo->pos.y).size() == 1 && !cannotPasteYet)
+				std::vector<GameObject*> colls = GetCollidedGOs(heldOnTo->pos.x, heldOnTo->pos.y);
+				bool dup = false;
+				for (auto& go : colls)
+				{
+					if (go->geoTypeID == heldOnTo->geoTypeID && go != heldOnTo) {
+						dup = true;
+						break;
+					}
+					else if (heldOnTo != go && go->pos == heldOnTo->pos && go->scale == heldOnTo->scale)
+					{
+						dup = true;
+						break;
+					}
+				}
+
+				if (!dup && !cannotPasteYet)
 				{
 					gridObjects.push_back(heldOnTo->Clone());
 					pastedOnce = true;
@@ -414,10 +450,6 @@ void LevelEditor::Render()
 		RenderMesh(go->mesh, false);
 		modelStack.PopMatrix();
 
-		if (go->geoTypeID == GEOMETRY_TYPE::GEO_PLAYER_GIRL1)
-		{
-			DEBUG_MSG("From Level Editor: " << go->scale);
-		}
 	}
 
 	int loops = 0;

@@ -77,9 +77,6 @@ bool CIntroState::Update(const double dElapsedTime)
 		// Load the menu state
 		cout << "Loading PlayGameState" << endl;
 
-		//Fading effect
-		CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_MAINMENU, 0.5, 0.1);
-
 		CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 
 		return true;

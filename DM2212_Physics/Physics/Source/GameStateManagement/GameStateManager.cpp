@@ -1,5 +1,7 @@
 #include "GameStateManager.h"
 
+#include "../SoundController/SoundController.h"
+
 #include <iostream>
 
 using namespace std;
@@ -47,6 +49,7 @@ void CGameStateManager::Destroy(void)
  */
 bool CGameStateManager::Update(const double dElapsedTime)
 {
+	CSoundController::GetInstance()->FadeUpdater(dElapsedTime);
 	// Check for change of scene
 	if (nextGameState != activeGameState)
 	{
