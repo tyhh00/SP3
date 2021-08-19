@@ -6,6 +6,7 @@
 #include "SceneBase.h"
 #include "Debug.h"
 #include "LevelLoader.h"
+#include <map>
 
 //Used in Update Loop of Level Editor, CTRL-Z, Find previous action, and base on type of action, revert changes
 enum ACTION_TYPE
@@ -25,6 +26,13 @@ public:
 	Action(GameObject* go) : go(go) {}
 };
 
+struct Pos
+{
+	double x;
+	double y;
+	Pos(int x, int y) : x(x), y(y) {}
+};
+
 enum SCROLLER_STATE
 {
 	SCROLLER_TRANSLATE,
@@ -41,6 +49,9 @@ class LevelEditor : public SceneBase
 
 protected:
 	std::vector<GameObject*> gridObjects; //Disassociation with GameObjectManager
+
+	std::map<int, std::map<int, std::vector<GameObject*>>> nearbyMap;
+
 	double gridLength, gridHeight;
 	
 	bool mapLoaded;
@@ -51,6 +62,8 @@ protected:
 	bool snapPosToGrid;
 	bool snapRotToGrid;
 	bool snapScaleToGrid;
+
+	bool stackOnGrid;
 
 	SCROLLER_STATE scrollState;
 
