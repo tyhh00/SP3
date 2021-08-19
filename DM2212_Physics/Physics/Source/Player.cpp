@@ -26,8 +26,6 @@ void Player::Init()
 	mesh = animatedSprites;
 	mesh->textureID = LoadTGA("Image/girlsprite.tga");
 
-	// CHEAT FIX - TBC; LIGHTING NOT WORKING ON SPRITE ANIMATION MESH
-	mesh->material.kAmbient.Set(1, 1, 1);
 
 }
 
@@ -143,4 +141,13 @@ void Player::Update(double dt)
 	//set player's max vel speed
 	if (this->physics->GetVelocity().Length() > 100)
 		this->physics->SetVelocity(this->physics->GetVelocity().Normalized() * 100);
+}
+
+void Player::CollidedWith(GameObject* go)
+{
+	switch (go->geoTypeID)
+	{
+	default:
+		break;
+	}
 }

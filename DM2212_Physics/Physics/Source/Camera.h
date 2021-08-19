@@ -1,7 +1,6 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "GameObject.h"
 #include "Vector3.h"
 #include "Keyboard.h"
 
@@ -52,7 +51,7 @@ private:
 	void Constraint();
 	void UpdateTarget(double dt);
 	void ToggleAutoLock();
-	void CursorToWorldPosition(double& theX, double& theY);
+	void CursorToScreenPosition(double& theX, double& theY);
 };
 
 #endif

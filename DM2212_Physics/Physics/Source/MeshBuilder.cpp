@@ -507,6 +507,8 @@ SpriteAnimation* MeshBuilder::GenerateSpriteAnimation(unsigned numRow, unsigned 
 		for (unsigned j = 0; j < numCol; ++j)
 		{
 			v.normal.Set(0, 0, 1);
+			v.color.Set(1, 1, 1);
+
 
 			float u1 = j * width;
 			float v1 = 1.f - height - i * height;

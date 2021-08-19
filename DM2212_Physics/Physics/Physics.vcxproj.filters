@@ -33,6 +33,12 @@
     <Filter Include="Header Files\GameStateManagement">
       <UniqueIdentifier>{2ac4f12d-650b-4433-8d25-3bcfd0f7eef1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Enemies">
+      <UniqueIdentifier>{f97e5982-d90b-47d1-86ab-9c49c1e58bce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Enemies">
+      <UniqueIdentifier>{250eb8ee-5db9-4fc9-8d90-5d099e364722}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -155,8 +161,14 @@
     <ClCompile Include="Source\SceneLobby.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\BaseEnemy.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Source\Flashlight.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Ghost.cpp">
+      <Filter>Source Files\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -304,8 +316,14 @@
     <ClInclude Include="Source\SceneLobby.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\BaseEnemy.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Source\Flashlight.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Ghost.h">
+      <Filter>Header Files\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
