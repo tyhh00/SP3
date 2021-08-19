@@ -53,6 +53,7 @@ struct GameObject
 	GAMEOBJECT_TYPE type;
 
 	bool active;
+	bool enableCollision;
 	Vector3 pos;
 	Vector3 scale;
 

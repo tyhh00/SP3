@@ -18,15 +18,15 @@
 //{
 //	SceneBase::Init();
 //
-//	// Calculating aspect ratio
+//	 Calculating aspect ratio
 //	m_worldHeight = 100.f;
 //	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 //	m_gameWidth = m_worldWidth * 0.75;
 //
 //	camera.Init(Vector3(m_worldWidth * 0.5f, m_worldHeight * 0.5f, 1), Vector3(m_worldWidth * 0.5f, m_worldHeight * 0.5f, 0), Vector3(0, 1, 0));
-//	//camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
+//	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 //
-//	//Physics code here
+//	Physics code here
 //	m_speed = 1.f;
 //
 //	Math::InitRNG();
@@ -53,7 +53,7 @@
 //
 //	m_ghost = new GameObject(GameObject::GO_BALL);
 //
-//	//main game-related - vars
+//	main game-related - vars
 //	pBall_radius = 2;
 //	f_radius1 = 3.0;
 //	f_radius2 = 1.5;
@@ -61,14 +61,14 @@
 //	f_max_d = 50;
 //	f_ori_d = 15;
 //
-//	// COLOR CODE (for ref)
-//	// WHITE/GREY - INELASTIC
-//	// YELLOW - ELASTIC
-//	// LIGHT RED - BUMPER
-//	// (BONUS THINGY) - ELASTIC
+//	 COLOR CODE (for ref)
+//	 WHITE/GREY - INELASTIC
+//	 YELLOW - ELASTIC
+//	 LIGHT RED - BUMPER
+//	 (BONUS THINGY) - ELASTIC
 //
 //
-//	//game boundaries/layout - vars
+//	game boundaries/layout - vars
 //	offset_wall_x = 0.2 * m_worldHeight;
 //	int offset_wall_top = 0.03 * m_worldHeight;
 //	int offset_wall_bot = 0.2 * m_worldHeight;
@@ -83,7 +83,7 @@
 //	float curve_length = tube_width * 2;
 //
 //
-//	// FLIPPERS
+//	 FLIPPERS
 //	leftFlipper = FetchGO(GameObject::GO_FLIPPER);
 //	leftFlipper->pos.Set(offset_wall_x + (inner_width - hole_width) * 0.5, hole_height + 1.0f, 0);
 //	leftFlipper->scale.Set(1, 1, 1);
@@ -100,7 +100,7 @@
 //	rightFlipper->rotateZ = 180 + f_ori_d;
 //	rightFlipper->mass = 3;
 //
-//	// SPRING
+//	 SPRING
 //	spring_ori_y = offset_tube_bot + 0.1 * tube_height + 1.0f;
 //	spring_max_d = 0.09 * tube_height;
 //	sholder_ori_height = spring_ori_y - offset_tube_bot;
@@ -120,7 +120,7 @@
 //	springHolder->mat.kAmbient.Set(0.6f, 0.6f, 0.6f);
 //	spring->physics->Update();
 //
-//	// PLAYER BALL
+//	 PLAYER BALL
 //	pBall = FetchGO(GameObject::GO_BALL);
 //	pBall->scale.Set(pBall_radius, pBall_radius, 1);
 //	pBall->pos.Set(m_gameWidth - offset_wall_x - tube_width * 0.5, spring_ori_y + pBall_radius + 1.0f, 0);
@@ -128,13 +128,13 @@
 //	pBall->vel.SetZero();
 //	pBall->mat.kAmbient.Set(1.0f, 1.0f, 1.0f);
 //
-//	//ALL GAMEOBJECTS
+//	ALL GAMEOBJECTS
 //	GameObject* go;
 //	Wall* wall;
-//	// LEFT WALL
+//	 LEFT WALL
 //	wall = new Wall(Vector3(offset_wall_x, m_worldHeight * 0.5 + (offset_wall_bot - offset_wall_top) * 0.5, 0), m_worldHeight - offset_wall_top - offset_wall_bot, 1, Vector3(-1, 0, 0));
 //	wallList.push_back(wall);
-//	// TUBE WALLS - left, right, bot, holder(?)
+//	 TUBE WALLS - left, right, bot, holder(?)
 //	wall = new Wall(Vector3(m_gameWidth - offset_wall_x - tube_width, offset_tube_bot + (tube_height * 0.5), 0), tube_height, 0.3, Vector3(-1, 0, 0));
 //	wallList.push_back(wall);
 //	AddPillars(wall);
@@ -145,7 +145,7 @@
 //	wallList.push_back(wall);
 //	wall = new Wall(Vector3(m_gameWidth - offset_wall_x - (tube_width * 0.5), offset_tube_bot + 0.1 * tube_height, 0), tube_width, 0.3, Vector3(0, -1, 0));
 //	wallList.push_back(wall);
-//	// TUBE WALL - ONE SIDED WALL COVER
+//	 TUBE WALL - ONE SIDED WALL COVER
 //	go = FetchGO(GameObject::GO_ONESIDEDWALL);
 //	go->pos.Set(m_gameWidth - offset_wall_x - tube_width * 0.5, m_worldHeight - offset_tube_top, 0);
 //	go->scale.Set(0.15, 0.5 * tube_width, 1);
@@ -153,14 +153,14 @@
 //	go->pos.y += tube_width * 0.5 * tan(Math::DegreeToRadian(20));
 //	go->mat.kAmbient.Set(0.4f, 0.4f, 0.4f);
 //
-//	// TOP WALL
+//	 TOP WALL
 //	wall = new Wall(Vector3(m_gameWidth * 0.5 - curve_length * 0.5, m_worldHeight - offset_wall_top, 0), m_gameWidth - 2 * offset_wall_x - curve_length, 1, Vector3(0, 1, 0));
 //	wallList.push_back(wall);
 //	AddPillars(wall);
-//	// SLANTED WALLS
+//	 SLANTED WALLS
 //	Vector3 temp; //length and height of wall
 //	float angle;
-//	// BOTTOM SLANTED WALLS - left, right
+//	 BOTTOM SLANTED WALLS - left, right
 //	temp.Set(0.5 * (inner_width - hole_width) - pipe_width, offset_wall_bot - hole_height, 0);
 //	angle = Math::RadianToDegree(atan2(temp.y, temp.x)) - 90;
 //	wall = new Wall(Vector3(offset_wall_x + temp.x * 0.5, hole_height + temp.y * 0.5, 0), temp.Length(), 1, -1 * angle);
@@ -171,7 +171,7 @@
 //	Vector3 rightN = wall->N;
 //	AddPillars(wall);
 //	wallList.push_back(wall);
-//	// INNER BOTTOM SLANTED WALLS - left, right
+//	 INNER BOTTOM SLANTED WALLS - left, right
 //	temp.Set(0.5 * (inner_width - hole_width) - pipe_width, offset_wall_bot - hole_height, 0);
 //	angle = Math::RadianToDegree(atan2(temp.y, temp.x)) - 90;
 //	wall = new Wall(Vector3(offset_wall_x + temp.x * 0.5, hole_height + temp.y * 0.5 + f_radius1, 0), temp.Length(), 1, -1 * angle);
@@ -182,7 +182,7 @@
 //	wall->pos.x -= tube_width + f_radius1;
 //	AddPillars(wall);
 //	wallList.push_back(wall);
-//	// BOTTOM HOLE WALLS - left, right
+//	 BOTTOM HOLE WALLS - left, right
 //	wall = new Wall(Vector3(offset_wall_x + (inner_width - hole_width) * 0.5 - tube_width - f_radius1, hole_height * 0.5, 0), hole_height, 1, Vector3(-1, 0, 0));
 //	wallList.push_back(wall);
 //	wall = new Wall(Vector3(offset_wall_x + (inner_width - hole_width) * 0.5, hole_height * 0.5, 0), hole_height, 1, Vector3(-1, 0, 0));
@@ -193,7 +193,7 @@
 //	wallList.push_back(wall);
 //
 //
-//	// CURVED WALL
+//	 CURVED WALL
 //	int numWall = 36;
 //	float angleperWall = 90.0f / 36;
 //	for (float angle = 90.0f / numWall; angle < 90; angle += 90.0f / numWall)
@@ -203,7 +203,7 @@
 //		wallList.push_back(wall);
 //	}
 //
-//	// PILLARS
+//	 PILLARS
 //	int numTotal = 2;
 //	float space = 10;
 //	for (int i = 0; i < numTotal; i++)
@@ -237,7 +237,7 @@
 //
 //
 //
-//	// BOTTOM PIPES - left, right
+//	 BOTTOM PIPES - left, right
 //	GameObject* pipe = FetchGO(GameObject::GO_MARKER);
 //	pipe->pos.Set(offset_wall_x + (inner_width - hole_width) * 0.5 - pipe_width * 0.5, (hole_height - f_radius1) * 0.5, 0);
 //	pipe->scale.Set(0.5 * pipe_width - 0.5, 0.5 * (hole_height - f_radius1), 1);
@@ -247,19 +247,19 @@
 //	pipe->scale.Set(0.5 * pipe_width - 0.5, 0.5 * (hole_height - f_radius1), 1);
 //	pipe->normal.Set(0, 1, 0);
 //	pipe->mat.kAmbient.Set(0.3f, 0.3f, 0.3f);
-//	// TOP PIPE
+//	 TOP PIPE
 //	topPipe = FetchGO(GameObject::GO_MARKER);
 //	topPipe->pos.Set((m_gameWidth - tube_width) * 0.5, m_worldHeight - offset_wall_top - 5 - 0.5, 0);
 //	topPipe->scale.Set(5.0f, 0.5 * 10, 1);
 //	topPipe->mat.kAmbient.Set(0.3f, 0.3f, 0.3f);
-//	// TOP PIPE SIDE WALLS (to prevent balls escaping) - left, right
+//	 TOP PIPE SIDE WALLS (to prevent balls escaping) - left, right
 //	wall = new Wall(Vector3(topPipe->pos.x - topPipe->scale.x, topPipe->pos.y, 2), topPipe->scale.y * 2, 0.5f, Vector3(-1, 0, 0));
 //	wall->SetColour(topPipe->mat.kAmbient);
 //	wallList.push_back(wall);
 //	wall = new Wall(Vector3(topPipe->pos.x + topPipe->scale.x, topPipe->pos.y, 2), topPipe->scale.y * 2, 0.5f, Vector3(1, 0, 0));
 //	wall->SetColour(topPipe->mat.kAmbient);
 //	wallList.push_back(wall);
-//	// TOP PIPE OPENING WALL
+//	 TOP PIPE OPENING WALL
 //	go = FetchGO(GameObject::GO_ONESIDEDWALL);
 //	go->pos = topPipe->pos;
 //	go->scale.Set(0.5f, topPipe->scale.x, 1);
@@ -268,7 +268,7 @@
 //	go->mat.kAmbient.Set(0.3f, 0.3f, 0.3f);
 //	AddPillars(go);
 //
-//	// BONUS THICK WALLS - left, right
+//	 BONUS THICK WALLS - left, right
 //	bonus1 = FetchGO(GameObject::GO_BONUS);
 //	bonus1->scale.Set(6.0f, topPipe->scale.y * 2, 0);
 //	bonus1->pos = topPipe->pos;
@@ -285,7 +285,7 @@
 //	bonus2->mat.kAmbient.Set(0.2f, 0.2f, 0.5f);
 //	bonus2->timeout = 0;
 //
-//	// slanted walls beside bumper - left, right
+//	 slanted walls beside bumper - left, right
 //	temp.Set(7.0f, bonus1->scale.y, 0);
 //	angle = Math::RadianToDegree(atan2(temp.y, temp.x)) - 90;
 //	wall = new Wall(Vector3(bonus1->pos.x + bonus1->scale.x * 0.5 + temp.x * 0.5, bonus1->pos.y, 0), temp.Length(), 1.0f, angle);
@@ -295,7 +295,7 @@
 //	wallList.push_back(wall);
 //	AddPillars(wall);
 //
-//	// MOVING WALLS - left, right
+//	 MOVING WALLS - left, right
 //	GameObject** temp1, ** temp2;
 //	mWall1[0] = FetchGO(GameObject::GO_MWALL);
 //	mWall1[0]->pos.Set(offset_wall_x + 0.4 * inner_width, 0.5 * m_worldHeight, 0);
@@ -320,7 +320,7 @@
 //	mWall2[1]->type = GameObject::GO_MPILLAR;
 //	mWall2[2]->type = GameObject::GO_MPILLAR;
 //
-//	// MOVING BUMPER WALLS
+//	 MOVING BUMPER WALLS
 //	bWall1[0] = FetchGO(GameObject::GO_BWALL);
 //	bWall1[0]->scale.Set(0.5, 5, 1);
 //	bWall1[0]->pos.Set(offset_wall_x + 1.0, 0.35 * m_worldHeight, 0);
@@ -342,7 +342,7 @@
 //	bWall2[1]->type = GameObject::GO_BPILLAR;
 //	bWall2[2]->type = GameObject::GO_BPILLAR;
 //
-//	// SPINNING/ROTATING WALLS
+//	 SPINNING/ROTATING WALLS
 //	Vector3 pivot;
 //	pivot.Set(0.7 * m_gameWidth, 0.7 * m_worldHeight, 0);
 //	go = FetchGO(GameObject::GO_PILLAR);
@@ -405,7 +405,7 @@
 //		go->mat.kAmbient.Set(pillar->col.r, pillar->col.g, pillar->col.b);
 //	}
 //
-//	// POINT
+//	 POINT
 //	target100 = FetchGO(GameObject::GO_100);
 //	target100->pos.Set(offset_wall_x + 0.2 * inner_width, 0.87 * m_worldHeight, 0);
 //	target100->scale.Set(3, 3, 3);
@@ -419,7 +419,7 @@
 //	target10->scale.Set(5, 5, 5);
 //	target10->timeout = 0;
 //	
-//	// PILLARs
+//	 PILLARs
 //	go = FetchGO(GameObject::GO_PILLAR);
 //	go->pos.Set(offset_wall_x +inner_width * 0.4, m_worldHeight * 0.35, 0);
 //	go->scale.Set(2.5, 2.5, 2.5);
@@ -434,7 +434,7 @@
 //
 //GameObject* SceneCollision::FetchGO()
 //{
-//	// Fetch a game object from m_goList and return it
+//	 Fetch a game object from m_goList and return it
 //	for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
 //	{
 //		GameObject* go = (GameObject*)*it;
@@ -456,7 +456,7 @@
 //
 //GameObject* SceneCollision::FetchGO(GameObject::GAMEOBJECT_TYPE type)
 //{
-//	// Fetch a game object from m_goList and return it
+//	 Fetch a game object from m_goList and return it
 //	for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
 //	{
 //		GameObject* go = (GameObject*)*it;
@@ -542,19 +542,19 @@
 //		m_speed += 0.1f;
 //	}
 //
-//	//Mouse Section
+//	Mouse Section
 //	static bool bLButtonState = false;
 //	if (!bLButtonState && Application::IsMousePressed(0))
 //	{
 //		bLButtonState = true;
 //		std::cout << "LBUTTON DOWN" << std::endl;
 //
-//		// Getting mouse pos 
+//		 Getting mouse pos 
 //		double x, y;
 //		Application::GetCursorPos(&x, &y);
 //		int w = Application::GetWindowWidth();
 //		int h = Application::GetWindowHeight();
-//		// convert to world space
+//		 convert to world space
 //		x /= (w / m_worldWidth);
 //		y = h - y;
 //		y /= (h / m_worldHeight);
@@ -572,12 +572,12 @@
 //		bLButtonState = false;
 //		std::cout << "LBUTTON UP" << std::endl;
 //
-//		// Getting mouse pos 
+//		 Getting mouse pos 
 //		double x, y;
 //		Application::GetCursorPos(&x, &y);
 //		int w = Application::GetWindowWidth();
 //		int h = Application::GetWindowHeight();
-//		// convert to world space
+//		 convert to world space
 //		x /= (w / m_worldWidth);
 //		y = h - y;
 //		y /= (h / m_worldHeight);
@@ -605,7 +605,7 @@
 //
 //	}
 //
-//	// Spring
+//	 Spring
 //	if (Application::IsKeyPressed(VK_DOWN))
 //	{
 //		Vector3 accel(0, -20, 0);
@@ -638,30 +638,30 @@
 //		spring->vel.SetZero();
 //	}
 //
-//	// Flippers
+//	 Flippers
 //	int velamount = 250;
 //	if (Application::IsKeyPressed(VK_LEFT))
 //	{
-//		//float force = 2000;
-//		//float accel = force * (1.0f / leftFlipper->mass);
+//		float force = 2000;
+//		float accel = force * (1.0f / leftFlipper->mass);
 //		leftFlipper->angularVelocity = velamount;
 //	}
 //	else
 //	{
-//		//float force = 2000;
-//		//float accel = -1 * force * (1.0f / leftFlipper->mass);
+//		float force = 2000;
+//		float accel = -1 * force * (1.0f / leftFlipper->mass);
 //		leftFlipper->angularVelocity = -1 * velamount;
 //	}
 //	if (Application::IsKeyPressed(VK_RIGHT))
 //	{
-//		//float force = 1000;
-//		//float accel = -1 * force * (1.0f / rightFlipper->mass);
+//		float force = 1000;
+//		float accel = -1 * force * (1.0f / rightFlipper->mass);
 //		rightFlipper->angularVelocity = -1 * velamount;
 //	}
 //	else
 //	{
-//		//float force = 1000;
-//		//float accel = force * (1.0f / rightFlipper->mass);
+//		float force = 1000;
+//		float accel = force * (1.0f / rightFlipper->mass);
 //		rightFlipper->angularVelocity = velamount;
 //	}
 //
@@ -690,7 +690,7 @@
 //		rightFlipper->rotateZ = 180 + f_ori_d;
 //	}
 //
-//	// bonus
+//	 bonus
 //	if (bonus1->timeout > 0)
 //	{
 //		bonus1->timeout -= m_speed * dt;
@@ -702,12 +702,12 @@
 //		if (bonus1->fireInterval <= 0)
 //		{
 //			bonus1->fireInterval = 0.3f;
-//			// Getting mouse pos 
+//			 Getting mouse pos 
 //			double x, y;
 //			Application::GetCursorPos(&x, &y);
 //			int w = Application::GetWindowWidth();
 //			int h = Application::GetWindowHeight();
-//			// convert to world space
+//			 convert to world space
 //			x /= (w / m_worldWidth);
 //			y = h - y;
 //			y /= (h / m_worldHeight);
@@ -737,12 +737,12 @@
 //		if (bonus2->fireInterval <= 0)
 //		{
 //			bonus2->fireInterval = 0.3f;
-//			// Getting mouse pos 
+//			 Getting mouse pos 
 //			double x, y;
 //			Application::GetCursorPos(&x, &y);
 //			int w = Application::GetWindowWidth();
 //			int h = Application::GetWindowHeight();
-//			// convert to world space
+//			 convert to world space
 //			x /= (w / m_worldWidth);
 //			y = h - y;
 //			y /= (h / m_worldHeight);
@@ -762,7 +762,7 @@
 //		}
 //	}
 //	
-//	// point tings
+//	 point tings
 //	if (target100->timeout > 0 && target100->fireInterval >= 0)
 //	{
 //		target100->fireInterval -= m_speed * dt;
@@ -777,7 +777,7 @@
 //	}
 //
 //
-//	// moving inelastic(grey) walls
+//	 moving inelastic(grey) walls
 //	float wallvel = 5;
 //	if (mWall1[0]->pos.x <= offset_wall_x + 0.2 * inner_width)
 //	{
@@ -810,7 +810,7 @@
 //	}
 //	
 //
-//	// moving bumper walls
+//	 moving bumper walls
 //	float ewallvel = 7;
 //	if (bWall1[0]->pos.y <= 0.35 * m_worldHeight)
 //	{
@@ -843,7 +843,7 @@
 //	}
 //	
 //
-//	// Game Objects
+//	 Game Objects
 //	for(std::vector<GameObject *>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
 //	{
 //		GameObject *go = (GameObject *)*it;
@@ -877,7 +877,7 @@
 //				break;
 //			}
 //			
-//			// ball fell tru hole
+//			 ball fell tru hole
 //			if (pBall->pos.y + pBall_radius < 0)
 //			{
 //				pBall->pos = pBall_ori_pos;
@@ -899,7 +899,7 @@
 //				}
 //			}
 //
-//			// In case leave screen Unspawn
+//			 In case leave screen Unspawn
 //			if (go->pos.x >= m_worldWidth + go->scale.x
 //				|| go->pos.x + go->scale.x <= 0
 //				|| go->pos.y >= m_worldHeight + go->scale.y
@@ -908,7 +908,7 @@
 //				ReturnGO(go);
 //			}
 //
-//			// Collision
+//			 Collision
 //			for (std::vector<GameObject*>::iterator it2 = it + 1; it2 != m_goList.end(); ++it2)
 //			{
 //				GameObject* go2 = (GameObject*)*it2;
@@ -942,7 +942,7 @@
 //		}
 //	}
 //
-//	// Message
+//	 Message
 //	if (messageList.size() > 5)
 //	{
 //		Message* popup = messageList.front();
@@ -951,14 +951,14 @@
 //		
 //	}
 //
-//	// Camera
+//	 Camera
 //	camera.position.Set(pBall->pos.x + 0.125 * m_worldWidth, pBall->pos.y, 1);
 //	camera.target.Set(pBall->pos.x + 0.125 * m_worldWidth, pBall->pos.y, 0);
 //}
 //
 //bool SceneCollision::CheckCollision(GameObject* go1, GameObject* go2, float dt)
 //{
-//	// in case of self collision
+//	 in case of self collision
 //	/*if (go1 == go2)
 //	{
 //		return false;
@@ -1025,7 +1025,7 @@
 //
 //		if (dis.Dot(N) < go1->scale.x + go2->scale.x
 //			&& abs(dis.Dot(NP)) < go2->scale.y)
-//			//&& go1->vel.Dot(N) > 0)
+//			&& go1->vel.Dot(N) > 0)
 //		{
 //			return true;
 //		}
@@ -1117,7 +1117,7 @@
 //		Vector3 dis = go2pos - go1->pos;
 //		Vector3 N = (go2pos - go1->pos).Normalized();
 //
-//		// velocity of rpillar
+//		 velocity of rpillar
 //		Vector3 w0_b1 = go2->pos - go1->pos;
 //		Vector3 proj = w0_b1.Dot(plane) * plane;
 //		float displacement = proj.Length();
@@ -1194,7 +1194,7 @@
 //
 //		go2->timeout = 1;
 //		go2->fireInterval = 0.3f;
-//		// scoring stuff
+//		 scoring stuff
 //		m_score += 100;
 //		messageList.push_back(new Message("You earned 100 points!", Color(1.0f, 1.0f, 1.0f)));
 //	}
@@ -1293,7 +1293,7 @@
 //	break;
 //	case GameObject::GO_FLIPPER:
 //	{
-//		// vars to be used
+//		 vars to be used
 //		float theta = Math::DegreeToRadian(go2->rotateZ);
 //		float innerR = atan2(f_radius1 - f_radius2, f_length);
 //		float angle90 = Math::DegreeToRadian(90);
@@ -1307,7 +1307,7 @@
 //
 //		Vector3 Rvel;
 //
-//		// calculating flipper vel and hence relative vel
+//		 calculating flipper vel and hence relative vel
 //		Vector3 w0_b1 = go2->pos - go1->pos;
 //		Vector3 proj = w0_b1.Dot(Fplane) * Fplane;
 //		float displacement = proj.Length();
@@ -1378,7 +1378,7 @@
 //	break;
 //	case GameObject::GO_RPILLAR:
 //	{
-//		// vars to be used
+//		 vars to be used
 //		float angle = atan2(go2->dir.y, go2->dir.x);
 //		float theta = Math::DegreeToRadian(go2->rotateZ);
 //		float angle90 = Math::DegreeToRadian(90);
@@ -1499,7 +1499,7 @@
 //		Vector3 Fplane(cos(theta), sin(theta), 0);
 //		Vector3 Fnormal(cos(theta + angle90), sin(theta + angle90), 0);
 //	
-//		// checking  wall
+//		 checking  wall
 //		switch (GetContactWithFlipper(ball, other))
 //		{
 //		case 0: // no collision
@@ -1557,7 +1557,7 @@
 //
 //void SceneCollision::ApplyFriction(GameObject* ball, Vector3 normal, double dt)
 //{
-//	// - velocity parallel to surface by amount of Nforce
+//	 - velocity parallel to surface by amount of Nforce
 //	const float FRICTION_K = 0.0005f;
 //	float Nforce = abs(Vector3(ball->mass * m_gravity).Dot(normal));
 //	Vector3 plane = normal.Cross(Vector3(0, 0, 1));
@@ -1570,7 +1570,7 @@
 //
 //void SceneCollision::ApplyBumper(GameObject* ball, Vector3 normal, double dt)
 //{
-//	// + 100% of velocity in the direction of the normal
+//	 + 100% of velocity in the direction of the normal
 //	Vector3 iN = normal;
 //	if (ball->vel.Dot(iN) < 0)
 //	{
@@ -1582,7 +1582,7 @@
 //
 //void SceneCollision::ApplyInelastic(GameObject* ball, Vector3 normal, double dt)
 //{
-//	// - 50% of velocity in the direction of the normal
+//	 - 50% of velocity in the direction of the normal
 //	Vector3 iN = normal;
 //	if (ball->vel.Dot(iN) < 0)
 //	{
@@ -1594,26 +1594,26 @@
 //
 //int SceneCollision::GetContactWithFlipper(GameObject* ball, GameObject* flipper)
 //{
-//	// angles to be used
+//	 angles to be used
 //	float theta = Math::DegreeToRadian(flipper->rotateZ);
 //	float innerR = atan2(f_radius1 - f_radius2, f_length);
 //	float angle90 = Math::DegreeToRadian(90);
-//	// vectors to be used
+//	 vectors to be used
 //	Vector3 Fplane(cos(theta), sin(theta), 0);
 //	Vector3 Fnormal(cos(theta + angle90), sin(theta + angle90), 0);
 //	Vector3 wall1plane(cos(theta - innerR), sin(theta - innerR), 0);
 //	Vector3 wall1normal(cos(theta - innerR + angle90), sin(theta - innerR + angle90), 0);
 //	Vector3 wall2plane(cos(theta + innerR), sin(theta + innerR), 0);
 //	Vector3 wall2normal(cos(theta + innerR - angle90), sin(theta + innerR - angle90), 0);
-//	// finding vel of flipper
+//	 finding vel of flipper
 //	Vector3 w0_b1 = flipper->pos - ball->pos;
 //	Vector3 proj = (w0_b1.Dot(Fplane) / Fplane.Dot(Fplane)) * Fplane;
 //	float displacement = proj.Length();
 //	Vector3 Fvel = Math::DegreeToRadian(flipper->angularVelocity) * displacement * Fnormal;
-//	// vars to be used
+//	 vars to be used
 //	Vector3 wallpos, dis, N, NP;
 //
-//	// checking wall in dir of normal
+//	 checking wall in dir of normal
 //	wallpos = flipper->pos + f_length * Fplane - wall1plane * f_length * 0.5;
 //	dis = wallpos - ball->pos;
 //	N = -1 * wall1normal;
@@ -1627,7 +1627,7 @@
 //	}
 //
 //
-//	// checking other wall
+//	 checking other wall
 //	wallpos = flipper->pos + f_length * Fplane - wall2plane * f_length * 0.5;
 //	dis = wallpos - ball->pos;
 //	N = -1 * wall2normal;
@@ -1640,15 +1640,15 @@
 //		return 2;
 //	}
 //
-//	// checking both pillars
-//	// larger pillar at pivot
+//	 checking both pillars
+//	 larger pillar at pivot
 //	dis = flipper->pos - ball->pos;
 //	if (dis.Length() < ball->scale.x + f_radius1
 //		&& ball->vel.Dot(dis) > 0)
 //	{
 //		return 3;
 //	}
-//	// smaller pillar at end
+//	 smaller pillar at end
 //	dis = flipper->pos + Fplane * f_length - ball->pos;
 //	if (dis.Length() < ball->scale.x + f_radius2
 //		&& ball->vel.Dot(dis) > 0)
@@ -1749,7 +1749,7 @@
 //		meshList[GEO_BALL]->material.kAmbient = go->mat.kAmbient;
 //		meshList[GEO_WALL]->material.kAmbient = go->mat.kAmbient;
 //
-//		// left right wall
+//		 left right wall
 //		for (int i = -1; i < 2; i += 2)
 //		{
 //			modelStack.PushMatrix();
@@ -1758,7 +1758,7 @@
 //			RenderMesh(meshList[GEO_WALL], true);
 //			modelStack.PopMatrix();
 //		}
-//		// top bot wall
+//		 top bot wall
 //		for (int i = -1; i < 2; i += 2)
 //		{
 //			modelStack.PushMatrix();
@@ -1767,7 +1767,7 @@
 //			RenderMesh(meshList[GEO_WALL], true);
 //			modelStack.PopMatrix();
 //		}
-//		// pillars - top 2
+//		 pillars - top 2
 //		for (int i = -1; i < 2; i += 2)
 //		{
 //			modelStack.PushMatrix();
@@ -1777,7 +1777,7 @@
 //			RenderMesh(meshList[GEO_BALL], true);
 //			modelStack.PopMatrix();
 //		}
-//		// pillars - bot 2
+//		 pillars - bot 2
 //		for (int i = -1; i < 2; i += 2)
 //		{
 //			modelStack.PushMatrix();
@@ -1897,23 +1897,23 @@
 //	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 //
 //
-//	// Projection matrix : Orthographic Projection
+//	 Projection matrix : Orthographic Projection
 //	Mtx44 projection;
-////	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -10, 10);
+//	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -10, 10);
 //	projection.SetToPerspective(m_worldWidth - 1.0f, m_worldWidth / m_worldHeight, 0.1f, 1000.f);
 //	projectionStack.LoadMatrix(projection);
 //
-//	// Camera matrix
+//	 Camera matrix
 //	viewStack.LoadIdentity();
 //	viewStack.LookAt(
 //		camera.position.x, camera.position.y, camera.position.z,
 //		camera.target.x, camera.target.y, camera.target.z,
 //		camera.up.x, camera.up.y, camera.up.z
 //	);
-//	// Model matrix : an identity matrix (model will be at the origin)
+//	 Model matrix : an identity matrix (model will be at the origin)
 //	modelStack.LoadIdentity();
 //
-//	//RenderMesh(meshList[GEO_AXES], false);
+//	RenderMesh(meshList[GEO_AXES], false);
 //
 //	if (m_ghost->active)
 //	{
@@ -1922,7 +1922,7 @@
 //
 //
 //
-//	// all gos
+//	 all gos
 //	for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
 //	{
 //		GameObject* go = (GameObject*)*it;
@@ -1932,14 +1932,14 @@
 //		}
 //	}
 //
-//	//ui frame
+//	ui frame
 //	float scalex = ((m_worldWidth - m_gameWidth) / m_worldWidth) * 80;
 //	float posx = 0.875 * 80;
 //	RenderMeshOnScreen(meshList[GEO_UIFRAME], posx, 30, scalex, 60);
 //	std::ostringstream ss;
 //
 //
-//	// balls left
+//	 balls left
 //	RenderTextOnScreen(meshList[GEO_TEXT],"Balls Left:" , Color(1.0f, 1.0f, 1.0f), 4, m_gameWidth + 7.0f, m_worldHeight * 0.77f);
 //	for (int i = 0; i < numBalls; i++)
 //	{
@@ -1955,16 +1955,16 @@
 //		RenderMesh(meshList[GEO_BALL], true);
 //		modelStack.PopMatrix();
 //	}
-//	// score
+//	 score
 //	ss.str("");
 //	ss << "Score: " << m_score;
 //	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1.0f, 1.0f, 1.0f), 4, m_gameWidth + 7.0f, m_worldHeight * 0.67f);
-//	// high score
+//	 high score
 //	ss.str("");
 //	ss << "High Score: " << m_highscore;
 //	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1.0f, 1.0f, 1.0f), 4, m_gameWidth + 7.0f, m_worldHeight * 0.6f);
 //
-//	// message
+//	 message
 //	float total = messageList.size();
 //	for (auto popup : messageList)
 //	{
@@ -1972,7 +1972,7 @@
 //		total--;
 //	}
 //
-//	// fps tings
+//	 fps tings
 //	ss.str("");
 //	ss.precision(5);
 //	ss << "FPS: " << fps;
@@ -1984,7 +1984,7 @@
 //void SceneCollision::Exit()
 //{
 //	SceneBase::Exit();
-//	//Cleanup GameObjects
+//	Cleanup GameObjects
 //	while(m_goList.size() > 0)
 //	{
 //		GameObject *go = m_goList.back();

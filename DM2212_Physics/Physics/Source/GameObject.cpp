@@ -7,7 +7,7 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, SHAPE_TYPE shapeType)
 	scale(1, 1, 1),
 	active(false),
 	fireInterval(0),
-	maxHP(0), currentHP(0), timeout(0),
+	maxHP(0), currentHP(0), timeout(0), enableCollision(true),
 	bottomSprite(NULL), scene(NULL)
 {
 	physics = new Physics(shapeType, pos, scale);
@@ -25,6 +25,7 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHA
 	timeout(0),
 	physics(new Physics(shapeType, pos, scale)),
 	mesh(mesh),
+	enableCollision(true),
 	bottomSprite(NULL), scene(NULL)
 {
 }

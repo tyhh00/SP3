@@ -15,6 +15,9 @@ public:
 private:
 	SpriteAnimation* animatedSprites;
 
+	float dashTimer;
+	bool isDashing = false;
+
 	float speed;
 	float jump_force;
 
