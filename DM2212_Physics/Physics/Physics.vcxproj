@@ -154,7 +154,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\BaseEnemy.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\Flashlight.cpp" />
     <ClCompile Include="Source\Ghost.cpp" />
@@ -200,7 +199,6 @@
     <ClCompile Include="Source\SoundController/SoundInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\BaseEnemy.h" />
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\filesystem.h" />
     <ClInclude Include="Source\Flashlight.h" />
