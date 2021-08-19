@@ -72,7 +72,7 @@ struct GameObject
 	virtual void Update(double dt);
 	virtual GameObject* Clone();
 
-
+	virtual void CollidedWith(GameObject* go);
 	void AddBottomSprite();
 	
 };

@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Keyboard.h"
 #include "GameObjectManager.h"
+#include "Portal.h"
 
 class SceneGraveyard : public SceneBase
 {
@@ -36,6 +37,8 @@ protected:
 	Keyboard* keyboard;
 	GameObjectManager* goManager;
 	Player* player;
+
+	PortalAbilityManager abilityManager;
 
 	float flashlight_radius;
 

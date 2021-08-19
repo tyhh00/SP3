@@ -130,30 +130,29 @@ void Camera::Update(Vector3 focusTarget, double dt)
 void Camera::Update(double dt)
 {
 	double mousePosX, mousePosY;
-	Application::GetCursorPos(&mousePosX, &mousePosY);
-	mousePosY = Application::GetWindowHeight() - mousePosY;
+	CursorToWorldPosition(mousePosX, mousePosY);
 
 
 	if ((Application::IsKeyPressed(VK_LEFT) 
-		|| mousePosX < 0.3 * Application::GetWindowWidth())
+		|| mousePosX < 0.3 * screenWidth)
 		&& target.x - screenWidth * 0.5 > 0)
 	{
 		target.x -= 100 * dt;
 	}
 	else if ((Application::IsKeyPressed(VK_RIGHT)
-		|| mousePosX > 0.7 * Application::GetWindowWidth())
+		|| mousePosX > 0.7 * screenWidth)
 		&& target.x + screenWidth * 0.5 < worldWidth)
 	{
 		target.x += 100 * dt;
 	}
 	if ((Application::IsKeyPressed(VK_UP)
-		|| mousePosY > 0.7 * Application::GetWindowHeight())
+		|| mousePosY > 0.7 * screenHeight)
 		&& target.y + screenHeight * 0.5 < worldHeight)
 	{
 		target.y += 100 * dt;
 	}
 	else if ((Application::IsKeyPressed(VK_DOWN)
-		|| mousePosY < 0.3 * Application::GetWindowHeight())
+		|| mousePosY < 0.3 * screenHeight)
 		&& target.y - screenHeight * 0.5 > 0)
 	{
 		target.y -= 100 * dt;
@@ -203,14 +202,14 @@ void Camera::SetMode(MODE mode)
 		NEWD_X = 0;
 		MAXD_Y = 0;
 		NEWD_Y = 0;
-		std::cout << "Mode has been set to CENTER." << std::endl;
+		std::cout << "Camera mode has been set to CENTER." << std::endl;
 		break;
 	case EDGE:
 		MAXD_X = defaultMAXD_X;
 		NEWD_X = defaultNEWD_X;
 		MAXD_Y = defaultMAXD_Y;
 		NEWD_Y = defaultNEWD_Y;
-		std::cout << "Mode has been set to EDGE." << std::endl;
+		std::cout << "Camera mode has been set to EDGE." << std::endl;
 		break;
 	default:
 		break;
@@ -230,6 +229,23 @@ void Camera::ToggleAutoLock()
 		std::cout << "Auto Lock has been turned off. Camera no longer follows target and can be more freely controlled." << std::endl;
 		view_locked = false; 
 	}
+}
+
+void Camera::CursorToWorldPosition(double& theX, double& theY)
+{
+	double x, y;
+	Application::GetCursorPos(&x, &y);
+	int w = Application::GetWindowWidth();
+	int h = Application::GetWindowHeight();
+	// convert to world space
+	x /= (w / screenWidth);
+	y = h - y;
+	y /= (h / screenHeight);
+	x -= screenWidth * 0.5 - position.x;
+	y -= screenHeight * 0.5 - position.y;
+
+	theX = x;
+	theY = y;
 }
 
 void Camera::ToggleAutoLock(bool on)

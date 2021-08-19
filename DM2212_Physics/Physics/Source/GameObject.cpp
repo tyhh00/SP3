@@ -61,6 +61,10 @@ GameObject* GameObject::Clone()
 	return go;
 }
 
+void GameObject::CollidedWith(GameObject* go)
+{
+}
+
 void GameObject::AddBottomSprite()
 {
 	bottomSprite = new Attachment(GameObject::GO_WALL,
