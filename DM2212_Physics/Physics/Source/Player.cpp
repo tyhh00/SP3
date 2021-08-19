@@ -26,8 +26,6 @@ void Player::Init()
 	mesh = animatedSprites;
 	mesh->textureID = LoadTGA("Image/girlsprite.tga");
 
-	// CHEAT FIX - TBC; LIGHTING NOT WORKING ON SPRITE ANIMATION MESH
-	mesh->material.kAmbient.Set(1, 1, 1);
 
 }
 
