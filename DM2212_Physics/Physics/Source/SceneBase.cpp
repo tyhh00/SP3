@@ -147,7 +147,7 @@ void SceneBase::Init()
 	//Tiles (Player tile, environmental tiles)
 	LoadTile(GEO_TILEGRID, "Grid.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_BLOCK_UP_RED, "Scene2D_GroundTile.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_PLAYER_GIRL1, "Player_Girl1.tga", 1, 1.5, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_PLAYER_GIRL1, "Player_Girl1.tga", 1, 1, SHAPE_TYPE::RECTANGLE); //changme y to 1.5
 	// graveyard
 	LoadTile(GEO_GY_CENTER, "GRAVEYARD_CENTER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_GY_TOP_MID, "GRAVEYARD_TOPMID.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -172,7 +172,21 @@ void SceneBase::Init()
 	LoadTile(GEO_LOBBY_MACHINE5, "LOBBY_MACHINE_5.tga", 3, 3, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_LOBBY_FLOOR, "LOBBY_FLOOR.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_LOBBY_WALL, "LOBBY_WALL.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_1_TOPLEFT, "OCEAN_1_topLeft.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_1_TOPMID, "OCEAN_1_topMid.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_1_TOPRIGHT, "OCEAN_1_topRight.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_1_MIDLEFT, "OCEAN_1_midLeft.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 
+	LoadTile(GEO_OCEAN_1_MIDMID, "OCEAN_1_midMid.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	
+	LoadTile(GEO_OCEAN_1_MIDRIGHT, "OCEAN_1_midRight.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_1_BOTLEFT, "OCEAN_1_botLeft.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_1_BOTMID, "OCEAN_1_botMid.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_1_BOTRIGHT, "OCEAN_1_botRight.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_2_LEFT, "OCEAN_2_left.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_2_MID, "OCEAN_2_mid.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_2_RIGHT, "OCEAN_2_right.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_3_BLOCK, "OCEAN_3_block.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	//Entities (Player, etc)
 
 	//Shapes

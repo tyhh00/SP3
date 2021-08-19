@@ -95,7 +95,9 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 				&& abs(dis.Dot(NP)) < go2->scale.x
 				&& go1->physics->GetVelocity().Dot(N) > 0)
 			{
-				go2->physics->SetCollisionNormal(N);
+				go2->physics->SetCollisionNormal(N);/*
+				go1->physics->scale = Vector3(go1->scale.y, go1->scale.x, go1->scale.z);
+				go2->physics->scale = Vector3(go2->scale.y, go2->scale.x, go2->scale.z);*/
 				return true;
 			}
 		}
@@ -124,11 +126,13 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 			}
 			NP.Set(N.y, -1 * N.x, 0);
 
-			if (dis.Dot(N) < go1->scale.y + go2->scale.x
+			if (dis.Dot(N) < go1->scale.y + go2->scale.y
 				&& abs(dis.Dot(NP)) < go2->scale.x
 				&& go1->physics->GetVelocity().Dot(N) > 0)
 			{
-				go2->physics->SetCollisionNormal(N);
+				go2->physics->SetCollisionNormal(N);/*
+				go1->physics->scale = Vector3(go1->scale.y, go1->scale.x, go1->scale.z);
+				go2->physics->scale = Vector3(go2->scale.y, go2->scale.x, go2->scale.z);*/
 				return true;
 			}
 			break;

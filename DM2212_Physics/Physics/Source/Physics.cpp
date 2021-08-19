@@ -236,7 +236,7 @@ void Physics::CollisionResponse(Physics* go2, double dt)
 
 				ApplyFriction(this, N, dt);
 				ApplyInelastic(this, N, dt);
-				ApplyContactForce(this, go2);
+				ApplyContactForce(this, go2, dt);
 				break;
 			}
 		}
@@ -272,7 +272,7 @@ void Physics::CollisionResponse(Physics* go2, double dt)
 
 				ApplyInelastic(this, N, dt);
 				ApplyFriction(this, N, dt);
-				ApplyContactForce(this, go2);
+				ApplyContactForce(this, go2, dt);
 				break;
 			}
 		}
@@ -298,7 +298,7 @@ void Physics::CollisionResponse(Physics* go2, double dt)
 
 				ApplyFriction(this, N, dt);
 				ApplyInelastic(this, N, dt);
-				ApplyContactForce(this, go2, true);
+				ApplyContactForce(this, go2, dt, true);
 			}
 				break;
 			case RECTANGLE: //if go2 is stationary rectangle
@@ -309,7 +309,7 @@ void Physics::CollisionResponse(Physics* go2, double dt)
 
 				ApplyFriction(this, N, dt);
 				ApplyInelastic(this, N, dt);
-				ApplyContactForce(this, go2);
+				ApplyContactForce(this, go2, dt);
 				break;
 			}
 		}
@@ -326,7 +326,7 @@ void Physics::CollisionResponse(Physics* go2, double dt)
 
 				ApplyFriction(this, N, dt);
 				ApplyInelastic(this, N, dt);
-				ApplyContactForce(this, go2);
+				ApplyContactForce(this, go2, dt);
 				break;
 			}
 			break;
@@ -339,10 +339,11 @@ void Physics::CollisionResponse(Physics* go2, double dt)
 					Vector3 Rvel = this->vel - go2->vel;
 					this->vel = this->vel - 2 * Rvel.Dot(N) * (N);
 				}
+				//this->pos -= this->vel * dt;
 
 				ApplyInelastic(this, N, dt);
 				ApplyFriction(this, N, dt);
-				ApplyContactForce(this, go2);
+				ApplyContactForce(this, go2, dt);
 				break;
 			}
 		}
@@ -392,34 +393,38 @@ void Physics::ApplyInelastic(Physics* ball, Vector3 normal, double dt)
  @param go2 A physics component of the second object
  @param dt A double for delta time
  */
-void Physics::ApplyContactForce(Physics* go1, Physics* go2, bool applyForBall)
+void Physics::ApplyContactForce(Physics* go1, Physics* go2, double dt, bool applyForBall)
 {
 	//get go2's collision normal
 	Vector3 N = go2->collisionNormal;
 
 	float displacement = go1->scale.x + go2->scale.x;
 
-	bool flip = true;
-
-	if (go1->pos.x < go2->pos.x)
-		flip = false;
-
-	Vector3 go1N = go1->normal;
-	if (flip)
+	/*Vector3 go1N = go1->normal;
+	Vector3 distance = go2->pos - go1->pos;
+	if (distance.Dot(go1->normal) < 0)
 		go1N = -go1N;
-	Vector3 NP(go1N.y, -1 * go1N.x, 0);
-	
+
+	Vector3 NP(go1N.y, -go1N.x, 0);
+	if (go1->pos.x > go2->pos.x)
+		NP = (-go1N.y, -go1N.x, 0);
+
 	Vector3 pos1 = go1->pos + go1N;
 	Vector3 pos2 = go1->pos + NP;
 
 	Vector3 newPos1 = go2->pos - pos1;
-	Vector3 newPos2 = go2->pos - pos2;
+	Vector3 projPos1 = (newPos1.Dot(N) / N.Dot(N)) * N;
 
-	if (newPos1.Length() < newPos2.Length())
+	Vector3 newPos2 = go2->pos - pos2;
+	Vector3 projPos2 = (newPos2.Dot(N) / N.Dot(N)) * N;
+
+	std::cout << "1: " << projPos1.Length() << " 2: " << projPos2.Length() << std::endl;
+
+	if (projPos1.Length() < projPos2.Length())
 	{
 		std::cout << "y is the nearer side" << std::endl;
 		displacement = go1->scale.y + go2->scale.x;
-	}
+	}*/
 
 	//if (N == Vector3(0, -1, 0) || N == Vector3(0, 1, 0))
 	//	displacement = go1->scale.x + go2->scale.x;

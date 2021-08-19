@@ -68,7 +68,7 @@ public:
 	void CollisionResponse(Physics* go2, double dt);
 	void ApplyFriction(Physics* ball, Vector3 normal, double dt);
 	void ApplyInelastic(Physics* ball, Vector3 normal, double dt);
-	void ApplyContactForce(Physics* go1, Physics* go2, bool applyForBall = false);
+	void ApplyContactForce(Physics* go1, Physics* go2, double dt, bool applyForBall = false);
 
 	Physics* Clone();
 };

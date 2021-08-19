@@ -278,7 +278,7 @@ void SceneLobby::SetLights()
 	glUniform1f(m_parameters[U_LIGHT1_COSINNER], lights[1].cosInner);
 	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], lights[1].exponent);
 
-	bLightEnabled = true;
+	bLightEnabled = false;
 }
 
 void SceneLobby::CursorToWorldPosition(double& theX, double& theY)
