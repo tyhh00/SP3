@@ -3,7 +3,8 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 
-Item::Item()
+Item::Item() 
+	: scene(NULL)
 {
 }
 
@@ -12,6 +13,7 @@ Item::Item(GROUP_TYPE _groupType, ITEM_TYPE _itemType, int _quantity, bool _isSt
 	, itemType(_itemType)
 	, quantity(_quantity)
 	, isStackable(_isStackable)
+	, scene(NULL)
 {
 }
 
@@ -88,4 +90,9 @@ int Item::RemoveQuantity(int _quantity)
 bool Item::GetIsStackable()
 {
 	return isStackable;
+}
+
+void Item::SetScene(SceneBase* scene)
+{
+	this->scene = scene;
 }

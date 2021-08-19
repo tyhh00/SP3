@@ -102,3 +102,12 @@ void Player::Update(double dt)
 	}
 
 }
+
+void Player::CollidedWith(GameObject* go)
+{
+	switch (go->geoTypeID)
+	{
+	default:
+		break;
+	}
+}

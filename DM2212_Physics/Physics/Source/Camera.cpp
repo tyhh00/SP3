@@ -133,26 +133,26 @@ void Camera::Update(double dt)
 	CursorToWorldPosition(mousePosX, mousePosY);
 
 
-	if ((Application::IsKeyPressed(VK_LEFT) 
-		|| mousePosX < 0.3 * screenWidth)
+	if ((Application::IsKeyPressed(VK_LEFT)) 
+	//	|| mousePosX < 0.3 * screenWidth)
 		&& target.x - screenWidth * 0.5 > 0)
 	{
 		target.x -= 100 * dt;
 	}
-	else if ((Application::IsKeyPressed(VK_RIGHT)
-		|| mousePosX > 0.7 * screenWidth)
+	else if ((Application::IsKeyPressed(VK_RIGHT))
+	//	|| mousePosX > 0.7 * screenWidth)
 		&& target.x + screenWidth * 0.5 < worldWidth)
 	{
 		target.x += 100 * dt;
 	}
-	if ((Application::IsKeyPressed(VK_UP)
-		|| mousePosY > 0.7 * screenHeight)
+	if ((Application::IsKeyPressed(VK_UP))
+	//	|| mousePosY > 0.7 * screenHeight)
 		&& target.y + screenHeight * 0.5 < worldHeight)
 	{
 		target.y += 100 * dt;
 	}
-	else if ((Application::IsKeyPressed(VK_DOWN)
-		|| mousePosY < 0.3 * screenHeight)
+	else if ((Application::IsKeyPressed(VK_DOWN))
+	//	|| mousePosY < 0.3 * screenHeight)
 		&& target.y - screenHeight * 0.5 > 0)
 	{
 		target.y -= 100 * dt;

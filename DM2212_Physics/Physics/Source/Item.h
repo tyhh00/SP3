@@ -1,6 +1,8 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include "SceneBase.h"
+
 class Item {
 public:
 	enum GROUP_TYPE {
@@ -13,6 +15,7 @@ public:
 		I_APPLE,
 		I_CHEESE,
 		I_PISTOL,
+		I_FLASHLIGHT,
 		I_TOTAL
 	};
 
@@ -31,11 +34,17 @@ public:
 	int RemoveQuantity(int _quantity);
 
 	bool GetIsStackable();
+
+	void SetScene(SceneBase* scene);
+
 protected:
 	GROUP_TYPE groupType;
 	ITEM_TYPE itemType;
+
 	int quantity;
 	bool isStackable;
+
+	SceneBase* scene;
 };
 
 

@@ -34,7 +34,7 @@ public:
 		scale.Set(6, 6, 6);
 
 		// CHEAT FIX - TBC; LIGHTING NOT WORKING ON SPRITE ANIMATION MESH
-		//mesh->material.kAmbient.Set(1, 1, 1);
+		mesh->material.kAmbient.Set(1, 1, 1);
 	}
 	void Update(double dt) {
 		portalSprite->Update(dt);
@@ -44,7 +44,9 @@ public:
 	}
 };
 
+
 class PortalAbilityManager {
+	
 public:
 	PortalAbilityManager();
 
@@ -57,6 +59,7 @@ public:
 private:
 
 	enum ABILITY_STATE {
+
 		DEFAULT,
 		OPENING_ANIM,
 		PLACING,

@@ -1,7 +1,6 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "GameObject.h"
 #include "Vector3.h"
 #include "Keyboard.h"
 

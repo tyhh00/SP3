@@ -7,7 +7,6 @@
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "Light.h"
-#include "GameObject.h"
 #include <vector>
 #include "Button.h"
 #include "Shape.h"
@@ -155,9 +154,7 @@ public:
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int limit);
 	void RenderMesh(Mesh *mesh, bool enableLight);
 	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey);
-	void RenderGO(GameObject *go);
-
-	GameObject* FetchGO();
+	
 protected:
 	unsigned m_vertexArrayID;
 	Mesh* meshList[NUM_GEOMETRY];

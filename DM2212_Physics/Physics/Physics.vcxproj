@@ -156,6 +156,7 @@
   <ItemGroup>
     <ClCompile Include="Source\BaseEnemy.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
+    <ClCompile Include="Source\Flashlight.cpp" />
     <ClCompile Include="Source\Ghost.cpp" />
     <ClCompile Include="Source\LevelLoader.cpp" />
     <ClCompile Include="Source\Apple.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="Source\BaseEnemy.h" />
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\filesystem.h" />
+    <ClInclude Include="Source\Flashlight.h" />
     <ClInclude Include="Source\Ghost.h" />
     <ClInclude Include="Source\LevelLoader.h" />
     <ClInclude Include="Source\Apple.h" />
