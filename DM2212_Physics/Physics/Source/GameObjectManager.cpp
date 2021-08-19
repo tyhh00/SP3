@@ -137,6 +137,7 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 	return false;
 }
 
+
 void GameObjectManager::Update(double dt)
 {
 	// Game Objects
@@ -171,6 +172,7 @@ void GameObjectManager::Update(double dt)
 				{
 					if (CheckCollision(go, go2, dt))
 					{
+						go->CollidedWith(go2);
 						go->physics->CollisionResponse(go2->physics, dt);
 						go->pos = go->physics->pos;
 						go2->pos = go2->physics->pos;
@@ -196,6 +198,7 @@ void GameObjectManager::Update(double dt)
 
 				if (CheckCollision(go, go2, dt))
 				{
+					go->CollidedWith(go2);
 					go2->physics->pos = go2->pos;
 					go2->physics->scale = go2->scale;
 					go->physics->CollisionResponse(go2->physics, dt);
