@@ -21,7 +21,7 @@ public:
 	virtual void Init() = 0;
 	virtual void Update(double dt) = 0;
 	virtual void Render() = 0;
-	virtual void GetAbilityType() = 0;
+	virtual ABILITY_TYPE GetAbilityType() = 0;
 
 	void SetPlayer(Player* player);
 	void SetCamera(Camera* camera);
