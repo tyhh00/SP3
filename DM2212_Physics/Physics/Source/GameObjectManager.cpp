@@ -192,7 +192,7 @@ void GameObjectManager::Update(double dt)
 					if (CheckCollision(go->bottomSprite, go2, dt))
 					{
 						go->physics->SetOnGround(true);
-						continue;
+						// continue;
 					}
 				}
 

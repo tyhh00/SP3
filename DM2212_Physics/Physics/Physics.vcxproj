@@ -155,6 +155,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\BaseEnemy.cpp" />
+    <ClCompile Include="Source\Enemy.cpp" />
+    <ClCompile Include="Source\Ghost.cpp" />
     <ClCompile Include="Source\LevelLoader.cpp" />
     <ClCompile Include="Source\Apple.cpp" />
     <ClCompile Include="Source\Cheese.cpp" />
@@ -198,7 +200,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\BaseEnemy.h" />
+    <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\filesystem.h" />
+    <ClInclude Include="Source\Ghost.h" />
     <ClInclude Include="Source\LevelLoader.h" />
     <ClInclude Include="Source\Apple.h" />
     <ClInclude Include="Source\Cheese.h" />
