@@ -52,6 +52,7 @@ struct GameObject
 	GAMEOBJECT_TYPE type;
 
 	bool active;
+	bool enableCollision;
 	Vector3 pos;
 	Vector3 scale;
 
@@ -74,7 +75,6 @@ struct GameObject
 
 	virtual void CollidedWith(GameObject* go);
 	void AddBottomSprite();
-	
 };
 
 struct Attachment : public GameObject

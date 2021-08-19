@@ -171,3 +171,13 @@ int Inventory::AddQuantity(Item* item, int _quantity)
 	item->SetQuantity(newQuantity);
 	return 0;
 }
+
+Item::ITEM_TYPE Inventory::GetCurrentItemType()
+{
+	return currentItem->GetType();
+}
+
+Item* Inventory::GetCurrentItem()
+{
+	return currentItem;
+}

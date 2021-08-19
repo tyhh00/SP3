@@ -21,6 +21,7 @@ private:
 	bool isMovable;
 	bool onGround;
 	bool isBouncable;
+	bool enableUpdate;
 
 public:
 	Vector3 pos;
@@ -64,6 +65,8 @@ public:
 
 	void SetInelasticity(float _inelasticity);
 	void SetIsBouncable(bool _isBouncable);
+
+	void SetEnableUpdate(bool _enableUpdate);
 
 	void CollisionResponse(Physics* go2, double dt);
 	void ApplyFriction(Physics* ball, Vector3 normal, double dt);

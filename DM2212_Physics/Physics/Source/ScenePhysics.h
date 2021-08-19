@@ -27,6 +27,8 @@ public:
 protected:
 
 	float m_speed;
+	float dashTimer;
+	bool isDashing = false;
 
 	float m_screenWidth;
 	float m_screenHeight;
