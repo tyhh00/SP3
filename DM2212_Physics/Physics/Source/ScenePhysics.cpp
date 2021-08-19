@@ -58,23 +58,22 @@ void ScenePhysics::Init()
 	{
 		if (go->geoTypeID == GEOMETRY_TYPE::GEO_PLAYER_GIRL1)
 		{
-			//GameObject* player;
-			//player = new Player();
-			//player->active = true;
-			//player->scale = Vector3(2,2,2);
-			//player->pos = go->pos;
-			//player->physics = go->physics->Clone();
-			//player->physics->SetInelasticity(0.99f);
-			//player->physics->SetIsBouncable(false);
-			//player->mesh = meshList[GEO_WALL];
-			//player->Init();
+			GameObject* player;
+			player = new Player();
+			player->active = true;
+			player->scale = go->scale;
+			player->pos = go->pos;
+			player->physics = go->physics->Clone();
+			player->physics->SetInelasticity(0.99f);
+			player->physics->SetIsBouncable(false);
+			player->Init();
 
-			///*player->AddBottomSprite();
-			//player->bottomSprite->mesh = meshList[GEO_WALL];*/
-			//goManager->AddGO(player);
+			player->AddBottomSprite();
+			player->bottomSprite->mesh = meshList[GEO_WALL];
+			goManager->AddGO(player);
 
 
-			//DEBUG_MSG("From Phy Editor: " << player->scale);
+			DEBUG_MSG("From Phy Editor: " << player->scale);
 			
 
 			//Delete Grid Player
@@ -90,19 +89,7 @@ void ScenePhysics::Init()
 
 	//Physics Test Initialisations
 	// PILLARs
-	go = new GameObject;
-	go->type = GameObject::GO_WALL;
-	go->physics->shapeType = RECTANGLE;
-	go->physics->SetMass(3);
-	go->pos.Set(m_screenWidth * 0.5f, m_screenHeight * 0.5f, 0);
-	go->physics->SetNormal(Vector3(1, 0, 0));
-	go->scale.Set(5, 2.5, 2.5);
-	go->physics->SetMovable(true);
-	go->physics->SetInelasticity(0.99f);
-	go->physics->SetIsBouncable(false);
-	go->active = true;
-	go->mesh = meshList[GEO_WALL];
-	goManager->AddGO(go);
+	
 
 	//GameObject* go2 = new GameObject;
 	//go2->type = GameObject::GO_WALL;
@@ -126,10 +113,27 @@ void ScenePhysics::Init()
 	//go2->mesh = meshList[GEO_WALL];
 	//goManager->AddGO(go2);
 
+	//test player
+	go = new GameObject;
+	go->type = GameObject::GO_TILE;
+	go->physics->shapeType = RECTANGLE;
+	go->physics->SetMass(3);
+	go->pos.Set(m_screenWidth * 0.5f, m_screenHeight * 0.5f, 0);
+	go->physics->SetNormal(Vector3(0, 1, 0));
+	go->scale.Set(2.5, 2.5, 2.5);
+	go->physics->SetMovable(true);
+	go->physics->SetInelasticity(0.99f);
+	go->physics->SetIsBouncable(false);
+	go->active = true;
+	go->mesh = meshList[GEO_WALL];
+	goManager->AddGO(go);
+
+	//floor
 	GameObject* go2 = new GameObject;
-	go2->type = GameObject::GO_WALL;
+	go2->type = GameObject::GO_TILE;
 	go2->physics->shapeType = RECTANGLE;
 	go2->pos.Set(m_screenWidth * 0.5f, m_screenHeight * 0.15f, 0);
+	go2->physics->SetNormal(Vector3(0, 1, 0));
 	go2->scale.Set(2.5, 70, 2.5);
 	go2->physics->SetMovable(false);
 	go2->active = true;

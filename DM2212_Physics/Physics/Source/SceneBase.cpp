@@ -147,7 +147,7 @@ void SceneBase::Init()
 	//Tiles (Player tile, environmental tiles)
 	LoadTile(GEO_TILEGRID, "Grid.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_BLOCK_UP_RED, "Scene2D_GroundTile.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_PLAYER_GIRL1, "Player_Girl1.tga", 1, 1.5, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_PLAYER_GIRL1, "Player_Girl1.tga", 1, 1, SHAPE_TYPE::RECTANGLE); //changme y to 1.5
 	// graveyard
 	LoadTile(GEO_GY_CENTER, "GRAVEYARD_CENTER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_GY_TOP_MID, "GRAVEYARD_TOPMID.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
