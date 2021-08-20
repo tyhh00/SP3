@@ -173,6 +173,9 @@
     <ClCompile Include="Source\Ability.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SceneJungle.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -330,6 +333,9 @@
     </ClInclude>
     <ClInclude Include="Source\Ability.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneJungle.h">
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
