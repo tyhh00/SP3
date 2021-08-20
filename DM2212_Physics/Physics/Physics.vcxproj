@@ -187,6 +187,7 @@
     <ClCompile Include="Source\SceneLobby.cpp" />
     <ClCompile Include="Source\ScenePhysics.cpp" />
     <ClCompile Include="Source\SceneManager.cpp" />
+    <ClCompile Include="Source\SceneRobot.cpp" />
     <ClCompile Include="Source\SceneSplashScreen.cpp" />
     <ClCompile Include="Source\SceneTest.cpp" />
     <ClCompile Include="Source\shader.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="Source\SceneLobby.h" />
     <ClInclude Include="Source\ScenePhysics.h" />
     <ClInclude Include="Source\SceneManager.h" />
+    <ClInclude Include="Source\SceneRobot.h" />
     <ClInclude Include="Source\SceneSplashScreen.h" />
     <ClInclude Include="Source\SceneTest.h" />
     <ClInclude Include="Source\shader.hpp" />

@@ -32,5 +32,6 @@ public:
 	bool oneKeyReleased;
 	bool twoKeyReleased;
 	bool threeKeyReleased;
+	bool fourKeyReleased;
 
 };

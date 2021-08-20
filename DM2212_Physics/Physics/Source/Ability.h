@@ -32,6 +32,7 @@ protected:
 	Ability(char buttonChar, ABILITY_TYPE type);
 	~Ability();
 
+
 	Camera* camera;
 	Player* player;
 	GameObjectManager* goManager;
