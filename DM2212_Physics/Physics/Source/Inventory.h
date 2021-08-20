@@ -15,6 +15,8 @@ public:
 	void SwitchItem(int index);
 	void AddItem(Item* newItem);
 	int AddQuantity(Item* item, int _quantity);
+	Item::ITEM_TYPE GetCurrentItemType();
+	Item* GetCurrentItem();
 private:
 	std::vector<Item*> itemVector;
 	Item* currentItem;

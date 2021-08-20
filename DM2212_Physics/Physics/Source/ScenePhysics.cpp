@@ -216,6 +216,14 @@ void ScenePhysics::Render()
 	// Model matrix : an identity matrix (model will be at the origin)
 	modelStack.LoadIdentity();
 
+	if (inventory->GetCurrentItem())
+	{
+		std::stringstream ss;
+		ss << "curr item: " << inventory->GetCurrentItemType();
+
+		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1.0f, 1.0f, 1.0f), 4, 10, 10);
+	}
+
 	goManager->Render(this);
 }
 

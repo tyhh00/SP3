@@ -95,12 +95,6 @@ void SceneGraveyard::Init()
 	// Add all remaining tiles
 	goManager->AddAllGO(tiles);
 
-	GameObject* obj = new GameObject(GameObject::GO_TILE, meshList[GEO_GY_PLATFORM_LEFT], RECTANGLE);
-	obj->pos.Set(40, 30, 0);
-	obj->physics->SetNormal(Vector3(-1, 0, 0));
-	obj->scale.Set(5, 5, 5);
-	goManager->AddGO(obj);
-
 	// Camera 
 	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
@@ -108,6 +102,7 @@ void SceneGraveyard::Init()
 
 	abilityManager.Init();
 	abilityManager.SetCamera(&camera);
+	abilityManager.SetPlayer(player);
 }
 
 void SceneGraveyard::Update(double dt)
@@ -139,8 +134,7 @@ void SceneGraveyard::Update(double dt)
 	
 	goManager->Update(dt);
 
-	abilityManager.UpdateCondition(player->physics->GetOnGround());
-	abilityManager.Update(player->pos, dt);
+	abilityManager.Update(dt);
 }
 
 void SceneGraveyard::Render()
@@ -211,14 +205,14 @@ void SceneGraveyard::Render()
 
 	// BG
 	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5, m_worldHeight * 0.5, -0.01);
-	modelStack.Scale(m_worldWidth, m_worldHeight, 1);
+	modelStack.Translate(camera.position.x, camera.position.y, -0.01);
+	modelStack.Scale(m_screenWidth, m_screenHeight, 1);
 	RenderMesh(meshList[GEO_BG], true);
 	modelStack.PopMatrix();
 
+	goManager->Render(this);
 	abilityManager.Render(this);
 
-	goManager->Render(this);
 
 	std::ostringstream ss;
 	/*ss.str("");
@@ -245,9 +239,9 @@ void SceneGraveyard::Render()
 void SceneGraveyard::SetLights()
 {
 	lights[0].type = Light::LIGHT_POINT;
-	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 1);
+	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
 	lights[0].color.Set(1, 1, 1);
-	lights[0].power = 4;
+	lights[0].power = 2;
 	lights[0].kC = 1.f;
 	lights[0].kL = 0.01f;
 	lights[0].kQ = 0.001f;

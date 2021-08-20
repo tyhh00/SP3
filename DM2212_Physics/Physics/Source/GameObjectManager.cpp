@@ -8,6 +8,8 @@ void GameObjectManager::Init()
 
 bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float dt)
 {
+	if (!go1->enableCollision || !go2->enableCollision)
+		return false;
 	// in case of self collision
 	/*if (go1 == go2)
 	{
@@ -196,7 +198,6 @@ void GameObjectManager::Update(double dt)
 					if (CheckCollision(go->bottomSprite, go2, dt))
 					{
 						go->physics->SetOnGround(true);
-						// continue;
 					}
 				}
 

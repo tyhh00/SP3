@@ -21,6 +21,7 @@ Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale)
 	, isMovable(false)
 	, isBouncable(true)
 	, onGround(true)
+	, enableUpdate(true)
 {
 }
 
@@ -42,6 +43,7 @@ Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale, Vector3 ve
 	, isMovable(isMoveable)
 	, isBouncable(isBouncable)
 	, onGround(true)
+	, enableUpdate(true)
 {}
 
 Physics::~Physics()
@@ -54,7 +56,8 @@ Physics::~Physics()
  */
 void Physics::Update(double dt)
 {
-	vel.y += gravity.y * dt;
+	if (enableUpdate)
+		vel.y += gravity.y * dt;
 }
 
 /**
@@ -201,6 +204,11 @@ void Physics::SetMovable(bool _movable)
 bool Physics::GetMovable()
 {
 	return isMovable;
+}
+
+void Physics::SetEnableUpdate(bool _enableUpdate)
+{
+	enableUpdate = _enableUpdate;
 }
 
 /**

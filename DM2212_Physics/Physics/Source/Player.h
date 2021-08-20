@@ -10,9 +10,13 @@ class Player : public GameObject {
 public:
 	void Init();
 	void Update(double dt);
-	
+	void CollidedWith(GameObject* go);
+
 private:
 	SpriteAnimation* animatedSprites;
+
+	float dashTimer;
+	bool isDashing = false;
 
 	float speed;
 	float jump_force;

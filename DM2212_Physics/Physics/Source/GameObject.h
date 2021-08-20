@@ -5,6 +5,7 @@
 #include "Material.h"
 #include "Mesh.h"
 #include "Physics.h"
+#include "SceneBase.h"
 
 typedef struct Attachment Attachment;
 
@@ -52,6 +53,7 @@ struct GameObject
 	GAMEOBJECT_TYPE type;
 
 	bool active;
+	bool enableCollision;
 	Vector3 pos;
 	Vector3 scale;
 
@@ -62,6 +64,8 @@ struct GameObject
 	Material mat;
 
 	Physics* physics;
+
+	SceneBase* scene;
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_NONE, SHAPE_TYPE shapeType = RECTANGLE);
 	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHAPE_TYPE shapeType = RECTANGLE);
@@ -74,6 +78,7 @@ struct GameObject
 
 	virtual void CollidedWith(GameObject* go);
 	void AddBottomSprite();
+	void SetScene(SceneBase* scene);
 	
 };
 

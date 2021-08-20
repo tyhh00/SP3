@@ -7,8 +7,8 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, SHAPE_TYPE shapeType)
 	scale(1, 1, 1),
 	active(false),
 	fireInterval(0),
-	maxHP(0), currentHP(0), timeout(0),
-	bottomSprite(NULL)
+	maxHP(0), currentHP(0), timeout(0), enableCollision(true),
+	bottomSprite(NULL), scene(NULL)
 {
 	physics = new Physics(shapeType, pos, scale);
 }
@@ -25,7 +25,8 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHA
 	timeout(0),
 	physics(new Physics(shapeType, pos, scale)),
 	mesh(mesh),
-	bottomSprite(NULL)
+	enableCollision(true),
+	bottomSprite(NULL), scene(NULL)
 {
 }
 
@@ -71,4 +72,9 @@ void GameObject::AddBottomSprite()
 		Vector3(0, -1 * scale.y + 0.25, 0),
 		Vector3(0.5, scale.x * 0.75, 1));
 	bottomSprite->physics->SetNormal(Vector3(0, 1, 0));
+}
+
+void GameObject::SetScene(SceneBase* scene)
+{
+	this->scene = scene;
 }

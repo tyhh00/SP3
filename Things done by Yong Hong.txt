@@ -10,3 +10,7 @@ Level Editor:
 	Mouse Controls
 	Keyboard Controls
 	Background Mesh
+	Mouse Scroll Whell up and down 
+
+Mouse Scroll Callback
+Sound Controller
