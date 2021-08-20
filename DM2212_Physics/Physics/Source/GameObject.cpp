@@ -44,6 +44,17 @@ void GameObject::Update(double dt)
 {
 }
 
+void GameObject::Render(SceneBase* scene)
+{
+	float angle = Math::RadianToDegree(atan2(physics->GetNormal().y, physics->GetNormal().x));
+	scene->modelStack.PushMatrix();
+	scene->modelStack.Translate(pos.x, pos.y, pos.z);
+	scene->modelStack.Rotate(angle + physics->GetRotateZ(), 0, 0, 1);
+	scene->modelStack.Scale(scale.x, scale.y, scale.z);
+	scene->RenderMesh(mesh, true);
+	scene->modelStack.PopMatrix();
+}
+
 GameObject* GameObject::Clone()
 {
 	GameObject* go = new GameObject();

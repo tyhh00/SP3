@@ -5,7 +5,6 @@
 #include "SpriteAnimation.h"
 #include "Physics.h"
 #include "Keyboard.h"
-#include "SceneBase.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 #include "Ability.h"
@@ -27,7 +26,7 @@ public:
 		portalSprite->AddAnimation("idle", 0, 7);
 		portalSprite->AddAnimation("opening", 8, 15);
 		portalSprite->AddAnimation("closing", 16, 22);
-		//portalSprite->PlayAnimation("opening", 0, 1.0f);
+		
 		portalSprite->textureID = LoadTGA("Image/portal_sprite.tga");
 		mesh = portalSprite;
 
@@ -44,17 +43,17 @@ public:
 };
 
 
-class PortalAbilityManager {
+class PortalAbility : public Ability {
 	
 public:
-	PortalAbilityManager();
-	~PortalAbilityManager();
+	PortalAbility();
+	~PortalAbility();
 
-	void Init();
 	void Update(double dt);
-	void Render(SceneBase* scene);
-	void SetCamera(Camera* camera);
-	void SetPlayer(Player* player);
+	void CustomUpdate(bool playeronGround, Vector3 playerPos);
+	void CustomUpdate(Vector3& playerPos, bool& playerInvisibility);
+	void Render();
+	ABILITY_TYPE GetAbilityType();
 
 private:
 
@@ -79,13 +78,13 @@ private:
 	bool ghost_portal;
 	bool ghost_player;
 	double anim_timer;
+	
+	Vector3 newPlayerPos;
+	bool conditionsMet;
+	bool playerActiveState;
 
 	Portal startPortal;
 	Portal endPortal;
-
-	Camera* camera;
-	Player* player;
-	Keyboard* keyboard;
 
 	void CursorToWorldPosition(double& theX, double& theY);
 
