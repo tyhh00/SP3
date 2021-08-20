@@ -237,10 +237,6 @@ void GameObjectManager::Update(double dt)
 
 		}
 
-		/*m_movableGOList.erase(std::remove(begin(m_movableGOList), end(m_movableGOList), nullptr),
-			end(m_movableGOList));
-		m_stationaryGOList.erase(std::remove(begin(m_stationaryGOList), end(m_stationaryGOList), nullptr),
-			end(m_stationaryGOList));*/
 	}
 
 	for (std::vector<GameObject*>::iterator it = toRemoveList.begin(); it != toRemoveList.end(); ++it)
