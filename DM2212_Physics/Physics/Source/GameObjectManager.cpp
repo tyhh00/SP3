@@ -150,7 +150,7 @@ void GameObjectManager::Update(double dt)
 	for (std::vector<GameObject*>::iterator it = m_movableGOList.begin(); it != m_movableGOList.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go->active)
+		if (go->active && go != nullptr)
 		{
 			if (go->geoTypeID == SceneBase::GEOMETRY_TYPE::GEO_PLAYER_GIRL1)
 			{
@@ -174,7 +174,7 @@ void GameObjectManager::Update(double dt)
 			{
 				GameObject* go2 = (GameObject*)*it2;
 
-				if (go2->active)
+				if (go2->active && go2 != nullptr)
 				{
 					if (CheckCollision(go, go2, dt))
 					{
@@ -191,6 +191,8 @@ void GameObjectManager::Update(double dt)
 			for (std::vector<GameObject*>::iterator it2 = m_stationaryGOList.begin(); it2 != m_stationaryGOList.end(); ++it2)
 			{
 				GameObject* go2 = (GameObject*)*it2;
+				if (go2 == nullptr)
+					continue;
 
 				// attachment for checking if onGround
 				if (go->bottomSprite != nullptr)
@@ -223,7 +225,7 @@ void GameObjectManager::Render(SceneBase* scene)
 	for (std::vector<GameObject*>::iterator it = m_movableGOList.begin(); it != m_movableGOList.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go->active)
+		if (go->active && go != nullptr)
 		{
 			go->Render(scene);
 			// test things; to see bottomSprite
@@ -243,6 +245,9 @@ void GameObjectManager::Render(SceneBase* scene)
 	for (std::vector<GameObject*>::iterator it = m_stationaryGOList.begin(); it != m_stationaryGOList.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
+
+		if (go == nullptr)
+			continue;
 
 		go->Render(scene);
 	}
