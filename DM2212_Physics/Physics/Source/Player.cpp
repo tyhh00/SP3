@@ -3,6 +3,17 @@
 #include "Application.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
+#include "Flashlight.h"
+#include "Apple.h"
+
+Player::Player() : keyboard(NULL)
+	, goManager(NULL)
+	, inventory(NULL)
+	, speed(1000.f)
+	, jump_force(4000.f)
+	, invisibility(false)
+{
+}
 
 Player::~Player()
 {
@@ -14,20 +25,26 @@ Player::~Player()
 			abilityArray[i] = nullptr;
 		}
 	}
+
+	if (portalSprite)
+	{
+		delete portalSprite;
+		portalSprite = NULL;
+	}
+	if (animatedSprites)
+	{
+		delete animatedSprites;
+		animatedSprites = NULL;
+	}
 }
 
-void Player::Init()
+void Player::Init(GameObjectManager* GOM, Inventory* inventory)
 {
 	
 	physics->SetMass(1);
 	physics->SetMovable(true);
 
-	speed = 1000.0f;
-	jump_force = 4000.0f;
-
-	invisibility = false;
-
-	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 2.0f);
+	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 0.5f);
 	portalSprite->textureID = LoadTGA("Image/PortalTravelSprite.tga");
 
 	keyboard = Keyboard::GetInstance();
@@ -40,6 +57,8 @@ void Player::Init()
 	mesh = animatedSprites;
 	mesh->textureID = LoadTGA("Image/girlsprite.tga");
 
+	goManager = GOM;
+	this->inventory = inventory;
 
 }
 
@@ -94,12 +113,14 @@ void Player::Update(double dt)
 				if (invisibility)
 				{
 					mesh = portalSprite;
-					physics->SetGravity(Vector3(0, 0, 0));
+					physics->SetEnableUpdate(false);
+					enableCollision = false;
 				}
 				else
 				{
 					mesh = animatedSprites;
-					physics->SetGravity(physics->GetDefaultGravity());
+					physics->SetEnableUpdate(true);
+					enableCollision = true;
 				}
 			}
 			break;
@@ -178,6 +199,10 @@ void Player::CollidedWith(GameObject* go)
 {
 	switch (go->geoTypeID)
 	{
+	case SceneBase::GEO_FLASHLIGHT:
+		goManager->RemoveGO(go);
+		inventory->AddItem(new Flashlight);
+		break;
 	default:
 		break;
 	}
@@ -188,3 +213,5 @@ void Player::SetAbilities(Ability* a, Ability* b)
 	abilityArray[0] = a;
 	abilityArray[1] = b;
 }
+
+

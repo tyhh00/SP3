@@ -3,16 +3,16 @@
 #include "Weapon.h"
 #include "Keyboard.h"
 
-class Flashlight : public Weapon{
+class Flashlight : public Weapon {
 public:
-	Flashlight(int _quantity = 1, int stemLength = 1);
-	void Init() override;
-	void Update(double dt) override;
-	bool IsEqual(Item* item) override;
+	Flashlight();
+	~Flashlight();
+
+	void Init();
+	void Update(double dt);
+	bool IsEqual(Item* item1);
 	
 private:
-	int stemLength;
-
 	Keyboard* keyboard;
 };
 

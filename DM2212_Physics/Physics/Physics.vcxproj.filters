@@ -143,9 +143,6 @@
     <ClCompile Include="Source\SceneSplashScreen.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneTest.cpp">
-      <Filter>Source Files\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Weapon.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
@@ -304,9 +301,6 @@
     <ClInclude Include="Source\SceneSplashScreen.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneTest.h">
-      <Filter>Header Files\Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Weapon.h">
       <Filter>Header Files\Items</Filter>
     </ClInclude>
@@ -338,7 +332,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneRobot.h">
-	      <Filter>Header Files\Scenes</Filter>
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneJungle.h">
       <Filter>Header Files\Scenes</Filter>

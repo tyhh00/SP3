@@ -126,7 +126,7 @@ void PortalAbility::Update(double dt)
 			break;
 		}
 
-		newPlayerPos += (endPortal.pos - newPlayerPos).Normalized() * 50.0f * dt;
+		newPlayerPos += (endPortal.pos - newPlayerPos).Normalized() * 100.0f * dt;
 	}
 		break;
 	case CLOSINGSTART_ANIM:

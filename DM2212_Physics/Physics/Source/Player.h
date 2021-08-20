@@ -5,17 +5,17 @@
 #include "SpriteAnimation.h"
 #include "Physics.h"
 #include "Keyboard.h"
-#include "Ability.h"
 #include "Portal.h"
-#include "Camera.h"
 #include "SceneBase.h"
 #include "GameObjectManager.h"
+#include "Inventory.h"
 
 class Player : public GameObject {
 public:
+	Player();
 	~Player();
 
-	void Init();
+	void Init(GameObjectManager* GOM, Inventory* inventory);
 	void Update(double dt);
 	void Render(SceneBase* scene);
 	void CollidedWith(GameObject* go);
@@ -34,6 +34,8 @@ private:
 	float jump_force;
 
 	Ability* abilityArray[2];
+	GameObjectManager* goManager;
+	Inventory* inventory;
 	Keyboard* keyboard;
 
 };
