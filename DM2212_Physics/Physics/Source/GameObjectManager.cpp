@@ -258,6 +258,30 @@ void GameObjectManager::AddGO(GameObject* go)
 		m_stationaryGOList.push_back(go);
 	}
 }
+void GameObjectManager::RemoveGO(GameObject* go)
+{
+	if (go->physics->GetMovable())
+	{
+		for (int i = 0; i < m_movableGOList.size(); i++)
+		{
+			if (m_movableGOList.at(i) == go)
+			{
+				std::cout << "Deleted: " << m_movableGOList.at(i) << std::endl;
+				m_movableGOList.erase(m_movableGOList.begin() + i);
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < m_stationaryGOList.size(); i++)
+		{
+			if (m_stationaryGOList.at(i) == go)
+			{
+				m_stationaryGOList.erase(m_stationaryGOList.begin() + i);
+			}
+		}
+	}
+}
 
 void GameObjectManager::AddAllGO(std::vector<GameObject*> gos)
 {

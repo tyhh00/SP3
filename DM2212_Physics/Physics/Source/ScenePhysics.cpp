@@ -139,6 +139,7 @@ void ScenePhysics::Init()
 	go2->active = true;
 	go2->mesh = meshList[GEO_WALL];
 	goManager->AddGO(go2);
+	goManager->RemoveGO(go);
 
 	std::cout << "FLOOR: " << go2->pos.y + go2->scale.x << std::endl;
 }
