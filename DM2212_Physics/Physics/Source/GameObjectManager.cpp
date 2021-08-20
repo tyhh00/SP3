@@ -151,7 +151,7 @@ void GameObjectManager::Update(double dt)
 	{
 		GameObject* go = (GameObject*)*it;
 
-		if (!go->active || go != nullptr)
+		if (!go->active || go == nullptr)
 			continue;
 
 		if (go->geoTypeID == SceneBase::GEOMETRY_TYPE::GEO_PLAYER_GIRL1)
