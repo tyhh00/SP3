@@ -39,6 +39,24 @@
     <Filter Include="Source Files\Enemies">
       <UniqueIdentifier>{250eb8ee-5db9-4fc9-8d90-5d099e364722}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Bullets">
+      <UniqueIdentifier>{2e274b80-99a5-407a-97b4-d47a7d91a0e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Bullets">
+      <UniqueIdentifier>{bda64a83-9ade-4115-8239-267bcd0401e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Items\Consumables">
+      <UniqueIdentifier>{a3d4e464-213b-40b6-8435-5dbeecd6cc84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Items\Weapons">
+      <UniqueIdentifier>{79f9f4dc-f240-4096-a4f2-e709915ebbb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Items\Weapons">
+      <UniqueIdentifier>{68549b20-4712-4600-ad0a-abb82e970ba0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Items\Consumables">
+      <UniqueIdentifier>{960fded5-1f1f-49b5-9294-a9849d333fef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -125,12 +143,6 @@
     <ClCompile Include="Source\SoundController/SoundInfo.cpp">
       <Filter>Source Files\SoundController</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Apple.cpp">
-      <Filter>Source Files\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Cheese.cpp">
-      <Filter>Source Files\Items</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SceneCollision.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
@@ -146,12 +158,6 @@
     <ClCompile Include="Source\SceneTest.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Weapon.cpp">
-      <Filter>Source Files\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Consumable.cpp">
-      <Filter>Source Files\Items</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Item.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
@@ -160,9 +166,6 @@
     </ClCompile>
     <ClCompile Include="Source\SceneLobby.cpp">
       <Filter>Source Files\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Flashlight.cpp">
-      <Filter>Source Files\Items</Filter>
     </ClCompile>
     <ClCompile Include="Source\Enemy.cpp">
       <Filter>Source Files\Enemies</Filter>
@@ -178,6 +181,33 @@
     </ClCompile>
     <ClCompile Include="Source\SceneJungle.cpp">
       <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlasmaRobot.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlasmaBullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BulletSpawner.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Apple.cpp">
+      <Filter>Source Files\Items\Consumables</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Cheese.cpp">
+      <Filter>Source Files\Items\Consumables</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Consumable.cpp">
+      <Filter>Source Files\Items\Consumables</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flashlight.cpp">
+      <Filter>Source Files\Items\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Weapon.cpp">
+      <Filter>Source Files\Items\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -268,12 +298,6 @@
     <ClInclude Include="Source\filesystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Cheese.h">
-      <Filter>Header Files\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Apple.h">
-      <Filter>Header Files\Items</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameStateManagement\GameStateBase.h">
       <Filter>Header Files\GameStateManagement</Filter>
     </ClInclude>
@@ -307,13 +331,7 @@
     <ClInclude Include="Source\SceneTest.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Weapon.h">
-      <Filter>Header Files\Items</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Item.h">
-      <Filter>Header Files\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Consumable.h">
       <Filter>Header Files\Items</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneManager.h">
@@ -325,9 +343,6 @@
     <ClInclude Include="Source\SceneLobby.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Flashlight.h">
-      <Filter>Header Files\Items</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Enemy.h">
       <Filter>Header Files\Enemies</Filter>
     </ClInclude>
@@ -338,10 +353,37 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneRobot.h">
-	      <Filter>Header Files\Scenes</Filter>
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneJungle.h">
       <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlasmaRobot.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlasmaBullet.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BulletSpawner.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Apple.h">
+      <Filter>Header Files\Items\Consumables</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Cheese.h">
+      <Filter>Header Files\Items\Consumables</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Consumable.h">
+      <Filter>Header Files\Items\Consumables</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flashlight.h">
+      <Filter>Header Files\Items\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Weapon.h">
+      <Filter>Header Files\Items\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,14 +6,28 @@
 #include "Physics.h"
 #include "Keyboard.h"
 
+enum ENEMY_TYPE
+{
+	//Robot Type Enemies
+	ROBOT_ENEMY_PLASMA,
+
+	//End
+	ENEMY_COUNT
+};
+
 class Enemy : public GameObject {
 public:
 	virtual void Init();
 	virtual void Update(double dt);
 	
+	const ENEMY_TYPE GetEnemyType();
+
+protected:
+	Enemy(const ENEMY_TYPE type);
+
 private:
 	SpriteAnimation* animatedSprites;
-
+	const ENEMY_TYPE type;
 	//float speed;
 };
 
