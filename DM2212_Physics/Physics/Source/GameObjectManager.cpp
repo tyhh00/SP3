@@ -15,6 +15,15 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 	{
 		return false;
 	}*/
+
+	//Radius checking if explosive
+	Vector3 go1_fScale = go1->scale * (go1->IsExplosive() ? go1->explosiveRadius : 1);
+	Vector3 go2_fScale = go2->scale * (go2->IsExplosive() ? go2->explosiveRadius : 1);
+	if (go1_fScale.LengthSquared() <= Math::EPSILON || go2_fScale.LengthSquared() <= Math::EPSILON)
+	{
+		return false;
+	}
+
 	if (go1->physics->shapeType == CIRCLE)
 	{
 		switch (go2->physics->shapeType)
@@ -23,7 +32,7 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 		{
 			Vector3 dis = go2->pos - go1->pos;
 			float disSquared = dis.LengthSquared();
-			if (disSquared <= (go1->scale.x + go2->scale.x) * (go1->scale.x + go2->scale.x) && dis.Dot(go1->physics->GetVelocity() - go2->physics->GetVelocity()) > 0)
+			if (disSquared <= (go1_fScale.x + go2_fScale.x) * (go1_fScale.x + go2_fScale.x) && dis.Dot(go1->physics->GetVelocity() - go2->physics->GetVelocity()) > 0)
 			{
 				return true;
 			}
@@ -38,8 +47,8 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 			}
 			Vector3 NP(N.y, -1 * N.x, 0);
 
-			if (dis.Dot(N) < go1->scale.x + go2->scale.x
-				&& abs(dis.Dot(NP)) < go2->scale.y
+			if (dis.Dot(N) < go1_fScale.x + go2_fScale.x
+				&& abs(dis.Dot(NP)) < go2_fScale.y
 				&& go1->physics->GetVelocity().Dot(N) > 0)
 			{
 				go2->physics->SetCollisionNormal(N);
@@ -53,8 +62,8 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 			}
 			NP.Set(N.y, -1 * N.x, 0);
 
-			if (dis.Dot(N) < go1->scale.y + go2->scale.y
-				&& abs(dis.Dot(NP)) < go2->scale.x
+			if (dis.Dot(N) < go1_fScale.y + go2_fScale.y
+				&& abs(dis.Dot(NP)) < go2_fScale.x
 				&& go1->physics->GetVelocity().Dot(N) > 0)
 			{
 				go2->physics->SetCollisionNormal(N);
@@ -78,8 +87,8 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 			}
 			Vector3 NP(N.y, -1 * N.x, 0);
 
-			if (dis.Dot(N) < go1->scale.x + go2->scale.x
-				&& abs(dis.Dot(NP)) < go2->scale.y
+			if (dis.Dot(N) < go1_fScale.x + go2_fScale.x
+				&& abs(dis.Dot(NP)) < go2_fScale.y
 				&& go1->physics->GetVelocity().Dot(N) > 0)
 			{
 				go2->physics->SetCollisionNormal(N);
@@ -93,13 +102,13 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 			}
 			NP.Set(N.y, -1 * N.x, 0);
 
-			if (dis.Dot(N) < go1->scale.y + go2->scale.y
-				&& abs(dis.Dot(NP)) < go2->scale.x
+			if (dis.Dot(N) < go1_fScale.y + go2_fScale.y
+				&& abs(dis.Dot(NP)) < go2_fScale.x
 				&& go1->physics->GetVelocity().Dot(N) > 0)
 			{
 				go2->physics->SetCollisionNormal(N);/*
-				go1->physics->scale = Vector3(go1->scale.y, go1->scale.x, go1->scale.z);
-				go2->physics->scale = Vector3(go2->scale.y, go2->scale.x, go2->scale.z);*/
+				go1->physics->scale = Vector3(go1_fScale.y, go1_fScale.x, go1_fScale.z);
+				go2->physics->scale = Vector3(go2_fScale.y, go2_fScale.x, go2_fScale.z);*/
 				return true;
 			}
 		}
@@ -113,8 +122,8 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 			}
 			Vector3 NP(N.y, -1 * N.x, 0);
 
-			if (dis.Dot(N) < go1->scale.x + go2->scale.x
-				&& abs(dis.Dot(NP)) < go2->scale.y
+			if (dis.Dot(N) < go1_fScale.x + go2_fScale.x
+				&& abs(dis.Dot(NP)) < go2_fScale.y
 				&& go1->physics->GetVelocity().Dot(N) > 0)
 			{
 				go2->physics->SetCollisionNormal(N);
@@ -128,13 +137,13 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 			}
 			NP.Set(N.y, -1 * N.x, 0);
 
-			if (dis.Dot(N) < go1->scale.y + go2->scale.y
-				&& abs(dis.Dot(NP)) < go2->scale.x
+			if (dis.Dot(N) < go1_fScale.y + go2_fScale.y
+				&& abs(dis.Dot(NP)) < go2_fScale.x
 				&& go1->physics->GetVelocity().Dot(N) > 0)
 			{
 				go2->physics->SetCollisionNormal(N);/*
-				go1->physics->scale = Vector3(go1->scale.y, go1->scale.x, go1->scale.z);
-				go2->physics->scale = Vector3(go2->scale.y, go2->scale.x, go2->scale.z);*/
+				go1->physics->scale = Vector3(go1_fScale.y, go1_fScale.x, go1_fScale.z);
+				go2->physics->scale = Vector3(go2_fScale.y, go2_fScale.x, go2_fScale.z);*/
 				return true;
 			}
 			break;

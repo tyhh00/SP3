@@ -9,6 +9,8 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, SHAPE_TYPE shapeType)
 	fireInterval(0),
 	maxHP(0), currentHP(0), timeout(0), enableCollision(true),
 	bottomSprite(NULL), scene(NULL)
+	, explosive(false)
+	, explosiveRadius(1.0f)
 {
 	physics = new Physics(shapeType, pos, scale);
 }
@@ -27,6 +29,8 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHA
 	mesh(mesh),
 	enableCollision(true),
 	bottomSprite(NULL), scene(NULL)
+	, explosive(false)
+	, explosiveRadius(1.0f)
 {
 }
 
@@ -89,3 +93,14 @@ void GameObject::SetScene(SceneBase* scene)
 {
 	this->scene = scene;
 }
+
+bool GameObject::IsExplosive()
+{
+	return this->explosive;
+}
+
+float GameObject::GetExplosiveRadius()
+{
+	return this->explosiveRadius;
+}
+

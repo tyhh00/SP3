@@ -206,8 +206,8 @@
     <ClCompile Include="Source\Weapon.cpp">
       <Filter>Source Files\Items\Weapons</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Source\Bullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -382,8 +382,8 @@
     <ClInclude Include="Source\Weapon.h">
       <Filter>Header Files\Items\Weapons</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Source\Bullet.h">
+      <Filter>Header Files\Bullets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
