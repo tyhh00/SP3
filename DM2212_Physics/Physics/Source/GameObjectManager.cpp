@@ -267,6 +267,8 @@ void GameObjectManager::RemoveGO(GameObject* go)
 			if (m_movableGOList.at(i) == go)
 			{
 				std::cout << "Deleted: " << m_movableGOList.at(i) << std::endl;
+				delete m_movableGOList.at(i);
+				m_movableGOList.at(i) = nullptr;
 				m_movableGOList.erase(m_movableGOList.begin() + i);
 			}
 		}
@@ -277,6 +279,8 @@ void GameObjectManager::RemoveGO(GameObject* go)
 		{
 			if (m_stationaryGOList.at(i) == go)
 			{
+				delete m_stationaryGOList.at(i);
+				m_stationaryGOList.at(i) = nullptr;
 				m_stationaryGOList.erase(m_stationaryGOList.begin() + i);
 			}
 		}
