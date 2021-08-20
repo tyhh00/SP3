@@ -46,6 +46,7 @@ enum SCROLLER_STATE
 class LevelEditor : public SceneBase
 {
 	const float scrollingSpeed = 0.04;
+	const float snapRotateSpeed = 0.04;
 
 protected:
 	std::vector<GameObject*> gridObjects; //Disassociation with GameObjectManager
@@ -70,6 +71,7 @@ protected:
 	GameObject* heldOnTo;
 
 	double canScrollIn;
+	double canSnapRotateIn;
 	GEOMETRY_TYPE scrolledGeo;
 
 	float m_screenWidth;
