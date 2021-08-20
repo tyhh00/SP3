@@ -157,38 +157,10 @@ void GameObjectManager::Update(double dt)
 		{
 			m_stationaryGOList.push_back(go);
 		}
-		toAddList.erase(it);
 	}
-	for (std::vector<GameObject*>::iterator it = toRemoveList.begin(); it != toRemoveList.end(); ++it)
-	{
-		GameObject* go = (GameObject*)*it;
-		if (go->physics->GetMovable())
-		{
-			for (int i = 0; i < m_movableGOList.size(); i++)
-			{
-				if (m_movableGOList.at(i) == go)
-				{
-					std::cout << "Deleted: " << m_movableGOList.at(i) << std::endl;
-					delete m_movableGOList.at(i);
-					m_movableGOList.at(i) = nullptr;
-					m_movableGOList.erase(m_movableGOList.begin() + i);
-				}
-			}
-		}
-		else
-		{
-			for (int i = 0; i < m_stationaryGOList.size(); i++)
-			{
-				if (m_stationaryGOList.at(i) == go)
-				{
-					delete m_stationaryGOList.at(i);
-					m_stationaryGOList.at(i) = nullptr;
-					m_stationaryGOList.erase(m_stationaryGOList.begin() + i);
-				}
-			}
-		}
-		toRemoveList.erase(it);
-	}
+	toAddList.clear();
+
+
 	// Game Objects
 	for (std::vector<GameObject*>::iterator it = m_movableGOList.begin(); it != m_movableGOList.end(); ++it)
 	{
@@ -260,7 +232,41 @@ void GameObjectManager::Update(double dt)
 			}
 
 		}
+
+		/*m_movableGOList.erase(std::remove(begin(m_movableGOList), end(m_movableGOList), nullptr),
+			end(m_movableGOList));
+		m_stationaryGOList.erase(std::remove(begin(m_stationaryGOList), end(m_stationaryGOList), nullptr),
+			end(m_stationaryGOList));*/
 	}
+
+	for (std::vector<GameObject*>::iterator it = toRemoveList.begin(); it != toRemoveList.end(); ++it)
+	{
+		GameObject* go = (GameObject*)*it;
+		if (go->physics->GetMovable())
+		{
+			for (int i = 0; i < m_movableGOList.size(); i++)
+			{
+				if (m_movableGOList.at(i) == go)
+				{
+					std::cout << "Deleted: " << m_movableGOList.at(i) << std::endl;
+					delete m_movableGOList.at(i);
+					m_movableGOList.at(i) = nullptr;
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < m_stationaryGOList.size(); i++)
+			{
+				if (m_stationaryGOList.at(i) == go)
+				{
+					delete m_stationaryGOList.at(i);
+					m_stationaryGOList.at(i) = nullptr;
+				}
+			}
+		}
+	}
+	toRemoveList.clear();
 }
 
 void GameObjectManager::Render(SceneBase* scene)

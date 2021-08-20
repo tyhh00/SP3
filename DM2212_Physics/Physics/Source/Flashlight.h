@@ -13,7 +13,7 @@ public:
 	bool IsEqual(Item* item1);
 	
 private:
-	Keyboard* keyboard;
+	Input* input;
 };
 
 

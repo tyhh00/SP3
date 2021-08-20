@@ -40,7 +40,6 @@ private:
 	Input* input;
 	GameObjectManager* goManager;
 	Inventory* inventory;
-	Keyboard* keyboard;
 
 };
 

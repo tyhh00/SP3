@@ -6,7 +6,7 @@
 #include "Flashlight.h"
 #include "Apple.h"
 
-Player::Player() : keyboard(NULL)
+Player::Player() : input(NULL)
 	, goManager(NULL)
 	, inventory(NULL)
 	, speed(1000.f)
@@ -67,7 +67,7 @@ void Player::Update(double dt)
 	animatedSprites->Update(dt);
 
 	// MOVEMENT SECTION
-	if (AkeyDown && !Application::IsKeyPressed('A'))
+	/*if (AkeyDown && !Application::IsKeyPressed('A'))
 	{
 		AkeyDown = false;
 		std::cout << "A Key Released" << std::endl;
@@ -100,13 +100,13 @@ void Player::Update(double dt)
 		std::cout << "D Key Pressed" << std::endl;
 		animatedSprites->PlayAnimation("right", -1, 1.0f);
 		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, 0, 0));
-	}
-	//if (keyboard->IsKeyDown('A'))
-	//	physics->SetVelocity(Vector3(-speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
-	//else if (keyboard->IsKeyDown('D'))
-	//	physics->SetVelocity(Vector3(speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
-	//else
-	//	physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
+	}*/
+	if (input->IsKeyDown('A'))
+		physics->SetVelocity(Vector3(-speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+	else if (input->IsKeyDown('D'))
+		physics->SetVelocity(Vector3(speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+	else
+		physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
 
 	// JUMP SECTION
 	if (input->IsKeyPressed(VK_SPACE)
