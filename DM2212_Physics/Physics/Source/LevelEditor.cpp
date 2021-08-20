@@ -1,7 +1,7 @@
 #include "LevelEditor.h"
 #include "GL\glew.h"
 #include "Application.h"
-#include "Keyboard.h"
+#include "Input.h"
 #include <fstream>
 #include <sstream>
 
@@ -23,7 +23,7 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
-	std::string mapToLoad = "GRAVEYARD_1_1";
+	std::string mapToLoad = "JUNGLE_1_1";
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
@@ -138,12 +138,12 @@ void LevelEditor::Update(double dt)
 	else if (Application::IsKeyPressed('T'))
 		scrollState = SCROLLER_TRANSLATE;
 
-	if(Keyboard::GetInstance()->IsKeyReleased('1'))
+	if(Input::GetInstance()->IsKeyReleased('1'))
 	{
 		snapPosToGrid = !snapPosToGrid;
 	}
 
-	else if (Keyboard::GetInstance()->IsKeyReleased('2'))
+	else if (Input::GetInstance()->IsKeyReleased('2'))
 	{
 		snapRotToGrid = !snapRotToGrid;
 	}
@@ -413,7 +413,7 @@ void LevelEditor::Update(double dt)
 		}
 	}
 
-	if (bCTRLState && Keyboard::GetInstance()->IsKeyPressed('S'))
+	if (bCTRLState && Input::GetInstance()->IsKeyPressed('S'))
 	{
 		if(unsavedChanges)
 			SaveMap();

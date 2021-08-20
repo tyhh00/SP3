@@ -8,7 +8,7 @@ Flashlight::Flashlight()
 	isStackable = true;
 	itemType = I_FLASHLIGHT;
 
-	keyboard = Keyboard::GetInstance();
+	input = Input::GetInstance();
 }
 
 Flashlight::~Flashlight()

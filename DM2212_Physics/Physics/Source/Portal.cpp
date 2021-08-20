@@ -38,7 +38,7 @@ void PortalAbility::Update(double dt)
 	{
 	case DEFAULT:
 		// CHECK FOR ABILITY USE CONDITIONS
-		if (Keyboard::GetInstance()->IsKeyPressed('Z'))
+		if (Input::GetInstance()->IsKeyPressed('Z'))
 		{
 			if (conditionsMet && !endPortal.active)
 			{
@@ -76,7 +76,7 @@ void PortalAbility::Update(double dt)
 		double mousePosX, mousePosY;
 		CursorToWorldPosition(mousePosX, mousePosY);
 		endPortal.pos.Set(mousePosX, mousePosY, 0);
-		if (!Keyboard::GetInstance()->IsKeyDown('Z'))
+		if (!Input::GetInstance()->IsKeyDown('Z'))
 		{
 			// START OPENING END PORTAL
 			ghost_portal = false;

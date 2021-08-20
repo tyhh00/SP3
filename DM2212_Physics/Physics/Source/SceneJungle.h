@@ -8,7 +8,7 @@
 #include "Inventory.h"
 #include "Apple.h"
 #include "Cheese.h"
-#include "Keyboard.h"
+#include "Input.h"
 #include "GameObjectManager.h"
 
 class SceneJungle : public SceneBase
@@ -29,17 +29,20 @@ protected:
 	float m_speed;
 	float dashTimer;
 	bool isDashing = false;
+	bool isGrappling = false;
 
 	float m_screenWidth;
 	float m_screenHeight;
 	float m_worldWidth;
 	float m_worldHeight;
 
-
+	Vector3 temp;
+	Vector3 displacement2;
 	GameObject* go;
+	GameObject* grappler;
 	GameObject* player;
 	Inventory* inventory;
-	Keyboard* keyboard;
+	Input* input;
 	GameObjectManager* goManager;
 
 	double gridLength, gridHeight;

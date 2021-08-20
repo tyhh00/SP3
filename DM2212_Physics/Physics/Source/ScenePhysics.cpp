@@ -21,7 +21,7 @@ ScenePhysics::ScenePhysics()
 ScenePhysics::~ScenePhysics()
 {
 	go = NULL;
-	keyboard = NULL;
+	input = NULL;
 }
 
 void ScenePhysics::Init()
@@ -48,7 +48,7 @@ void ScenePhysics::Init()
 	Math::InitRNG();
 
 	//Store keyboard instance
-	keyboard = Keyboard::GetInstance();
+	input = Input::GetInstance();
 
 	//Level Loading
 	std::vector<GameObject*> tiles;
@@ -150,40 +150,40 @@ void ScenePhysics::Update(double dt)
 	inventory->Update(dt);
 	camera.Update(camera.position, dt);
 
-	if (keyboard->IsKeyPressed('P'))
+	if (input->IsKeyPressed('P'))
 	{
 		std::cout << "PRESSESD P" << std::endl;
 		Apple* newApple = new Apple();
 		inventory->AddItem(newApple);
 		//inventory.setmax(i_apple, 10);
 	}
-	if (keyboard->IsKeyPressed('O'))
+	if (input->IsKeyPressed('O'))
 	{
 		std::cout << "PRESSESD O" << std::endl;
 		Cheese* newCheese = new Cheese();
 		inventory->AddItem(newCheese);
 	}
-	if (keyboard->IsKeyPressed('L'))
+	if (input->IsKeyPressed('L'))
 	{
 		std::cout << "PRESSED L" << std::endl;
 		//Cheese* newCheese = new Cheese(2);
 		//inventory->AddItem(newCheese);
 	}
 
-	if(Application::IsKeyPressed('9'))
+	if(input->IsKeyPressed('9'))
 	{
 		m_speed = Math::Max(0.f, m_speed - 0.1f);
 	}
-	if(Application::IsKeyPressed('0'))
+	if(input->IsKeyPressed('0'))
 	{
 		m_speed += 0.1f;
 	}
 
-	if (Application::IsKeyPressed('A'))
+	if (input->IsKeyPressed('A'))
 	{
 		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(-5,0,0));
 	}
-	else if (Application::IsKeyPressed('D'))
+	else if (input->IsKeyPressed('D'))
 	{
 		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(5, 0, 0));
 	}

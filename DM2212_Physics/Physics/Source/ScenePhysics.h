@@ -8,7 +8,7 @@
 #include "Inventory.h"
 #include "Apple.h"
 #include "Cheese.h"
-#include "Keyboard.h"
+#include "Input.h"
 #include "GameObjectManager.h"
 
 class ScenePhysics : public SceneBase
@@ -38,7 +38,7 @@ protected:
 
 	GameObject* go;
 	Inventory* inventory;
-	Keyboard* keyboard;
+	Input* input;
 	GameObjectManager* goManager;
 
 	double gridLength, gridHeight;

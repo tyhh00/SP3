@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "SpriteAnimation.h"
 #include "Physics.h"
-#include "Keyboard.h"
+#include "Input.h"
 
 enum ENEMY_TYPE
 {

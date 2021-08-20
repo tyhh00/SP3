@@ -1,7 +1,7 @@
 #ifndef FLASHLIGHT_H
 #define FLASHLIGHT_H
 #include "Weapon.h"
-#include "Keyboard.h"
+#include "Input.h"
 
 class Flashlight : public Weapon {
 public:

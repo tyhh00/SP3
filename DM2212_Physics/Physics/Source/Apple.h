@@ -1,7 +1,7 @@
 #ifndef APPLE_H
 #define APPLE_H
 #include "Consumable.h"
-#include "Keyboard.h"
+#include "Input.h"
 
 class Apple : public Consumable {
 public:
@@ -13,7 +13,7 @@ public:
 private:
 	int stemLength;
 
-	Keyboard* keyboard;
+	Input* input;
 };
 
 

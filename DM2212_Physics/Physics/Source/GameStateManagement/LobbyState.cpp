@@ -9,7 +9,7 @@
 
 #include "LobbyState.h"
 
-#include "../Keyboard.h"
+#include "../Input.h"
 
 // Include CGameStateManager
 #include "GameStateManager.h"

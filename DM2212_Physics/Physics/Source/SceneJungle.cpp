@@ -21,7 +21,7 @@ SceneJungle::SceneJungle()
 SceneJungle::~SceneJungle()
 {
 	go = NULL;
-	keyboard = NULL;
+	input = NULL;
 }
 
 void SceneJungle::Init()
@@ -46,9 +46,10 @@ void SceneJungle::Init()
 	//Physics code here
 	m_speed = 1.f;
 	Math::InitRNG();
+	grappler = nullptr;
 
 	//Store keyboard instance
-	keyboard = Keyboard::GetInstance();
+	input = Input::GetInstance();
 
 	//Level Loading
 	std::vector<GameObject*> tiles;
@@ -147,47 +148,90 @@ void SceneJungle::Update(double dt)
 	SceneBase::Update(dt);
 	inventory->Update(dt);
 	camera.Update(camera.position, dt);
-	std::cout << player->pos << std::endl;
-	if (keyboard->IsKeyPressed('P'))
+
+	if (input->IsKeyPressed('P'))
 	{
 		std::cout << "PRESSESD P" << std::endl;
 		Apple* newApple = new Apple();
 		inventory->AddItem(newApple);
 		//inventory.setmax(i_apple, 10);
 	}
-	if (keyboard->IsKeyPressed('O'))
+	if (input->IsKeyPressed('O'))
 	{
 		std::cout << "PRESSESD O" << std::endl;
 		Cheese* newCheese = new Cheese();
 		inventory->AddItem(newCheese);
 	}
-	if (keyboard->IsKeyPressed('L'))
+	if (input->IsKeyPressed('L'))
 	{
 		std::cout << "PRESSED L" << std::endl;
 		//Cheese* newCheese = new Cheese(2);
 		//inventory->AddItem(newCheese);
 	}
 
-	if(Application::IsKeyPressed('9'))
+	if(input->IsKeyPressed('9'))
 	{
 		m_speed = Math::Max(0.f, m_speed - 0.1f);
 	}
-	if(Application::IsKeyPressed('0'))
+	if(input->IsKeyPressed('0'))
 	{
 		m_speed += 0.1f;
 	}
 
-	if (Application::IsKeyPressed('A'))
+	if (input->IsKeyPressed('A'))
 	{
 		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(-5,0,0));
 	}
-	else if (Application::IsKeyPressed('D'))
+	else if (input->IsKeyPressed('D'))
 	{
 		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(5, 0, 0));
 	}
 	else
 	{
 		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(0, 0, 0));
+	}
+
+	if (input->IsMousePressed(0))
+	{
+		double x, y;
+		Application::GetCursorPos(&x, &y);
+		int w = Application::GetWindowWidth();
+		int h = Application::GetWindowHeight();
+		// convert to world space
+		x /= (w / m_screenWidth);
+		y = h - y;
+		y /= (h / m_screenHeight);
+		std::cout << x << " " << y << std::endl;
+
+		temp = Vector3(x, y, 0);
+		isGrappling = true;
+		displacement2 = temp - player->pos;
+		std::cout << "initial pos" << player->pos << std::endl;
+
+		grappler = new GameObject;
+		grappler->active = true;
+		grappler->mesh = meshList[GEO_WALL];
+		grappler->enableCollision = false;
+	}
+
+	if (isGrappling)
+	{
+		Vector3 displacement = temp - player->pos;
+		Vector3 displacement3 = player->pos - temp;
+
+		grappler->scale = Vector3(displacement.Length() / 2, 1, 1);
+		grappler->pos = player->pos + Vector3(displacement.x / 2, displacement.y / 2, 0);
+		grappler->physics->SetNormal(displacement.Normalized());
+
+		player->physics->AddVelocity(Vector3(displacement2.x, 0, 0));		
+		if (player->pos.x >= temp.x - displacement3.x)
+		{
+			std::cout << "Stopped grappling" << std::endl;
+			std::cout << displacement3 << std::endl;
+			std::cout << player->pos.x << std::endl;
+			isGrappling = false;
+			grappler->active = false;
+		}
 	}
 
 	goManager->Update(dt);
@@ -214,6 +258,18 @@ void SceneJungle::Render()
 	);
 	// Model matrix : an identity matrix (model will be at the origin)
 	modelStack.LoadIdentity();
+
+	if (grappler && grappler->active)
+	{
+		float angle = Math::RadianToDegree(atan2f(grappler->physics->GetNormal().y, grappler->physics->GetNormal().x));
+		modelStack.PushMatrix();
+		modelStack.Translate(grappler->pos.x, grappler->pos.y, grappler->pos.z);
+		modelStack.Rotate(angle + grappler->physics->GetRotateZ(), 0, 0, 1);
+		modelStack.Scale(grappler->scale.x, grappler->scale.y, grappler->scale.z);
+		RenderMesh(grappler->mesh, false);
+		modelStack.PopMatrix();
+	}
+	
 
 	goManager->Render(this);
 }

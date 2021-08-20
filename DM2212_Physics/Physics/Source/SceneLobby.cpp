@@ -19,7 +19,7 @@ SceneLobby::SceneLobby()
 
 SceneLobby::~SceneLobby()
 {
-	keyboard = NULL;
+	input = NULL;
 	if (goManager)
 	{
 		delete goManager;
@@ -56,7 +56,7 @@ void SceneLobby::Init()
 	inventory->Init();
 
 	//Store keyboard instance
-	keyboard = Keyboard::GetInstance();
+	input = Input::GetInstance();
 
 	// Unique Meshes
 //	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);

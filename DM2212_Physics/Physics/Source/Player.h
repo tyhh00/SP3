@@ -4,7 +4,8 @@
 #include "GameObject.h"
 #include "SpriteAnimation.h"
 #include "Physics.h"
-#include "Keyboard.h"
+#include "Input.h"
+#include "Ability.h"
 #include "Portal.h"
 #include "SceneBase.h"
 #include "GameObjectManager.h"
@@ -29,11 +30,14 @@ private:
 	bool isDashing = false;
 
 	bool invisibility;
+	bool AkeyDown;
+	bool DkeyDown;
 
 	float speed;
 	float jump_force;
 
 	Ability* abilityArray[2];
+	Input* input;
 	GameObjectManager* goManager;
 	Inventory* inventory;
 	Keyboard* keyboard;

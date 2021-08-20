@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "Item.h"
 #include <vector>
-#include "Keyboard.h"
+#include "Input.h"
 
 class Inventory {
 public:
@@ -20,7 +20,7 @@ public:
 private:
 	std::vector<Item*> itemVector;
 	Item* currentItem;
-	Keyboard* keyboard;
+	Input* input;
 	
 	//array to store all max Quantity
 	int maxQuantity[Item::I_TOTAL];

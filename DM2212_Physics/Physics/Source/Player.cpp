@@ -47,7 +47,7 @@ void Player::Init(GameObjectManager* GOM, Inventory* inventory)
 	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 0.5f);
 	portalSprite->textureID = LoadTGA("Image/PortalTravelSprite.tga");
 
-	keyboard = Keyboard::GetInstance();
+	input = Input::GetInstance();
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("idle", 0, 1);
@@ -67,15 +67,49 @@ void Player::Update(double dt)
 	animatedSprites->Update(dt);
 
 	// MOVEMENT SECTION
-	if (keyboard->IsKeyDown('A'))
-		physics->SetVelocity(Vector3(-speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
-	else if (keyboard->IsKeyDown('D'))
-		physics->SetVelocity(Vector3(speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
-	else
-		physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
+	if (AkeyDown && !Application::IsKeyPressed('A'))
+	{
+		AkeyDown = false;
+		std::cout << "A Key Released" << std::endl;
+		if (animatedSprites->GetCurrentAnimation() == "left")
+		{
+			animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		}
+		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, 0, 0));
+	}
+	else if (!AkeyDown && Application::IsKeyPressed('A'))
+	{
+		AkeyDown = true;
+		std::cout << "A Key Pressed" << std::endl;
+		animatedSprites->PlayAnimation("left", -1, 1.0f);
+		physics->SetVelocity(Vector3(physics->GetVelocity().x - speed * dt, 0, 0));
+	}
+	if (DkeyDown && !Application::IsKeyPressed('D'))
+	{
+		DkeyDown = false;
+		std::cout << "D Key Released" << std::endl;
+		if (animatedSprites->GetCurrentAnimation() == "right")
+		{
+			animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		}
+		physics->SetVelocity(Vector3(physics->GetVelocity().x - speed * dt, 0, 0));
+	}
+	else if (!DkeyDown && Application::IsKeyPressed('D'))
+	{
+		DkeyDown = true;
+		std::cout << "D Key Pressed" << std::endl;
+		animatedSprites->PlayAnimation("right", -1, 1.0f);
+		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, 0, 0));
+	}
+	//if (keyboard->IsKeyDown('A'))
+	//	physics->SetVelocity(Vector3(-speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+	//else if (keyboard->IsKeyDown('D'))
+	//	physics->SetVelocity(Vector3(speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+	//else
+	//	physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
 
 	// JUMP SECTION
-	if (keyboard->IsKeyPressed(VK_SPACE) 
+	if (input->IsKeyPressed(VK_SPACE)
 		&& physics->GetOnGround())
 	{
 		std::cout << "Space Key Pressed" << std::endl;
@@ -130,7 +164,7 @@ void Player::Update(double dt)
 		}
 	}
 
-	if (keyboard->IsKeyPressed('Q'))
+	if (input->IsKeyPressed('Q'))
 	{
 		if (!this->physics->GetVelocity().IsZero() && !isDashing)
 			isDashing = true;

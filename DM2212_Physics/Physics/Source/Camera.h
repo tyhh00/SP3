@@ -2,7 +2,7 @@
 #define CAMERA_H
 
 #include "Vector3.h"
-#include "Keyboard.h"
+#include "Input.h"
 
 class Camera
 {
@@ -32,7 +32,7 @@ public:
 	//bool Creleased; 
 
 
-	Keyboard* keyboard;
+	Input* input;
 
 	Camera();
 	~Camera();

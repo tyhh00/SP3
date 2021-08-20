@@ -7,7 +7,7 @@
 #include "Utility.h"
 #include "LoadTGA.h"
 #include "Debug.h"
-#include "Keyboard.h"
+#include "Input.h"
 #include <sstream>
 
 SceneBase::SceneBase()
@@ -367,7 +367,7 @@ TileSetting* SceneBase::GetTileSetting(GEOMETRY_TYPE type)
 
 void SceneBase::Update(double dt)
 {
-	Keyboard::GetInstance()->Update(dt);
+	Input::GetInstance()->Update(dt);
 
 	//Keyboard Section
 	if(Application::IsKeyPressed('1'))
