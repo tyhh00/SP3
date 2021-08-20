@@ -7,10 +7,11 @@ Flashlight::Flashlight() : Weapon(I_FLASHLIGHT)
 {
 	isStackable = true;
 	active = false;
+	intensified = false;
 	input = Input::GetInstance();
 	currBatt = maxBatt = 100;
-	batt_usage_rate = 2;
-
+	batt_usage_rate = 2.0f;
+	rate_multiplier = 1.0f;
 }
 
 Flashlight::~Flashlight()
@@ -31,20 +32,36 @@ void Flashlight::Update(double dt)
 		active = !active;
 		if (active && currBatt > 0)
 		{
-			scene->ToggleLight(1, true);
+			scene->ToggleLightOnOff(1, true);
 			std::cout << "Flashlight has been turned on." << std::endl;
 		}
 		else
 		{
-			scene->ToggleLight(1, false);
+			scene->ToggleLightOnOff(1, false);
+			intensified = false;
 			std::cout << "Flashlight has been turned off." << std::endl;
 		}
 	}
 
+
 	if (active)
 	{
-		currBatt -= batt_usage_rate * dt;
+		if (input->IsMousePressed(0))
+		{
+			intensified = true;
+			rate_multiplier = 2.0f;
+			scene->ToggleLightPower(1, scene->lights[1].defaultPower + 2);
+		}
+		else if (input->IsMouseReleased(0))
+		{
+			intensified = false;
+			rate_multiplier = 1.0f;
+			scene->ToggleLightPower(1, scene->lights[1].defaultPower);
+		}
+	
+		currBatt -= rate_multiplier * batt_usage_rate * dt;
 		durability = currBatt / maxBatt;
+
 	}
 }
 
@@ -56,7 +73,6 @@ bool Flashlight::IsEqual(Item* item1)
 
 bool Flashlight::isWithinLight(Vector3 objPos)
 {
-
 	// CALCULATING LIGHT RADIUS
 	float thetaR = acos(scene->lights[1].cosCutoff);
 	light_radius = scene->lights[1].position.z * tan(thetaR);
@@ -67,5 +83,10 @@ bool Flashlight::isWithinLight(Vector3 objPos)
 		return true;
 	}
 	return false;
+}
+
+bool Flashlight::isIntensified()
+{
+	return intensified;
 }
 

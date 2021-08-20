@@ -604,7 +604,7 @@ void SceneBase::InitLights()
 	bLightEnabled = false;
 }
 
-void SceneBase::ToggleLight(int index, bool on)
+void SceneBase::ToggleLightOnOff(int index, bool on)
 {
 	if (on)
 	{
@@ -618,4 +618,14 @@ void SceneBase::ToggleLight(int index, bool on)
 	glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
 	glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
 	
+}
+
+void SceneBase::ToggleLightPower(int index, int power)
+{
+	
+	lights[index].power = power;
+	
+
+	glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
+	glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
 }

@@ -244,7 +244,8 @@ public:
 
 	Light lights[2];
 	virtual void InitLights();
-	void ToggleLight(int index, bool on); // turns a light on or off
+	void ToggleLightOnOff(int index, bool on); // turns a light on or off
+	void ToggleLightPower(int index, int power); // turns a light power
 	
 	
 

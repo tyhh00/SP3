@@ -13,12 +13,16 @@ public:
 	bool IsEqual(Item* item1);
 	
 	bool isWithinLight(Vector3 objPos);
+	bool isIntensified();
 	
 private:
 
 	bool active;
+	bool intensified;
+
 	float battery;
 	float batt_usage_rate;
+	float rate_multiplier;
 
 	float currBatt;
 	float maxBatt;

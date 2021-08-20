@@ -45,7 +45,6 @@ void Ghost::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 
 }
 
-
 void Ghost::Update(double dt)
 { 
 	switch (state)
@@ -118,6 +117,16 @@ void Ghost::Update(double dt)
 		}
 		physics->SetVelocity((*playerPos - pos).Normalized() * hostile_speed);
 		break;
+	}
+
+	mesh->material.kDiffuse.Set(1.0f, 1.0f, 1.0f);
+	if (isWithinFlashlight())
+	{
+		Flashlight* flashlight = dynamic_cast<Flashlight*>(inventory->GetCurrentItem());
+		if (flashlight->isIntensified())
+		{
+			mesh->material.kDiffuse.Set(1.0f, 0.5f, 0.5f);
+		}
 	}
 
 	animatedSprites->Update(dt);
