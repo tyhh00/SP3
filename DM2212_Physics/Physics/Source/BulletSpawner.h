@@ -12,12 +12,13 @@ public:
 	BulletSpawner(GameObjectManager* , Bullet*);
 	~BulletSpawner();
 
-	BULLET_TYPE getBulletType();
+	BULLET_TYPE GetBulletType();
 	void SetBullet(Bullet*); //Set the bullet prototype, will not allow wrong value parsing
 
-	void SpawnBullet(Vector3 vel, Vector3 dir); // Creates a bullet GameObject and adds it into the defined GOManager
+	void SpawnBullet(Vector3 pos, Vector3 vel, Vector3 dir);
 
 private:
 	GameObjectManager* gom_ref;
+	Bullet* bulletPrototype;
 };
 

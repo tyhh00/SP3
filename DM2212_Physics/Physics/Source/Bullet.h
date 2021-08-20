@@ -1,5 +1,7 @@
 #pragma once
 #include "Mesh.h"
+#include "GameObject.h"
+#include <vector>
 
 enum BULLET_TYPE
 {
@@ -7,16 +9,20 @@ enum BULLET_TYPE
 	BULLET_COUNT
 };
 
-class Bullet
+//To be used by Bullet Spawner to create actual bullet
+class Bullet : public GameObject
 {
 public:
-
-
-protected:
-	Bullet(Mesh*, BULLET_TYPE type, Vector3 scale);
 	~Bullet();
 
-	Vector3 scale;
+	BULLET_TYPE GetBulletType();
+
+	//GO Virtual Functions
+	virtual void CollidedWith(GameObject*) = 0;
+	virtual Bullet* Clone() = 0;
+
+protected:
+	Bullet(Mesh* mesh, int geoTypeID, SHAPE_TYPE collisionShape, BULLET_TYPE type, Vector3 scale, bool explosive, float explosionRadius);
 
 private:
 	const BULLET_TYPE type;
