@@ -89,10 +89,10 @@ void GameObject::AddBottomSprite()
 	bottomSprite->physics->SetNormal(Vector3(0, 1, 0));
 }
 
-void GameObject::SetScene(SceneBase* scene)
-{
-	this->scene = scene;
-}
+//void GameObject::SetScene(SceneBase* scene)
+//{
+//	this->scene = scene;
+//}
 
 bool GameObject::IsExplosive()
 {

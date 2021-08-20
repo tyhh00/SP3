@@ -85,7 +85,7 @@ struct GameObject
 
 	virtual void CollidedWith(GameObject* go);
 	void AddBottomSprite();
-	void SetScene(SceneBase* scene);
+	//void SetScene(SceneBase* scene);
 
 	bool IsExplosive();
 	float GetExplosiveRadius();

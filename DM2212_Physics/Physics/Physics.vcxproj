@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Battery.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\BulletSpawner.cpp" />
     <ClCompile Include="Source\PlasmaBullet.cpp" />
@@ -205,6 +206,7 @@
     <ClCompile Include="Source\SoundController/SoundInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Battery.h" />
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\BulletSpawner.h" />
     <ClInclude Include="Source\PlasmaBullet.h" />

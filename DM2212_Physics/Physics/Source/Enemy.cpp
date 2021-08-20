@@ -18,7 +18,7 @@ void Enemy::Init()
 
 void Enemy::Update(double dt)
 { 
-
+	
 }
 
 const ENEMY_TYPE Enemy::GetEnemyType()

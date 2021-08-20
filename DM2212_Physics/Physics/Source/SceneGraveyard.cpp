@@ -10,6 +10,7 @@
 
 //Entity Includes
 #include "Player.h"
+#include "Ghost.h"
 
 //...
 
@@ -80,12 +81,32 @@ void SceneGraveyard::Init()
 
 			player->AddBottomSprite();
 			player->bottomSprite->mesh = meshList[GEO_WALL];
+
 			goManager->AddGO(player);
 
 			DEBUG_MSG("From Phy Editor: " << player->scale);
 			
 
 			//Delete Grid Player
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ENEMY_GHOST)
+		{
+			Ghost* ghost = new Ghost();
+
+			ghost->active = true;
+			ghost->scale = go->scale;
+			ghost->pos = go->pos;
+			ghost->physics = go->physics->Clone();
+			ghost->physics->SetInelasticity(0.99f);
+			ghost->physics->SetIsBouncable(false);
+			ghost->physics->SetGravity(Vector3(0, 0, 0));
+			ghost->Init(this, inventory);
+
+			goManager->AddGO(ghost);
+
+			//Delete Grid ghost
 			delete go;
 			go = nullptr;
 		}

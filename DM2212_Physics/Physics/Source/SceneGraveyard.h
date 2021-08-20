@@ -37,7 +37,6 @@ protected:
 	GameObjectManager* goManager;
 	Player* player;
 
-	float flashlight_radius;
 
 	double gridLength, gridHeight;
 	void CursorToWorldPosition(double& theX, double& theY);

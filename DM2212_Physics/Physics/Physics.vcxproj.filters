@@ -206,6 +206,9 @@
     <ClCompile Include="Source\Bullet.cpp">
       <Filter>Source Files\Bullets</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Battery.cpp">
+      <Filter>Source Files\Items\Consumables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -378,6 +381,9 @@
     </ClInclude>
     <ClInclude Include="Source\Bullet.h">
       <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Battery.h">
+      <Filter>Header Files\Items\Consumables</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,17 +6,21 @@
 #include "Physics.h"
 #include "Input.h"
 #include "Enemy.h"
+#include "Inventory.h"
 
 class Ghost : public Enemy {
 public:
-	void Init();
-	void Update(Vector3 playerPos, double dt);
-	void IsInSight(float f_radius);
+	Ghost();
+	~Ghost();
+
+	void Init(SceneBase* scene, Inventory* inventory);
+	void Update(double dt);
 
 private:
 	enum GHOST_STATE {
 		INACTIVE,
 		FOLLOWING,
+		HIDING,
 		HOSTILE,
 
 		GSTATE_TOTAL
@@ -25,6 +29,8 @@ private:
 	GHOST_STATE state;
 
 	SpriteAnimation* animatedSprites;
+
+	Inventory* inventory;
 
 };
 

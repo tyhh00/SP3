@@ -237,6 +237,8 @@ void Player::CollidedWith(GameObject* go)
 		goManager->RemoveGO(go);
 		inventory->AddItem(new Flashlight);
 		break;
+	case SceneBase::GEO_BATTERY:
+		break;
 	default:
 		break;
 	}

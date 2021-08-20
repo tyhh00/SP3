@@ -12,6 +12,7 @@ public:
 	void Update(double dt);
 	bool IsEqual(Item* item1);
 	
+	bool isWithinLight(Vector3 objPos);
 	
 private:
 
@@ -21,6 +22,9 @@ private:
 
 	float currBatt;
 	float maxBatt;
+
+	float light_radius;
+	Vector3 light_pos;
 
 	Input* input;
 };

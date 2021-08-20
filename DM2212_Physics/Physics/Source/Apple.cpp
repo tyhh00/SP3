@@ -3,12 +3,11 @@
 #include "LoadTGA.h"
 #include "Apple.h"
 
-Apple::Apple(int _quantity, int stemLength)
-	: stemLength(stemLength)
+Apple::Apple(int _quantity, int stemLength) : Consumable(I_APPLE)
+	,stemLength(stemLength)
 {
 	isStackable = true;
 	quantity = _quantity;
-	itemType = I_APPLE;
 
 	input = Input::GetInstance();
 }

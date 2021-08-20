@@ -3,10 +3,21 @@
 #include "Application.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
+#include "Flashlight.h"
 
-void Ghost::Init()
+Ghost::Ghost() : Enemy(GY_GHOST)
 {
-	
+}
+
+Ghost::~Ghost()
+{
+}
+
+void Ghost::Init(SceneBase* scene, Inventory* inventory)
+{
+	this->scene = scene;
+	this->inventory = inventory;
+
 	physics->SetMovable(true);
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
@@ -14,21 +25,25 @@ void Ghost::Init()
 	animatedSprites->AddAnimation("right", 6, 8);
 	animatedSprites->AddAnimation("left", 3, 5);
 	animatedSprites->AddAnimation("mid", 0, 2);
-	animatedSprites->PlayAnimation("inactive", -1, 1.0f);
+
 	mesh = animatedSprites;
 	mesh->textureID = LoadTGA("Image/ghost_sprite.tga");
 
-	// CHEAT FIX - TBC; LIGHTING NOT WORKING ON SPRITE ANIMATION MESH
-	mesh->material.kAmbient.Set(1, 1, 1);
+	animatedSprites->PlayAnimation("inactive", -1, 1.0f);
 
 }
 
-void Ghost::IsInSight(float f_radius)
-{
-}
 
-void Ghost::Update(Vector3 playerPos, double dt)
+void Ghost::Update(double dt)
 { 
 	animatedSprites->Update(dt);
 
+	if (inventory->GetCurrentItemType() == Item::I_FLASHLIGHT)
+	{
+		Flashlight *flashlight = dynamic_cast<Flashlight*>(inventory->GetCurrentItem());
+		if (flashlight->isWithinLight(pos))
+		{
+			std::cout << "Is Within Light" << std::endl;
+		}
+	}
 }

@@ -12,10 +12,13 @@ public:
 	};
 
 	enum ITEM_TYPE {
+		I_CONSUMABLE,
+		I_WEAPON,
 		I_APPLE,
 		I_CHEESE,
 		I_PISTOL,
 		I_FLASHLIGHT,
+		I_BATTERY,
 		I_TOTAL
 	};
 
