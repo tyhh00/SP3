@@ -23,7 +23,7 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
-	std::string mapToLoad = "JUNGLE_1_1";
+	std::string mapToLoad = "ROBOT_1_1";
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
@@ -319,16 +319,20 @@ void LevelEditor::Update(double dt)
 			{
 				std::vector<GameObject*> colls = GetCollidedGOs(heldOnTo->pos.x, heldOnTo->pos.y);
 				bool dup = false;
+				int count = 0;
+				heldOnTo->pos.z = 0;
 				for (auto& go : colls)
 				{
-					if (go->geoTypeID == heldOnTo->geoTypeID && go != heldOnTo) {
-						dup = true;
-						break;
-					}
-					else if (heldOnTo != go && go->pos == heldOnTo->pos && go->scale == heldOnTo->scale)
+					if (go != heldOnTo)
 					{
-						dup = true;
-						break;
+						if (go->geoTypeID == heldOnTo->geoTypeID) {
+							dup = true;
+							break;
+						}
+						else
+						{
+							heldOnTo->pos.z = count++;
+						}
 					}
 				}
 

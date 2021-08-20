@@ -45,7 +45,7 @@ enum SCROLLER_STATE
 //Since we dont need GO_Type, we just use GEO_TYPE(Since its directly working with art)
 class LevelEditor : public SceneBase
 {
-	const float scrollingSpeed = 0.1;
+	const float scrollingSpeed = 0.04;
 
 protected:
 	std::vector<GameObject*> gridObjects; //Disassociation with GameObjectManager
