@@ -225,13 +225,7 @@ void GameObjectManager::Render(SceneBase* scene)
 		GameObject* go = (GameObject*)*it;
 		if (go->active)
 		{
-			float angle = Math::RadianToDegree(atan2(go->physics->GetNormal().y, go->physics->GetNormal().x));
-			scene->modelStack.PushMatrix();
-			scene->modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-			scene->modelStack.Rotate(angle + go->physics->GetRotateZ(), 0, 0, 1);
-			scene->modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			scene->RenderMesh(go->mesh, true);
-			scene->modelStack.PopMatrix();
+			go->Render(scene);
 			// test things; to see bottomSprite
 			/*if (go->bottomSprite)
 			{
@@ -250,13 +244,7 @@ void GameObjectManager::Render(SceneBase* scene)
 	{
 		GameObject* go = (GameObject*)*it;
 
-		float angle = Math::RadianToDegree(atan2(go->physics->GetNormal().y, go->physics->GetNormal().x));
-		scene->modelStack.PushMatrix();
-		scene->modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		scene->modelStack.Rotate(angle + go->physics->GetRotateZ(), 0, 0, 1);
-		scene->modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		scene->RenderMesh(go->mesh, true);
-		scene->modelStack.PopMatrix();
+		go->Render(scene);
 	}
 }
 void GameObjectManager::AddGO(GameObject* go)
