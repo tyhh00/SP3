@@ -112,6 +112,7 @@ void SceneGraveyard::Update(double dt)
 	SceneBase::Update(dt);
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
+	std::cout << player->pos << std::endl;
 
 	// Updating of light things
 	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);

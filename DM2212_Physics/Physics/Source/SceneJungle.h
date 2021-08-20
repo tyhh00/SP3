@@ -37,6 +37,7 @@ protected:
 
 
 	GameObject* go;
+	GameObject* player;
 	Inventory* inventory;
 	Keyboard* keyboard;
 	GameObjectManager* goManager;
