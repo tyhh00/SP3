@@ -31,4 +31,5 @@ PlasmaBullet* PlasmaBullet::Clone()
 	GameObject* go = GameObject::Clone();
 	PlasmaBullet* cloned = dynamic_cast<PlasmaBullet*>(go);
 	cloned->animatedSpirte = this->animatedSpirte;
+	return cloned;
 }

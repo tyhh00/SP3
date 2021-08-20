@@ -51,7 +51,7 @@ void SceneRobot::Init()
 	goManager->Init();
 	// Inventory 
 	inventory = new Inventory();
-	inventory->Init();
+	inventory->Init(this);
 
 	//Store keyboard instance
 	input = Input::GetInstance();
@@ -230,7 +230,7 @@ void SceneRobot::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 3, 0, 0);
 }
 
-void SceneRobot::SetLights()
+void SceneRobot::InitLights()
 {
 	//lights[0].type = Light::LIGHT_POINT;
 	//lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);

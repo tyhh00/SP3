@@ -598,7 +598,23 @@ void SceneBase::Exit()
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 }
 
-void SceneBase::SetLights()
+void SceneBase::InitLights()
 {
 	bLightEnabled = false;
+}
+
+void SceneBase::ToggleLight(int index, bool on)
+{
+	if (on)
+	{
+		lights[index].power = lights[index].defaultPower;
+	}
+	else
+	{
+		lights[index].power = 0;
+	}
+	
+	glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
+	glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
+	
 }

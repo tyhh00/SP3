@@ -12,7 +12,16 @@ public:
 	void Update(double dt);
 	bool IsEqual(Item* item1);
 	
+	
 private:
+
+	bool active;
+	float battery;
+	float batt_usage_rate;
+
+	float currBatt;
+	float maxBatt;
+
 	Input* input;
 };
 

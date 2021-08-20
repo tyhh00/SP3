@@ -178,11 +178,6 @@ void GameObjectManager::Update(double dt)
 		if (!go->active || go == nullptr)
 			continue;
 
-		if (go->geoTypeID == SceneBase::GEOMETRY_TYPE::GEO_PLAYER_GIRL1)
-		{
-			std::cout << go->pos.y << std::endl;
-		}
-
 		go->Update(dt);
 		go->physics->Update(dt);
 		go->pos += go->physics->GetVelocity() * m_speed * dt;

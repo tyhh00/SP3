@@ -240,7 +240,9 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	virtual void SetLights();
+	virtual void InitLights();
+	void ToggleLight(int index, bool on); // turns a light on or off
+	
 
 	void LoadTile(GEOMETRY_TYPE type, std::string fileName, double length, double height, SHAPE_TYPE shapeType);
 	TileSetting* GetTileSetting(GEOMETRY_TYPE type);

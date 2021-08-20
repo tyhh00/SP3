@@ -188,7 +188,7 @@ void PortalAbility::Render()
 		scene->modelStack.PushMatrix();
 		scene->modelStack.Translate(startPortal.pos.x, startPortal.pos.y, startPortal.pos.z + 0.001);
 		scene->modelStack.Scale(startPortal.scale.x, startPortal.scale.y, startPortal.scale.z);
-		scene->RenderMesh(startPortal.mesh, true);
+		scene->RenderMesh(startPortal.mesh, false);
 		scene->modelStack.PopMatrix();
 	}
 	if (endPortal.active 
@@ -197,7 +197,7 @@ void PortalAbility::Render()
 		scene->modelStack.PushMatrix();
 		scene->modelStack.Translate(endPortal.pos.x, endPortal.pos.y, endPortal.pos.z);
 		scene->modelStack.Scale(endPortal.scale.x, endPortal.scale.y, endPortal.scale.z);
-		scene->RenderMesh(startPortal.mesh, true);
+		scene->RenderMesh(startPortal.mesh, false);
 		scene->modelStack.PopMatrix();
 	}
 	if (ghost_player)

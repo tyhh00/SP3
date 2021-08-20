@@ -33,6 +33,7 @@ public:
 	void SetQuantity(int _quantity);
 	int RemoveQuantity(int _quantity);
 
+	float GetDurability();
 	bool GetIsStackable();
 
 	void SetScene(SceneBase* scene);
@@ -42,6 +43,7 @@ protected:
 	ITEM_TYPE itemType;
 
 	int quantity;
+	float durability; // in percentage, 0 - none, 1 - max
 	bool isStackable;
 
 	SceneBase* scene;

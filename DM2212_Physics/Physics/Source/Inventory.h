@@ -8,7 +8,7 @@
 
 class Inventory {
 public:
-	void Init();
+	void Init(SceneBase* scene);
 	void Update(double dt);
 
 	void CycleItem(bool forward = true);
@@ -24,6 +24,7 @@ private:
 	
 	//array to store all max Quantity
 	int maxQuantity[Item::I_TOTAL];
+	SceneBase* scene;
 };
 
 

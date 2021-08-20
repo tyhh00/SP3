@@ -41,7 +41,7 @@ void SceneJungle::Init()
 
 	//Inventory init
 	inventory = new Inventory();
-	inventory->Init();
+	inventory->Init(this);
 
 	//Physics code here
 	m_speed = 1.f;

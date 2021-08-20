@@ -152,9 +152,6 @@
     <ClCompile Include="Source\SceneSplashScreen.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneTest.cpp">
-      <Filter>Source Files\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Item.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
@@ -323,9 +320,6 @@
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneSplashScreen.h">
-      <Filter>Header Files\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneTest.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Item.h">

@@ -51,7 +51,7 @@ void SceneGraveyard::Init()
 	goManager->Init();
 	// Inventory 
 	inventory = new Inventory();
-	inventory->Init();
+	inventory->Init(this);
 
 	//Store keyboard instance
 	input = Input::GetInstance();
@@ -112,7 +112,6 @@ void SceneGraveyard::Update(double dt)
 	SceneBase::Update(dt);
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
-	std::cout << player->pos << std::endl;
 
 	// Updating of light things
 	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
@@ -136,6 +135,7 @@ void SceneGraveyard::Update(double dt)
 	}
 	
 	goManager->Update(dt);
+	inventory->Update(dt);
 
 }
 
@@ -236,12 +236,13 @@ void SceneGraveyard::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 3, 0, 0);
 }
 
-void SceneGraveyard::SetLights()
+void SceneGraveyard::InitLights()
 {
 	lights[0].type = Light::LIGHT_POINT;
 	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
 	lights[0].color.Set(1, 1, 1);
 	lights[0].power = 2;
+	lights[0].defaultPower = lights[0].power;
 	lights[0].kC = 1.f;
 	lights[0].kL = 0.01f;
 	lights[0].kQ = 0.001f;
@@ -253,7 +254,8 @@ void SceneGraveyard::SetLights()
 	lights[1].type = Light::LIGHT_SPOT;
 	lights[1].position.Set(0, 0, 1);
 	lights[1].color.Set(0.8, 0.8, 1);
-	lights[1].power = 2;
+	lights[1].power = 0;
+	lights[1].defaultPower = 2;
 	lights[1].kC = 1.f;
 	lights[1].kL = 0.01f;
 	lights[1].kQ = 0.001f;
