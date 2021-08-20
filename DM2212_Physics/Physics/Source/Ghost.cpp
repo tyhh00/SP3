@@ -37,13 +37,15 @@ void Ghost::Init(SceneBase* scene, Inventory* inventory)
 void Ghost::Update(double dt)
 { 
 	animatedSprites->Update(dt);
-
-	if (inventory->GetCurrentItemType() == Item::I_FLASHLIGHT)
+	if (inventory->GetCurrentItem() != nullptr)
 	{
-		Flashlight *flashlight = dynamic_cast<Flashlight*>(inventory->GetCurrentItem());
-		if (flashlight->isWithinLight(pos))
+		if (inventory->GetCurrentItemType() == Item::I_FLASHLIGHT)
 		{
-			std::cout << "Is Within Light" << std::endl;
+			Flashlight* flashlight = dynamic_cast<Flashlight*>(inventory->GetCurrentItem());
+			if (flashlight->isWithinLight(pos))
+			{
+				std::cout << "Is Within Light" << std::endl;
+			}
 		}
 	}
 }

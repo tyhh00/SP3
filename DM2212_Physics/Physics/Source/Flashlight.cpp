@@ -11,9 +11,6 @@ Flashlight::Flashlight() : Weapon(I_FLASHLIGHT)
 	currBatt = maxBatt = 100;
 	batt_usage_rate = 2;
 
-	// CALCULATING LIGHT POS
-	float thetaR = acos(scene->lights[1].cosCutoff);
-	light_radius = scene->lights[1].position.z * tan(thetaR);
 }
 
 Flashlight::~Flashlight()
@@ -22,6 +19,7 @@ Flashlight::~Flashlight()
 
 void Flashlight::Init()
 {
+
 }
 
 void Flashlight::Update(double dt)
@@ -58,7 +56,12 @@ bool Flashlight::IsEqual(Item* item1)
 
 bool Flashlight::isWithinLight(Vector3 objPos)
 {
-	float dis = (objPos - light_pos).Length();
+
+	// CALCULATING LIGHT RADIUS
+	float thetaR = acos(scene->lights[1].cosCutoff);
+	light_radius = scene->lights[1].position.z * tan(thetaR);
+
+	float dis = (Vector3(objPos.x, objPos.y, 0) - Vector3(light_pos.x, light_pos.y, 0)).Length();
 	if (active && dis < light_radius)
 	{
 		return true;
