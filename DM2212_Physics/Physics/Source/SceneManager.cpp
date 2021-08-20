@@ -35,6 +35,9 @@ void SceneManager::setScene(worlds sceneType)
 	case w_physics:
 		activeScene = physics;
 		break;
+	case w_jungle:
+		activeScene = jungle;
+		break;
 	case w_graveyard:
 		activeScene = graveyard;
 		break;
