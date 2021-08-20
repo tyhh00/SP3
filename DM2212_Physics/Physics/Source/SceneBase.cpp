@@ -306,7 +306,7 @@ void SceneBase::Init()
 	LoadTile(GEO_GRAVEYARD_ARROWSIGN, "GY_ARROWSIGN.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_ENEMY_GHOST, "ghost.tga", 1.9, 2.2, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_ENEMY_TUMBLEWEED, "tumbleweed.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_GY_GATEKEEPER, "ghost.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_GATEKEEPER, "Gatekeeper.tga", 0.714, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_GY_CHURCH, "church.tga", 2.37, 1.98, SHAPE_TYPE::RECTANGLE);
 
 
