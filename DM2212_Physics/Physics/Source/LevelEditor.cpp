@@ -319,16 +319,20 @@ void LevelEditor::Update(double dt)
 			{
 				std::vector<GameObject*> colls = GetCollidedGOs(heldOnTo->pos.x, heldOnTo->pos.y);
 				bool dup = false;
+				int count = 0;
+				heldOnTo->pos.z = 0;
 				for (auto& go : colls)
 				{
-					if (go->geoTypeID == heldOnTo->geoTypeID && go != heldOnTo) {
-						dup = true;
-						break;
-					}
-					else if (heldOnTo != go && go->pos == heldOnTo->pos && go->scale == heldOnTo->scale)
+					if (go != heldOnTo)
 					{
-						dup = true;
-						break;
+						if (go->geoTypeID == heldOnTo->geoTypeID) {
+							dup = true;
+							break;
+						}
+						else
+						{
+							heldOnTo->pos.z = count++;
+						}
 					}
 				}
 
