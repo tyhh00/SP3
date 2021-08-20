@@ -305,6 +305,7 @@ void SceneBase::Init()
 	LoadTile(GEO_TOMBSTONE_CROSS, "CrossTombstonE.tga", 0.697, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_GRAVEYARD_ARROWSIGN, "GY_ARROWSIGN.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_ENEMY_GHOST, "ghost.tga", 1.9, 2.2, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_ENEMY_TUMBLEWEED, "tumbleweed.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 
 
 	//Entities (Player, etc)

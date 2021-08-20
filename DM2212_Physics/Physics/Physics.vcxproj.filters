@@ -209,6 +209,9 @@
     <ClCompile Include="Source\Battery.cpp">
       <Filter>Source Files\Items\Consumables</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Tumbleweed.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -384,6 +387,9 @@
     </ClInclude>
     <ClInclude Include="Source\Battery.h">
       <Filter>Header Files\Items\Consumables</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tumbleweed.h">
+      <Filter>Header Files\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

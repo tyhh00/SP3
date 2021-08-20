@@ -11,6 +11,7 @@
 //Entity Includes
 #include "Player.h"
 #include "Ghost.h"
+#include "Tumbleweed.h"
 
 //...
 
@@ -107,6 +108,24 @@ void SceneGraveyard::Init()
 			goManager->AddGO(ghost);
 
 			//Delete Grid ghost
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ENEMY_TUMBLEWEED)
+		{
+			Tumbleweed* weed = new Tumbleweed();
+
+			weed->active = true;
+			weed->scale = go->scale;
+			weed->pos = go->pos;
+			weed->physics = go->physics->Clone();
+			weed->physics->SetInelasticity(0.99f);
+			weed->physics->SetIsBouncable(false);
+			weed->Init(this, inventory, player->pos);
+
+			goManager->AddGO(weed);
+
+			//Delete Grid weed
 			delete go;
 			go = nullptr;
 		}
