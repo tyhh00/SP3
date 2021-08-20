@@ -40,7 +40,7 @@ void SceneGraveyard::Init()
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	m_worldHeight = 143;
-	m_worldWidth = 250;
+	m_worldWidth = 1000;
 
 	//Physics code here
 	m_speed = 1.f;

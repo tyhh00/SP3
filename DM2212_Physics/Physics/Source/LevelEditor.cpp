@@ -28,8 +28,8 @@ void LevelEditor::Init()
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = m_screenHeight * 3;
-	m_worldWidth = m_screenWidth * 5;
+	m_worldHeight = 143;
+	m_worldWidth = 1000;
 
 	stackOnGrid = true;
 
