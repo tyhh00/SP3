@@ -1,4 +1,4 @@
-﻿#include "ScenePhysics.h"
+﻿#include "SceneJungle.h"
 #include "GL\glew.h"
 #include "MeshBuilder.h"
 #include "Application.h"
@@ -13,18 +13,18 @@
 
 //...
 
-ScenePhysics::ScenePhysics()
+SceneJungle::SceneJungle()
 {
 	goManager = new GameObjectManager();
 }
 
-ScenePhysics::~ScenePhysics()
+SceneJungle::~SceneJungle()
 {
 	go = NULL;
 	keyboard = NULL;
 }
 
-void ScenePhysics::Init()
+void SceneJungle::Init()
 {
 	SceneBase::Init();
 	goManager->Init();
@@ -52,7 +52,7 @@ void ScenePhysics::Init()
 
 	//Level Loading
 	std::vector<GameObject*> tiles;
-	if(LevelLoader::GetInstance()->LoadTiles("LEVEL_1", this->meshList, this->tileSize, tiles, gridLength, gridHeight))
+	if(LevelLoader::GetInstance()->LoadTiles("JUNGLE_1_1", this->meshList, this->tileSize, tiles, gridLength, gridHeight))
 		DEBUG_MSG("Level Did not load successfully");
 	for (auto& go : tiles)
 	{
@@ -139,12 +139,11 @@ void ScenePhysics::Init()
 	go2->active = true;
 	go2->mesh = meshList[GEO_WALL];
 	goManager->AddGO(go2);
-	goManager->RemoveGO(go);
 
 	std::cout << "FLOOR: " << go2->pos.y + go2->scale.x << std::endl;
 }
 
-void ScenePhysics::Update(double dt)
+void SceneJungle::Update(double dt)
 {
 	SceneBase::Update(dt);
 	inventory->Update(dt);
@@ -195,7 +194,7 @@ void ScenePhysics::Update(double dt)
 	goManager->Update(dt);
 }
 
-void ScenePhysics::Render()
+void SceneJungle::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -228,7 +227,7 @@ void ScenePhysics::Render()
 	goManager->Render(this);
 }
 
-void ScenePhysics::Exit()
+void SceneJungle::Exit()
 {
 	SceneBase::Exit();
 	//Cleanup GameObjects

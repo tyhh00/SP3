@@ -4,21 +4,7 @@
 #include "MeshBuilder.h"
 
 
-PortalAbilityManager::PortalAbilityManager() : camera(NULL)
-{
-
-}
-
-PortalAbilityManager::~PortalAbilityManager()
-{
-	if (portalSprite)
-	{
-		delete portalSprite;
-		portalSprite = NULL;
-	}
-}
-
-void PortalAbilityManager::Init()
+PortalAbility::PortalAbility() : Ability('Z', ABILITY_PORTAL)
 {
 	ghost_portal = false;
 	ghost_player = false;
@@ -27,33 +13,38 @@ void PortalAbilityManager::Init()
 	startPortal.Init();
 	endPortal.Init();
 
-	//TEST
-	/*startPortal.pos.Set(10, 10, 0);
-	startPortal.active = true;
-	endPortal.pos.Set(10, 20, 0);
-	endPortal.active = true;*/
-
 	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 2.0f);
 	portalSprite->textureID = LoadTGA("Image/PortalTravelSprite.tga");
 
-	keyboard = Keyboard::GetInstance();
+
+	playerActiveState = true;
+	conditionsMet = false;
 
 	state = DEFAULT;
 }
 
-void PortalAbilityManager::Update(double dt)
+PortalAbility::~PortalAbility()
+{
+	if (portalSprite)
+	{
+		delete portalSprite;
+		portalSprite = NULL;
+	}
+}
+
+void PortalAbility::Update(double dt)
 {
 	switch (state)
 	{
 	case DEFAULT:
 		// CHECK FOR ABILITY USE CONDITIONS
-		if (keyboard->IsKeyPressed('Z'))
+		if (Keyboard::GetInstance()->IsKeyPressed('Z'))
 		{
-			if (player->physics->GetOnGround() && !endPortal.active)
+			if (conditionsMet && !endPortal.active)
 			{
 				// START OPENING START PORTAL
 				startPortal.active = true;
-				startPortal.pos = player->pos;
+				startPortal.pos = newPlayerPos;
 				startPortal.SetAnimation("opening", 0, 1.0);
 				anim_timer = 0;
 				camera->SetMode(Camera::CENTER);
@@ -85,7 +76,7 @@ void PortalAbilityManager::Update(double dt)
 		double mousePosX, mousePosY;
 		CursorToWorldPosition(mousePosX, mousePosY);
 		endPortal.pos.Set(mousePosX, mousePosY, 0);
-		if (!keyboard->IsKeyDown('Z'))
+		if (!Keyboard::GetInstance()->IsKeyDown('Z'))
 		{
 			// START OPENING END PORTAL
 			ghost_portal = false;
@@ -105,7 +96,7 @@ void PortalAbilityManager::Update(double dt)
 			endPortal.SetAnimation("idle", -1, 1.0);
 			anim_timer = 0;
 
-			player->active = false;
+			playerActiveState = false;
 			ghost_player = true;
 
 			state = TELEPORTING;
@@ -121,21 +112,21 @@ void PortalAbilityManager::Update(double dt)
 		// MOVE PLAYER
 		// CHECK IF PLAYER DONE MOVING
 		float offset = 3.0f;
-		if ((endPortal.pos - player->pos).Length() < offset)
+		if ((endPortal.pos - newPlayerPos).Length() < offset)
 		{
 			// START CLOSING START PORTAL
-			player->pos = endPortal.pos;
+			newPlayerPos = endPortal.pos;
 			camera->SetMode(Camera::EDGE);
 			startPortal.SetAnimation("closing", 0, 1.0);
 			anim_timer = 0;
-			player->active = true;
+			playerActiveState = true;
 			ghost_player = false;
 			state = CLOSINGSTART_ANIM;
 			std::cout << "PORTAL ABILITY: Teleportation End." << std::endl;
 			break;
 		}
 
-		player->pos += (endPortal.pos - player->pos).Normalized() * 50.0f * dt;
+		newPlayerPos += (endPortal.pos - newPlayerPos).Normalized() * 50.0f * dt;
 	}
 		break;
 	case CLOSINGSTART_ANIM:
@@ -178,7 +169,19 @@ void PortalAbilityManager::Update(double dt)
 
 }
 
-void PortalAbilityManager::Render(SceneBase* scene)
+void PortalAbility::CustomUpdate(bool playeronGround, Vector3 playerPos)
+{
+	conditionsMet = playeronGround;
+	newPlayerPos = playerPos;
+}
+
+void PortalAbility::CustomUpdate(Vector3& playerPos, bool& playerInvisibility)
+{
+	playerPos = newPlayerPos;
+	playerInvisibility = !playerActiveState;
+}
+
+void PortalAbility::Render()
 {
 	if (startPortal.active)
 	{
@@ -200,27 +203,21 @@ void PortalAbilityManager::Render(SceneBase* scene)
 	if (ghost_player)
 	{
 		scene->modelStack.PushMatrix();
-		scene->modelStack.Translate(player->pos.x, player->pos.y, player->pos.z);
-		scene->modelStack.Scale(player->scale.x, player->scale.y, player->scale.z);
+		scene->modelStack.Translate(newPlayerPos.x, newPlayerPos.y, newPlayerPos.z);
+		scene->modelStack.Scale(5, 5, 5);
 		scene->RenderMesh(portalSprite, true);
 		scene->modelStack.PopMatrix();
 	}
 	
 }
 
-void PortalAbilityManager::SetCamera(Camera* camera)
+ABILITY_TYPE PortalAbility::GetAbilityType()
 {
-	this->camera = camera;
-}
-
-void PortalAbilityManager::SetPlayer(Player* player)
-{
-	this->player = player;
+	return type;
 }
 
 
-
-void PortalAbilityManager::CursorToWorldPosition(double& theX, double& theY)
+void PortalAbility::CursorToWorldPosition(double& theX, double& theY)
 {
 	double x, y;
 	Application::GetCursorPos(&x, &y);

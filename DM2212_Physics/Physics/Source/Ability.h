@@ -3,7 +3,6 @@
 #include <vector>
 
 #include "SceneBase.h"
-#include "Player.h"
 #include "Camera.h"
 #include "GameObjectManager.h"
 
@@ -18,28 +17,26 @@ class Ability
 {
 
 public:
-	virtual void Init() = 0;
+	Ability(char buttonChar, ABILITY_TYPE type);
+	~Ability();
+
 	virtual void Update(double dt) = 0;
 	virtual void Render() = 0;
 	virtual ABILITY_TYPE GetAbilityType() = 0;
 
-	void SetPlayer(Player* player);
 	void SetCamera(Camera* camera);
 	void SetGOManager(GameObjectManager* GOManager);
 	void SetScenePointer(SceneBase* scene);
 
 protected:
-	Ability(char buttonChar, ABILITY_TYPE type);
-	~Ability();
 
 
 	Camera* camera;
-	Player* player;
 	GameObjectManager* goManager;
 	SceneBase* scene; //Used for custom rendering of abilities
+	ABILITY_TYPE type;
 
 private:
-	ABILITY_TYPE type;
 	char buttonChar;
 };
 

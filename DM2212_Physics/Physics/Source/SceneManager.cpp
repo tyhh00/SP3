@@ -17,6 +17,8 @@ void SceneManager::init()
 {
 	physics = new ScenePhysics();
 	physics->Init();
+	jungle = new SceneJungle();
+	jungle->Init();
 	levelEditor = new LevelEditor();
 	levelEditor->Init();
 	graveyard = new SceneGraveyard();
