@@ -10,7 +10,7 @@ Flashlight::Flashlight(int _quantity, int stemLength)
 	quantity = _quantity;
 	itemType = I_FLASHLIGHT;
 
-	keyboard = Keyboard::GetInstance();
+	input = Input::GetInstance();
 }
 
 void Flashlight::Init()
@@ -19,7 +19,7 @@ void Flashlight::Init()
 
 void Flashlight::Update(double dt)
 {
-	if (keyboard->IsKeyPressed('G'))
+	if (input->IsKeyPressed('G'))
 	{
 		RemoveQuantity(1);
 	}

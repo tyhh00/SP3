@@ -158,12 +158,12 @@
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\Flashlight.cpp" />
     <ClCompile Include="Source\Ghost.cpp" />
+    <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\LevelLoader.cpp" />
     <ClCompile Include="Source\Apple.cpp" />
     <ClCompile Include="Source\Cheese.cpp" />
     <ClCompile Include="Source\Consumable.cpp" />
     <ClCompile Include="Source\GameObjectManager.cpp" />
-    <ClCompile Include="Source\Keyboard.cpp" />
     <ClCompile Include="Source\GameStateManagement\LobbyState.cpp" />
     <ClCompile Include="Source\LevelEditor.cpp" />
     <ClCompile Include="Source\Application.cpp" />
@@ -207,6 +207,7 @@
     <ClInclude Include="Source\filesystem.h" />
     <ClInclude Include="Source\Flashlight.h" />
     <ClInclude Include="Source\Ghost.h" />
+    <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\LevelLoader.h" />
     <ClInclude Include="Source\Apple.h" />
     <ClInclude Include="Source\Cheese.h" />
@@ -214,7 +215,6 @@
     <ClInclude Include="Source\Debug.h" />
     <ClInclude Include="Source\GameObjectManager.h" />
     <ClInclude Include="Source\GameStateManagement\LobbyState.h" />
-    <ClInclude Include="Source\Keyboard.h" />
     <ClInclude Include="Source\LevelEditor.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Button.h" />

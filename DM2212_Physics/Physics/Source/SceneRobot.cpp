@@ -19,7 +19,7 @@ SceneRobot::SceneRobot()
 
 SceneRobot::~SceneRobot()
 {
-	keyboard = NULL;
+	input = NULL;
 	if (goManager)
 	{
 		delete goManager;
@@ -54,7 +54,7 @@ void SceneRobot::Init()
 	inventory->Init();
 
 	//Store keyboard instance
-	keyboard = Keyboard::GetInstance();
+	input = Input::GetInstance();
 
 	// Unique Meshes
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
@@ -114,16 +114,16 @@ void SceneRobot::Update(double dt)
 	lights[1].position.Set(mouseposx, mouseposy, 10);
 
 	
-	if (Application::IsMousePressed(0))
+	if (input->IsMousePressed(0))
 	{
 		// flashlgiht power/exponent
 	}
 
-	if(Application::IsKeyPressed('9'))
+	if(input->IsKeyPressed('9'))
 	{
 		m_speed = Math::Max(0.f, m_speed - 0.1f);
 	}
-	if(Application::IsKeyPressed('0'))
+	if(input->IsKeyPressed('0'))
 	{
 		m_speed += 0.1f;
 	}
