@@ -18,6 +18,9 @@ protected:
 	std::vector<GameObject*> m_movableGOList; //movable game objects
 	std::vector<GameObject*> m_stationaryGOList; //stationary game objects
 
+	std::vector<GameObject*> toAddList;
+	std::vector<GameObject*> toRemoveList;
+
 	float m_speed;
 
 public:
