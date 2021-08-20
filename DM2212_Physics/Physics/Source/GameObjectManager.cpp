@@ -220,7 +220,7 @@ void GameObjectManager::Update(double dt)
 		{
 			GameObject* go2 = (GameObject*)*it2;
 
-			if (!go2->active || go2 != nullptr)
+			if (!go2->active || go2 == nullptr)
 				continue;
 
 			if (CheckCollision(go, go2, dt))
