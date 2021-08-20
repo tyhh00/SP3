@@ -255,15 +255,15 @@ void SceneGraveyard::Render()
 	goManager->Render(this);
 
 	std::ostringstream ss;
-	/*ss.str("");
-	ss << "LIGHT COLOR: " << Vector3(lights[0].color.r, lights[0].color.g, lights[0].color.b);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
+	//ss.str("");
+	//ss << "LIGHT COLOR: " << Vector3(lights[0].color.r, lights[0].color.g, lights[0].color.b);
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
 	ss.str("");
-	ss << "player pos: " << player->pos;
+	ss << "player stamina: " << player->GetStamina();
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);
 	ss.str("");
-	ss << "camera pos: " << camera.position;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);*/
+	//ss << "camera pos: " << camera.position;
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);
 
 
 

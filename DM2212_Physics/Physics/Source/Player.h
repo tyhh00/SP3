@@ -22,6 +22,9 @@ public:
 	void CollidedWith(GameObject* go);
 	void SetAbilities(Ability* a, Ability* b);
 
+	float GetStamina();
+	void DecreaseStamina(float amt);
+
 private:
 	SpriteAnimation* animatedSprites;
 	Mesh* portalSprite;
@@ -34,7 +37,13 @@ private:
 	bool DkeyDown;
 
 	float speed;
+	float speed_multiplier;
 	float jump_force;
+
+	float stamina;
+	float max_stamina;
+
+	float stamina_rate_multiplier;
 
 	Ability* abilityArray[2];
 	Input* input;

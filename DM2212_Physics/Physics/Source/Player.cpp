@@ -11,6 +11,9 @@ Player::Player() : input(NULL)
 	, inventory(NULL)
 	, speed(1000.f)
 	, jump_force(4000.f)
+	, max_stamina(100.f)
+	, stamina(100.f)
+	, stamina_rate_multiplier(0.0f)
 	, invisibility(false)
 {
 }
@@ -40,7 +43,6 @@ Player::~Player()
 
 void Player::Init(GameObjectManager* GOM, Inventory* inventory)
 {
-	
 	physics->SetMass(1);
 	physics->SetMovable(true);
 
@@ -101,12 +103,33 @@ void Player::Update(double dt)
 		animatedSprites->PlayAnimation("right", -1, 1.0f);
 		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, 0, 0));
 	}*/
+	speed_multiplier = 1.0f;
+	stamina_rate_multiplier = 0.0f;
+	if (input->IsKeyDown(VK_SHIFT) && stamina > 0)
+	{
+		speed_multiplier = 2.0f;
+		stamina_rate_multiplier = 1.0f;
+	}
+
 	if (input->IsKeyDown('A'))
-		physics->SetVelocity(Vector3(-speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+	{
+		physics->SetVelocity(Vector3(-speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		stamina -= stamina_rate_multiplier * 50.f * dt;
+	}
 	else if (input->IsKeyDown('D'))
-		physics->SetVelocity(Vector3(speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+	{
+		physics->SetVelocity(Vector3(speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		stamina -= stamina_rate_multiplier * 50.f * dt;
+	}
 	else
+	{
 		physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
+	}
+
+	if (stamina < max_stamina)
+	{
+		stamina += 5.f * dt;
+	}
 
 	// JUMP SECTION
 	if (input->IsKeyPressed(VK_SPACE)
@@ -218,7 +241,6 @@ void Player::Render(SceneBase* scene)
 		}
 	}
 
-
 	float angle = Math::RadianToDegree(atan2(physics->GetNormal().y, physics->GetNormal().x));
 	scene->modelStack.PushMatrix();
 	scene->modelStack.Translate(pos.x, pos.y, pos.z);
@@ -226,6 +248,8 @@ void Player::Render(SceneBase* scene)
 	scene->modelStack.Scale(scale.x, scale.y, scale.z);
 	scene->RenderMesh(mesh, true);
 	scene->modelStack.PopMatrix();
+
+	// Render Stamina Bar??
 	
 }
 
@@ -248,6 +272,16 @@ void Player::SetAbilities(Ability* a, Ability* b)
 {
 	abilityArray[0] = a;
 	abilityArray[1] = b;
+}
+
+float Player::GetStamina()
+{
+	return stamina;
+}
+
+void Player::DecreaseStamina(float amt)
+{
+	stamina -= amt;
 }
 
 
