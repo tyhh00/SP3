@@ -58,7 +58,6 @@ void SceneJungle::Init()
 	{
 		if (go->geoTypeID == GEOMETRY_TYPE::GEO_PLAYER_GIRL1)
 		{
-			GameObject* player;
 			player = new Player();
 			player->active = true;
 			player->scale = go->scale;
@@ -148,7 +147,7 @@ void SceneJungle::Update(double dt)
 	SceneBase::Update(dt);
 	inventory->Update(dt);
 	camera.Update(camera.position, dt);
-
+	std::cout << player->pos << std::endl;
 	if (keyboard->IsKeyPressed('P'))
 	{
 		std::cout << "PRESSESD P" << std::endl;
@@ -215,14 +214,6 @@ void SceneJungle::Render()
 	);
 	// Model matrix : an identity matrix (model will be at the origin)
 	modelStack.LoadIdentity();
-
-	if (inventory->GetCurrentItem())
-	{
-		std::stringstream ss;
-		ss << "curr item: " << inventory->GetCurrentItemType();
-
-		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1.0f, 1.0f, 1.0f), 4, 10, 10);
-	}
 
 	goManager->Render(this);
 }

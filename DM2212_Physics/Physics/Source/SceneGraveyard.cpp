@@ -40,7 +40,7 @@ void SceneGraveyard::Init()
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	m_worldHeight = 143;
-	m_worldWidth = 250;
+	m_worldWidth = 1000;
 
 	//Physics code here
 	m_speed = 1.f;
@@ -112,6 +112,7 @@ void SceneGraveyard::Update(double dt)
 	SceneBase::Update(dt);
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
+	std::cout << player->pos << std::endl;
 
 	// Updating of light things
 	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
