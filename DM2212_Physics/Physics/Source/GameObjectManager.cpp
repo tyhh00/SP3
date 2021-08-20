@@ -150,71 +150,72 @@ void GameObjectManager::Update(double dt)
 	for (std::vector<GameObject*>::iterator it = m_movableGOList.begin(); it != m_movableGOList.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go->active && go != nullptr)
+
+		if (!go->active || go != nullptr)
+			continue;
+
+		if (go->geoTypeID == SceneBase::GEOMETRY_TYPE::GEO_PLAYER_GIRL1)
 		{
-			if (go->geoTypeID == SceneBase::GEOMETRY_TYPE::GEO_PLAYER_GIRL1)
+			std::cout << go->pos.y << std::endl;
+		}
+
+		go->Update(dt);
+		go->physics->Update(dt);
+		go->pos += go->physics->GetVelocity() * m_speed * dt;
+		go->physics->pos = go->pos;
+		go->physics->scale = go->scale;
+		if (go->bottomSprite != nullptr)
+		{
+			go->physics->SetOnGround(false);
+			go->bottomSprite->pos = go->pos + go->bottomSprite->relativePos;
+			go->bottomSprite->physics->pos = go->bottomSprite->pos;
+			go->bottomSprite->physics->scale = go->bottomSprite->scale;
+			go->bottomSprite->physics->SetVelocity(go->physics->GetVelocity());
+		}
+		// Collision with moving and moving
+		for (std::vector<GameObject*>::iterator it2 = it + 1; it2 != m_movableGOList.end(); ++it2)
+		{
+			GameObject* go2 = (GameObject*)*it2;
+
+			if (!go2->active || go2 != nullptr)
+				continue;
+
+			if (CheckCollision(go, go2, dt))
 			{
-				std::cout << go->pos.y << std::endl;
+				go->CollidedWith(go2);
+				go->physics->CollisionResponse(go2->physics, dt);
+				go->pos = go->physics->pos;
+				go2->pos = go2->physics->pos;
+				continue; //remove if stays at the end
 			}
-			go->Update(dt);
-			go->physics->Update(dt);
-			go->pos += go->physics->GetVelocity() * m_speed * dt;
-			go->physics->pos = go->pos;
-			go->physics->scale = go->scale;
+		}
+		// Collision with moving and stationary
+		for (std::vector<GameObject*>::iterator it2 = m_stationaryGOList.begin(); it2 != m_stationaryGOList.end(); ++it2)
+		{
+			GameObject* go2 = (GameObject*)*it2;
+			if (go2 == nullptr)
+				continue;
+
+			// attachment for checking if onGround
 			if (go->bottomSprite != nullptr)
 			{
-				go->physics->SetOnGround(false);
-				go->bottomSprite->pos = go->pos + go->bottomSprite->relativePos;
-				go->bottomSprite->physics->pos = go->bottomSprite->pos;
-				go->bottomSprite->physics->scale = go->bottomSprite->scale;
-				go->bottomSprite->physics->SetVelocity(go->physics->GetVelocity());
+				if (CheckCollision(go->bottomSprite, go2, dt))
+				{
+					go->physics->SetOnGround(true);
+				}
 			}
-			// Collision with moving and moving
-			for (std::vector<GameObject*>::iterator it2 = it + 1; it2 != m_movableGOList.end(); ++it2)
+
+			if (CheckCollision(go, go2, dt))
 			{
-				GameObject* go2 = (GameObject*)*it2;
-
-				if (go2->active && go2 != nullptr)
-				{
-					if (CheckCollision(go, go2, dt))
-					{
-						go->CollidedWith(go2);
-						go->physics->CollisionResponse(go2->physics, dt);
-						go->pos = go->physics->pos;
-						go2->pos = go2->physics->pos;
-						continue; //remove if stays at the end
-					}
-
-				}
+				go->CollidedWith(go2);
+				go2->physics->pos = go2->pos;
+				go2->physics->scale = go2->scale;
+				go->physics->CollisionResponse(go2->physics, dt);
+				go->pos = go->physics->pos;
+				go2->pos = go2->physics->pos;
+				continue; //remove if stays at the end
 			}
-			// Collision with moving and stationary
-			for (std::vector<GameObject*>::iterator it2 = m_stationaryGOList.begin(); it2 != m_stationaryGOList.end(); ++it2)
-			{
-				GameObject* go2 = (GameObject*)*it2;
-				if (go2 == nullptr)
-					continue;
 
-				// attachment for checking if onGround
-				if (go->bottomSprite != nullptr)
-				{
-					if (CheckCollision(go->bottomSprite, go2, dt))
-					{
-						go->physics->SetOnGround(true);
-					}
-				}
-
-				if (CheckCollision(go, go2, dt))
-				{
-					go->CollidedWith(go2);
-					go2->physics->pos = go2->pos;
-					go2->physics->scale = go2->scale;
-					go->physics->CollisionResponse(go2->physics, dt);
-					go->pos = go->physics->pos;
-					go2->pos = go2->physics->pos;
-					continue; //remove if stays at the end
-				}
-
-			}
 		}
 	}
 }
