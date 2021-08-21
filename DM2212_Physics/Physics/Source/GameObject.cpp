@@ -5,7 +5,7 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, SHAPE_TYPE shapeType)
 	: type(typeValue),
 	pos(1, 1, 1),
 	scale(1, 1, 1),
-	active(false),
+	active(true),
 	fireInterval(0),
 	maxHP(0), currentHP(0), timeout(0), enableCollision(true),
 	bottomSprite(NULL), scene(NULL)
@@ -20,7 +20,7 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHA
 	: type(typeValue),
 	pos(1, 1, 1),
 	scale(1, 1, 1),
-	active(false),
+	active(true),
 	fireInterval(0),
 	geoTypeID(geoTypeID),
 	maxHP(0),
@@ -48,6 +48,7 @@ void GameObject::Init()
 
 void GameObject::Update(double dt)
 {
+
 }
 
 void GameObject::Render(SceneBase* scene)
@@ -76,6 +77,9 @@ GameObject* GameObject::Clone()
 	go->pos = this->pos;
 	go->scale = this->scale;
 	go->timeout = this->timeout;
+	go->explosive = this->explosive;
+	go->explosiveRadius = this->explosiveRadius;
+	go->dead = this->dead;
 	return go;
 }
 

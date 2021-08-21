@@ -53,7 +53,8 @@ void SceneRobot::Init()
 	inventory = new Inventory();
 	inventory->Init(this);
 
-	BulletSpawner* spawner =
+	spawner = new BulletSpawner(goManager, new PlasmaBullet(Vector3(2,2,2), player));
+	DEBUG_MSG("GOManager Robot: " << goManager);
 
 	//Store keyboard instance
 	input = Input::GetInstance();
@@ -128,6 +129,17 @@ void SceneRobot::Update(double dt)
 	if(input->IsKeyPressed('0'))
 	{
 		m_speed += 0.1f;
+	}
+
+	if (input->IsKeyReleased('F'))
+	{
+		//spawner->SpawnBullet(player->pos, player->physics->GetNormal() * 3.0, player->physics->GetNormal());
+		PlasmaBullet* bul = new PlasmaBullet(Vector3(2, 2, 2), player);
+		bul->physics->SetVelocity(player->physics->GetNormal() * 12);
+		bul->physics->SetNormal(player->physics->GetNormal());
+		bul->pos = player->pos;
+		bul->pos.z += 1;
+		goManager->AddGO(bul);
 	}
 	
 	goManager->Update(dt);

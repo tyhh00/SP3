@@ -15,18 +15,21 @@ class PlasmaBullet : public Bullet
 	const bool explo = true;
 	const float rad = 3.0f;
 public:
-	PlasmaBullet(Mesh* mesh, int geoTypeID, Vector3 scale);
+	PlasmaBullet(Vector3 scale, GameObject* attachedPlayer);
 	~PlasmaBullet();
 
 	//GO Virtual Functions
 	void Init();
 	void Update(double dt);
 	void CollidedWith(GameObject* go);
-	PlasmaBullet* Clone();
+	GameObject* Clone();
 
 private:
 	SpriteAnimation* animatedSprite;
 	PLASMABULLET_STATE state;
 	double aliveTimer;
+
+	//Custom GO Attachment for Position Updating
+	GameObject* attachedPlayer;
 };
 

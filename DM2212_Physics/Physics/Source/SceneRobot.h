@@ -40,6 +40,7 @@ protected:
 	Input* input;
 	GameObjectManager* goManager;
 	Player* player;
+	BulletSpawner* spawner;
 
 	double gridLength, gridHeight;
 	void CursorToWorldPosition(double& theX, double& theY);

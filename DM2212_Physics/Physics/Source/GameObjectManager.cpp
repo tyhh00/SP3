@@ -1,4 +1,5 @@
 #include "GameObjectManager.h"
+#include "Debug.h"
 
 
 void GameObjectManager::Init()
@@ -6,8 +7,10 @@ void GameObjectManager::Init()
 	m_speed = 1.f;
 }
 
-bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float dt)
+bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float dt, bool rangeCheck)
 {
+	if (go1 == nullptr || go2 == nullptr)
+		return false;
 	if (!go1->enableCollision || !go2->enableCollision)
 		return false;
 	// in case of self collision
@@ -17,8 +20,18 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 	}*/
 
 	//Radius checking if explosive
-	Vector3 go1_fScale = go1->scale * (go1->IsExplosive() ? go1->explosiveRadius : 1);
-	Vector3 go2_fScale = go2->scale * (go2->IsExplosive() ? go2->explosiveRadius : 1);
+	Vector3 go1_fScale, go2_fScale;
+	if (rangeCheck)
+	{
+		go1_fScale = go1->scale * (go1->IsExplosive() ? go1->explosiveRadius : 1);
+		go2_fScale = go2->scale * (go2->IsExplosive() ? go2->explosiveRadius : 1);
+		DEBUG_MSG("Collided Scale: " << go1_fScale << " org : " << go1->scale << " | go2 pos: " << go2->pos);
+	}
+	else
+	{
+		go1_fScale = go1->scale;
+		go2_fScale = go2->scale;
+	}
 	if (go1_fScale.LengthSquared() <= Math::EPSILON || go2_fScale.LengthSquared() <= Math::EPSILON)
 	{
 		return false;
@@ -175,12 +188,24 @@ void GameObjectManager::Update(double dt)
 	{
 		GameObject* go = (GameObject*)*it;
 
-		if (!go->active || go == nullptr)
+		if (go == nullptr || !go->active)
 			continue;
+
+		if (go->dead)
+		{
+			toRemoveList.push_back(go);
+			continue;
+		}
+
+		if (go->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET)
+		{
+			int a = 5;
+		}
 
 		go->Update(dt);
 		go->physics->Update(dt);
-		go->pos += go->physics->GetVelocity() * m_speed * dt;
+		if(go->physics->GetUpdateEnabled())
+			go->pos += go->physics->GetVelocity() * m_speed * dt;
 		go->physics->pos = go->pos;
 		go->physics->scale = go->scale;
 		if (go->bottomSprite != nullptr)
@@ -196,13 +221,39 @@ void GameObjectManager::Update(double dt)
 		{
 			GameObject* go2 = (GameObject*)*it2;
 
-			if (!go2->active || go2 == nullptr)
+			if (go2 == nullptr || !go2->active)
 				continue;
 
-			if (CheckCollision(go, go2, dt))
+			if (CheckCollision(go, go2, dt, false))
 			{
-				go->CollidedWith(go2);
-				go->physics->CollisionResponse(go2->physics, dt);
+				if (go->IsExplosive())
+				{
+					for (auto& go3 : m_movableGOList)
+					{
+						if (go3 == nullptr || !go3->active)
+							continue;
+						if (go != go3 && CheckCollision(go, go3, dt, true))
+						{
+							go->CollidedWith(go3);
+						}
+					}
+					for (auto& go3 : m_stationaryGOList)
+					{
+						if (go3 == nullptr || !go3->active)
+							continue;
+						if (go != go3 && CheckCollision(go, go3, dt, true))
+						{
+							go->CollidedWith(go3);
+						}
+					}
+					go->dead = true;
+					toRemoveList.push_back(go);
+				}
+				else
+				{
+					go->CollidedWith(go2);
+					go->physics->CollisionResponse(go2->physics, dt);
+				}
 				go->pos = go->physics->pos;
 				go2->pos = go2->physics->pos;
 				continue; //remove if stays at the end
@@ -212,24 +263,53 @@ void GameObjectManager::Update(double dt)
 		for (std::vector<GameObject*>::iterator it2 = m_stationaryGOList.begin(); it2 != m_stationaryGOList.end(); ++it2)
 		{
 			GameObject* go2 = (GameObject*)*it2;
+
 			if (go2 == nullptr)
 				continue;
+
+			if (go2->dead)
+			{
+				toRemoveList.push_back(go2);
+				continue;
+			}
 
 			// attachment for checking if onGround
 			if (go->bottomSprite != nullptr)
 			{
-				if (CheckCollision(go->bottomSprite, go2, dt))
+				if (CheckCollision(go->bottomSprite, go2, dt, false))
 				{
 					go->physics->SetOnGround(true);
 				}
 			}
 
-			if (CheckCollision(go, go2, dt))
+			if (CheckCollision(go, go2, dt, false))
 			{
-				go->CollidedWith(go2);
 				go2->physics->pos = go2->pos;
 				go2->physics->scale = go2->scale;
-				go->physics->CollisionResponse(go2->physics, dt);
+				if (go->IsExplosive())
+				{
+					for (auto& go3 : m_movableGOList)
+					{
+						if (CheckCollision(go, go3, dt, true))
+						{
+							go->CollidedWith(go3);
+						}
+					}
+					for (auto& go3 : m_stationaryGOList)
+					{
+						if (CheckCollision(go, go3, dt, true))
+						{
+							go->CollidedWith(go3);
+						}
+					}
+					go->dead = true;
+					toRemoveList.push_back(go);
+				}
+				else
+				{
+					go->CollidedWith(go2);
+					go->physics->CollisionResponse(go2->physics, dt);
+				}
 				go->pos = go->physics->pos;
 				go2->pos = go2->physics->pos;
 				continue; //remove if stays at the end
@@ -275,7 +355,7 @@ void GameObjectManager::Render(SceneBase* scene)
 	for (std::vector<GameObject*>::iterator it = m_movableGOList.begin(); it != m_movableGOList.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go->active && go != nullptr)
+		if (go != nullptr && go->active)
 		{
 			go->Render(scene);
 			// test things; to see bottomSprite
