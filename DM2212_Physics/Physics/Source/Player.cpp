@@ -51,6 +51,11 @@ void Player::Init(GameObjectManager* GOM, Inventory* inventory)
 
 	input = Input::GetInstance();
 
+	for (int i = 0; i < 2; ++i)
+	{
+		abilityArray[i] = nullptr;
+	}
+
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("idle", 0, 1);
 	animatedSprites->AddAnimation("right", 6, 8);

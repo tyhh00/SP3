@@ -18,6 +18,7 @@ private:
 	float rotateZ;
 	float inelasticity;
 
+	bool collision;
 	bool isMovable;
 	bool onGround;
 	bool isBouncable;
@@ -67,6 +68,9 @@ public:
 	void SetIsBouncable(bool _isBouncable);
 
 	void SetEnableUpdate(bool _enableUpdate);
+	bool GetUpdateEnabled();
+
+	void SetEnableCollision(bool _enableCollision);
 
 	void CollisionResponse(Physics* go2, double dt);
 	void ApplyFriction(Physics* ball, Vector3 normal, double dt);

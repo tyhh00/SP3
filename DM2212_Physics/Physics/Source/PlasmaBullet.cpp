@@ -3,8 +3,10 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 
-PlasmaBullet::PlasmaBullet(Mesh* mesh, int geoTypeID, Vector3 scale)
-	: Bullet(mesh, geoTypeID, SHAPE_TYPE::CIRCLE, BULLET_TYPE::PLASMA, scale, explo, rad)
+PlasmaBullet::PlasmaBullet(Vector3 scale, GameObject* attachedPlayer)
+//Init with nullptr mesh and -1 geoType since we're overriding mesh with animatedSprite
+	: Bullet(nullptr, -1, SHAPE_TYPE::CIRCLE, BULLET_TYPE::PLASMA, scale, true, 5.5f)
+	, attachedPlayer(attachedPlayer)
 {
 	//ANIMATED SPRITE
 	animatedSprite = MeshBuilder::GenerateSpriteAnimation(4, 4, 2.0f, 2.0f);
@@ -15,6 +17,8 @@ PlasmaBullet::PlasmaBullet(Mesh* mesh, int geoTypeID, Vector3 scale)
 	mesh->textureID = LoadTGA("Image/robot_plasma.tga");
 
 	animatedSprite->PlayAnimation("chargingup", 0, 1.0f);
+
+	aliveTimer = 0.0;
 
 	//PLASMA BULLET FUNCTIONALITY
 	state = PLASMABULLET_STATE::CHARGINGUP_PHASE1;
@@ -34,13 +38,24 @@ void PlasmaBullet::Init()
 void PlasmaBullet::Update(double dt)
 {
 	aliveTimer += dt;
+	animatedSprite->Update(dt);
+
+	//Attach pos of bullet to player
+	if (attachedPlayer != nullptr)
+	{
+		this->pos = attachedPlayer->pos;
+		this->pos.z += 1; //Set it infront of player
+	}
+
 	if (aliveTimer > 1.0 && state == CHARGINGUP_PHASE1)
 	{
 		animatedSprite->PlayAnimation("fullycharged", -1, 3.0);
 		state = CHARGINGUP_PHASE2;
 	}
-	else if (aliveTimer > 3.0 && state == CHARGINGUP_PHASE2)
+	else if (aliveTimer > 2.0 && state == CHARGINGUP_PHASE2)
 	{
+		attachedPlayer = nullptr; //Disable attaching of pos to player
+
 		state = FULLYCHARGED;
 		enableCollision = true;
 		physics->SetEnableUpdate(true);
@@ -60,14 +75,15 @@ void PlasmaBullet::Update(double dt)
 
 void PlasmaBullet::CollidedWith(GameObject* go)
 {
-	DEBUG_MSG("Plasma Bullet Collided with: " << go->geoTypeID);
-	dead = true;
+	go->dead = true;
+	DEBUG_MSG("Collided With " << go->pos);
 }
 
-PlasmaBullet* PlasmaBullet::Clone()
+GameObject* PlasmaBullet::Clone()
 {
-	GameObject* go = GameObject::Clone();
-	PlasmaBullet* cloned = dynamic_cast<PlasmaBullet*>(go);
+
+	GameObject* go = Bullet::Clone();
+	PlasmaBullet* cloned = static_cast<PlasmaBullet*>(go);
 	cloned->animatedSprite = this->animatedSprite->Clone();
 
 	return cloned;
