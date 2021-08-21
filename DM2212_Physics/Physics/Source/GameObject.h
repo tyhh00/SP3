@@ -54,6 +54,8 @@ struct GameObject
 
 	GAMEOBJECT_TYPE type;
 
+	bool dead;
+
 	bool active;
 	bool enableCollision;
 	Vector3 pos;

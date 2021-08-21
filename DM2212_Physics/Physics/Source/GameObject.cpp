@@ -11,6 +11,7 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, SHAPE_TYPE shapeType)
 	bottomSprite(NULL), scene(NULL)
 	, explosive(false)
 	, explosiveRadius(1.0f)
+	, dead(false)
 {
 	physics = new Physics(shapeType, pos, scale);
 }
@@ -31,6 +32,7 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHA
 	bottomSprite(NULL), scene(NULL)
 	, explosive(false)
 	, explosiveRadius(1.0f)
+	, dead(false)
 {
 }
 

@@ -331,3 +331,20 @@ void SpriteAnimation::Reset()
 	currentFrame = animationList[currentAnimation]->frames[0];
 	playCount = 0;
 }
+
+
+SpriteAnimation* SpriteAnimation::Clone()
+{
+	SpriteAnimation* clone = new SpriteAnimation(row, col);
+	clone->currentTime = this->currentTime;
+	clone->currentFrame = this->currentFrame;
+	clone->playCount = this->playCount;
+	this->currentAnimation = this->currentAnimation;
+	std::unordered_map<std::string, Animation*> cloneList;
+	for (auto& entry : this->animationList)
+	{
+		cloneList.insert(std::make_pair(entry.first, entry.second->Clone()));
+	}
+	this->animationList = cloneList;
+	return clone;
+}

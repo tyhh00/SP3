@@ -25,5 +25,9 @@ void BulletSpawner::SetBullet(Bullet* bullet)
 
 void BulletSpawner::SpawnBullet(Vector3 pos, Vector3 vel, Vector3 dir)
 {
-
+	Bullet* clone = bulletPrototype->Clone();
+	clone->pos = pos;
+	clone->physics->SetVelocity(vel);
+	clone->physics->SetNormal(dir);
+	gom_ref->AddGO(clone);
 }

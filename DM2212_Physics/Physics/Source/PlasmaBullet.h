@@ -2,6 +2,14 @@
 #include "Bullet.h"
 #include "SpriteAnimation.h"
 
+enum PLASMABULLET_STATE
+{
+	CHARGINGUP_PHASE1,
+	CHARGINGUP_PHASE2,
+	FULLYCHARGED,
+	CHARGINGDOWN,
+};
+
 class PlasmaBullet : public Bullet
 {
 	const bool explo = true;
@@ -17,6 +25,8 @@ public:
 	PlasmaBullet* Clone();
 
 private:
-	SpriteAnimation* animatedSpirte;
+	SpriteAnimation* animatedSprite;
+	PLASMABULLET_STATE state;
+	double aliveTimer;
 };
 

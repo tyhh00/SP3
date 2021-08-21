@@ -14,3 +14,8 @@ Level Editor:
 
 Mouse Scroll Callback
 Sound Controller
+Object Cloning (GameObject, Animation)
+Prototype Pattern for bullet spawning (Bullet Spawner)
+Bullet Base class
+Enemy Base class
+Ability Base class

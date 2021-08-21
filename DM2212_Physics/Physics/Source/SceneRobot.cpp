@@ -53,6 +53,8 @@ void SceneRobot::Init()
 	inventory = new Inventory();
 	inventory->Init();
 
+	BulletSpawner* spawner =
+
 	//Store keyboard instance
 	input = Input::GetInstance();
 

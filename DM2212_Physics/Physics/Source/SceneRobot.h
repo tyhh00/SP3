@@ -10,6 +10,10 @@
 #include "Input.h"
 #include "GameObjectManager.h"
 
+
+#include "BulletSpawner.h"
+#include "PlasmaBullet.h"
+
 class SceneRobot : public SceneBase
 {
 public:
