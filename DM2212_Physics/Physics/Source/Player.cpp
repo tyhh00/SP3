@@ -126,6 +126,16 @@ void Player::Update(double dt)
 		physics->SetVelocity(Vector3(speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
 		stamina -= stamina_rate_multiplier * 50.f * dt;
 	}
+	else if (input->IsKeyDown('W'))
+	{
+		physics->SetVelocity(Vector3(physics->GetVelocity().x, speed * speed_multiplier * dt, physics->GetVelocity().z));
+		stamina -= stamina_rate_multiplier * 50.f * dt;
+	}
+	else if (input->IsKeyDown('S'))
+	{
+		physics->SetVelocity(Vector3(physics->GetVelocity().x, -speed * speed_multiplier * dt, physics->GetVelocity().z));
+		stamina -= stamina_rate_multiplier * 50.f * dt;
+	}
 	else
 	{
 		physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));

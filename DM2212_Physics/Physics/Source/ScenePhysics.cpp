@@ -187,6 +187,14 @@ void ScenePhysics::Update(double dt)
 	{
 		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(5, 0, 0));
 	}
+	else if (input->IsKeyPressed('W'))
+	{
+		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(0, 5, 0));
+	}
+	else if (input->IsKeyPressed('S'))
+	{
+		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(0, -5, 0));
+	}
 	else
 	{
 		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(0, 0, 0));
