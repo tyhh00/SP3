@@ -59,8 +59,8 @@ void SceneLobby::Init()
 	keyboard = Keyboard::GetInstance();
 
 	// Unique Meshes
-//	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
-//	meshList[GEO_BG]->textureID = LoadTGA("Image/bg_lobby.tga");
+	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	meshList[GEO_BG]->textureID = LoadTGA("Image/bg_lobby.tga");
 
 	//Level Loading
 	std::vector<GameObject*> tiles;
@@ -99,6 +99,7 @@ void SceneLobby::Init()
 	// Camera 
 	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
+	camera.SetFocusTarget(player->pos);
 
 }
 
@@ -202,7 +203,7 @@ void SceneLobby::Render()
 	modelStack.PushMatrix();
 	modelStack.Translate(m_worldWidth * 0.5, m_worldHeight * 0.5, -0.01);
 	modelStack.Scale(m_worldWidth, m_worldHeight, 1);
-//	RenderMesh(meshList[GEO_BG], true);
+	RenderMesh(meshList[GEO_BG], true);
 	modelStack.PopMatrix();
 
 	goManager->Render(this);
