@@ -16,13 +16,13 @@ Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale)
 	, angularVelocity(0)
 	, rotateZ(0.f)
 	, inelasticity(0.5f)
-	, defaultGravity(0, -98.f, 0)
 	, gravity(0, -98.f, 0)
 	, shapeType(_shapeType)
 	, isMovable(false)
 	, isBouncable(true)
 	, onGround(true)
 	, enableUpdate(true)
+	, collision(true)
 {
 }
 
@@ -40,12 +40,12 @@ Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale, Vector3 ve
 	, rotateZ(rotateZ)
 	, inelasticity(inelasticity)
 	, gravity(gravity)
-	, defaultGravity(gravity)
 	, shapeType(_shapeType)
 	, isMovable(isMoveable)
 	, isBouncable(isBouncable)
 	, onGround(true)
 	, enableUpdate(true)
+	, collision(true)
 {}
 
 Physics::~Physics()
@@ -141,10 +141,6 @@ Vector3 Physics::GetGravity()
 	return gravity;
 }
 
-Vector3 Physics::GetDefaultGravity()
-{
-	return defaultGravity;
-}
 
 void Physics::SetOnGround(bool onGround)
 {
@@ -218,6 +214,11 @@ void Physics::SetEnableUpdate(bool _enableUpdate)
 	enableUpdate = _enableUpdate;
 }
 
+void Physics::SetEnableCollision(bool _enableCollision)
+{
+	collision = _enableCollision;
+}
+
 /**
  @brief Collision Response between 2 objects
  @param go2 A physics component of the second object
@@ -225,6 +226,8 @@ void Physics::SetEnableUpdate(bool _enableUpdate)
  */
 void Physics::CollisionResponse(Physics* go2, double dt)
 {
+	if (!(this->collision && go2->collision))
+		return;
 	//no need to check if go1 is movable since go1 will only represent moving entities
 	if (go2->isMovable)
 	{
@@ -490,6 +493,7 @@ Physics* Physics::Clone()
 	Physics* newPhy = new Physics(this->shapeType, this->pos, this->scale, this->vel,
 		this->normal, this->dir, this->gravity, this->collisionNormal, this->mass,
 		this->momentOfInertia, this->angularVelocity, this->rotateZ, this->inelasticity, this->isMovable, this->isBouncable);
+	newPhy->collision = this->collision;
 	return newPhy;
 }
 
@@ -502,4 +506,9 @@ void Physics::SetInelasticity(float _inelasticity)
 void Physics::SetIsBouncable(bool _isBouncable)
 {
 	isBouncable = _isBouncable;
+}
+
+bool Physics::GetUpdateEnabled()
+{
+	return enableUpdate;
 }

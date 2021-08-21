@@ -41,6 +41,8 @@ struct GameObject
 		GO_TILE, //Size 2.f Object representing all Grid Tiles
 		GO_TILE_DECORATIVE,
 
+		GO_BULLET,
+
 		GO_HIGHLIGHT,
 
 		GO_TOTAL, //must be last
@@ -51,6 +53,8 @@ struct GameObject
 	Attachment* bottomSprite;
 
 	GAMEOBJECT_TYPE type;
+
+	bool dead;
 
 	bool active;
 	bool enableCollision;
@@ -67,6 +71,10 @@ struct GameObject
 
 	SceneBase* scene;
 
+	//Accessible in GOManagement to enable CollidedWith(vector<GOs>)
+	bool explosive; //on impact, is this explosive?
+	float explosiveRadius;
+
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_NONE, SHAPE_TYPE shapeType = RECTANGLE);
 	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHAPE_TYPE shapeType = RECTANGLE);
 
@@ -79,7 +87,10 @@ struct GameObject
 
 	virtual void CollidedWith(GameObject* go);
 	void AddBottomSprite();
-	void SetScene(SceneBase* scene);
+	//void SetScene(SceneBase* scene);
+
+	bool IsExplosive();
+	float GetExplosiveRadius();
 	
 };
 

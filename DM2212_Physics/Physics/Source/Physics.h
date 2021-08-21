@@ -10,7 +10,6 @@ private:
 	Vector3 normal;
 	Vector3 dir;
 	Vector3 gravity;
-	Vector3 defaultGravity;
 	Vector3 collisionNormal;
 
 	float mass;
@@ -19,6 +18,7 @@ private:
 	float rotateZ;
 	float inelasticity;
 
+	bool collision;
 	bool isMovable;
 	bool onGround;
 	bool isBouncable;
@@ -50,8 +50,6 @@ public:
 	void SetGravity(Vector3 _gravity);
 	Vector3 GetGravity();
 
-	Vector3 GetDefaultGravity();
-
 	void SetOnGround(bool onGround);
 	bool GetOnGround();
 
@@ -70,6 +68,9 @@ public:
 	void SetIsBouncable(bool _isBouncable);
 
 	void SetEnableUpdate(bool _enableUpdate);
+	bool GetUpdateEnabled();
+
+	void SetEnableCollision(bool _enableCollision);
 
 	void CollisionResponse(Physics* go2, double dt);
 	void ApplyFriction(Physics* ball, Vector3 normal, double dt);

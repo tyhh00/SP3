@@ -1,7 +1,7 @@
 #include "LevelEditor.h"
 #include "GL\glew.h"
 #include "Application.h"
-#include "Keyboard.h"
+#include "Input.h"
 #include <fstream>
 #include <sstream>
 
@@ -23,15 +23,18 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
-	std::string mapToLoad = "LOBBY";
+	std::string mapToLoad = "GRAVEYARD_FINAL";
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = m_screenHeight * 3;
-	m_worldWidth = m_screenWidth * 5;
+	m_worldHeight = 144;
+	m_worldWidth = 256;
 
 	stackOnGrid = true;
+
+	snapPosToGrid = true;
+	snapRotToGrid = true;
 
 	canScrollIn = scrollingSpeed;
 	scrolledGeo = static_cast<GEOMETRY_TYPE>(GEOMETRY_TYPE::GEO_TILES_START + 1);
@@ -97,6 +100,9 @@ void LevelEditor::Update(double dt)
 	canScrollIn -= dt;
 	if (canScrollIn < 0.0)
 		canScrollIn = 0.0;
+	canSnapRotateIn -= dt;
+	if (canSnapRotateIn < 0.0)
+		canSnapRotateIn = 0.0;
 
 	bool LKeyRelease = false;
 	static bool bLButtonState = false;
@@ -132,14 +138,14 @@ void LevelEditor::Update(double dt)
 	else if (Application::IsKeyPressed('T'))
 		scrollState = SCROLLER_TRANSLATE;
 
-	if(Keyboard::GetInstance()->IsKeyReleased('1'))
+	if(Input::GetInstance()->IsKeyReleased('1'))
 	{
 		snapPosToGrid = !snapPosToGrid;
 	}
 
-	else if (Keyboard::GetInstance()->IsKeyReleased('2'))
+	else if (Input::GetInstance()->IsKeyReleased('2'))
 	{
-		stackOnGrid = !stackOnGrid;
+		snapRotToGrid = !snapRotToGrid;
 	}
 
 	static bool cannotPasteYet = true; //after pressing Left-Click, you must let go of left click once before u can start placing blocks
@@ -258,7 +264,12 @@ void LevelEditor::Update(double dt)
 			{
 				cannotPasteYet = true;
 				float angle = atan2(heldOnTo->physics->GetNormal().y, heldOnTo->physics->GetNormal().x);
-				angle += (scrollVal) * dt * 2.5;
+				if (snapRotToGrid && canSnapRotateIn <= 0)
+				{
+					angle += Math::DegreeToRadian(scrollVal);
+				}
+				else
+					angle += (scrollVal) * dt * 2.5;
 				heldOnTo->physics->SetNormal(Vector3(cosf(angle), sinf(angle), 0));
 			}
 			break;
@@ -289,6 +300,17 @@ void LevelEditor::Update(double dt)
 		double gridDiameter_Y = (gridHeight) * 2;
 		snap_X = floor((curs_tw_X) / gridDiameter_X) * gridDiameter_X;
 		snap_Y = floor((curs_tw_Y) / gridDiameter_Y) * gridDiameter_Y;
+
+		if (snapRotToGrid)
+		{
+			float angle = Math::RadianToDegree(atan2(heldOnTo->physics->GetNormal().y, heldOnTo->physics->GetNormal().x));
+			DEBUG_MSG("PREANGLE" << angle);
+			angle = round(angle);
+			heldOnTo->physics->SetNormal(Vector3(cosf(Math::DegreeToRadian(angle)), sinf(Math::DegreeToRadian(angle))));
+			DEBUG_MSG("POST" << angle);
+
+		}
+
 		if (heldOnTo->scale.y > gridHeight)
 		{
 			snap_Y += (heldOnTo->scale.y - gridHeight) * 0.5;
@@ -319,16 +341,20 @@ void LevelEditor::Update(double dt)
 			{
 				std::vector<GameObject*> colls = GetCollidedGOs(heldOnTo->pos.x, heldOnTo->pos.y);
 				bool dup = false;
+				int count = 0;
+				heldOnTo->pos.z = 0;
 				for (auto& go : colls)
 				{
-					if (go->geoTypeID == heldOnTo->geoTypeID && go != heldOnTo) {
-						dup = true;
-						break;
-					}
-					else if (heldOnTo != go && go->pos == heldOnTo->pos && go->scale == heldOnTo->scale)
+					if (go != heldOnTo)
 					{
-						dup = true;
-						break;
+						if (go->geoTypeID == heldOnTo->geoTypeID) {
+							dup = true;
+							break;
+						}
+						else
+						{
+							heldOnTo->pos.z = count++;
+						}
 					}
 				}
 
@@ -387,7 +413,7 @@ void LevelEditor::Update(double dt)
 		}
 	}
 
-	if (bCTRLState && Keyboard::GetInstance()->IsKeyPressed('S'))
+	if (bCTRLState && Input::GetInstance()->IsKeyPressed('S'))
 	{
 		if(unsavedChanges)
 			SaveMap();
@@ -511,6 +537,11 @@ void LevelEditor::Render()
 	ss.precision(3);
 	ss << "Snap to Grid " << (snapPosToGrid ? "ENABLED" : "Disabled");
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color((snapPosToGrid ? 0 : 1), (snapPosToGrid ? 1 : 0), 0), 3, 0, 85);
+
+	ss.str("");
+	ss.precision(3);
+	ss << "Snap Rotation " << (snapRotToGrid? "ENABLED" : "Disabled");
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color((snapRotToGrid ? 0 : 1), (snapRotToGrid ? 1 : 0), 0), 3, 0, 82);
 
 	//int line = 88;
 

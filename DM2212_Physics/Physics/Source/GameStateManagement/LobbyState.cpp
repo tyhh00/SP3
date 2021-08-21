@@ -9,6 +9,8 @@
 
 #include "LobbyState.h"
 
+#include "../Input.h"
+
 // Include CGameStateManager
 #include "GameStateManager.h"
 
@@ -52,7 +54,7 @@ bool CLobbyState::Update(const double dElapsedTime)
 	if (oneKeyReleased && Application::IsKeyPressed('1'))
 	{
 		oneKeyReleased = false;
-		sceneManager->setScene(w_physics);
+		sceneManager->setScene(w_jungle);
 		CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		return true;
 	}
@@ -84,6 +86,19 @@ bool CLobbyState::Update(const double dElapsedTime)
 	{
 		threeKeyReleased = true;
 	}
+
+	if (fourKeyReleased && Application::IsKeyPressed('4'))
+	{
+		fourKeyReleased = false;
+		sceneManager->setScene(w_robot);
+		CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+		return true;
+	}
+	else if (!fourKeyReleased && !Application::IsKeyPressed('4'))
+	{
+		fourKeyReleased = true;
+	}
+
 	return true;
 }
 

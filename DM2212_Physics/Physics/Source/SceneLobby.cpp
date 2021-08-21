@@ -19,7 +19,7 @@ SceneLobby::SceneLobby()
 
 SceneLobby::~SceneLobby()
 {
-	keyboard = NULL;
+	input = NULL;
 	if (goManager)
 	{
 		delete goManager;
@@ -36,7 +36,7 @@ void SceneLobby::Init()
 {
 	SceneBase::Init();
 
-	SetLights();
+	InitLights();
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
@@ -53,10 +53,10 @@ void SceneLobby::Init()
 	goManager->Init();
 	// Inventory 
 	inventory = new Inventory();
-	inventory->Init();
+	inventory->Init(this);
 
 	//Store keyboard instance
-	keyboard = Keyboard::GetInstance();
+	input = Input::GetInstance();
 
 	// Unique Meshes
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
@@ -77,7 +77,7 @@ void SceneLobby::Init()
 			player->physics = go->physics->Clone();
 			player->physics->SetInelasticity(0.99f);
 			player->physics->SetIsBouncable(false);
-			player->Init();
+			player->Init(goManager, inventory);
 
 			player->AddBottomSprite();
 			player->bottomSprite->mesh = meshList[GEO_WALL];
@@ -230,7 +230,7 @@ void SceneLobby::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 3, 0, 0);
 }
 
-void SceneLobby::SetLights()
+void SceneLobby::InitLights()
 {
 	lights[0].type = Light::LIGHT_POINT;
 	lights[0].position.Set(0, 20, 0);

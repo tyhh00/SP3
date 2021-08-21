@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "SpriteAnimation.h"
 #include "Physics.h"
-#include "Keyboard.h"
+#include "Input.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 #include "Ability.h"
@@ -37,7 +37,7 @@ public:
 		portalSprite->Update(dt);
 	}
 	void SetAnimation(std::string anim_name, int repeat, double anim_time) {
-		portalSprite->Reset();
+		//portalSprite->Reset();
 		portalSprite->PlayAnimation(anim_name, repeat, anim_time);
 	}
 };

@@ -11,8 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Keyboard.h"
-
 //Gamestate manager
 #include "GameStateManagement/GameStateManager.h"
 #include "GameStateManagement/IntroState.h"

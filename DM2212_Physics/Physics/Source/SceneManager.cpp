@@ -17,12 +17,16 @@ void SceneManager::init()
 {
 	physics = new ScenePhysics();
 	physics->Init();
+	jungle = new SceneJungle();
+	jungle->Init();
 	levelEditor = new LevelEditor();
 	levelEditor->Init();
-	graveyard = new SceneGraveyard();
+	graveyard = new SceneChurch();
 	graveyard->Init();
 	lobby = new SceneLobby();
 	lobby->Init();
+	robot = new SceneRobot();
+	robot->Init();
 	
 }
 
@@ -33,6 +37,9 @@ void SceneManager::setScene(worlds sceneType)
 	case w_physics:
 		activeScene = physics;
 		break;
+	case w_jungle:
+		activeScene = jungle;
+		break;
 	case w_graveyard:
 		activeScene = graveyard;
 		break;
@@ -42,8 +49,11 @@ void SceneManager::setScene(worlds sceneType)
 	case w_lobby:
 		activeScene = lobby;
 		break;
+	case w_robot:
+		activeScene = robot;
+		break;
 	}
-	activeScene->SetLights();
+	activeScene->InitLights();
 	
 }
 void SceneManager::update(double dt)
@@ -65,5 +75,6 @@ void SceneManager::destroy()
 	graveyard->Exit();
 	levelEditor->Exit();
 	lobby->Exit();
+	robot->Exit();
 }
 

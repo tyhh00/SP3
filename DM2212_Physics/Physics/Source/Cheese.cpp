@@ -3,7 +3,7 @@
 #include "LoadTGA.h"
 #include "Cheese.h"
 
-Cheese::Cheese(int _numOfHoles)
+Cheese::Cheese(int _numOfHoles) : Consumable(I_CHEESE)
 {
 	isStackable = true;
 	quantity = 1;

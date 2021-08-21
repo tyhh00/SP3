@@ -143,23 +143,19 @@ void SceneSplashScreen::Update(double dt)
 		meshList[GEO_BG]->material.kAmbient.g += 0.5 * dt;
 		meshList[GEO_BG]->material.kAmbient.b += 0.5 * dt;
 		
-		if (meshList[GEO_BG]->material.kAmbient.r >= 1)
+		if (meshList[GEO_BG]->material.kAmbient.r >= 1.0)
 		{
-			meshList[GEO_BG]->material.kAmbient.Set(1, 1, 1);
-			ASTATE = AS_INNOCENT;
+			meshList[GEO_BG]->material.kAmbient.Set(1.0, 1.0, 1.0);
+			ASTATE = AS_WAIT;
 			AS_timer = 0;
 		}
 		break;
-	/*case AS_WAIT:
+	case AS_WAIT:
 		if (AS_timer > 0.5f)
 		{
 			AS_timer = 0;
-			lights[0].power = 5;
-			lights[1].power = 5;
-			glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
-			glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
 			ASTATE = AS_EVIL;
-			meshList[GEO_BG]->material.kAmbient.Set(0.2, 0.2, 0.2);
+			meshList[GEO_BG]->material.kAmbient.Set(1.0f, 0.2f, 0.2f);
 			break;
 		}
 		else
@@ -168,21 +164,17 @@ void SceneSplashScreen::Update(double dt)
 		}
 		break;
 	case AS_EVIL:
-		if (AS_timer > 0.2f)
+		if (AS_timer > 0.1f)
 		{
 			AS_timer = 0;
-			lights[0].power = 0;
-			lights[1].power = 0;
-			glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
-			glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
 			ASTATE = AS_INNOCENT;
-			meshList[GEO_BG]->material.kAmbient.Set(1.0, 1.0, 1.0);
+			meshList[GEO_BG]->material.kAmbient.Set(1.0f, 1.0f, 1.0f);
 			break;
 		}
 		else
 		{
 			AS_timer += dt;
-		}*/
+		}
 		break;
 	case AS_INNOCENT:
 		if (AS_timer > 1.0f)
@@ -275,9 +267,9 @@ void SceneSplashScreen::Render()
 
 	std::ostringstream ss;
 	
-	/*ss.str("");
-	ss << "mat: " << Vector3(meshList[GEO_BG]->material.kAmbient.r, meshList[GEO_BG]->material.kAmbient.g, meshList[GEO_BG]->material.kAmbient.b);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);*/
+	ss.str("");
+	ss << "mat: " << Vector3(meshList[GEO_BG]->material.kDiffuse.r, meshList[GEO_BG]->material.kDiffuse.g, meshList[GEO_BG]->material.kDiffuse.b);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
 
 	// fps tings
 	ss.str("");

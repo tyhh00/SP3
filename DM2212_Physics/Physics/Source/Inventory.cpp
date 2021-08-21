@@ -11,14 +11,16 @@
 /**
  @brief Init Inventory
  */
-void Inventory::Init()
+void Inventory::Init(SceneBase* scene)
 {
-	keyboard = Keyboard::GetInstance();
+	input = Input::GetInstance();
 
 	for (int i = 0; i < sizeof(maxQuantity) / sizeof(maxQuantity[0]); i++)
 	{
 		maxQuantity[i] = 5;
 	}
+
+	this->scene = scene;
 }
 
 /**
@@ -31,24 +33,24 @@ void Inventory::Update(double dt)
 		currentItem->Update(dt);
 
 
-	if (keyboard->IsKeyPressed(VK_LEFT))
+	if (input->IsKeyPressed(VK_LEFT))
 	{
 		std::cout << "cycle backward" << std::endl;
 		CycleItem(false);
 		std::cout << "qty: " << currentItem->GetQuantity() << std::endl;
 	}
-	if (keyboard->IsKeyPressed(VK_RIGHT))
+	if (input->IsKeyPressed(VK_RIGHT))
 	{
 		std::cout << "cycle forward" << std::endl;
 		CycleItem(true);
 		std::cout << "qty: " << currentItem->GetQuantity() << std::endl;
 	}
-	if (Application::IsKeyReleased('5'))
+	if (input->IsKeyReleased('5'))
 	{
 		std::cout << "1" << std::endl;
 		SwitchItem(0);
 	}
-	if (Application::IsKeyReleased('6'))
+	if (input->IsKeyReleased('6'))
 	{
 		std::cout << "2" << std::endl;
 		SwitchItem(1);
@@ -114,6 +116,7 @@ void Inventory::SwitchItem(int index)
  */
 void Inventory::AddItem(Item* newItem)
 {
+	newItem->SetScene(scene);
 	//check if item vector is empty, then just add the item into the item vector
 	if (itemVector.empty())
 	{

@@ -30,6 +30,7 @@ public:
 
 protected:
 
+
 	Camera* camera;
 	GameObjectManager* goManager;
 	SceneBase* scene; //Used for custom rendering of abilities

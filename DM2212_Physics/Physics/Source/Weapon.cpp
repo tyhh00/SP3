@@ -3,7 +3,7 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 
-Weapon::Weapon()
+Weapon::Weapon(ITEM_TYPE type) : Item(G_WEAPON, type, 1, false)
 {
 }
 

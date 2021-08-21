@@ -7,7 +7,7 @@
 #include "Item.h"
 #include "Inventory.h"
 #include "Player.h"
-#include "Keyboard.h"
+#include "Input.h"
 #include "GameObjectManager.h"
 
 class SceneLobby : public SceneBase
@@ -21,7 +21,7 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	virtual void SetLights();
+	virtual void InitLights();
 
 protected:
 
@@ -33,7 +33,7 @@ protected:
 	float m_worldHeight;
 
 	Inventory* inventory;
-	Keyboard* keyboard;
+	Input* input;
 	GameObjectManager* goManager;
 	Player* player;
 
