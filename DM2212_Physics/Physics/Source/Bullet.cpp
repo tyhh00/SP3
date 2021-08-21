@@ -1,7 +1,7 @@
 #include "Bullet.h"
 
 Bullet::Bullet(Mesh* mesh, int geoTypeID, SHAPE_TYPE collisionShape, BULLET_TYPE type, Vector3 scale, bool explosive, float explosionRadius)
-	: GameObject(GameObject::GAMEOBJECT_TYPE::GO_BULLET, mesh,  collisionShape)
+	: GameObject(GameObject::GAMEOBJECT_TYPE::GO_BULLET, mesh, geoTypeID, collisionShape)
 	, bulletType(type)
 {
 	this->physics->SetMovable(true);

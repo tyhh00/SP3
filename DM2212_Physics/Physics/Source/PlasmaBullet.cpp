@@ -5,7 +5,7 @@
 
 PlasmaBullet::PlasmaBullet(Vector3 scale, GameObject* attachedPlayer)
 //Init with nullptr mesh and -1 geoType since we're overriding mesh with animatedSprite
-	: Bullet(nullptr, -1, SHAPE_TYPE::CIRCLE, BULLET_TYPE::PLASMA, scale, true, 10.5f)
+	: Bullet(nullptr, -1, SHAPE_TYPE::CIRCLE, BULLET_TYPE::PLASMA, scale, true, 5.5f)
 	, attachedPlayer(attachedPlayer)
 {
 	//ANIMATED SPRITE

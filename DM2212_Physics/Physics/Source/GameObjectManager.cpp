@@ -53,36 +53,11 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 		break;
 		case RECTANGLE:
 			Vector3 dis = go2->pos - go1->pos;
-			Vector3 N = go2->physics->GetNormal();
-			if (dis.Dot(N) < 0)
+			float disSquared = dis.LengthSquared();
+			if (disSquared <= (go1_fScale.x + go2_fScale.x) * (go1_fScale.x + go2_fScale.x) && dis.Dot(go1->physics->GetVelocity() - go2->physics->GetVelocity()) > 0)
 			{
-				N = -1 * N;
-			}
-			Vector3 NP(N.y, -1 * N.x, 0);
-
-			if (dis.Dot(N) < go1_fScale.x + go2_fScale.x
-				&& abs(dis.Dot(NP)) < go2_fScale.y
-				&& go1->physics->GetVelocity().Dot(N) > 0)
-			{
-				go2->physics->SetCollisionNormal(N);
 				return true;
 			}
-
-			N = NP;
-			if (dis.Dot(N) < 0)
-			{
-				N = -1 * N;
-			}
-			NP.Set(N.y, -1 * N.x, 0);
-
-			if (dis.Dot(N) < go1_fScale.y + go2_fScale.y
-				&& abs(dis.Dot(NP)) < go2_fScale.x
-				&& go1->physics->GetVelocity().Dot(N) > 0)
-			{
-				go2->physics->SetCollisionNormal(N);
-				return true;
-			}
-			break;
 		}
 		return false;
 	}
