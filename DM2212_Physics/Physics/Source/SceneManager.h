@@ -10,6 +10,7 @@
 
 #include "SceneRobot.h"
 #include "SceneGraveyard.h"
+#include "SceneChurch.h"
 
 enum worlds
 {

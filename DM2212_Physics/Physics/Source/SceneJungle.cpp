@@ -66,7 +66,7 @@ void SceneJungle::Init()
 			player->physics = go->physics->Clone();
 			player->physics->SetInelasticity(0.99f);
 			player->physics->SetIsBouncable(false);
-			player->Init();
+			player->Init(goManager, inventory);
 
 			player->AddBottomSprite();
 			player->bottomSprite->mesh = meshList[GEO_WALL];
@@ -141,6 +141,8 @@ void SceneJungle::Init()
 	goManager->AddGO(go2);
 
 	std::cout << "FLOOR: " << go2->pos.y + go2->scale.x << std::endl;
+
+	player->SetAbilities(nullptr, nullptr);
 }
 
 void SceneJungle::Update(double dt)

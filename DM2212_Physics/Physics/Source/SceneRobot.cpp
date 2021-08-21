@@ -53,7 +53,7 @@ void SceneRobot::Init()
 	inventory = new Inventory();
 	inventory->Init(this);
 
-	BulletSpawner* spawner =
+	//BulletSpawner* spawner =
 
 	//Store keyboard instance
 	input = Input::GetInstance();
@@ -101,6 +101,7 @@ void SceneRobot::Init()
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);
 
+	player->SetAbilities(nullptr, nullptr);
 }
 
 void SceneRobot::Update(double dt)

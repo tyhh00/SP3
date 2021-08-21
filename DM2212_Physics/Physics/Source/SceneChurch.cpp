@@ -1,4 +1,4 @@
-﻿#include "SceneGraveyard.h"
+﻿#include "SceneChurch.h"
 #include "GL\glew.h"
 #include "MeshBuilder.h"
 #include "Application.h"
@@ -15,11 +15,11 @@
 
 //...
 
-SceneGraveyard::SceneGraveyard()
+SceneChurch::SceneChurch()
 {
 }
 
-SceneGraveyard::~SceneGraveyard()
+SceneChurch::~SceneChurch()
 {
 	input = NULL;
 	if (goManager)
@@ -34,15 +34,15 @@ SceneGraveyard::~SceneGraveyard()
 	}
 }
 
-void SceneGraveyard::Init()
+void SceneChurch::Init()
 {
 	SceneBase::Init();
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = 143;
-	m_worldWidth = 1000;
+	m_worldHeight = 144;
+	m_worldWidth = 256;
 
 	//Physics code here
 	m_speed = 1.f;
@@ -60,12 +60,12 @@ void SceneGraveyard::Init()
 
 	// Unique Meshes
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
-	meshList[GEO_BG]->textureID = LoadTGA("Image/GraveyardBG.tga");
+	meshList[GEO_BG]->textureID = LoadTGA("Image/churchBG.tga");
 
 
 	//Level Loading
 	std::vector<GameObject*> tiles;
-	if(LevelLoader::GetInstance()->LoadTiles("GRAVEYARD_1_1", this->meshList, this->tileSize, tiles, gridLength, gridHeight))
+	if(LevelLoader::GetInstance()->LoadTiles("GRAVEYARD_FINAL", this->meshList, this->tileSize, tiles, gridLength, gridHeight))
 		DEBUG_MSG("Level Did not load successfully");
 	for (auto& go : tiles)
 	{
@@ -147,7 +147,7 @@ void SceneGraveyard::Init()
 	player->SetAbilities(ability, nullptr);
 }
 
-void SceneGraveyard::Update(double dt)
+void SceneChurch::Update(double dt)
 {
 	SceneBase::Update(dt);
 	//inventory->Update(dt);
@@ -179,7 +179,7 @@ void SceneGraveyard::Update(double dt)
 
 }
 
-void SceneGraveyard::Render()
+void SceneChurch::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -247,8 +247,8 @@ void SceneGraveyard::Render()
 
 	// BG
 	modelStack.PushMatrix();
-	modelStack.Translate(camera.position.x, camera.position.y, -0.01);
-	modelStack.Scale(m_screenWidth, m_screenHeight, 1);
+	modelStack.Translate(m_worldWidth * 0.5, m_worldHeight * 0.5, -0.01);
+	modelStack.Scale(m_worldWidth, m_worldHeight, 1);
 	RenderMesh(meshList[GEO_BG], true);
 	modelStack.PopMatrix();
 
@@ -276,7 +276,7 @@ void SceneGraveyard::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 3, 0, 0);
 }
 
-void SceneGraveyard::InitLights()
+void SceneChurch::InitLights()
 {
 	lights[0].type = Light::LIGHT_POINT;
 	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
@@ -330,7 +330,7 @@ void SceneGraveyard::InitLights()
 	bLightEnabled = true;
 }
 
-void SceneGraveyard::CursorToWorldPosition(double& theX, double& theY)
+void SceneChurch::CursorToWorldPosition(double& theX, double& theY)
 {
 	double x, y;
 	Application::GetCursorPos(&x, &y);
@@ -347,7 +347,7 @@ void SceneGraveyard::CursorToWorldPosition(double& theX, double& theY)
 	theY = y;
 }
 
-void SceneGraveyard::Exit()
+void SceneChurch::Exit()
 {
 	SceneBase::Exit();
 	//Cleanup GameObjects

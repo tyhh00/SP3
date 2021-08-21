@@ -21,7 +21,7 @@ void SceneManager::init()
 	jungle->Init();
 	levelEditor = new LevelEditor();
 	levelEditor->Init();
-	graveyard = new SceneGraveyard();
+	graveyard = new SceneChurch();
 	graveyard->Init();
 	lobby = new SceneLobby();
 	lobby->Init();

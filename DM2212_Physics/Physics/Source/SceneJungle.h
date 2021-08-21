@@ -8,6 +8,7 @@
 #include "Inventory.h"
 #include "Apple.h"
 #include "Cheese.h"
+#include "Player.h"
 #include "Input.h"
 #include "GameObjectManager.h"
 
@@ -40,7 +41,7 @@ protected:
 	Vector3 displacement2;
 	GameObject* go;
 	GameObject* grappler;
-	GameObject* player;
+	Player* player;
 	Inventory* inventory;
 	Input* input;
 	GameObjectManager* goManager;
