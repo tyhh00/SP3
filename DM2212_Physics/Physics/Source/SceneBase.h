@@ -209,6 +209,12 @@ public:
 		GEO_TOMBSTONE_CROSS = 135,
 		GEO_GRAVEYARD_ARROWSIGN = 136,
 
+		GEO_ENEMY_GHOST = 137,
+		GEO_ENEMY_TUMBLEWEED = 138,
+
+		GEO_GY_GATEKEEPER = 139,
+		GEO_GY_CHURCH = 140,
+
 		//Tiles End
 		GEO_TILES_END,
 
@@ -240,7 +246,12 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	virtual void SetLights();
+	Light lights[2];
+	virtual void InitLights();
+	void ToggleLightOnOff(int index, bool on); // turns a light on or off
+	void ToggleLightPower(int index, int power); // turns a light power
+	
+	
 
 	void LoadTile(GEOMETRY_TYPE type, std::string fileName, double length, double height, SHAPE_TYPE shapeType);
 	TileSetting* GetTileSetting(GEOMETRY_TYPE type);
@@ -264,7 +275,6 @@ protected:
 	MS viewStack;
 	MS projectionStack;
 
-	Light lights[2];
 
 	bool bLightEnabled;
 

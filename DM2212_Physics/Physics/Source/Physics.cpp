@@ -16,7 +16,6 @@ Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale)
 	, angularVelocity(0)
 	, rotateZ(0.f)
 	, inelasticity(0.5f)
-	, defaultGravity(0, -98.f, 0)
 	, gravity(0, -98.f, 0)
 	, shapeType(_shapeType)
 	, isMovable(false)
@@ -40,7 +39,6 @@ Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale, Vector3 ve
 	, rotateZ(rotateZ)
 	, inelasticity(inelasticity)
 	, gravity(gravity)
-	, defaultGravity(gravity)
 	, shapeType(_shapeType)
 	, isMovable(isMoveable)
 	, isBouncable(isBouncable)
@@ -141,10 +139,6 @@ Vector3 Physics::GetGravity()
 	return gravity;
 }
 
-Vector3 Physics::GetDefaultGravity()
-{
-	return defaultGravity;
-}
 
 void Physics::SetOnGround(bool onGround)
 {

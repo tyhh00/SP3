@@ -10,6 +10,8 @@ enum ENEMY_TYPE
 {
 	//Robot Type Enemies
 	ROBOT_ENEMY_PLASMA,
+	GY_GHOST,
+	GY_TUMBLEWEED,
 
 	//End
 	ENEMY_COUNT

@@ -155,6 +155,21 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 
 void GameObjectManager::Update(double dt)
 {
+	for (std::vector<GameObject*>::iterator it = toAddList.begin(); it != toAddList.end(); ++it)
+	{
+		GameObject* go = (GameObject*)*it;
+		if (go->physics->GetMovable())
+		{
+			m_movableGOList.push_back(go);
+		}
+		else
+		{
+			m_stationaryGOList.push_back(go);
+		}
+	}
+	toAddList.clear();
+
+
 	// Game Objects
 	for (std::vector<GameObject*>::iterator it = m_movableGOList.begin(); it != m_movableGOList.end(); ++it)
 	{
@@ -162,11 +177,6 @@ void GameObjectManager::Update(double dt)
 
 		if (!go->active || go == nullptr)
 			continue;
-
-		if (go->geoTypeID == SceneBase::GEOMETRY_TYPE::GEO_PLAYER_GIRL1)
-		{
-			std::cout << go->pos.y << std::endl;
-		}
 
 		go->Update(dt);
 		go->physics->Update(dt);
@@ -226,7 +236,37 @@ void GameObjectManager::Update(double dt)
 			}
 
 		}
+
 	}
+
+	for (std::vector<GameObject*>::iterator it = toRemoveList.begin(); it != toRemoveList.end(); ++it)
+	{
+		GameObject* go = (GameObject*)*it;
+		if (go->physics->GetMovable())
+		{
+			for (int i = 0; i < m_movableGOList.size(); i++)
+			{
+				if (m_movableGOList.at(i) == go)
+				{
+					std::cout << "Deleted: " << m_movableGOList.at(i) << std::endl;
+					delete m_movableGOList.at(i);
+					m_movableGOList.at(i) = nullptr;
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < m_stationaryGOList.size(); i++)
+			{
+				if (m_stationaryGOList.at(i) == go)
+				{
+					delete m_stationaryGOList.at(i);
+					m_stationaryGOList.at(i) = nullptr;
+				}
+			}
+		}
+	}
+	toRemoveList.clear();
 }
 
 void GameObjectManager::Render(SceneBase* scene)
@@ -264,42 +304,11 @@ void GameObjectManager::Render(SceneBase* scene)
 }
 void GameObjectManager::AddGO(GameObject* go)
 {
-	if (go->physics->GetMovable())
-	{
-		m_movableGOList.push_back(go);
-	}
-	else
-	{
-		m_stationaryGOList.push_back(go);
-	}
+	toAddList.push_back(go);
 }
 void GameObjectManager::RemoveGO(GameObject* go)
 {
-	if (go->physics->GetMovable())
-	{
-		for (int i = 0; i < m_movableGOList.size(); i++)
-		{
-			if (m_movableGOList.at(i) == go)
-			{
-				std::cout << "Deleted: " << m_movableGOList.at(i) << std::endl;
-				delete m_movableGOList.at(i);
-				m_movableGOList.at(i) = nullptr;
-				m_movableGOList.erase(m_movableGOList.begin() + i);
-			}
-		}
-	}
-	else
-	{
-		for (int i = 0; i < m_stationaryGOList.size(); i++)
-		{
-			if (m_stationaryGOList.at(i) == go)
-			{
-				delete m_stationaryGOList.at(i);
-				m_stationaryGOList.at(i) = nullptr;
-				m_stationaryGOList.erase(m_stationaryGOList.begin() + i);
-			}
-		}
-	}
+	toRemoveList.push_back(go);
 }
 
 void GameObjectManager::AddAllGO(std::vector<GameObject*> gos)

@@ -4,7 +4,7 @@
 
 class Consumable : public Item {
 public:
-	Consumable();
+	Consumable(ITEM_TYPE type);
 	void Init() override;
 	void Update(double dt) override;
 	

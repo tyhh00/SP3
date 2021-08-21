@@ -25,7 +25,7 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	virtual void SetLights();
+	virtual void InitLights();
 
 protected:
 

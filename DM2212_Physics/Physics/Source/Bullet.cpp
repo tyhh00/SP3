@@ -14,5 +14,10 @@ Bullet::~Bullet()
 	//Need not delete mesh since its handled in Scenes themselves
 }
 
+BULLET_TYPE Bullet::GetBulletType()
+{
+	return type;
+}
+
 
 	

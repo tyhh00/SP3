@@ -21,7 +21,7 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	virtual void SetLights();
+	virtual void InitLights();
 
 protected:
 
@@ -37,7 +37,6 @@ protected:
 	GameObjectManager* goManager;
 	Player* player;
 
-	float flashlight_radius;
 
 	double gridLength, gridHeight;
 	void CursorToWorldPosition(double& theX, double& theY);

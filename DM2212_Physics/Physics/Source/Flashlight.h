@@ -3,15 +3,32 @@
 #include "Weapon.h"
 #include "Input.h"
 
-class Flashlight : public Weapon{
+class Flashlight : public Weapon {
 public:
-	Flashlight(int _quantity = 1, int stemLength = 1);
-	void Init() override;
-	void Update(double dt) override;
-	bool IsEqual(Item* item) override;
+	Flashlight();
+	~Flashlight();
+
+	void Init();
+	void Update(double dt);
+	bool IsEqual(Item* item1);
+	
+	bool isWithinLight(Vector3 objPos);
+	bool isIntensified();
 	
 private:
-	int stemLength;
+
+	bool active;
+	bool intensified;
+
+	float battery;
+	float batt_usage_rate;
+	float rate_multiplier;
+
+	float currBatt;
+	float maxBatt;
+
+	float light_radius;
+	Vector3 light_pos;
 
 	Input* input;
 };

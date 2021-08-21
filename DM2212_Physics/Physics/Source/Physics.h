@@ -10,7 +10,6 @@ private:
 	Vector3 normal;
 	Vector3 dir;
 	Vector3 gravity;
-	Vector3 defaultGravity;
 	Vector3 collisionNormal;
 
 	float mass;
@@ -49,8 +48,6 @@ public:
 
 	void SetGravity(Vector3 _gravity);
 	Vector3 GetGravity();
-
-	Vector3 GetDefaultGravity();
 
 	void SetOnGround(bool onGround);
 	bool GetOnGround();

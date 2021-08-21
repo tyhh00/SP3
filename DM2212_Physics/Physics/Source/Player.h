@@ -7,19 +7,23 @@
 #include "Input.h"
 #include "Ability.h"
 #include "Portal.h"
-#include "Camera.h"
 #include "SceneBase.h"
 #include "GameObjectManager.h"
+#include "Inventory.h"
 
 class Player : public GameObject {
 public:
+	Player();
 	~Player();
 
-	void Init();
+	void Init(GameObjectManager* GOM, Inventory* inventory);
 	void Update(double dt);
 	void Render(SceneBase* scene);
 	void CollidedWith(GameObject* go);
 	void SetAbilities(Ability* a, Ability* b);
+
+	float GetStamina();
+	void DecreaseStamina(float amt);
 
 private:
 	SpriteAnimation* animatedSprites;
@@ -33,10 +37,18 @@ private:
 	bool DkeyDown;
 
 	float speed;
+	float speed_multiplier;
 	float jump_force;
+
+	float stamina;
+	float max_stamina;
+
+	float stamina_rate_multiplier;
 
 	Ability* abilityArray[2];
 	Input* input;
+	GameObjectManager* goManager;
+	Inventory* inventory;
 
 };
 

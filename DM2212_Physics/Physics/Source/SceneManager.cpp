@@ -53,7 +53,7 @@ void SceneManager::setScene(worlds sceneType)
 		activeScene = robot;
 		break;
 	}
-	activeScene->SetLights();
+	activeScene->InitLights();
 	
 }
 void SceneManager::update(double dt)

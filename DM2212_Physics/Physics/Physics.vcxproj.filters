@@ -152,9 +152,6 @@
     <ClCompile Include="Source\SceneSplashScreen.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneTest.cpp">
-      <Filter>Source Files\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Item.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
@@ -208,6 +205,12 @@
     </ClCompile>
     <ClCompile Include="Source\Bullet.cpp">
       <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Battery.cpp">
+      <Filter>Source Files\Items\Consumables</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tumbleweed.cpp">
+      <Filter>Source Files\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -325,9 +328,6 @@
     <ClInclude Include="Source\SceneSplashScreen.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneTest.h">
-      <Filter>Header Files\Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Item.h">
       <Filter>Header Files\Items</Filter>
     </ClInclude>
@@ -384,6 +384,12 @@
     </ClInclude>
     <ClInclude Include="Source\Bullet.h">
       <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Battery.h">
+      <Filter>Header Files\Items\Consumables</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tumbleweed.h">
+      <Filter>Header Files\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

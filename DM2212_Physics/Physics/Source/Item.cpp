@@ -26,11 +26,6 @@ void Item::Init()
 	
 }
 
-void Item::Update(double dt)
-{
-	
-}
-
 /**
  @brief Returns a GROUP_TYPE enum for the item's group type
  */
@@ -87,6 +82,10 @@ int Item::RemoveQuantity(int _quantity)
 /**
  @brief Returns item's isStackable bool
  */
+float Item::GetDurability()
+{
+	return durability;
+}
 bool Item::GetIsStackable()
 {
 	return isStackable;

@@ -158,9 +158,9 @@ void SceneBase::Init()
 	LoadTile(GEO_GY_BOT_MID, "GRAVEYARD_BOTMID.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_GY_BOT_LEFT, "GRAVEYARD_BOT_LEFT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_GY_BOT_RIGHT, "GRAVEYARD_BOT_RIGHT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_GY_PLATFORM_LEFT, "GRAVEYARD_PLATFORM_LEFT.tga", 1, 0.75, SHAPE_TYPE::RECTANGLE); // DONE
-	LoadTile(GEO_GY_PLATFORM_RIGHT, "GRAVEYARD_PLATFORM_RIGHT.tga", 1, 0.75, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_GY_PLATFORM_MID, "GRAVEYARD_PLATFORM_MID.tga", 1, 0.75, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_PLATFORM_LEFT, "GRAVEYARD_PLATFORM_LEFT.tga", 1, 1, SHAPE_TYPE::RECTANGLE); // DONE
+	LoadTile(GEO_GY_PLATFORM_RIGHT, "GRAVEYARD_PLATFORM_RIGHT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_PLATFORM_MID, "GRAVEYARD_PLATFORM_MID.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_GY_CORNER_LEFT, "GRAVEYARD_LEFTCORNER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_GY_CORNER_RIGHT, "GRAVEYARD_RIGHTCORNER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_GY_EDGE_LEFT, "GRAVEYARD_LEFTEDGE.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -304,6 +304,10 @@ void SceneBase::Init()
 	LoadTile(GEO_TOMBSTONE, "Tombstone.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_TOMBSTONE_CROSS, "CrossTombstonE.tga", 0.697, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_GRAVEYARD_ARROWSIGN, "GY_ARROWSIGN.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_ENEMY_GHOST, "ghost.tga", 1.9, 2.2, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_ENEMY_TUMBLEWEED, "tumbleweed.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_GATEKEEPER, "Gatekeeper.tga", 0.714, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_GY_CHURCH, "church.tga", 2.37, 1.98, SHAPE_TYPE::RECTANGLE);
 
 
 	//Entities (Player, etc)
@@ -598,7 +602,33 @@ void SceneBase::Exit()
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 }
 
-void SceneBase::SetLights()
+void SceneBase::InitLights()
 {
 	bLightEnabled = false;
+}
+
+void SceneBase::ToggleLightOnOff(int index, bool on)
+{
+	if (on)
+	{
+		lights[index].power = lights[index].defaultPower;
+	}
+	else
+	{
+		lights[index].power = 0;
+	}
+	
+	glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
+	glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
+	
+}
+
+void SceneBase::ToggleLightPower(int index, int power)
+{
+	
+	lights[index].power = power;
+	
+
+	glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
+	glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
 }

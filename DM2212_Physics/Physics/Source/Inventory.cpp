@@ -11,7 +11,7 @@
 /**
  @brief Init Inventory
  */
-void Inventory::Init()
+void Inventory::Init(SceneBase* scene)
 {
 	input = Input::GetInstance();
 
@@ -19,6 +19,8 @@ void Inventory::Init()
 	{
 		maxQuantity[i] = 5;
 	}
+
+	this->scene = scene;
 }
 
 /**
@@ -114,6 +116,7 @@ void Inventory::SwitchItem(int index)
  */
 void Inventory::AddItem(Item* newItem)
 {
+	newItem->SetScene(scene);
 	//check if item vector is empty, then just add the item into the item vector
 	if (itemVector.empty())
 	{

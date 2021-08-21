@@ -3,6 +3,20 @@
 #include "Application.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
+#include "Flashlight.h"
+#include "Apple.h"
+
+Player::Player() : input(NULL)
+	, goManager(NULL)
+	, inventory(NULL)
+	, speed(1000.f)
+	, jump_force(4000.f)
+	, max_stamina(100.f)
+	, stamina(100.f)
+	, stamina_rate_multiplier(0.0f)
+	, invisibility(false)
+{
+}
 
 Player::~Player()
 {
@@ -14,20 +28,25 @@ Player::~Player()
 			abilityArray[i] = nullptr;
 		}
 	}
+
+	if (portalSprite)
+	{
+		delete portalSprite;
+		portalSprite = NULL;
+	}
+	if (animatedSprites)
+	{
+		delete animatedSprites;
+		animatedSprites = NULL;
+	}
 }
 
-void Player::Init()
+void Player::Init(GameObjectManager* GOM, Inventory* inventory)
 {
-	
 	physics->SetMass(1);
 	physics->SetMovable(true);
 
-	speed = 1000.0f;
-	jump_force = 4000.0f;
-
-	invisibility = false;
-
-	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 2.0f);
+	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 0.5f);
 	portalSprite->textureID = LoadTGA("Image/PortalTravelSprite.tga");
 
 	input = Input::GetInstance();
@@ -40,6 +59,8 @@ void Player::Init()
 	mesh = animatedSprites;
 	mesh->textureID = LoadTGA("Image/girlsprite.tga");
 
+	goManager = GOM;
+	this->inventory = inventory;
 
 }
 
@@ -48,7 +69,7 @@ void Player::Update(double dt)
 	animatedSprites->Update(dt);
 
 	// MOVEMENT SECTION
-	if (AkeyDown && !Application::IsKeyPressed('A'))
+	/*if (AkeyDown && !Application::IsKeyPressed('A'))
 	{
 		AkeyDown = false;
 		std::cout << "A Key Released" << std::endl;
@@ -81,13 +102,34 @@ void Player::Update(double dt)
 		std::cout << "D Key Pressed" << std::endl;
 		animatedSprites->PlayAnimation("right", -1, 1.0f);
 		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, 0, 0));
+	}*/
+	speed_multiplier = 1.0f;
+	stamina_rate_multiplier = 0.0f;
+	if (input->IsKeyDown(VK_SHIFT) && stamina > 0)
+	{
+		speed_multiplier = 2.0f;
+		stamina_rate_multiplier = 1.0f;
 	}
-	//if (keyboard->IsKeyDown('A'))
-	//	physics->SetVelocity(Vector3(-speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
-	//else if (keyboard->IsKeyDown('D'))
-	//	physics->SetVelocity(Vector3(speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
-	//else
-	//	physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
+
+	if (input->IsKeyDown('A'))
+	{
+		physics->SetVelocity(Vector3(-speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		stamina -= stamina_rate_multiplier * 50.f * dt;
+	}
+	else if (input->IsKeyDown('D'))
+	{
+		physics->SetVelocity(Vector3(speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		stamina -= stamina_rate_multiplier * 50.f * dt;
+	}
+	else
+	{
+		physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
+	}
+
+	if (stamina < max_stamina)
+	{
+		stamina += 5.f * dt;
+	}
 
 	// JUMP SECTION
 	if (input->IsKeyPressed(VK_SPACE)
@@ -128,12 +170,14 @@ void Player::Update(double dt)
 				if (invisibility)
 				{
 					mesh = portalSprite;
-					physics->SetGravity(Vector3(0, 0, 0));
+					physics->SetEnableUpdate(false);
+					enableCollision = false;
 				}
 				else
 				{
 					mesh = animatedSprites;
-					physics->SetGravity(physics->GetDefaultGravity());
+					physics->SetEnableUpdate(true);
+					enableCollision = true;
 				}
 			}
 			break;
@@ -197,7 +241,6 @@ void Player::Render(SceneBase* scene)
 		}
 	}
 
-
 	float angle = Math::RadianToDegree(atan2(physics->GetNormal().y, physics->GetNormal().x));
 	scene->modelStack.PushMatrix();
 	scene->modelStack.Translate(pos.x, pos.y, pos.z);
@@ -205,6 +248,8 @@ void Player::Render(SceneBase* scene)
 	scene->modelStack.Scale(scale.x, scale.y, scale.z);
 	scene->RenderMesh(mesh, true);
 	scene->modelStack.PopMatrix();
+
+	// Render Stamina Bar??
 	
 }
 
@@ -212,6 +257,12 @@ void Player::CollidedWith(GameObject* go)
 {
 	switch (go->geoTypeID)
 	{
+	case SceneBase::GEO_FLASHLIGHT:
+		goManager->RemoveGO(go);
+		inventory->AddItem(new Flashlight);
+		break;
+	case SceneBase::GEO_BATTERY:
+		break;
 	default:
 		break;
 	}
@@ -222,3 +273,15 @@ void Player::SetAbilities(Ability* a, Ability* b)
 	abilityArray[0] = a;
 	abilityArray[1] = b;
 }
+
+float Player::GetStamina()
+{
+	return stamina;
+}
+
+void Player::DecreaseStamina(float amt)
+{
+	stamina -= amt;
+}
+
+

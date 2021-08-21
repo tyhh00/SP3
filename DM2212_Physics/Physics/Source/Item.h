@@ -12,10 +12,13 @@ public:
 	};
 
 	enum ITEM_TYPE {
+		I_CONSUMABLE,
+		I_WEAPON,
 		I_APPLE,
 		I_CHEESE,
 		I_PISTOL,
 		I_FLASHLIGHT,
+		I_BATTERY,
 		I_TOTAL
 	};
 
@@ -33,6 +36,7 @@ public:
 	void SetQuantity(int _quantity);
 	int RemoveQuantity(int _quantity);
 
+	float GetDurability();
 	bool GetIsStackable();
 
 	void SetScene(SceneBase* scene);
@@ -42,6 +46,7 @@ protected:
 	ITEM_TYPE itemType;
 
 	int quantity;
+	float durability; // in percentage, 0 - none, 1 - max
 	bool isStackable;
 
 	SceneBase* scene;
