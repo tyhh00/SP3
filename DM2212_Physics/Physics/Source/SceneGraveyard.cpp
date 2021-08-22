@@ -12,6 +12,7 @@
 #include "Player.h"
 #include "Ghost.h"
 #include "Tumbleweed.h"
+#include "GrimReaper.h"
 
 //...
 
@@ -129,6 +130,7 @@ void SceneGraveyard::Init()
 			delete go;
 			go = nullptr;
 		}
+
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	

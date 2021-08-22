@@ -37,7 +37,6 @@ public:
 		portalSprite->Update(dt);
 	}
 	void SetAnimation(std::string anim_name, int repeat, double anim_time) {
-		//portalSprite->Reset();
 		portalSprite->PlayAnimation(anim_name, repeat, anim_time);
 	}
 };

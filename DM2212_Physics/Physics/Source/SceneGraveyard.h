@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Input.h"
 #include "GameObjectManager.h"
+#include "SceneManager.h"
 
 class SceneGraveyard : public SceneBase
 {

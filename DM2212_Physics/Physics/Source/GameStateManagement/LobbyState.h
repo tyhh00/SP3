@@ -9,6 +9,7 @@
 
 #include "GameStateBase.h"
 #include "../SceneManager.h"
+#include "../Input.h"
 
 class CLobbyState : public CGameStateBase
 {
@@ -29,9 +30,6 @@ public:
 	// Destroy this class instance
 	virtual void Destroy(void);
 
-	bool oneKeyReleased;
-	bool twoKeyReleased;
-	bool threeKeyReleased;
-	bool fourKeyReleased;
+	Input* input;
 
 };

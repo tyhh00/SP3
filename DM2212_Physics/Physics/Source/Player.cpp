@@ -4,6 +4,7 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 #include "Flashlight.h"
+#include "Battery.h"
 #include "Apple.h"
 
 Player::Player() : input(NULL)
@@ -155,7 +156,6 @@ void Player::Update(double dt)
 
 
 
-
 	// ABILITIES SECTION
 	for (int i = 0; i < 2; i++)
 	{
@@ -267,6 +267,24 @@ void Player::CollidedWith(GameObject* go)
 		inventory->AddItem(new Flashlight);
 		break;
 	case SceneBase::GEO_BATTERY:
+		goManager->RemoveGO(go);
+		inventory->AddItem(new Battery);
+		break;
+	case SceneBase::GEO_BONES_02:
+		goManager->RemoveGO(go);
+	//	inventory->AddItem(new Battery);
+		break;
+	case SceneBase::GEO_BONES_03:
+		goManager->RemoveGO(go);
+		//	inventory->AddItem(new Battery);
+		break;
+	case SceneBase::GEO_BONES_10:
+		goManager->RemoveGO(go);
+		//	inventory->AddItem(new Battery);
+		break;
+	case SceneBase::GEO_BONES_11:
+		goManager->RemoveGO(go);
+		//	inventory->AddItem(new Battery);
 		break;
 	default:
 		break;

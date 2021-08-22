@@ -17,6 +17,7 @@ enum worlds
 	w_physics = 0,
 	w_jungle,
 	w_graveyard,
+	w_church,
 	w_robot,
 	w_levelEditor,
 	w_lobby,
@@ -28,7 +29,7 @@ class SceneManager : public SceneBase, public CSingletonTemplate<SceneManager>
 	friend CSingletonTemplate<SceneManager>;
 public:
 	int sceneNum; 
-	SceneBase* physics, *jungle, * graveyard, * levelEditor, * lobby, * robot;
+	SceneBase* physics, *jungle, * graveyard, * levelEditor, * lobby, * robot, *church;
 	SceneBase* activeScene;
 
 	SceneManager();
