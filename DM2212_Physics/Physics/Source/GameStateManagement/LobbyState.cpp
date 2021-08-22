@@ -43,6 +43,9 @@ bool CLobbyState::Init(void)
 	sceneManager = SceneManager::GetInstance();
 	sceneManager->init();
 
+	// Input
+	input = Input::GetInstance();
+
 	return true;
 }
 
@@ -55,50 +58,32 @@ bool CLobbyState::Update(const double dElapsedTime)
 
 	if (oneKeyReleased && Application::IsKeyPressed('1'))
 	{
-		oneKeyReleased = false;
 		sceneManager->setScene(w_jungle);
 		CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		return true;
 	}
-	else if (!oneKeyReleased && !Application::IsKeyPressed('1'))
-	{
-		oneKeyReleased = true;
-	}
 
-	if (twoKeyReleased && Application::IsKeyPressed('2'))
+
+	if (input->IsKeyPressed('2'))
 	{
 		twoKeyReleased = false;
 		sceneManager->setScene(w_lobby); 
 		CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		return true;
 	}
-	else if (!twoKeyReleased && !Application::IsKeyPressed('2'))
-	{
-		twoKeyReleased = true;
-	}
 
-	if (threeKeyReleased && Application::IsKeyPressed('3'))
+	if (input->IsKeyPressed('3'))
 	{
-		threeKeyReleased = false;
 		sceneManager->setScene(w_levelEditor);
 		CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		return true;
 	}
-	else if (!threeKeyReleased && !Application::IsKeyPressed('3'))
-	{
-		threeKeyReleased = true;
-	}
 
-	if (fourKeyReleased && Application::IsKeyPressed('4'))
+	if (input->IsKeyPressed('4'))
 	{
-		fourKeyReleased = false;
 		sceneManager->setScene(w_robot);
 		CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		return true;
-	}
-	else if (!fourKeyReleased && !Application::IsKeyPressed('4'))
-	{
-		fourKeyReleased = true;
 	}
 
 	return true;

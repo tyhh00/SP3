@@ -3,7 +3,7 @@
 #include "LoadTGA.h"
 #include "Battery.h"
 
-Battery::Battery(int _quantity, int stemLength) : Consumable(I_BATTERY)
+Battery::Battery(int _quantity) : Consumable(I_BATTERY)
 {
 	isStackable = true;
 	quantity = _quantity;

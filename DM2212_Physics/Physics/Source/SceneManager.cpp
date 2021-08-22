@@ -21,13 +21,15 @@ void SceneManager::init()
 	jungle->Init();
 	levelEditor = new LevelEditor();
 	levelEditor->Init();
-	graveyard = new SceneChurch();
+	graveyard = new SceneGraveyard();
 	graveyard->Init();
+	church = new SceneChurch();
+	church->Init();
 	lobby = new SceneLobby();
 	lobby->Init();
 	robot = new SceneRobot();
 	robot->Init();
-	
+	std::cout << "FINISHED INITTING ALL SCENES" << std::endl;
 }
 
 void SceneManager::setScene(worlds sceneType)
@@ -42,6 +44,9 @@ void SceneManager::setScene(worlds sceneType)
 		break;
 	case w_graveyard:
 		activeScene = graveyard;
+		break;
+	case w_church:
+		activeScene = church;
 		break;
 	case w_levelEditor:
 		activeScene = levelEditor;

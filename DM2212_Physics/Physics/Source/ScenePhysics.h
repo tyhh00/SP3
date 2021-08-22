@@ -29,14 +29,18 @@ protected:
 	float m_speed;
 	float dashTimer;
 	bool isDashing = false;
+	bool isGrappling = false;
 
 	float m_screenWidth;
 	float m_screenHeight;
 	float m_worldWidth;
 	float m_worldHeight;
 
-
-	GameObject* go;
+	Vector3 temp;
+	Vector3 temp2;
+	Vector3 displacement2;
+	GameObject* plr;
+	GameObject* grappler;
 	Inventory* inventory;
 	Input* input;
 	GameObjectManager* goManager;

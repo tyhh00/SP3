@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "Input.h"
 #include "GameObjectManager.h"
+#include "Grappling.h"
 
 class SceneJungle : public SceneBase
 {

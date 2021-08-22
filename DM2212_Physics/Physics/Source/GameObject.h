@@ -91,7 +91,15 @@ struct GameObject
 
 	bool IsExplosive();
 	float GetExplosiveRadius();
-	
+
+	void SetCurrHealth(float _currentHP);
+	float GetCurrHealth();
+
+	void SetMaxHealth(float _maxHP);
+	float GetMaxHealth();
+
+	void AddCurrHealth(float _HP);
+	void MinusCurrHealth(float _HP);
 };
 
 struct Attachment : public GameObject

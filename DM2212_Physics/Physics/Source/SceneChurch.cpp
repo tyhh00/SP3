@@ -11,7 +11,7 @@
 //Entity Includes
 #include "Player.h"
 #include "Ghost.h"
-#include "Tumbleweed.h"
+#include "GrimReaper.h"
 
 //...
 
@@ -111,21 +111,22 @@ void SceneChurch::Init()
 			delete go;
 			go = nullptr;
 		}
-		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ENEMY_TUMBLEWEED)
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ENEMY_GRIMREAPER)
 		{
-			Tumbleweed* weed = new Tumbleweed();
+			GrimReaper* reaper = new GrimReaper();
 
-			weed->active = true;
-			weed->scale = go->scale;
-			weed->pos = go->pos;
-			weed->physics = go->physics->Clone();
-			weed->physics->SetInelasticity(0.99f);
-			weed->physics->SetIsBouncable(false);
-			weed->Init(this, inventory, player->pos);
+			reaper->active = true;
+			reaper->scale = go->scale;
+			reaper->pos = go->pos;
+			reaper->physics = go->physics->Clone();
+			reaper->physics->SetInelasticity(0.99f);
+			reaper->physics->SetIsBouncable(false);
+			reaper->physics->SetGravity(Vector3(0, 0, 0));
+			reaper->Init(this, inventory, player->pos);
 
-			goManager->AddGO(weed);
+			goManager->AddGO(reaper);
 
-			//Delete Grid weed
+			//Delete Grid reaper
 			delete go;
 			go = nullptr;
 		}

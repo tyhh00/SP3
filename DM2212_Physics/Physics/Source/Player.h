@@ -7,6 +7,8 @@
 #include "Input.h"
 #include "Ability.h"
 #include "Portal.h"
+#include "Dash.h"
+#include "Grappling.h"
 #include "SceneBase.h"
 #include "GameObjectManager.h"
 #include "Inventory.h"
@@ -27,10 +29,15 @@ public:
 	void DecreaseStamina(float amt);
 
 private:
+	/*const float ACCEL_SPEED = 100.f;
+	const float MAX_ACCEL = 5.f;
+	const float MAX_ACCEL_VEL = 30.f;
+	const float MAX_VEL = 100.f;*/
+
 	SpriteAnimation* animatedSprites;
 	Mesh* portalSprite;
 
-	float dashTimer;
+	float accel;
 	bool isDashing = false;
 
 	bool invisibility;
@@ -46,7 +53,7 @@ private:
 
 	float stamina_rate_multiplier;
 
-	Ability* abilityArray[2];
+	Ability* abilityArray[3];
 	Input* input;
 	GameObjectManager* goManager;
 	Inventory* inventory;

@@ -48,6 +48,7 @@ void SceneLobby::Init()
 	m_speed = 1.f;
 	Math::InitRNG();
 
+
 	// GO Manager
 	goManager = new GameObjectManager();
 	goManager->Init();

@@ -142,7 +142,16 @@ void SceneJungle::Init()
 
 	std::cout << "FLOOR: " << go2->pos.y + go2->scale.x << std::endl;
 
-	player->SetAbilities(nullptr, nullptr);
+	// ABILITIES
+	DashAbility* ability = new DashAbility;
+	ability->SetCamera(&camera);
+	ability->SetScenePointer(this);
+
+	GrapplingAbility* ability2 = new GrapplingAbility;
+	ability2->SetCamera(&camera);
+	ability2->SetScenePointer(this);
+
+	player->SetAbilities(ability, ability2); 
 }
 
 void SceneJungle::Update(double dt)
@@ -180,61 +189,76 @@ void SceneJungle::Update(double dt)
 		m_speed += 0.1f;
 	}
 
-	if (input->IsKeyPressed('A'))
-	{
-		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(-5,0,0));
-	}
-	else if (input->IsKeyPressed('D'))
-	{
-		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(5, 0, 0));
-	}
-	else
-	{
-		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(0, 0, 0));
-	}
+	//if (input->IsKeyPressed('A'))
+	//{
+	//	go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(-5,0,0));
+	//}
+	//else if (input->IsKeyPressed('D'))
+	//{
+	//	go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(5, 0, 0));
+	//}
+	//else
+	//{
+	//	go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(0, 0, 0));
+	//}
 
-	if (input->IsMousePressed(0))
-	{
-		double x, y;
-		Application::GetCursorPos(&x, &y);
-		int w = Application::GetWindowWidth();
-		int h = Application::GetWindowHeight();
-		// convert to world space
-		x /= (w / m_screenWidth);
-		y = h - y;
-		y /= (h / m_screenHeight);
-		std::cout << x << " " << y << std::endl;
 
-		temp = Vector3(x, y, 0);
-		isGrappling = true;
-		displacement2 = temp - player->pos;
-		std::cout << "initial pos" << player->pos << std::endl;
+	//if (input->IsMousePressed(0))
+	//{
+	//	double x, y;
+	//	Application::GetCursorPos(&x, &y);
+	//	int w = Application::GetWindowWidth();
+	//	int h = Application::GetWindowHeight();
+	//	// convert to world space
+	//	x /= (w / m_screenWidth);
+	//	y = h - y;
+	//	y /= (h / m_screenHeight);
+	//	std::cout << x << " " << y << std::endl;
 
-		grappler = new GameObject;
-		grappler->active = true;
-		grappler->mesh = meshList[GEO_WALL];
-		grappler->enableCollision = false;
-	}
+	//	temp = Vector3(x, y, 0);
+	//	isGrappling = true;
+	//	displacement2 = temp - player->pos;
+	//	std::cout << "initial pos" << player->pos << std::endl;
 
-	if (isGrappling)
-	{
-		Vector3 displacement = temp - player->pos;
-		Vector3 displacement3 = player->pos - temp;
+	//	grappler = new GameObject;
+	//	grappler->active = true;
+	//	grappler->mesh = meshList[GEO_WALL];
+	//	grappler->enableCollision = false;
+	//}
 
-		grappler->scale = Vector3(displacement.Length() / 2, 1, 1);
-		grappler->pos = player->pos + Vector3(displacement.x / 2, displacement.y / 2, 0);
-		grappler->physics->SetNormal(displacement.Normalized());
+	//if (isGrappling)
+	//{
+	//	Vector3 displacement = temp - player->pos;
+	//	Vector3 displacement3 = player->pos - temp;
 
-		player->physics->AddVelocity(Vector3(displacement2.x, 0, 0));		
-		if (player->pos.x >= temp.x - displacement3.x)
-		{
-			std::cout << "Stopped grappling" << std::endl;
-			std::cout << displacement3 << std::endl;
-			std::cout << player->pos.x << std::endl;
-			isGrappling = false;
-			grappler->active = false;
-		}
-	}
+	//	grappler->scale = Vector3(displacement.Length() / 2, 1, 1);
+	//	grappler->pos = player->pos + Vector3(displacement.x / 2, displacement.y / 2, 0);
+	//	grappler->physics->SetNormal(displacement.Normalized());
+
+	//	player->physics->AddVelocity(Vector3(displacement2.x, 0, 0));
+	//	if (player->physics->GetVelocity().x > 0)
+	//	{
+	//		if (player->pos.x >= temp.x - displacement3.x)
+	//		{
+	//			std::cout << "Stopped grappling" << std::endl;
+	//			std::cout << displacement3 << std::endl;
+	//			std::cout << player->pos.x << std::endl;
+	//			isGrappling = false;
+	//			grappler->active = false;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		if (player->pos.x <= temp.x - displacement3.x)
+	//		{
+	//			std::cout << "Stopped grappling" << std::endl;
+	//			std::cout << displacement3 << std::endl;
+	//			std::cout << player->pos.x << std::endl;
+	//			isGrappling = false;
+	//			grappler->active = false;
+	//		}
+	//	}
+	//}
 
 	goManager->Update(dt);
 }
@@ -260,6 +284,14 @@ void SceneJungle::Render()
 	);
 	// Model matrix : an identity matrix (model will be at the origin)
 	modelStack.LoadIdentity();
+
+	if (inventory->GetCurrentItem())
+	{
+		std::stringstream ss;
+		ss << "curr item: " << inventory->GetCurrentItemType();
+
+		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1.0f, 1.0f, 1.0f), 4, 10, 10);
+	}
 
 	if (grappler && grappler->active)
 	{

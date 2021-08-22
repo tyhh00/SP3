@@ -1,0 +1,21 @@
+INTERACTION: asdsa
+- MSG: test 1
+- precmd: /yea 1
+- precmd: TestScene;/yea 1
+- postcmd: /ur mom
+# NEXT: ya
+
+CHOICE # asdsa
+- MSG: lol
+- precmd: /no
+
+CHOICE # asdsa
+- MSG: yuh
+- precmd: /ns
+# NEXT: ya
+
+INTERACTION: ya
+- MSG: test 2
+- precmd: /yea 1
+- precmd: Scene2021;/yea 3
+- postcmd: /ur mom

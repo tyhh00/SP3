@@ -4,7 +4,9 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 #include "Flashlight.h"
+#include "Battery.h"
 #include "Apple.h"
+#include "FireTorch.h"
 
 Player::Player() : input(NULL)
 	, goManager(NULL)
@@ -56,6 +58,8 @@ void Player::Init(GameObjectManager* GOM, Inventory* inventory)
 		abilityArray[i] = nullptr;
 	}
 
+	accel = 0;
+
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("idle", 0, 1);
 	animatedSprites->AddAnimation("right", 6, 8);
@@ -74,40 +78,6 @@ void Player::Update(double dt)
 	animatedSprites->Update(dt);
 
 	// MOVEMENT SECTION
-	/*if (AkeyDown && !Application::IsKeyPressed('A'))
-	{
-		AkeyDown = false;
-		std::cout << "A Key Released" << std::endl;
-		if (animatedSprites->GetCurrentAnimation() == "left")
-		{
-			animatedSprites->PlayAnimation("idle", -1, 1.0f);
-		}
-		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, 0, 0));
-	}
-	else if (!AkeyDown && Application::IsKeyPressed('A'))
-	{
-		AkeyDown = true;
-		std::cout << "A Key Pressed" << std::endl;
-		animatedSprites->PlayAnimation("left", -1, 1.0f);
-		physics->SetVelocity(Vector3(physics->GetVelocity().x - speed * dt, 0, 0));
-	}
-	if (DkeyDown && !Application::IsKeyPressed('D'))
-	{
-		DkeyDown = false;
-		std::cout << "D Key Released" << std::endl;
-		if (animatedSprites->GetCurrentAnimation() == "right")
-		{
-			animatedSprites->PlayAnimation("idle", -1, 1.0f);
-		}
-		physics->SetVelocity(Vector3(physics->GetVelocity().x - speed * dt, 0, 0));
-	}
-	else if (!DkeyDown && Application::IsKeyPressed('D'))
-	{
-		DkeyDown = true;
-		std::cout << "D Key Pressed" << std::endl;
-		animatedSprites->PlayAnimation("right", -1, 1.0f);
-		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, 0, 0));
-	}*/
 	speed_multiplier = 1.0f;
 	stamina_rate_multiplier = 0.0f;
 	if (input->IsKeyDown(VK_SHIFT) && stamina > 0)
@@ -116,20 +86,25 @@ void Player::Update(double dt)
 		stamina_rate_multiplier = 1.0f;
 	}
 
-	if (input->IsKeyDown('A'))
+	if (input->IsKeyPressed('A'))
 	{
-		physics->SetVelocity(Vector3(-speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		physics->AddVelocity(Vector3(-speed * speed_multiplier * dt, 0, 0));
 		stamina -= stamina_rate_multiplier * 50.f * dt;
 	}
-	else if (input->IsKeyDown('D'))
+	else if (input->IsKeyReleased('A'))
 	{
-		physics->SetVelocity(Vector3(speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		physics->AddVelocity(Vector3(speed * speed_multiplier * dt, 0, 0));
+	}
+	if (input->IsKeyPressed('D'))
+	{
+		physics->AddVelocity(Vector3(speed * speed_multiplier * dt, 0, 0));
 		stamina -= stamina_rate_multiplier * 50.f * dt;
 	}
-	else
+	else if (input->IsKeyReleased('D'))
 	{
-		physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
+		physics->AddVelocity(Vector3(-speed * speed_multiplier * dt, 0, 0));
 	}
+	
 
 	if (stamina < max_stamina)
 	{
@@ -154,8 +129,6 @@ void Player::Update(double dt)
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 
 
-
-
 	// ABILITIES SECTION
 	for (int i = 0; i < 2; i++)
 	{
@@ -164,8 +137,12 @@ void Player::Update(double dt)
 			switch (abilityArray[i]->GetAbilityType())
 			{
 			case ABILITY_DASH:
+			{
 				abilityArray[i]->Update(dt);
-				break;
+				DashAbility* ability = dynamic_cast<DashAbility*>(abilityArray[i]);
+				ability->UpdatePlayer(accel, physics, speed, enableCollision, isDashing);
+			}
+			break;
 			case ABILITY_PORTAL:
 			{
 				PortalAbility* ability = dynamic_cast<PortalAbility*>(abilityArray[i]);
@@ -186,54 +163,19 @@ void Player::Update(double dt)
 				}
 			}
 			break;
+			case ABILITY_GRAPPLER:
+			{
+				abilityArray[i]->Update(dt);
+				GrapplingAbility* ability = dynamic_cast<GrapplingAbility*>(abilityArray[i]);
+				ability->UpdatePlayer(pos, physics);
+			}
+			break;
 			default:
 				break;
 			}
 		}
 	}
 
-	if (input->IsKeyPressed('Q'))
-	{
-		if (!this->physics->GetVelocity().IsZero() && !isDashing)
-			isDashing = true;
-	}
-
-	//if in dashing phase
-	if (isDashing)
-	{
-		//disable physics gravity update
-		this->physics->SetEnableUpdate(false);
-
-		//disable collision
-		this->enableCollision = false;
-
-		//start dash timer
-		dashTimer += dt;
-
-		//check if dash time is over
-		if (dashTimer > 0.25f)
-		{
-			//reset dash timer, is dashing and physics update
-			dashTimer = 0;
-			isDashing = false;
-			this->physics->SetEnableUpdate(true);
-			this->enableCollision = true;
-		}
-
-		//double check if player vel is not zero if not will have divide by zero error in normalized()
-		if (!this->physics->GetVelocity().IsZero())
-		{
-			//get and normalize the player vel  and find out the dash dir
-			Vector3 dir = this->physics->GetVelocity().Normalized() * speed * speed * dt;
-
-			//add the dash dir to the player's vel
-			this->physics->AddVelocity(Vector3(dir.x, 0, 0));
-		}
-	}
-
-	//set player's max vel speed
-	if (this->physics->GetVelocity().Length() > 100)
-		this->physics->SetVelocity(this->physics->GetVelocity().Normalized() * 100);
 }
 void Player::UpdateLobby(double dt)
 {
@@ -365,6 +307,34 @@ void Player::CollidedWith(GameObject* go)
 		inventory->AddItem(new Flashlight);
 		break;
 	case SceneBase::GEO_BATTERY:
+		goManager->RemoveGO(go);
+		inventory->AddItem(new Battery);
+		break;
+	case SceneBase::GEO_BONES_02:
+		goManager->RemoveGO(go);
+	//	inventory->AddItem(new Battery);
+		break;
+	case SceneBase::GEO_BONES_03:
+		goManager->RemoveGO(go);
+		//	inventory->AddItem(new Battery);
+		break;
+	case SceneBase::GEO_BONES_10:
+		goManager->RemoveGO(go);
+		//	inventory->AddItem(new Battery);
+		break;
+	case SceneBase::GEO_BONES_11:
+		goManager->RemoveGO(go);
+		//	inventory->AddItem(new Battery);
+		break;
+	case SceneBase::GEO_JUNGLE_GRASS_BLOCK:
+		goManager->RemoveGO(go);
+		inventory->AddItem(new FireTorch);
+		break;
+	case SceneBase::GEO_JUNGLE_DIRT_BLOCK:
+		if (inventory->GetCurrentItem() == nullptr)
+			break;
+		if (inventory->GetCurrentItemType() == Item::I_FIRETORCH)
+			currentHP++;
 		break;
 	default:
 		break;
