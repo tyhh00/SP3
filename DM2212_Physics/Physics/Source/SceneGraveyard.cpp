@@ -10,6 +10,9 @@
 
 //Entity Includes
 #include "Player.h"
+#include "Ghost.h"
+#include "Tumbleweed.h"
+#include "GrimReaper.h"
 
 //...
 
@@ -19,7 +22,7 @@ SceneGraveyard::SceneGraveyard()
 
 SceneGraveyard::~SceneGraveyard()
 {
-	keyboard = NULL;
+	input = NULL;
 	if (goManager)
 	{
 		delete goManager;
@@ -40,7 +43,7 @@ void SceneGraveyard::Init()
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	m_worldHeight = 143;
-	m_worldWidth = 250;
+	m_worldWidth = 1000;
 
 	//Physics code here
 	m_speed = 1.f;
@@ -51,10 +54,10 @@ void SceneGraveyard::Init()
 	goManager->Init();
 	// Inventory 
 	inventory = new Inventory();
-	inventory->Init();
+	inventory->Init(this);
 
 	//Store keyboard instance
-	keyboard = Keyboard::GetInstance();
+	input = Input::GetInstance();
 
 	// Unique Meshes
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
@@ -76,10 +79,11 @@ void SceneGraveyard::Init()
 			player->physics = go->physics->Clone();
 			player->physics->SetInelasticity(0.99f);
 			player->physics->SetIsBouncable(false);
-			player->Init();
+			player->Init(goManager, inventory);
 
 			player->AddBottomSprite();
 			player->bottomSprite->mesh = meshList[GEO_WALL];
+
 			goManager->AddGO(player);
 
 			DEBUG_MSG("From Phy Editor: " << player->scale);
@@ -89,6 +93,44 @@ void SceneGraveyard::Init()
 			delete go;
 			go = nullptr;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ENEMY_GHOST)
+		{
+			Ghost* ghost = new Ghost();
+
+			ghost->active = true;
+			ghost->scale = go->scale;
+			ghost->pos = go->pos;
+			ghost->physics = go->physics->Clone();
+			ghost->physics->SetInelasticity(0.99f);
+			ghost->physics->SetIsBouncable(false);
+			ghost->physics->SetGravity(Vector3(0, 0, 0));
+			ghost->Init(this, inventory, player->pos);
+
+			goManager->AddGO(ghost);
+
+			//Delete Grid ghost
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ENEMY_TUMBLEWEED)
+		{
+			Tumbleweed* weed = new Tumbleweed();
+
+			weed->active = true;
+			weed->scale = go->scale;
+			weed->pos = go->pos;
+			weed->physics = go->physics->Clone();
+			weed->physics->SetInelasticity(0.99f);
+			weed->physics->SetIsBouncable(false);
+			weed->Init(this, inventory, player->pos);
+
+			goManager->AddGO(weed);
+
+			//Delete Grid weed
+			delete go;
+			go = nullptr;
+		}
+
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	
@@ -100,8 +142,11 @@ void SceneGraveyard::Init()
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);
 
-	abilityManager.Init();
-	abilityManager.SetCamera(&camera);
+	// ABILITIES
+	PortalAbility* ability = new PortalAbility;
+	ability->SetCamera(&camera);
+	ability->SetScenePointer(this);
+	player->SetAbilities(ability, nullptr);
 }
 
 void SceneGraveyard::Update(double dt)
@@ -117,24 +162,23 @@ void SceneGraveyard::Update(double dt)
 	lights[1].position.Set(mouseposx, mouseposy, 10);
 
 	
-	if (Application::IsMousePressed(0))
+	if (input->IsMousePressed(0))
 	{
 		// flashlgiht power/exponent
 	}
 
-	if(Application::IsKeyPressed('9'))
+	if(input->IsKeyPressed('9'))
 	{
 		m_speed = Math::Max(0.f, m_speed - 0.1f);
 	}
-	if(Application::IsKeyPressed('0'))
+	if(input->IsKeyPressed('0'))
 	{
 		m_speed += 0.1f;
 	}
 	
 	goManager->Update(dt);
+	inventory->Update(dt);
 
-	abilityManager.UpdateCondition(player->physics->GetOnGround());
-	abilityManager.Update(player->pos, dt);
 }
 
 void SceneGraveyard::Render()
@@ -210,20 +254,18 @@ void SceneGraveyard::Render()
 	RenderMesh(meshList[GEO_BG], true);
 	modelStack.PopMatrix();
 
-	abilityManager.Render(this);
-
 	goManager->Render(this);
 
 	std::ostringstream ss;
+	//ss.str("");
+	//ss << "LIGHT COLOR: " << Vector3(lights[0].color.r, lights[0].color.g, lights[0].color.b);
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
 	/*ss.str("");
-	ss << "LIGHT COLOR: " << Vector3(lights[0].color.r, lights[0].color.g, lights[0].color.b);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
-	ss.str("");
-	ss << "player pos: " << player->pos;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);
-	ss.str("");
-	ss << "camera pos: " << camera.position;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);*/
+	ss << "player stamina: " << player->GetStamina();
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);*/
+	//ss.str("");
+	//ss << "camera pos: " << camera.position;
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);
 
 
 
@@ -236,12 +278,13 @@ void SceneGraveyard::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 3, 0, 0);
 }
 
-void SceneGraveyard::SetLights()
+void SceneGraveyard::InitLights()
 {
 	lights[0].type = Light::LIGHT_POINT;
 	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
 	lights[0].color.Set(1, 1, 1);
 	lights[0].power = 2;
+	lights[0].defaultPower = lights[0].power;
 	lights[0].kC = 1.f;
 	lights[0].kL = 0.01f;
 	lights[0].kQ = 0.001f;
@@ -253,7 +296,8 @@ void SceneGraveyard::SetLights()
 	lights[1].type = Light::LIGHT_SPOT;
 	lights[1].position.Set(0, 0, 1);
 	lights[1].color.Set(0.8, 0.8, 1);
-	lights[1].power = 2;
+	lights[1].power = 0;
+	lights[1].defaultPower = 2;
 	lights[1].kC = 1.f;
 	lights[1].kL = 0.01f;
 	lights[1].kQ = 0.001f;

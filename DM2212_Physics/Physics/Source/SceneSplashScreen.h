@@ -6,7 +6,7 @@
 #include "SceneBase.h"
 #include "Player.h"
 #include "GameObjectManager.h"
-#include "Keyboard.h"
+#include "Input.h"
 
 class SceneSplashScreen : public SceneBase
 {

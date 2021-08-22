@@ -20,6 +20,8 @@ ScenePhysics::ScenePhysics()
 
 ScenePhysics::~ScenePhysics()
 {
+	go = NULL;
+	input = NULL;
 	delete plr;
 	plr = NULL;
 
@@ -43,7 +45,7 @@ void ScenePhysics::Init()
 
 	//Inventory init
 	inventory = new Inventory();
-	inventory->Init();
+	inventory->Init(this);
 
 	//Physics code here
 	m_speed = 1.f;
@@ -51,7 +53,7 @@ void ScenePhysics::Init()
 	Math::InitRNG();
 
 	//Store keyboard instance
-	keyboard = Keyboard::GetInstance();
+	input = Input::GetInstance();
 
 	//Level Loading
 	std::vector<GameObject*> tiles;
@@ -144,6 +146,7 @@ void ScenePhysics::Init()
 	go2->active = true;
 	go2->mesh = meshList[GEO_WALL];
 	goManager->AddGO(go2);
+	goManager->RemoveGO(go);
 
 	std::cout << "FLOOR: " << go2->pos.y + go2->scale.x << std::endl;
 }
@@ -154,20 +157,20 @@ void ScenePhysics::Update(double dt)
 	inventory->Update(dt);
 	camera.Update(camera.position, dt);
 
-	if (keyboard->IsKeyPressed('P'))
+	if (input->IsKeyPressed('P'))
 	{
 		std::cout << "PRESSESD P" << std::endl;
 		Apple* newApple = new Apple();
 		inventory->AddItem(newApple);
 		//inventory.setmax(i_apple, 10);
 	}
-	if (keyboard->IsKeyPressed('O'))
+	if (input->IsKeyPressed('O'))
 	{
 		std::cout << "PRESSESD O" << std::endl;
 		Cheese* newCheese = new Cheese();
 		inventory->AddItem(newCheese);
 	}
-	if (keyboard->IsKeyPressed('L'))
+	if (input->IsKeyPressed('L'))
 	{
 		std::cout << "PRESSED L" << std::endl;
 		//Cheese* newCheese = new Cheese(2);

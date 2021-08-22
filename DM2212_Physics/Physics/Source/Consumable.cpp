@@ -3,7 +3,7 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 
-Consumable::Consumable()
+Consumable::Consumable(ITEM_TYPE type) : Item(G_CONSUMABLE, type, 1, true)
 {
 }
 

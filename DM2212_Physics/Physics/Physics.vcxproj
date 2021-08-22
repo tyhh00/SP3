@@ -154,16 +154,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Battery.cpp" />
+    <ClCompile Include="Source\Bullet.cpp" />
+    <ClCompile Include="Source\BulletSpawner.cpp" />
+    <ClCompile Include="Source\GrimReaper.cpp" />
+    <ClCompile Include="Source\PlasmaBullet.cpp" />
+    <ClCompile Include="Source\PlasmaRobot.cpp" />
     <ClCompile Include="Source\Ability.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\Flashlight.cpp" />
     <ClCompile Include="Source\Ghost.cpp" />
+    <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\LevelLoader.cpp" />
     <ClCompile Include="Source\Apple.cpp" />
     <ClCompile Include="Source\Cheese.cpp" />
     <ClCompile Include="Source\Consumable.cpp" />
     <ClCompile Include="Source\GameObjectManager.cpp" />
-    <ClCompile Include="Source\Keyboard.cpp" />
     <ClCompile Include="Source\GameStateManagement\LobbyState.cpp" />
     <ClCompile Include="Source\LevelEditor.cpp" />
     <ClCompile Include="Source\Application.cpp" />
@@ -182,29 +188,39 @@
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Portal.cpp" />
     <ClCompile Include="Source\SceneBase.cpp" />
+    <ClCompile Include="Source\SceneChurch.cpp" />
     <ClCompile Include="Source\SceneCollision.cpp" />
     <ClCompile Include="Source\SceneGraveyard.cpp" />
+    <ClCompile Include="Source\SceneJungle.cpp" />
     <ClCompile Include="Source\SceneLobby.cpp" />
     <ClCompile Include="Source\ScenePhysics.cpp" />
     <ClCompile Include="Source\SceneManager.cpp" />
+    <ClCompile Include="Source\SceneRobot.cpp" />
     <ClCompile Include="Source\SceneSplashScreen.cpp" />
-    <ClCompile Include="Source\SceneTest.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\SpriteAnimation.cpp" />
     <ClCompile Include="Source\Inventory.cpp" />
     <ClCompile Include="Source\Item.cpp" />
     <ClCompile Include="Source\Physics.cpp" />
+    <ClCompile Include="Source\Tumbleweed.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
     <ClCompile Include="Source\Weapon.cpp" />
     <ClCompile Include="Source\SoundController/SoundController.cpp" />
     <ClCompile Include="Source\SoundController/SoundInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Battery.h" />
+    <ClInclude Include="Source\Bullet.h" />
+    <ClInclude Include="Source\BulletSpawner.h" />
+    <ClInclude Include="Source\GrimReaper.h" />
+    <ClInclude Include="Source\PlasmaBullet.h" />
+    <ClInclude Include="Source\PlasmaRobot.h" />
     <ClInclude Include="Source\Ability.h" />
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\filesystem.h" />
     <ClInclude Include="Source\Flashlight.h" />
     <ClInclude Include="Source\Ghost.h" />
+    <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\LevelLoader.h" />
     <ClInclude Include="Source\Apple.h" />
     <ClInclude Include="Source\Cheese.h" />
@@ -212,7 +228,6 @@
     <ClInclude Include="Source\Debug.h" />
     <ClInclude Include="Source\GameObjectManager.h" />
     <ClInclude Include="Source\GameStateManagement\LobbyState.h" />
-    <ClInclude Include="Source\Keyboard.h" />
     <ClInclude Include="Source\LevelEditor.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Button.h" />
@@ -233,19 +248,22 @@
     <ClInclude Include="Source\Portal.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneBase.h" />
+    <ClInclude Include="Source\SceneChurch.h" />
     <ClInclude Include="Source\SceneCollision.h" />
     <ClInclude Include="Source\SceneGraveyard.h" />
+    <ClInclude Include="Source\SceneJungle.h" />
     <ClInclude Include="Source\SceneLobby.h" />
     <ClInclude Include="Source\ScenePhysics.h" />
     <ClInclude Include="Source\SceneManager.h" />
+    <ClInclude Include="Source\SceneRobot.h" />
     <ClInclude Include="Source\SceneSplashScreen.h" />
-    <ClInclude Include="Source\SceneTest.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Shape.h" />
     <ClInclude Include="Source\SpriteAnimation.h" />
     <ClInclude Include="Source\Inventory.h" />
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\Physics.h" />
+    <ClInclude Include="Source\Tumbleweed.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />
     <ClInclude Include="Source\Weapon.h" />

@@ -18,14 +18,18 @@ protected:
 	std::vector<GameObject*> m_movableGOList; //movable game objects
 	std::vector<GameObject*> m_stationaryGOList; //stationary game objects
 
+	std::vector<GameObject*> toAddList;
+	std::vector<GameObject*> toRemoveList;
+
 	float m_speed;
 
 public:
 	void Init();
 	void Render(SceneBase* scene);
 	void AddGO(GameObject* go);
+	void RemoveGO(GameObject* go);
 	void AddAllGO(std::vector<GameObject*> gos);
-	bool CheckCollision(GameObject* go1, GameObject* go2, float dt);
+	bool CheckCollision(GameObject* go1, GameObject* go2, float dt, bool rangeCheck);
 	void Exit();
 	void Update(double dt);
 };

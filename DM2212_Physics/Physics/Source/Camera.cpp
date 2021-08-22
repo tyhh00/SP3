@@ -38,7 +38,7 @@ void Camera::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	screenWidth = screenHeight = worldWidth = worldHeight = 0;
 
 	//Creleased = false;
-	keyboard = Keyboard::GetInstance();
+	input = Input::GetInstance();
 
 }
 
@@ -53,17 +53,17 @@ void Camera::Update(Vector3 focusTarget, double dt)
 {
 
 	// use C to unlock view and move camera freely (for editing level/just viewing level purposes etc)
-	if (keyboard->IsKeyPressed('C'))
+	if (input->IsKeyPressed('C'))
 	{		
 		ToggleAutoLock();
 	}
 	
 	// example of switching mode;; to be removed in final product zz
-	if (keyboard->IsKeyPressed('M'))
+	if (input->IsKeyPressed('M'))
 	{
 		SetMode(CENTER);
 	}
-	if (keyboard->IsKeyPressed('N'))
+	if (input->IsKeyPressed('N'))
 	{
 		SetMode(EDGE);
 	}

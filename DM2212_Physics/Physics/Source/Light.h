@@ -16,6 +16,7 @@ struct Light
 	Position position;
 	Color color;
 	float power;
+	float defaultPower;
 	float kC;
 	float kL;
 	float kQ;
@@ -29,6 +30,7 @@ struct Light
 		type = LIGHT_POINT;
 		color.Set(1, 1, 1);
 		power = 1.f;
+		defaultPower = power;
 		kC = 1.f;
 		kL = 0.f;
 		kQ = 0.f;

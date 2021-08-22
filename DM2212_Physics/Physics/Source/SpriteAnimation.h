@@ -42,6 +42,18 @@ struct Animation
 		frames.push_back(i);
 	}
 
+	Animation* Clone()
+	{
+		Animation* clone = new Animation();
+		clone->animationName = this->animationName;
+		clone->frames = this->frames;
+		clone->repeatCount = this->repeatCount;
+		clone->animTime = this->animTime;
+		clone->ended = this->ended;
+		clone->animActive = this->animActive;
+		return clone;
+	}
+
 private:
 	//name of the animation
 	std::string animationName;
@@ -81,6 +93,8 @@ public:
 	void Pause();
 	void Resume();
 	void Reset();
+
+	SpriteAnimation* Clone();
 
 private:
 	//number of rows
