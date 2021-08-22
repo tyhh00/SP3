@@ -51,11 +51,15 @@ Player::~Player()
 	}
 }
 
-void Player::Init(GameObjectManager* GOM, Inventory* inventory)
+void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* inventory)
 {
 	physics->SetMass(5);
 	physics->SetMovable(true);
 
+	if (mode == WASD)
+	{
+		physics->SetGravity(Vector3(0, 0, 0));
+	}
 	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 1.0f);
 	portalSprite->textureID = LoadTGA("Image/PortalTravelSprite.tga");
 	livesIcon = MeshBuilder::GenerateQuad("hp icon", Color(1, 1, 1), 1.0f);
@@ -69,15 +73,18 @@ void Player::Init(GameObjectManager* GOM, Inventory* inventory)
 	}
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
-	animatedSprites->AddAnimation("idle", 0, 1);
+	animatedSprites->AddAnimation("idle", 0, 2);
 	animatedSprites->AddAnimation("right", 6, 8);
 	animatedSprites->AddAnimation("left", 3, 5);
+	animatedSprites->AddAnimation("up", 9, 11);
+
 	animatedSprites->PlayAnimation("idle", -1, 1.0f);
 	mesh = animatedSprites;
 	mesh->textureID = LoadTGA("Image/girlsprite.tga");
 
 	goManager = GOM;
 	this->inventory = inventory;
+	this->mode = mode;
 
 }
 
@@ -86,51 +93,7 @@ void Player::Update(double dt)
 	animatedSprites->Update(dt);
 
 	// MOVEMENT SECTION
-	speed_multiplier = 1.0f;
-	stamina_rate_multiplier = 0.0f;
-	if (input->IsKeyDown(VK_SHIFT) && stamina > 0)
-	{
-		curr_max_vel = MAX_SPRINTVEL;
-		speed_multiplier = 2.0f;
-		stamina_rate_multiplier = 1.0f;
-	}
-
-	Vector3 leftAccel = -accel * speed_multiplier;
-	Vector3 rightAccel = accel * speed_multiplier;
-	if (input->IsKeyDown('A'))
-	{
-		physics->AddVelocity(leftAccel * dt);
-		stamina -= stamina_rate_multiplier * 50.f * dt;
-	}
-	if (input->IsKeyDown('D'))
-	{
-		physics->AddVelocity(rightAccel * dt);
-		stamina -= stamina_rate_multiplier * 50.f * dt;
-	}
-
-	if (stamina < max_stamina)
-	{
-		stamina += 5.f * dt;
-	}
-
-
-	// JUMP SECTION
-	if (input->IsKeyPressed(VK_SPACE)
-		&& physics->GetOnGround())
-	{
-		std::cout << "Space Key Pressed" << std::endl;
-		float accel_amt = jump_force / physics->GetMass();
-		physics->AddVelocity(Vector3(0, physics->GetVelocity().y + accel_amt * dt, 0));
-	}
-
-	// ANIMATIONS SECTION
-	if (physics->GetVelocity().x > 1)
-		animatedSprites->PlayAnimation("right", -1, 1.0f);
-	else if (physics->GetVelocity().x < -1)
-		animatedSprites->PlayAnimation("left", -1, 1.0f);
-	else
-		animatedSprites->PlayAnimation("idle", -1, 1.0f);
-
+	UpdateMovement(dt);
 
 	// ABILITIES SECTION
 	for (int i = 0; i < 2; i++)
@@ -180,6 +143,99 @@ void Player::Update(double dt)
 	}
 
 	physics->SetVelocity(Vector3(Math::Clamp(physics->GetVelocity().x, -curr_max_vel, curr_max_vel), physics->GetVelocity().y, physics->GetVelocity().z));
+}
+
+void Player::UpdateMovement(double dt)
+{		
+
+	if (mode == WASD)
+	{
+		float speed = 20.f;
+		if (input->IsKeyPressed('A'))
+		{
+			physics->AddVelocity(Vector3(-speed, 0, 0));
+			animatedSprites->PlayAnimation("left", -1, 1.0f);
+		}
+		else if (input->IsKeyReleased('A'))
+		{
+			physics->AddVelocity(Vector3(speed, 0, 0));
+		}
+		if (input->IsKeyPressed('D'))
+		{
+			physics->AddVelocity(Vector3(speed, 0, 0));
+			animatedSprites->PlayAnimation("right", -1, 1.0f);
+		}
+		else if (input->IsKeyReleased('D'))
+		{
+			physics->AddVelocity(Vector3(-speed, 0, 0));
+		}
+		if (input->IsKeyPressed('W'))
+		{
+			physics->AddVelocity(Vector3(0, speed, 0));
+			animatedSprites->PlayAnimation("up", -1, 1.0f);
+		}
+		else if (input->IsKeyReleased('W'))
+		{
+			physics->AddVelocity(Vector3(0, -speed, 0));
+		}
+		if (input->IsKeyPressed('S'))
+		{
+			physics->AddVelocity(Vector3(0, -speed, 0));
+			animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		}
+		else if (input->IsKeyReleased('S'))
+		{
+			physics->AddVelocity(Vector3(0, speed, 0));
+		}
+
+	
+	}
+	else if (mode == PLATFORMER)
+	{
+		Vector3 leftAccel(-accel * speed_multiplier, 0, 0);
+		Vector3 rightAccel(accel * speed_multiplier, 0, 0);
+
+		speed_multiplier = 1.0f;
+		stamina_rate_multiplier = 0.0f;
+		if (input->IsKeyDown(VK_SHIFT) && stamina > 0)
+		{
+			curr_max_vel = MAX_SPRINTVEL;
+			speed_multiplier = 2.0f;
+			stamina_rate_multiplier = 1.0f;
+		}
+
+		if (input->IsKeyDown('A'))
+		{
+			physics->AddVelocity(leftAccel * dt);
+			stamina -= stamina_rate_multiplier * 50.f * dt;
+		}
+		if (input->IsKeyDown('D'))
+		{
+			physics->AddVelocity(rightAccel * dt);
+			stamina -= stamina_rate_multiplier * 50.f * dt;
+		}
+		// JUMP SECTION
+		if (input->IsKeyPressed(VK_SPACE)
+			&& physics->GetOnGround())
+		{
+			std::cout << "Space Key Pressed" << std::endl;
+			float accel_amt = jump_force / physics->GetMass();
+			physics->AddVelocity(Vector3(0, physics->GetVelocity().y + accel_amt * dt, 0));
+		}
+
+		if (stamina < max_stamina)
+		{
+			stamina += 5.f * dt;
+		}
+
+		// ANIMATIONS SECTION
+		if (physics->GetVelocity().x > 1)
+			animatedSprites->PlayAnimation("right", -1, 1.0f);
+		else if (physics->GetVelocity().x < -1)
+			animatedSprites->PlayAnimation("left", -1, 1.0f);
+		else
+			animatedSprites->PlayAnimation("idle", -1, 1.0f);
+	}
 }
 
 void Player::Render(SceneBase* scene)

@@ -15,15 +15,23 @@
 
 class Player : public GameObject {
 public:
+
+	enum MOVEMENT_MODE {
+		WASD,
+		PLATFORMER,
+
+		M_TOTAL
+	};
+
 	Player();
 	~Player();
 
-	void Init(GameObjectManager* GOM, Inventory* inventory);
+	void Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* inventory);
 	void Update(double dt);
 	void Render(SceneBase* scene);
 	void CollidedWith(GameObject* go);
 	void SetAbilities(Ability* a, Ability* b);
-
+	void UpdateMovement(double dt);
 	float GetStamina();
 	void DecreaseStamina(float amt);
 
@@ -31,6 +39,7 @@ private:
 	const float MAX_VEL = 20.f;
 	const float MAX_SPRINTVEL = 40.f;
 
+	MOVEMENT_MODE mode;
 	SpriteAnimation* animatedSprites;
 	Mesh* portalSprite;
 	Mesh* livesIcon;
