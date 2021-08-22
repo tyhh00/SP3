@@ -28,10 +28,10 @@ public:
 	void DecreaseStamina(float amt);
 
 private:
-	const float ACCEL_SPEED = 100.f;
+	/*const float ACCEL_SPEED = 100.f;
 	const float MAX_ACCEL = 5.f;
 	const float MAX_ACCEL_VEL = 30.f;
-	const float MAX_VEL = 100.f;
+	const float MAX_VEL = 100.f;*/
 
 	SpriteAnimation* animatedSprites;
 	Mesh* portalSprite;

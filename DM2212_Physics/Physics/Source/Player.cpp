@@ -78,40 +78,6 @@ void Player::Update(double dt)
 	animatedSprites->Update(dt);
 
 	// MOVEMENT SECTION
-	/*if (AkeyDown && !Application::IsKeyPressed('A'))
-	{
-		AkeyDown = false;
-		std::cout << "A Key Released" << std::endl;
-		if (animatedSprites->GetCurrentAnimation() == "left")
-		{
-			animatedSprites->PlayAnimation("idle", -1, 1.0f);
-		}
-		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, 0, 0));
-	}
-	else if (!AkeyDown && Application::IsKeyPressed('A'))
-	{
-		AkeyDown = true;
-		std::cout << "A Key Pressed" << std::endl;
-		animatedSprites->PlayAnimation("left", -1, 1.0f);
-		physics->SetVelocity(Vector3(physics->GetVelocity().x - speed * dt, 0, 0));
-	}
-	if (DkeyDown && !Application::IsKeyPressed('D'))
-	{
-		DkeyDown = false;
-		std::cout << "D Key Released" << std::endl;
-		if (animatedSprites->GetCurrentAnimation() == "right")
-		{
-			animatedSprites->PlayAnimation("idle", -1, 1.0f);
-		}
-		physics->SetVelocity(Vector3(physics->GetVelocity().x - speed * dt, 0, 0));
-	}
-	else if (!DkeyDown && Application::IsKeyPressed('D'))
-	{
-		DkeyDown = true;
-		std::cout << "D Key Pressed" << std::endl;
-		animatedSprites->PlayAnimation("right", -1, 1.0f);
-		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, 0, 0));
-	}*/
 	speed_multiplier = 1.0f;
 	stamina_rate_multiplier = 0.0f;
 	if (input->IsKeyDown(VK_SHIFT) && stamina > 0)
@@ -120,20 +86,25 @@ void Player::Update(double dt)
 		stamina_rate_multiplier = 1.0f;
 	}
 
-	if (input->IsKeyDown('A'))
+	if (input->IsKeyPressed('A'))
 	{
-		physics->SetVelocity(Vector3(-speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		physics->AddVelocity(Vector3(-speed * speed_multiplier * dt, 0, 0));
 		stamina -= stamina_rate_multiplier * 50.f * dt;
 	}
-	else if (input->IsKeyDown('D'))
+	else if (input->IsKeyReleased('A'))
 	{
-		physics->SetVelocity(Vector3(speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		physics->AddVelocity(Vector3(speed * speed_multiplier * dt, 0, 0));
+	}
+	if (input->IsKeyPressed('D'))
+	{
+		physics->AddVelocity(Vector3(speed * speed_multiplier * dt, 0, 0));
 		stamina -= stamina_rate_multiplier * 50.f * dt;
 	}
-	else
+	else if (input->IsKeyReleased('D'))
 	{
-		physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
+		physics->AddVelocity(Vector3(-speed * speed_multiplier * dt, 0, 0));
 	}
+	
 
 	if (stamina < max_stamina)
 	{
@@ -205,9 +176,6 @@ void Player::Update(double dt)
 		}
 	}
 
-	//set player's max vel speed
-	if (physics->GetVelocity().Length() > MAX_VEL)
-		physics->SetVelocity(physics->GetVelocity().Normalized() * MAX_VEL);
 }
 
 void Player::Render(SceneBase* scene)
