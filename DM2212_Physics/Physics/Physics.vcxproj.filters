@@ -57,6 +57,12 @@
     <Filter Include="Source Files\Items\Consumables">
       <UniqueIdentifier>{960fded5-1f1f-49b5-9294-a9849d333fef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Buttons">
+      <UniqueIdentifier>{89c193cf-6e4d-4dff-99a9-1169b20f70cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Buttons">
+      <UniqueIdentifier>{d80baf97-911f-4225-85cf-48499c139b6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -90,9 +96,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\SceneBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Player.cpp">
@@ -227,6 +230,21 @@
     <ClCompile Include="Source\FireTorch.cpp">
       <Filter>Source Files\Items\Weapons</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Buttons\Button.cpp">
+      <Filter>Source Files\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buttons\ButtonManager.cpp">
+      <Filter>Source Files\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buttons\Text.cpp">
+      <Filter>Source Files\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buttons\UIItem.cpp">
+      <Filter>Source Files\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buttons\ButtonFactory.cpp">
+      <Filter>Source Files\Buttons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -269,9 +287,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Player.h">
@@ -420,6 +435,21 @@
     </ClInclude>
     <ClInclude Include="Source\FireTorch.h">
       <Filter>Header Files\Items\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Buttons\Button.h">
+      <Filter>Header Files\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Buttons\ButtonManager.h">
+      <Filter>Header Files\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Buttons\Text.h">
+      <Filter>Header Files\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Buttons\UIItem.h">
+      <Filter>Header Files\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Buttons\ButtonFactory.h">
+      <Filter>Header Files\Buttons</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
