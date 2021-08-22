@@ -131,7 +131,7 @@ void PortalAbility::Update(double dt)
 			break;
 		}
 
-		newPlayerPos += (endPortal.pos - newPlayerPos).Normalized() * 100.0f * dt;
+		newPlayerPos += (endPortal.pos - newPlayerPos).Normalized() * 150.0f * dt;
 	}
 		break;
 	case CLOSINGSTART_ANIM:
@@ -158,7 +158,7 @@ void PortalAbility::Update(double dt)
 		{
 			// RESET END PORTAL
 			endPortal.active = false;
-			endPortal.SetAnimation("idle", 0, 1.0f);
+			endPortal.SetAnimation("idle", -1, 1.0f);
 
 			state = DEFAULT;
 		}
