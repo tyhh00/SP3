@@ -99,15 +99,15 @@ void SceneLobby::Init()
 	// Camera 
 	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
-	//camera.SetFocusTarget(player->pos);
-	camera.SetFocusTarget(player->pos + 50);
+	camera.SetFocusTarget(player->pos);
 }
 
 void SceneLobby::Update(double dt)
 {
 	SceneBase::Update(dt);
 	//inventory->Update(dt);
-	//camera.Update(player->pos, dt);
+	camera.Update(player->pos, dt);
+	//player->UpdateLobby(dt);
 
 	// Updating of light things
 	//lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);

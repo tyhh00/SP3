@@ -65,6 +65,9 @@ bool CMenuState::Init(void)
 {
 	cout << "CMenuState::Init()\n" << endl;
 
+	sceneManager = SceneManager::GetInstance();
+	sceneManager->init();
+
 	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_MAINMENU);
 
 	return true;
@@ -76,20 +79,22 @@ bool CMenuState::Init(void)
 bool CMenuState::Update(const double dElapsedTime)
 {
 	
-	if (Application::IsKeyPressed(VK_SPACE))
+	if (Application::IsKeyPressed(VK_SPACE) && spaceReleased)
 	{
-		// Reset the CKeyboardController
-		cout << "space key pressed" << endl;
-		// Load the menu state
-		cout << "Loading PlayGameState" << endl;
+		spaceReleased = false;
 
-		//Fading effect
+		//Setting state and switching the scene to lobby
+		sceneManager->setScene(w_lobby);
+		CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
+		
+		//Fading effect for sound
 		DEBUG_MSG("Fading out");
 		CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_MAINMENU, 3, 0.5);
-
-
-		CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
 		return true;
+	}
+	else if (Application::IsKeyPressed(VK_SPACE) && !spaceReleased)
+	{
+		spaceReleased = true;
 	}
 	return true;
 }
@@ -102,7 +107,7 @@ void CMenuState::Render(void)
 	// Clear the screen and buffer
 	glClearColor(0.0f, 0.55f, 1.00f, 1.00f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	cout << "CMenuState::Render()\n" << endl;
+	//cout << "CMenuState::Render()\n" << endl;
 }
 
 /**

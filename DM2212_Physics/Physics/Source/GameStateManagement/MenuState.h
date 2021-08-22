@@ -23,6 +23,7 @@
 //#define IMGUI_ACTIVE
 //#endif
 #include "GameStateBase.h"
+#include "../SceneManager.h"
 
 //#include "..\Scene2D\Scene2D.h"
 struct ButtonData
@@ -34,6 +35,10 @@ struct ButtonData
 class CMenuState : public CGameStateBase
 {
 public:
+	SceneManager* sceneManager;
+	//remove this bool later
+	bool spaceReleased;
+
 	// Constructor
 	CMenuState(void);
 	// Destructor

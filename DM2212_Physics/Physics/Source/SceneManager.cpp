@@ -56,6 +56,10 @@ void SceneManager::setScene(worlds sceneType)
 	activeScene->InitLights();
 	
 }
+SceneBase* SceneManager::getScene()
+{
+	return activeScene;
+}
 void SceneManager::update(double dt)
 {
 	activeScene->Update(dt);

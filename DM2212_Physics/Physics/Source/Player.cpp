@@ -126,16 +126,6 @@ void Player::Update(double dt)
 		physics->SetVelocity(Vector3(speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
 		stamina -= stamina_rate_multiplier * 50.f * dt;
 	}
-	else if (input->IsKeyDown('W'))
-	{
-		physics->SetVelocity(Vector3(physics->GetVelocity().x, speed * speed_multiplier * dt, physics->GetVelocity().z));
-		stamina -= stamina_rate_multiplier * 50.f * dt;
-	}
-	else if (input->IsKeyDown('S'))
-	{
-		physics->SetVelocity(Vector3(physics->GetVelocity().x, -speed * speed_multiplier * dt, physics->GetVelocity().z));
-		stamina -= stamina_rate_multiplier * 50.f * dt;
-	}
 	else
 	{
 		physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
@@ -201,6 +191,104 @@ void Player::Update(double dt)
 			}
 		}
 	}
+
+	if (input->IsKeyPressed('Q'))
+	{
+		if (!this->physics->GetVelocity().IsZero() && !isDashing)
+			isDashing = true;
+	}
+
+	//if in dashing phase
+	if (isDashing)
+	{
+		//disable physics gravity update
+		this->physics->SetEnableUpdate(false);
+
+		//disable collision
+		this->enableCollision = false;
+
+		//start dash timer
+		dashTimer += dt;
+
+		//check if dash time is over
+		if (dashTimer > 0.25f)
+		{
+			//reset dash timer, is dashing and physics update
+			dashTimer = 0;
+			isDashing = false;
+			this->physics->SetEnableUpdate(true);
+			this->enableCollision = true;
+		}
+
+		//double check if player vel is not zero if not will have divide by zero error in normalized()
+		if (!this->physics->GetVelocity().IsZero())
+		{
+			//get and normalize the player vel  and find out the dash dir
+			Vector3 dir = this->physics->GetVelocity().Normalized() * speed * speed * dt;
+
+			//add the dash dir to the player's vel
+			this->physics->AddVelocity(Vector3(dir.x, 0, 0));
+		}
+	}
+
+	//set player's max vel speed
+	if (this->physics->GetVelocity().Length() > 100)
+		this->physics->SetVelocity(this->physics->GetVelocity().Normalized() * 100);
+}
+void Player::UpdateLobby(double dt)
+{
+	animatedSprites->Update(dt);
+	speed_multiplier = 1.0f;
+	stamina_rate_multiplier = 0.0f;
+	if (input->IsKeyDown(VK_SHIFT) && stamina > 0)
+	{
+		speed_multiplier = 2.0f;
+		stamina_rate_multiplier = 1.0f;
+	}
+
+	if (input->IsKeyDown('A'))
+	{
+		physics->SetVelocity(Vector3(-speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		stamina -= stamina_rate_multiplier * 50.f * dt;
+	}
+	else if (input->IsKeyDown('D'))
+	{
+		physics->SetVelocity(Vector3(speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		stamina -= stamina_rate_multiplier * 50.f * dt;
+	}
+	else
+	{
+		physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
+	}
+
+	if (input->IsKeyDown('W'))
+	{
+		physics->SetVelocity(Vector3(physics->GetVelocity().x, speed * speed_multiplier * dt, physics->GetVelocity().z));
+		stamina -= stamina_rate_multiplier * 50.f * dt;
+	}
+	else if (input->IsKeyDown('S'))
+	{
+		physics->SetVelocity(Vector3(physics->GetVelocity().x, -speed * speed_multiplier * dt, physics->GetVelocity().z));
+		stamina -= stamina_rate_multiplier * 50.f * dt;
+	}
+	else
+	{
+		physics->SetVelocity(Vector3(physics->GetVelocity().y, 0, physics->GetVelocity().z));
+	}
+
+
+	if (stamina < max_stamina)
+	{
+		stamina += 5.f * dt;
+	}
+
+	// ANIMATIONS SECTION
+	if (physics->GetVelocity().x > 1)
+		animatedSprites->PlayAnimation("right", -1, 1.0f);
+	else if (physics->GetVelocity().x < -1)
+		animatedSprites->PlayAnimation("left", -1, 1.0f);
+	else
+		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 
 	if (input->IsKeyPressed('Q'))
 	{

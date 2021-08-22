@@ -54,7 +54,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 	{
 		// Load the menu state
 		cout << "Loading LobbyState" << endl;
-		CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
+		CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 		return true;
 	}
 	return true;

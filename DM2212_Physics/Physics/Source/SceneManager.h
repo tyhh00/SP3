@@ -36,6 +36,7 @@ public:
 
 	void init();
 	void setScene(worlds sceneType);
+	SceneBase* getScene();
 	void update(double dt);
 	void render();
 	void destroy();
