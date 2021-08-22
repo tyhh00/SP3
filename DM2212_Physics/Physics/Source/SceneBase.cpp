@@ -9,6 +9,7 @@
 #include "Debug.h"
 #include "Input.h"
 #include <sstream>
+#include "Buttons/Text.h"
 
 SceneBase::SceneBase()
 {
@@ -139,10 +140,19 @@ void SceneBase::Init()
 		tileSize[i] = NULL;
 	}
 
-	//Fonts
+	//@DEPRECATED
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 	meshList[GEO_TEXT]->material.kAmbient.Set(1, 0, 0);
+
+	//Load In Fonts (As of 22.8.21 Update)
+	meshList[GEO_FONT_CALIBRI] = MeshBuilder::GenerateText("calibri", 16, 16);
+	meshList[GEO_FONT_CALIBRI]->textureID = LoadTGA("Image//calibri.tga");
+	Text::loadFont(CALIBRI, "calibri", meshList[GEO_FONT_CALIBRI]);
+
+	meshList[GEO_FONT_SUPERMARIO] = MeshBuilder::GenerateText("supermario", 16, 16);
+	meshList[GEO_FONT_SUPERMARIO]->textureID = LoadTGA("Image//supermario.tga");
+	Text::loadFont(SUPERMARIO, "supermario", meshList[GEO_FONT_SUPERMARIO]);
 
 	//Tiles (Player tile, environmental tiles)
 	LoadTile(GEO_TILEGRID, "Grid.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -335,7 +345,6 @@ void SceneBase::Init()
 	meshList[GEO_50]->textureID = LoadTGA("Image/50.tga");
 	meshList[GEO_HIGHLIGHT] = MeshBuilder::GenerateCircle("highlight", 1.0f, Color(0.0f, 1.0f, 0.0f));
 
-
 	bLightEnabled = false;
 }
 
@@ -458,7 +467,7 @@ void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	glEnable(GL_DEPTH_TEST);
 }
 
-void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int limit)
+void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int(&charWidth)[256], int arrSize)
 {
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
@@ -469,11 +478,13 @@ void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	projectionStack.PushMatrix();
 	projectionStack.LoadMatrix(ortho);
 	viewStack.PushMatrix();
-	viewStack.LoadIdentity();
+	viewStack.LoadIdentity(); //No need camera for ortho mode
 	modelStack.PushMatrix();
-	modelStack.LoadIdentity();
-	modelStack.Translate(x, y, 0);
+	modelStack.LoadIdentity(); //Reset modelStack
+	modelStack.Translate(x, y, 1);
 	modelStack.Scale(size, size, size);
+
+	glDisable(GL_DEPTH_TEST);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
 	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
 	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
@@ -481,45 +492,26 @@ void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
-	//Change this line inside for loop
-	std::string toPrint;
-	if (signed(text.length()) > limit)
+
+	float accumulator = 0;
+	for (unsigned i = 0; i < text.length(); ++i)
 	{
-		toPrint = text.substr(0, limit);
-		for (unsigned i = 0; i < toPrint.length(); ++i)
-		{
-			Mtx44 characterSpacing;
-			characterSpacing.SetToTranslation(0.5f + i * 0.5f, 0.5f, 0);
-			Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
-			glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
+		Mtx44 characterSpacing;
+		characterSpacing.SetToTranslation(0.5f + accumulator, 0.5f, 1);
+		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
+		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
+		mesh->Render((unsigned)text[i] * 6, 6);
 
-			mesh->Render((unsigned)text[i] * 6, 6);
-		}
-		RenderTextOnScreen(meshList[GEO_TEXT], text.substr(limit, text.length()), color, size, x, y - (1 * size), limit);
+		accumulator += charWidth[text[i]] / 64.0f;
 	}
-	else
-	{
-		toPrint = text;
-		for (unsigned i = 0; i < toPrint.length(); ++i)
-		{
-			Mtx44 characterSpacing;
-			characterSpacing.SetToTranslation(0.5f + i * 0.5f, 0.5f, 0);
-			Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
-			glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
-
-			mesh->Render((unsigned)text[i] * 6, 6);
-		}
-	}
-
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 
 	//Add these code just before glEnable(GL_DEPTH_TEST);
 	projectionStack.PopMatrix();
 	viewStack.PopMatrix();
 	modelStack.PopMatrix();
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 	glEnable(GL_DEPTH_TEST);
-
 }
 
 void SceneBase::RenderMesh(Mesh *mesh, bool enableLight)

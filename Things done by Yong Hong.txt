@@ -19,3 +19,4 @@ Prototype Pattern for bullet spawning (Bullet Spawner)
 Bullet Base class
 Enemy Base class
 Ability Base class
+Explosive Collision (Range checks)
