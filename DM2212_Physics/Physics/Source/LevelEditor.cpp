@@ -23,13 +23,13 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
-	std::string mapToLoad = "GRAVEYARD_1_1";
+	std::string mapToLoad = "LOBBY";
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = 143;
-	m_worldWidth = 1000;
+	m_worldHeight = m_screenHeight;
+	m_worldWidth = m_screenWidth;
 
 	stackOnGrid = true;
 

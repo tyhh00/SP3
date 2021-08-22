@@ -10,10 +10,15 @@
 #include "Input.h"
 #include "GameObjectManager.h"
 #include "LobbyPortal.h"
+#include "GameStateManagement/GameStateManager.h"
+#include "SceneManager.h"
+
 
 class SceneLobby : public SceneBase
 {
 public:
+	SceneManager *sceneManager;
+
 	SceneLobby();
 	~SceneLobby();
 
@@ -32,7 +37,7 @@ protected:
 	Input* input;
 	GameObjectManager* goManager;
 	Player* player;
-	LobbyPortal* portal;
+	LobbyPortal* portal_graveyard, *portal_jungle, *portal_ocean, *portal_robot;
 
 	double gridLength, gridHeight;
 	void CursorToWorldPosition(double& theX, double& theY);

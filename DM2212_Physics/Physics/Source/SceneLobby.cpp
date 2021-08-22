@@ -40,14 +40,15 @@ void SceneLobby::Init()
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
+
+	//1920 x 1080
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = 143;
-	m_worldWidth = 250;
+	m_worldHeight = m_screenHeight;
+	m_worldWidth = m_screenWidth;
 
 	//Physics code here
 	m_speed = 1.f;
 	Math::InitRNG();
-
 
 	// GO Manager
 	goManager = new GameObjectManager();
@@ -94,13 +95,13 @@ void SceneLobby::Init()
 		}
 		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_PORTAL_GRAVEYARD)
 		{
-			portal = new LobbyPortal();
-			portal->active = true;
-			portal->scale = go->scale;
-			portal->pos = go->pos;
-			portal->physics = go->physics->Clone();
-			portal->Init(red);
-			goManager->AddGO(portal);
+			portal_graveyard = new LobbyPortal();
+			portal_graveyard->active = true;
+			portal_graveyard->scale = go->scale;
+			portal_graveyard->pos = go->pos;
+			portal_graveyard->physics = go->physics->Clone();
+			portal_graveyard->Init(red);
+			goManager->AddGO(portal_graveyard);
 
 			//Delete portal
 			delete go;
@@ -108,13 +109,13 @@ void SceneLobby::Init()
 		}
 		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_PORTAL_JUNGLE)
 		{
-			portal = new LobbyPortal();
-			portal->active = true;
-			portal->scale = go->scale;
-			portal->pos = go->pos;
-			portal->physics = go->physics->Clone();
-			portal->Init(green);
-			goManager->AddGO(portal);
+			portal_jungle = new LobbyPortal();
+			portal_jungle->active = true;
+			portal_jungle->scale = go->scale;
+			portal_jungle->pos = go->pos;
+			portal_jungle->physics = go->physics->Clone();
+			portal_jungle->Init(green);
+			goManager->AddGO(portal_jungle);
 
 			//Delete portal
 			delete go;
@@ -122,13 +123,13 @@ void SceneLobby::Init()
 		}
 		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_PORTAL_OCEAN)
 		{
-			portal = new LobbyPortal();
-			portal->active = true;
-			portal->scale = go->scale;
-			portal->pos = go->pos;
-			portal->physics = go->physics->Clone();
-			portal->Init(blue);
-			goManager->AddGO(portal);
+			portal_ocean = new LobbyPortal();
+			portal_ocean->active = true;
+			portal_ocean->scale = go->scale;
+			portal_ocean->pos = go->pos;
+			portal_ocean->physics = go->physics->Clone();
+			portal_ocean->Init(blue);
+			goManager->AddGO(portal_ocean);
 
 			//Delete portal
 			delete go;
@@ -136,13 +137,13 @@ void SceneLobby::Init()
 		}
 		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_PORTAL_ROBOT)
 		{
-			portal = new LobbyPortal();
-			portal->active = true;
-			portal->scale = go->scale;
-			portal->pos = go->pos;
-			portal->physics = go->physics->Clone();
-			portal->Init(purple);
-			goManager->AddGO(portal);
+			portal_robot = new LobbyPortal();
+			portal_robot->active = true;
+			portal_robot->scale = go->scale;
+			portal_robot->pos = go->pos;
+			portal_robot->physics = go->physics->Clone();
+			portal_robot->Init(purple);
+			goManager->AddGO(portal_robot);
 
 			//Delete portal
 			delete go;
@@ -159,6 +160,7 @@ void SceneLobby::Init()
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);
 
+	sceneManager = SceneManager::GetInstance();
 }
 
 void SceneLobby::Update(double dt)
@@ -166,7 +168,44 @@ void SceneLobby::Update(double dt)
 	SceneBase::Update(dt);
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
-	portal->Update(dt);
+	
+	portal_graveyard->Update(dt);
+	portal_jungle->Update(dt);
+	portal_ocean->Update(dt);
+	portal_robot->Update(dt);
+
+	if (((portal_graveyard->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_graveyard->pos.x - 4)) && (player->pos.x <= (portal_graveyard->pos.x + 4)))
+	{
+		if (Application::IsKeyPressed(VK_RETURN))
+		{
+			sceneManager->setScene(w_graveyard);
+			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+		}
+	}
+	if (((portal_jungle->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_jungle->pos.x - 4)) && (player->pos.x <= (portal_jungle->pos.x + 4)))
+	{
+		if (Application::IsKeyPressed(VK_RETURN))
+		{
+			sceneManager->setScene(w_jungle);
+			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+		}
+	}
+	if (((portal_ocean->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_ocean->pos.x - 4)) && (player->pos.x <= (portal_ocean->pos.x + 4)))
+	{
+		if (Application::IsKeyPressed(VK_RETURN))
+		{
+			//sceneManager->setScene(w_ocean);
+			//CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+		}
+	}
+	if (((portal_robot->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_robot->pos.x - 4)) && (player->pos.x <= (portal_robot->pos.x + 4)))
+	{
+		if (Application::IsKeyPressed(VK_RETURN))
+		{
+			sceneManager->setScene(w_robot);
+			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+		}
+	}
 
 	// Updating of light things
 	//lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
@@ -260,7 +299,7 @@ void SceneLobby::Render()
 	// BG
 	modelStack.PushMatrix();
 	modelStack.Translate(m_worldWidth * 0.5, m_worldHeight * 0.5, -0.01);
-	modelStack.Scale(m_worldWidth, m_worldHeight, 1);
+	modelStack.Scale(m_worldWidth, m_worldHeight, 1); 
 	RenderMesh(meshList[GEO_BG], true);
 	modelStack.PopMatrix();
 

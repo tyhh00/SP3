@@ -40,6 +40,8 @@ bool CLobbyState::Init(void)
 {
 	cout << "CLobbyState::Init()\n" << endl;
 
+	sceneLobby = new SceneLobby();
+	sceneLobby->Init();
 	sceneManager = SceneManager::GetInstance();
 	//sceneManager->init();
 
@@ -54,7 +56,7 @@ bool CLobbyState::Init(void)
  */
 bool CLobbyState::Update(const double dElapsedTime)
 {
-	sceneManager->update(dElapsedTime);
+	sceneLobby->Update(dElapsedTime);
 
 	if (input->IsKeyPressed('1'))
 	{
@@ -96,7 +98,7 @@ void CLobbyState::Render(void)
 	// Clear the screen and buffer
 	glClearColor(0.0f, 0.55f, 1.00f, 1.00f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	sceneManager->render();
+	sceneLobby->Render();
 	// cout << "CLobbyState::Render()\n" << endl;
 }
 
