@@ -19,6 +19,8 @@ public:
 		I_PISTOL,
 		I_FLASHLIGHT,
 		I_BATTERY,
+		I_FIRETORCH,
+		I_GRAPPLER,
 		I_TOTAL
 	};
 

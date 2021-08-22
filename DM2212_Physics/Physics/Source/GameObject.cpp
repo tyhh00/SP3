@@ -110,3 +110,33 @@ float GameObject::GetExplosiveRadius()
 	return this->explosiveRadius;
 }
 
+void GameObject::SetCurrHealth(float _currentHP)
+{
+	currentHP = _currentHP;
+}
+
+float GameObject::GetCurrHealth()
+{
+	return currentHP;
+}
+
+void GameObject::SetMaxHealth(float _maxHP)
+{
+	maxHP = _maxHP;
+}
+
+float GameObject::GetMaxHealth()
+{
+	return maxHP;
+}
+
+void GameObject::AddCurrHealth(float _HP)
+{
+	currentHP += _HP;
+}
+
+void GameObject::MinusCurrHealth(float _HP)
+{
+	currentHP -= _HP;
+}
+
