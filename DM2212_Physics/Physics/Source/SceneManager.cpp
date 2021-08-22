@@ -25,8 +25,6 @@ void SceneManager::init()
 	graveyard->Init();
 	church = new SceneChurch();
 	church->Init();
-	lobby = new SceneLobby();
-	lobby->Init();
 	robot = new SceneRobot();
 	robot->Init();
 	std::cout << "FINISHED INITTING ALL SCENES" << std::endl;
@@ -50,9 +48,6 @@ void SceneManager::setScene(worlds sceneType)
 		break;
 	case w_levelEditor:
 		activeScene = levelEditor;
-		break;
-	case w_lobby:
-		activeScene = lobby;
 		break;
 	case w_robot:
 		activeScene = robot;
@@ -82,7 +77,6 @@ void SceneManager::destroy()
 	physics->Exit();
 	graveyard->Exit();
 	levelEditor->Exit();
-	lobby->Exit();
 	robot->Exit();
 }
 

@@ -84,7 +84,6 @@ bool CMenuState::Update(const double dElapsedTime)
 	if (Application::IsKeyPressed(VK_SPACE))
 	{
 		//Setting state and switching the scene to lobby
-		sceneManager->setScene(w_lobby);
 		CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
 		
 		//Fading effect for sound

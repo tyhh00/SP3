@@ -10,11 +10,13 @@
 #include "GameStateBase.h"
 #include "../SceneManager.h"
 #include "../Input.h"
+#include "../SceneLobby.h"
 
 class CLobbyState : public CGameStateBase
 {
 public:
 	SceneManager* sceneManager;
+	SceneLobby* sceneLobby;
 
 	// Constructor
 	CLobbyState(void);
