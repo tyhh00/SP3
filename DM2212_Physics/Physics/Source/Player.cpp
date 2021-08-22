@@ -33,56 +33,56 @@ void Player::Update(double dt)
 { 
 	animatedSprites->Update(dt);
 
-	//if (AkeyDown && !Application::IsKeyPressed('A'))
-	//{
-	//	AkeyDown = false;
-	//	std::cout << "A Key Released" << std::endl;
-	//	if (animatedSprites->GetCurrentAnimation() == "left")
-	//	{
-	//		animatedSprites->PlayAnimation("idle", -1, 1.0f);
-	//	}
-	//	physics->AddVelocity(speed * dt);
-	//}
-	//else if (!AkeyDown && Application::IsKeyPressed('A'))
-	//{
-	//	AkeyDown = true;
-	//	std::cout << "A Key Pressed" << std::endl;
-	//	animatedSprites->PlayAnimation("left", -1, 1.0f);
-	//	physics->AddVelocity(-speed * dt);
-	//}
-	//if (DkeyDown && !Application::IsKeyPressed('D'))
-	//{
-	//	DkeyDown = false;
-	//	std::cout << "D Key Released" << std::endl;
-	//	if (animatedSprites->GetCurrentAnimation() == "right")
-	//	{
-	//		animatedSprites->PlayAnimation("idle", -1, 1.0f);
-	//	}
-	//	physics->AddVelocity(-speed * dt);
-	//}
-	//else if (!DkeyDown && Application::IsKeyPressed('D'))
-	//{
-	//	DkeyDown = true;
-	//	std::cout << "D Key Pressed" << std::endl;
-	//	animatedSprites->PlayAnimation("right", -1, 1.0f);
-	//	physics->AddVelocity(speed * dt);
-	//}
-
-	//temp keyboard controls
-	if (keyboard->IsKeyDown('A'))
-		physics->SetVelocity(Vector3(-speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
-	else if (keyboard->IsKeyDown('D'))
-		physics->SetVelocity(Vector3(speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
-	else
-		physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
-
-	//animations based on x velocity
-	if (physics->GetVelocity().x > 1)
-		animatedSprites->PlayAnimation("right", -1, 1.0f);
-	else if (physics->GetVelocity().x < -1)
+	if (AkeyDown && !Application::IsKeyPressed('A'))
+	{
+		AkeyDown = false;
+		std::cout << "A Key Released" << std::endl;
+		if (animatedSprites->GetCurrentAnimation() == "left")
+		{
+			animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		}
+		physics->AddVelocity(speed * dt);
+	}
+	else if (!AkeyDown && Application::IsKeyPressed('A'))
+	{
+		AkeyDown = true;
+		std::cout << "A Key Pressed" << std::endl;
 		animatedSprites->PlayAnimation("left", -1, 1.0f);
-	else
-		animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		physics->AddVelocity(-speed * dt);
+	}
+	if (DkeyDown && !Application::IsKeyPressed('D'))
+	{
+		DkeyDown = false;
+		std::cout << "D Key Released" << std::endl;
+		if (animatedSprites->GetCurrentAnimation() == "right")
+		{
+			animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		}
+		physics->AddVelocity(-speed * dt);
+	}
+	else if (!DkeyDown && Application::IsKeyPressed('D'))
+	{
+		DkeyDown = true;
+		std::cout << "D Key Pressed" << std::endl;
+		animatedSprites->PlayAnimation("right", -1, 1.0f);
+		physics->AddVelocity(speed * dt);
+	}
+
+	////temp keyboard controls
+	//if (keyboard->IsKeyDown('A'))
+	//	physics->SetVelocity(Vector3(-speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+	//else if (keyboard->IsKeyDown('D'))
+	//	physics->SetVelocity(Vector3(speed * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+	//else
+	//	physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
+
+	////animations based on x velocity
+	//if (physics->GetVelocity().x > 1)
+	//	animatedSprites->PlayAnimation("right", -1, 1.0f);
+	//else if (physics->GetVelocity().x < -1)
+	//	animatedSprites->PlayAnimation("left", -1, 1.0f);
+	//else
+	//	animatedSprites->PlayAnimation("idle", -1, 1.0f);
 
 	if (spaceKeyDown && !Application::IsKeyPressed(VK_SPACE))
 	{
@@ -90,8 +90,8 @@ void Player::Update(double dt)
 		std::cout << "Space Key Released" << std::endl;
 		
 	}
-	else if (!spaceKeyDown && Application::IsKeyPressed(VK_SPACE) 
-		&& physics->GetOnGround())
+	else if (!spaceKeyDown && Application::IsKeyPressed(VK_SPACE))
+		//&& physics->GetOnGround())
 	{
 		spaceKeyDown = true;
 		std::cout << "Space Key Pressed" << std::endl;

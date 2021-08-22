@@ -20,7 +20,9 @@ ScenePhysics::ScenePhysics()
 
 ScenePhysics::~ScenePhysics()
 {
-	go = NULL;
+	delete plr;
+	plr = NULL;
+
 	keyboard = NULL;
 }
 
@@ -45,6 +47,7 @@ void ScenePhysics::Init()
 
 	//Physics code here
 	m_speed = 1.f;
+	grappler = nullptr;
 	Math::InitRNG();
 
 	//Store keyboard instance
@@ -70,6 +73,8 @@ void ScenePhysics::Init()
 
 			player->AddBottomSprite();
 			player->bottomSprite->mesh = meshList[GEO_WALL];
+
+			plr = player;
 			goManager->AddGO(player);
 
 
@@ -114,19 +119,19 @@ void ScenePhysics::Init()
 	//goManager->AddGO(go2);
 
 	//test player
-	go = new GameObject;
-	go->type = GameObject::GO_TILE;
-	go->physics->shapeType = RECTANGLE;
-	go->physics->SetMass(3);
-	go->pos.Set(m_screenWidth * 0.5f, m_screenHeight * 0.5f, 0);
-	go->physics->SetNormal(Vector3(0, 1, 0));
-	go->scale.Set(2.5, 2.5, 2.5);
-	go->physics->SetMovable(true);
-	go->physics->SetInelasticity(0.99f);
-	go->physics->SetIsBouncable(false);
-	go->active = true;
-	go->mesh = meshList[GEO_WALL];
-	goManager->AddGO(go);
+	//go = new GameObject;
+	//go->type = GameObject::GO_TILE;
+	//go->physics->shapeType = RECTANGLE;
+	//go->physics->SetMass(3);
+	//go->pos.Set(m_screenWidth * 0.5f, m_screenHeight * 0.5f, 0);
+	//go->physics->SetNormal(Vector3(0, 1, 0));
+	//go->scale.Set(2.5, 2.5, 2.5);
+	//go->physics->SetMovable(true);
+	//go->physics->SetInelasticity(0.99f);
+	//go->physics->SetIsBouncable(false);
+	//go->active = true;
+	//go->mesh = meshList[GEO_WALL];
+	//goManager->AddGO(go);
 
 	//floor
 	GameObject* go2 = new GameObject;
@@ -169,6 +174,37 @@ void ScenePhysics::Update(double dt)
 		//inventory->AddItem(newCheese);
 	}
 
+	if (Application::IsMousePressed(0))
+	{
+		double x, y;
+		Application::GetCursorPos(&x, &y);
+		int w = Application::GetWindowWidth();
+		int h = Application::GetWindowHeight();
+		// convert to world space
+		x /= (w / m_screenWidth);
+		y = h - y;
+		y /= (h / m_screenHeight);
+
+		temp = Vector3(x, y, 0);
+		isGrappling = true;
+		displacement2 = temp - plr->pos;
+	}
+
+	if (isGrappling)
+	{
+		Vector3 displacement = temp - plr->pos;
+
+		grappler = new GameObject;
+		grappler->active = true;
+		grappler->scale = Vector3(displacement2.Length() / 2, 1, 1);
+		grappler->pos = temp - Vector3(displacement2.x / 2, displacement2.y / 2, 0);
+		grappler->mesh = meshList[GEO_WALL];
+		grappler->enableCollision = false;
+		grappler->physics->SetNormal(displacement.Normalized());
+
+		plr->physics->AddVelocity(Vector3(displacement.x, 0, 0));
+	}
+
 	if(Application::IsKeyPressed('9'))
 	{
 		m_speed = Math::Max(0.f, m_speed - 0.1f);
@@ -176,19 +212,6 @@ void ScenePhysics::Update(double dt)
 	if(Application::IsKeyPressed('0'))
 	{
 		m_speed += 0.1f;
-	}
-
-	if (Application::IsKeyPressed('A'))
-	{
-		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(-5,0,0));
-	}
-	else if (Application::IsKeyPressed('D'))
-	{
-		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(5, 0, 0));
-	}
-	else
-	{
-		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(0, 0, 0));
 	}
 
 	goManager->Update(dt);
@@ -225,6 +248,17 @@ void ScenePhysics::Render()
 	}
 
 	goManager->Render(this);
+
+	if (grappler && grappler->active)
+	{
+		float angle = Math::RadianToDegree(atan2(grappler->physics->GetNormal().y, grappler->physics->GetNormal().x));
+		modelStack.PushMatrix();
+		modelStack.Translate(grappler->pos.x, grappler->pos.y, grappler->pos.z);
+		modelStack.Rotate(angle + grappler->physics->GetRotateZ(), 0, 0, 1);
+		modelStack.Scale(grappler->scale.x, grappler->scale.y, grappler->scale.z);
+		RenderMesh(grappler->mesh, true);
+		modelStack.PopMatrix();
+	}
 }
 
 void ScenePhysics::Exit()
