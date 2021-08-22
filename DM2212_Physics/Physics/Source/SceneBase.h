@@ -8,7 +8,6 @@
 #include "MatrixStack.h"
 #include "Light.h"
 #include <vector>
-#include "Button.h"
 #include "Shape.h"
 
 typedef struct TileSetting TileSetting;
@@ -228,6 +227,9 @@ public:
 
 		GEO_BG,
 
+		GEO_FONT_CALIBRI,
+		GEO_FONT_SUPERMARIO,
+
 
 		GEO_BUTTON,
 		GEO_WALL,
@@ -265,7 +267,7 @@ public:
 
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
-	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int limit);
+	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int(&charWidth)[256], int arrSize);
 	void RenderMesh(Mesh *mesh, bool enableLight);
 	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey);
 	

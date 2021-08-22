@@ -157,10 +157,15 @@
     <ClCompile Include="Source\Battery.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\BulletSpawner.cpp" />
+    <ClCompile Include="Source\Buttons\Button.cpp" />
+    <ClCompile Include="Source\Buttons\ButtonManager.cpp" />
+    <ClCompile Include="Source\Buttons\Text.cpp" />
+    <ClCompile Include="Source\Buttons\UIItem.cpp" />
     <ClCompile Include="Source\Dash.cpp" />
     <ClCompile Include="Source\FireTorch.cpp" />
     <ClCompile Include="Source\Grappling.cpp" />
     <ClCompile Include="Source\GrimReaper.cpp" />
+    <ClCompile Include="Source\Buttons\ButtonFactory.cpp" />
     <ClCompile Include="Source\PlasmaBullet.cpp" />
     <ClCompile Include="Source\PlasmaRobot.cpp" />
     <ClCompile Include="Source\Ability.cpp" />
@@ -176,7 +181,6 @@
     <ClCompile Include="Source\GameStateManagement\LobbyState.cpp" />
     <ClCompile Include="Source\LevelEditor.cpp" />
     <ClCompile Include="Source\Application.cpp" />
-    <ClCompile Include="Source\Button.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\GameStateManagement\GameStateManager.cpp" />
@@ -215,10 +219,15 @@
     <ClInclude Include="Source\Battery.h" />
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\BulletSpawner.h" />
+    <ClInclude Include="Source\Buttons\Button.h" />
+    <ClInclude Include="Source\Buttons\ButtonManager.h" />
+    <ClInclude Include="Source\Buttons\Text.h" />
+    <ClInclude Include="Source\Buttons\UIItem.h" />
     <ClInclude Include="Source\Dash.h" />
     <ClInclude Include="Source\FireTorch.h" />
     <ClInclude Include="Source\Grappling.h" />
     <ClInclude Include="Source\GrimReaper.h" />
+    <ClInclude Include="Source\Buttons\ButtonFactory.h" />
     <ClInclude Include="Source\PlasmaBullet.h" />
     <ClInclude Include="Source\PlasmaRobot.h" />
     <ClInclude Include="Source\Ability.h" />
@@ -236,7 +245,6 @@
     <ClInclude Include="Source\GameStateManagement\LobbyState.h" />
     <ClInclude Include="Source\LevelEditor.h" />
     <ClInclude Include="Source\Application.h" />
-    <ClInclude Include="Source\Button.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\GameStateManagement\GameStateBase.h" />
