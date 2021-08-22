@@ -158,6 +158,7 @@ void SceneLobby::Init()
 	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);
+
 }
 
 void SceneLobby::Update(double dt)
@@ -269,12 +270,12 @@ void SceneLobby::Render()
 	//ss.str("");
 	//ss << "LIGHT COLOR: " << Vector3(lights[0].color.r, lights[0].color.g, lights[0].color.b);
 	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
-	ss.str("");
-	ss << "player vel: " << player->physics->GetVelocity();
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);
 	/*ss.str("");
+	ss << "player vel: " << player->physics->GetVelocity();
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);*/
+	ss.str("");
 	ss << "camera pos: " << camera.position;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);*/
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);
 
 
 

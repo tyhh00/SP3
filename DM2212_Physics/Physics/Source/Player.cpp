@@ -73,7 +73,7 @@ void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* invento
 	}
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
-	animatedSprites->AddAnimation("idle", 0, 2);
+	animatedSprites->AddAnimation("idle", 0, 1);
 	animatedSprites->AddAnimation("right", 6, 8);
 	animatedSprites->AddAnimation("left", 3, 5);
 	animatedSprites->AddAnimation("up", 9, 11);
@@ -183,6 +183,7 @@ void Player::UpdateMovement(double dt)
 
 		speed_multiplier = 1.0f;
 		stamina_rate_multiplier = 0.0f;
+		curr_max_vel = MAX_VEL;
 		if (input->IsKeyDown(VK_SHIFT) && stamina > 0)
 		{
 			curr_max_vel = MAX_SPRINTVEL;
@@ -247,11 +248,11 @@ void Player::Render(SceneBase* scene)
 	// Render Stamina Bar??
 
 	// hp
-	float HPscale = 3;
+	float HPscale = 2;
 	for (int i = 0; i < lives; i++)
 	{
 		scene->modelStack.PushMatrix();
-		scene->RenderMeshOnScreen(livesIcon, HPscale * 0.5, 60 - HPscale * 0.5, HPscale, HPscale);
+		scene->RenderMeshOnScreen(livesIcon, HPscale * 0.5 + i * HPscale, 60 - HPscale * 0.5, HPscale, HPscale);
 		scene->modelStack.PopMatrix();
 	}
 	

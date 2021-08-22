@@ -66,7 +66,7 @@ bool CLobbyState::Update(const double dElapsedTime)
 
 	if (input->IsKeyPressed('2'))
 	{
-		sceneManager->setScene(w_lobby); 
+		sceneManager->setScene(w_graveyard); 
 		CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		return true;
 	}

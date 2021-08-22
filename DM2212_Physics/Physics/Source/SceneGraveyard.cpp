@@ -103,7 +103,6 @@ void SceneGraveyard::Init()
 			ghost->physics = go->physics->Clone();
 			ghost->physics->SetInelasticity(0.99f);
 			ghost->physics->SetIsBouncable(false);
-			ghost->physics->SetGravity(Vector3(0, 0, 0));
 			ghost->Init(this, inventory, player->pos);
 
 			goManager->AddGO(ghost);

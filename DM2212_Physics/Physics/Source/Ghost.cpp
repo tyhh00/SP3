@@ -22,7 +22,8 @@ void Ghost::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 	state = INACTIVE;
 
 	haunting_speed = 2.0f;
-	hostile_speed = 25.0f;
+	hostile_speed = 20.0f;
+	rage_speed = 25.0f;
 	activeRange = 40.0f;
 	hostileRange = 20.0f;
 	inactiveRange = 100.0f;
@@ -31,6 +32,8 @@ void Ghost::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 	state_interval;
 
 	physics->SetMovable(true);
+	physics->SetEnableCollision(false);
+	physics->SetGravity(Vector3(0,0,0));
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("inactive", 9, 11);
@@ -47,6 +50,13 @@ void Ghost::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 
 void Ghost::Update(double dt)
 { 
+	mesh->material.kDiffuse.Set(1.0f, 1.0f, 1.0f);
+	if (isBeingAttacked())
+	{
+		mesh->material.kDiffuse.Set(1.0f, 0.5f, 0.5f);
+		state = RAGE;
+	}
+
 	switch (state)
 	{
 	case INACTIVE:
@@ -117,16 +127,11 @@ void Ghost::Update(double dt)
 		}
 		physics->SetVelocity((*playerPos - pos).Normalized() * hostile_speed);
 		break;
-	}
-
-	mesh->material.kDiffuse.Set(1.0f, 1.0f, 1.0f);
-	if (isWithinFlashlight())
-	{
-		Flashlight* flashlight = dynamic_cast<Flashlight*>(inventory->GetCurrentItem());
-		if (flashlight->isIntensified())
-		{
-			mesh->material.kDiffuse.Set(1.0f, 0.5f, 0.5f);
-		}
+	case RAGE:
+		physics->SetVelocity((*playerPos - pos).Normalized() * rage_speed);
+		std::cout << "VEL: " << physics->GetVelocity() << std::endl;
+		std::cout << "POS: " << pos << std::endl;
+		break;
 	}
 
 	animatedSprites->Update(dt);
@@ -139,6 +144,7 @@ void Ghost::Update(double dt)
 	{
 		animatedSprites->PlayAnimation("left", -1, 1.0f);
 	}
+
 
 }
 
@@ -156,5 +162,19 @@ bool Ghost::isWithinFlashlight()
 		}
 	}
 
+	return false;
+}
+
+bool Ghost::isBeingAttacked()
+{
+	if (!isWithinFlashlight())
+	{
+		return false;
+	}
+	Flashlight* flashlight = dynamic_cast<Flashlight*>(inventory->GetCurrentItem());
+	if (flashlight->isIntensified())
+	{
+		return true;
+	}
 	return false;
 }

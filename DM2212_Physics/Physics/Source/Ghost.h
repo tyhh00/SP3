@@ -24,12 +24,14 @@ private:
 		HIDING, // haunting state but facing back to hide from light, unable to move when in light
 		WANDER, // wandering state, where it was haunting the player but lost sight of player while hiding (moves randomly for period of time (10s?))
 		HOSTILE, // attack state, moves towards player (very quickly, unavoidable)
+		RAGE, // permanent attack state
 
 		GSTATE_TOTAL
 	};
 
 	float haunting_speed;
 	float hostile_speed;
+	float rage_speed;
 
 	float activeRange;
 	float inactiveRange;
@@ -45,6 +47,7 @@ private:
 	Inventory* inventory;
 
 	bool isWithinFlashlight();
+	bool isBeingAttacked();
 
 };
 
