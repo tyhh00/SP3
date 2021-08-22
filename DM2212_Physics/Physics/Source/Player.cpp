@@ -77,10 +77,43 @@ void Player::Update(double dt)
 { 
 	animatedSprites->Update(dt);
 
-	//MOVEMENT SECTION
+	// MOVEMENT SECTION
+	/*if (AkeyDown && !Application::IsKeyPressed('A'))
+	{
+		AkeyDown = false;
+		std::cout << "A Key Released" << std::endl;
+		if (animatedSprites->GetCurrentAnimation() == "left")
+		{
+			animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		}
+		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, 0, 0));
+	}
+	else if (!AkeyDown && Application::IsKeyPressed('A'))
+	{
+		AkeyDown = true;
+		std::cout << "A Key Pressed" << std::endl;
+		animatedSprites->PlayAnimation("left", -1, 1.0f);
+		physics->SetVelocity(Vector3(physics->GetVelocity().x - speed * dt, 0, 0));
+	}
+	if (DkeyDown && !Application::IsKeyPressed('D'))
+	{
+		DkeyDown = false;
+		std::cout << "D Key Released" << std::endl;
+		if (animatedSprites->GetCurrentAnimation() == "right")
+		{
+			animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		}
+		physics->SetVelocity(Vector3(physics->GetVelocity().x - speed * dt, 0, 0));
+	}
+	else if (!DkeyDown && Application::IsKeyPressed('D'))
+	{
+		DkeyDown = true;
+		std::cout << "D Key Pressed" << std::endl;
+		animatedSprites->PlayAnimation("right", -1, 1.0f);
+		physics->SetVelocity(Vector3(physics->GetVelocity().x + speed * dt, 0, 0));
+	}*/
 	speed_multiplier = 1.0f;
 	stamina_rate_multiplier = 0.0f;
-
 	if (input->IsKeyDown(VK_SHIFT) && stamina > 0)
 	{
 		speed_multiplier = 2.0f;
@@ -89,42 +122,23 @@ void Player::Update(double dt)
 
 	if (input->IsKeyDown('A'))
 	{
-		accel = -ACCEL_SPEED * speed_multiplier * dt;
+		physics->SetVelocity(Vector3(-speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
 		stamina -= stamina_rate_multiplier * 50.f * dt;
 	}
 	else if (input->IsKeyDown('D'))
 	{
-		accel = ACCEL_SPEED * speed_multiplier * dt;
+		physics->SetVelocity(Vector3(speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
 		stamina -= stamina_rate_multiplier * 50.f * dt;
 	}
 	else
 	{
-		//if A or D was applied then reset vel x back to 0
-		if (physics->GetVelocity().x >= -1 && physics->GetVelocity().x <= 1)
-		{
-			accel = 0;
-			physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
-			std::cout << "Set vel to 0" << std::endl;
-		}
+		physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
 	}
-
-	//clamp the accel of the player
-	accel = Math::Clamp(accel, -MAX_ACCEL, MAX_ACCEL);
-
-	//keep the player's accel within bounds
-	float tempAccel = accel;
-	if (physics->GetVelocity().x > MAX_ACCEL_VEL && accel > 0)
-		tempAccel = 0;
-	else if (physics->GetVelocity().x < -MAX_ACCEL_VEL && accel < 0)
-		tempAccel = 0;
-
-	physics->AddVelocity(Vector3(tempAccel, 0, 0));
 
 	if (stamina < max_stamina)
 	{
 		stamina += 5.f * dt;
 	}
-
 
 	// JUMP SECTION
 	if (input->IsKeyPressed(VK_SPACE)
@@ -136,9 +150,9 @@ void Player::Update(double dt)
 	}
 
 	// ANIMATIONS SECTION
-	if (accel >= 1 || physics->GetVelocity().x > 1)
+	if (physics->GetVelocity().x > 1)
 		animatedSprites->PlayAnimation("right", -1, 1.0f);
-	else if (accel <= -1 || physics->GetVelocity().x < -1)
+	else if (physics->GetVelocity().x < -1)
 		animatedSprites->PlayAnimation("left", -1, 1.0f);
 	else
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
