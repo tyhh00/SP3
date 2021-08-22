@@ -144,16 +144,6 @@ void Player::Update(double dt)
 
 	physics->SetVelocity(Vector3(Math::Clamp(physics->GetVelocity().x, -curr_max_vel, curr_max_vel), physics->GetVelocity().y, physics->GetVelocity().z));
 }
-void Player::UpdateLobby(double dt)
-{
-	animatedSprites->Update(dt);
-	speed_multiplier = 1.0f;
-	stamina_rate_multiplier = 0.0f;
-	if (input->IsKeyDown(VK_SHIFT) && stamina > 0)
-	{
-		speed_multiplier = 2.0f;
-		stamina_rate_multiplier = 1.0f;
-	}
 
 void Player::UpdateMovement(double dt)
 {		

@@ -79,10 +79,7 @@ void SceneLobby::Init()
 			player->physics->SetInelasticity(0.99f);
 			player->physics->SetIsBouncable(false);
 
-			//remove when player fixed?
-			player->physics->SetEnableUpdate(false);
-
-			player->Init(goManager, inventory);
+			player->Init(Player::WASD, goManager, inventory);
 
 			player->AddBottomSprite();
 			player->bottomSprite->mesh = meshList[GEO_WALL];
@@ -169,7 +166,6 @@ void SceneLobby::Update(double dt)
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
 	portal->Update(dt);
-	//player->UpdateLobby(dt);
 
 	// Updating of light things
 	//lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
@@ -190,22 +186,6 @@ void SceneLobby::Update(double dt)
 	if(Application::IsKeyPressed('0'))
 	{
 		m_speed += 0.1f;
-	}
-	if (Application::IsKeyPressed('W'))
-	{
-		player->pos.y += 5 * dt;
-	}
-	if (Application::IsKeyPressed('S'))
-	{
-		player->pos.y -= 5 * dt;
-	}
-	if (Application::IsKeyPressed('A'))
-	{
-		player->pos.x -= 5 * dt;
-	}
-	if (Application::IsKeyPressed('D'))
-	{
-		player->pos.x += 5 * dt;
 	}
 
 	goManager->Update(dt);

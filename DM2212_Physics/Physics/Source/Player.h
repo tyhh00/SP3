@@ -28,7 +28,6 @@ public:
 
 	void Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* inventory);
 	void Update(double dt);
-	void UpdateLobby(double dt);
 	void Render(SceneBase* scene);
 	void CollidedWith(GameObject* go);
 	void SetAbilities(Ability* a, Ability* b);
