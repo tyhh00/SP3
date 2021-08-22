@@ -34,7 +34,7 @@ public:
 			LobbyPortalSprite = MeshBuilder::GenerateSpriteAnimation(5, 5, 2.0f, 2.0f);
 			LobbyPortalSprite->AddAnimation("idle", 16, 17);
 			LobbyPortalSprite->AddAnimation("opening", 0, 17);
-			LobbyPortalSprite->AddAnimation("closing", 17, 22);
+			LobbyPortalSprite->AddAnimation("active", 17, 22);
 			LobbyPortalSprite->textureID = LoadTGA("Image/portal_graveyard.tga");
 			LobbyPortalSprite->PlayAnimation("opening", -1, 1.0f);
 		}
@@ -43,24 +43,27 @@ public:
 			LobbyPortalSprite = MeshBuilder::GenerateSpriteAnimation(5, 5, 2.0f, 2.0f);
 			LobbyPortalSprite->AddAnimation("idle", 16, 17);
 			LobbyPortalSprite->AddAnimation("opening", 0, 17);
-			LobbyPortalSprite->AddAnimation("closing", 17, 22);
+			LobbyPortalSprite->AddAnimation("active", 17, 22);
 			LobbyPortalSprite->textureID = LoadTGA("Image/portal_jungle.tga");
+			LobbyPortalSprite->PlayAnimation("opening", -1, 1.0f);
 		}
 		if (color == blue)
 		{
 			LobbyPortalSprite = MeshBuilder::GenerateSpriteAnimation(5, 5, 2.0f, 2.0f);
 			LobbyPortalSprite->AddAnimation("idle", 16, 17);
 			LobbyPortalSprite->AddAnimation("opening", 0, 17);
-			LobbyPortalSprite->AddAnimation("closing", 17, 22);
+			LobbyPortalSprite->AddAnimation("active", 17, 22);
 			LobbyPortalSprite->textureID = LoadTGA("Image/portal_ocean.tga");
+			LobbyPortalSprite->PlayAnimation("active", -1, 1.0f);
 		}
 		if (color == purple)
 		{
 			LobbyPortalSprite = MeshBuilder::GenerateSpriteAnimation(5, 5, 2.0f, 2.0f);
 			LobbyPortalSprite->AddAnimation("idle", 16, 17);
 			LobbyPortalSprite->AddAnimation("opening", 0, 17);
-			LobbyPortalSprite->AddAnimation("closing", 17, 22);
+			LobbyPortalSprite->AddAnimation("active", 17, 22);
 			LobbyPortalSprite->textureID = LoadTGA("Image/portal_robot.tga");
+			LobbyPortalSprite->PlayAnimation("active", -1, 1.0f);
 		}
 
 		mesh = LobbyPortalSprite;

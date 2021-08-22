@@ -109,6 +109,48 @@ void SceneLobby::Init()
 			delete go;
 			go = nullptr;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_PORTAL_JUNGLE)
+		{
+			portal = new LobbyPortal();
+			portal->active = true;
+			portal->scale = go->scale;
+			portal->pos = go->pos;
+			portal->physics = go->physics->Clone();
+			portal->Init(green);
+			goManager->AddGO(portal);
+
+			//Delete portal
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_PORTAL_OCEAN)
+		{
+			portal = new LobbyPortal();
+			portal->active = true;
+			portal->scale = go->scale;
+			portal->pos = go->pos;
+			portal->physics = go->physics->Clone();
+			portal->Init(blue);
+			goManager->AddGO(portal);
+
+			//Delete portal
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_PORTAL_ROBOT)
+		{
+			portal = new LobbyPortal();
+			portal->active = true;
+			portal->scale = go->scale;
+			portal->pos = go->pos;
+			portal->physics = go->physics->Clone();
+			portal->Init(purple);
+			goManager->AddGO(portal);
+
+			//Delete portal
+			delete go;
+			go = nullptr;
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	
