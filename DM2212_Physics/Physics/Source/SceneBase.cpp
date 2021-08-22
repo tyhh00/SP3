@@ -383,6 +383,26 @@ TileSetting* SceneBase::GetTileSetting(GEOMETRY_TYPE type)
 		DEBUG_MSG("Unable to get tile setting of GEOMETRY_TYPE ID: " << type << ". Are you sure this is even a tile?");
 }
 
+float SceneBase::GetScreenWidth()
+{
+	return m_screenWidth;
+}
+
+float SceneBase::GetScreenHeight()
+{
+	return m_screenHeight;
+}
+
+float SceneBase::GetWorldWidth()
+{
+	return m_worldWidth;
+}
+
+float SceneBase::GetWorldHeight()
+{
+	return m_worldHeight;
+}
+
 void SceneBase::Update(double dt)
 {
 	Input::GetInstance()->Update(dt);

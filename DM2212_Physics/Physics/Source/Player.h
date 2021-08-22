@@ -28,27 +28,27 @@ public:
 	void DecreaseStamina(float amt);
 
 private:
-	/*const float ACCEL_SPEED = 100.f;
-	const float MAX_ACCEL = 5.f;
-	const float MAX_ACCEL_VEL = 30.f;
-	const float MAX_VEL = 100.f;*/
+	const float MAX_VEL = 20.f;
+	const float MAX_SPRINTVEL = 40.f;
 
 	SpriteAnimation* animatedSprites;
 	Mesh* portalSprite;
+	Mesh* livesIcon;
 
-	float accel;
 	bool isDashing = false;
 
 	bool invisibility;
-	bool AkeyDown;
-	bool DkeyDown;
 
-	float speed;
+	float accel;
+	float curr_max_vel;
 	float speed_multiplier;
 	float jump_force;
 
 	float stamina;
 	float max_stamina;
+
+	int lives;
+	int max_lives;
 
 	float stamina_rate_multiplier;
 

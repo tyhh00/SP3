@@ -75,7 +75,6 @@ void SceneManager::render()
 
 void SceneManager::destroy()
 {
-	
 	physics->Exit();
 	graveyard->Exit();
 	levelEditor->Exit();

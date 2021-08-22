@@ -9,14 +9,17 @@
 #include "FireTorch.h"
 
 Player::Player() : input(NULL)
-	, goManager(NULL)
-	, inventory(NULL)
-	, speed(1000.f)
-	, jump_force(4000.f)
-	, max_stamina(100.f)
-	, stamina(100.f)
-	, stamina_rate_multiplier(0.0f)
-	, invisibility(false)
+, goManager(NULL)
+, inventory(NULL)
+, accel(200.f)
+, jump_force(20000.f)
+, max_stamina(100.f)
+, stamina(100.f)
+, curr_max_vel(MAX_VEL)
+, lives(3)
+, max_lives(3)
+, stamina_rate_multiplier(0.0f)
+, invisibility(false)
 {
 }
 
@@ -41,15 +44,22 @@ Player::~Player()
 		delete animatedSprites;
 		animatedSprites = NULL;
 	}
+	if (livesIcon)
+	{
+		delete livesIcon;
+		livesIcon = NULL;
+	}
 }
 
 void Player::Init(GameObjectManager* GOM, Inventory* inventory)
 {
-	physics->SetMass(1);
+	physics->SetMass(5);
 	physics->SetMovable(true);
 
-	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 0.5f);
+	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 1.0f);
 	portalSprite->textureID = LoadTGA("Image/PortalTravelSprite.tga");
+	livesIcon = MeshBuilder::GenerateQuad("hp icon", Color(1, 1, 1), 1.0f);
+	livesIcon->textureID = LoadTGA("Image/lives.tga");
 
 	input = Input::GetInstance();
 
@@ -57,8 +67,6 @@ void Player::Init(GameObjectManager* GOM, Inventory* inventory)
 	{
 		abilityArray[i] = nullptr;
 	}
-
-	accel = 0;
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("idle", 0, 1);
@@ -82,34 +90,29 @@ void Player::Update(double dt)
 	stamina_rate_multiplier = 0.0f;
 	if (input->IsKeyDown(VK_SHIFT) && stamina > 0)
 	{
+		curr_max_vel = MAX_SPRINTVEL;
 		speed_multiplier = 2.0f;
 		stamina_rate_multiplier = 1.0f;
 	}
 
-	if (input->IsKeyPressed('A'))
+	Vector3 leftAccel = -accel * speed_multiplier;
+	Vector3 rightAccel = accel * speed_multiplier;
+	if (input->IsKeyDown('A'))
 	{
-		physics->AddVelocity(Vector3(-speed * speed_multiplier * dt, 0, 0));
+		physics->AddVelocity(leftAccel * dt);
 		stamina -= stamina_rate_multiplier * 50.f * dt;
 	}
-	else if (input->IsKeyReleased('A'))
+	if (input->IsKeyDown('D'))
 	{
-		physics->AddVelocity(Vector3(speed * speed_multiplier * dt, 0, 0));
-	}
-	if (input->IsKeyPressed('D'))
-	{
-		physics->AddVelocity(Vector3(speed * speed_multiplier * dt, 0, 0));
+		physics->AddVelocity(rightAccel * dt);
 		stamina -= stamina_rate_multiplier * 50.f * dt;
 	}
-	else if (input->IsKeyReleased('D'))
-	{
-		physics->AddVelocity(Vector3(-speed * speed_multiplier * dt, 0, 0));
-	}
-	
 
 	if (stamina < max_stamina)
 	{
 		stamina += 5.f * dt;
 	}
+
 
 	// JUMP SECTION
 	if (input->IsKeyPressed(VK_SPACE)
@@ -140,7 +143,7 @@ void Player::Update(double dt)
 			{
 				abilityArray[i]->Update(dt);
 				DashAbility* ability = dynamic_cast<DashAbility*>(abilityArray[i]);
-				ability->UpdatePlayer(accel, physics, speed, enableCollision, isDashing);
+				//ability->UpdatePlayer(accel, physics, speed, enableCollision, isDashing);
 			}
 			break;
 			case ABILITY_PORTAL:
@@ -176,10 +179,12 @@ void Player::Update(double dt)
 		}
 	}
 
+	physics->SetVelocity(Vector3(Math::Clamp(physics->GetVelocity().x, -curr_max_vel, curr_max_vel), physics->GetVelocity().y, physics->GetVelocity().z));
 }
 
 void Player::Render(SceneBase* scene)
 {
+	// ability related renders
 	for (int i = 0; i < 2; i++)
 	{
 		if (abilityArray[i] != nullptr)
@@ -188,6 +193,7 @@ void Player::Render(SceneBase* scene)
 		}
 	}
 
+	// player sprite
 	float angle = Math::RadianToDegree(atan2(physics->GetNormal().y, physics->GetNormal().x));
 	scene->modelStack.PushMatrix();
 	scene->modelStack.Translate(pos.x, pos.y, pos.z);
@@ -197,6 +203,15 @@ void Player::Render(SceneBase* scene)
 	scene->modelStack.PopMatrix();
 
 	// Render Stamina Bar??
+
+	// hp
+	float HPscale = 3;
+	for (int i = 0; i < lives; i++)
+	{
+		scene->modelStack.PushMatrix();
+		scene->RenderMeshOnScreen(livesIcon, HPscale * 0.5, 60 - HPscale * 0.5, HPscale, HPscale);
+		scene->modelStack.PopMatrix();
+	}
 	
 }
 

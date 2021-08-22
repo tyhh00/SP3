@@ -377,7 +377,7 @@ void Physics::CollisionResponse(Physics* go2, double dt)
 void Physics::ApplyFriction(Physics* ball, Vector3 normal, double dt)
 {
 	// - velocity parallel to surface by amount of Nforce
-	const float FRICTION_K = 0.01f;
+	const float FRICTION_K = 0.1f;
 	float Nforce = abs(Vector3(ball->mass * ball->gravity).Dot(normal));
 	Vector3 plane = normal.Cross(Vector3(0, 0, 1));
 	if (ball->vel.Dot(plane) < 0)

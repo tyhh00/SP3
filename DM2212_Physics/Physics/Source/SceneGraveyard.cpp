@@ -130,7 +130,6 @@ void SceneGraveyard::Init()
 			delete go;
 			go = nullptr;
 		}
-
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	
