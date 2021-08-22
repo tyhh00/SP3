@@ -151,44 +151,30 @@ void Player::UpdateMovement(double dt)
 	if (mode == WASD)
 	{
 		float speed = 20.f;
-		if (input->IsKeyPressed('A'))
+		if (input->IsKeyDown('A'))
 		{
-			physics->AddVelocity(Vector3(-speed, 0, 0));
+			physics->SetVelocity(Vector3(-speed, 0, 0));
 			animatedSprites->PlayAnimation("left", -1, 1.0f);
 		}
-		else if (input->IsKeyReleased('A'))
+		else if (input->IsKeyDown('D'))
 		{
-			physics->AddVelocity(Vector3(speed, 0, 0));
-		}
-		if (input->IsKeyPressed('D'))
-		{
-			physics->AddVelocity(Vector3(speed, 0, 0));
+			physics->SetVelocity(Vector3(speed, 0, 0));
 			animatedSprites->PlayAnimation("right", -1, 1.0f);
 		}
-		else if (input->IsKeyReleased('D'))
+		else if (input->IsKeyDown('W'))
 		{
-			physics->AddVelocity(Vector3(-speed, 0, 0));
-		}
-		if (input->IsKeyPressed('W'))
-		{
-			physics->AddVelocity(Vector3(0, speed, 0));
+			physics->SetVelocity(Vector3(0, speed, 0));
 			animatedSprites->PlayAnimation("up", -1, 1.0f);
 		}
-		else if (input->IsKeyReleased('W'))
+		else if (input->IsKeyDown('S'))
 		{
-			physics->AddVelocity(Vector3(0, -speed, 0));
-		}
-		if (input->IsKeyPressed('S'))
-		{
-			physics->AddVelocity(Vector3(0, -speed, 0));
+			physics->SetVelocity(Vector3(0, -speed, 0));
 			animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		}
-		else if (input->IsKeyReleased('S'))
-		{
-			physics->AddVelocity(Vector3(0, speed, 0));
+		else {
+			physics->SetVelocity(Vector3(0, 0, 0));
 		}
 
-	
 	}
 	else if (mode == PLATFORMER)
 	{
