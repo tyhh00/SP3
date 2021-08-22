@@ -41,7 +41,7 @@ bool CLobbyState::Init(void)
 	cout << "CLobbyState::Init()\n" << endl;
 
 	sceneManager = SceneManager::GetInstance();
-	sceneManager->init();
+	//sceneManager->init();
 
 	// Input
 	input = Input::GetInstance();
@@ -56,7 +56,7 @@ bool CLobbyState::Update(const double dElapsedTime)
 {
 	sceneManager->update(dElapsedTime);
 
-	if (oneKeyReleased && Application::IsKeyPressed('1'))
+	if (input->IsKeyPressed('1'))
 	{
 		sceneManager->setScene(w_jungle);
 		CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
@@ -66,7 +66,6 @@ bool CLobbyState::Update(const double dElapsedTime)
 
 	if (input->IsKeyPressed('2'))
 	{
-		twoKeyReleased = false;
 		sceneManager->setScene(w_lobby); 
 		CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		return true;
@@ -97,9 +96,8 @@ void CLobbyState::Render(void)
 	// Clear the screen and buffer
 	glClearColor(0.0f, 0.55f, 1.00f, 1.00f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	sceneManager->render();
-	//cout << "CLobbyState::Render()\n" << endl;
+	// cout << "CLobbyState::Render()\n" << endl;
 }
 
 /**

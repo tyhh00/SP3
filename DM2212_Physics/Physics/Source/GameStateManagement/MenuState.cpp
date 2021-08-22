@@ -36,7 +36,6 @@
 //#include "../Application.h"
 
 #include "../SoundController/SoundController.h"
-#include "../Input.h"
 
 #include <iostream>
 using namespace std;
@@ -67,6 +66,9 @@ bool CMenuState::Init(void)
 
 	sceneManager = SceneManager::GetInstance();
 	sceneManager->init();
+	
+	// Input
+	input = Input::GetInstance();
 
 	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_MAINMENU);
 
@@ -79,10 +81,8 @@ bool CMenuState::Init(void)
 bool CMenuState::Update(const double dElapsedTime)
 {
 	
-	if (Application::IsKeyPressed(VK_SPACE) && spaceReleased)
+	if (Application::IsKeyPressed(VK_SPACE))
 	{
-		spaceReleased = false;
-
 		//Setting state and switching the scene to lobby
 		sceneManager->setScene(w_lobby);
 		CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
@@ -92,10 +92,7 @@ bool CMenuState::Update(const double dElapsedTime)
 		CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_MAINMENU, 3, 0.5);
 		return true;
 	}
-	else if (Application::IsKeyPressed(VK_SPACE) && !spaceReleased)
-	{
-		spaceReleased = true;
-	}
+	
 	return true;
 }
 

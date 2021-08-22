@@ -65,6 +65,8 @@ bool CPlayGameState::Update(const double dElapsedTime)
  */
 void CPlayGameState::Render(void)
 {
+	glClearColor(0.0f, 0.55f, 1.00f, 1.00f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	sceneManager->render();
 }
 

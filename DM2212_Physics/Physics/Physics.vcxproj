@@ -166,6 +166,7 @@
     <ClCompile Include="Source\Grappling.cpp" />
     <ClCompile Include="Source\GrimReaper.cpp" />
     <ClCompile Include="Source\Buttons\ButtonFactory.cpp" />
+    <ClCompile Include="Source\LobbyPortal.cpp" />
     <ClCompile Include="Source\PlasmaBullet.cpp" />
     <ClCompile Include="Source\PlasmaRobot.cpp" />
     <ClCompile Include="Source\Ability.cpp" />
@@ -228,6 +229,7 @@
     <ClInclude Include="Source\Grappling.h" />
     <ClInclude Include="Source\GrimReaper.h" />
     <ClInclude Include="Source\Buttons\ButtonFactory.h" />
+    <ClInclude Include="Source\LobbyPortal.h" />
     <ClInclude Include="Source\PlasmaBullet.h" />
     <ClInclude Include="Source\PlasmaRobot.h" />
     <ClInclude Include="Source\Ability.h" />

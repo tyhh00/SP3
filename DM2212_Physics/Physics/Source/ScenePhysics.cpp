@@ -212,14 +212,9 @@ void ScenePhysics::Update(double dt)
 	{
 		m_speed = Math::Max(0.f, m_speed - 0.1f);
 	}
-	if(Application::IsKeyPressed('0'))
-	else if (input->IsKeyPressed('W'))
+	if (Application::IsKeyPressed('0'))
 	{
-		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(0, 5, 0));
-	}
-	else if (input->IsKeyPressed('S'))
-	{
-		go->physics->SetVelocity(go->physics->GetVelocity() + Vector3(0, -5, 0));
+
 	}
 	else
 	{

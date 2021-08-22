@@ -78,6 +78,10 @@ void SceneLobby::Init()
 			player->physics = go->physics->Clone();
 			player->physics->SetInelasticity(0.99f);
 			player->physics->SetIsBouncable(false);
+
+			//remove when player fixed?
+			player->physics->SetEnableUpdate(false);
+
 			player->Init(goManager, inventory);
 
 			player->AddBottomSprite();
@@ -88,6 +92,20 @@ void SceneLobby::Init()
 			
 
 			//Delete Grid Player
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_PORTAL_GRAVEYARD)
+		{
+			portal = new LobbyPortal();
+			portal->active = true;
+			portal->scale = go->scale;
+			portal->pos = go->pos;
+			portal->physics = go->physics->Clone();
+			portal->Init(red);
+			goManager->AddGO(portal);
+
+			//Delete portal
 			delete go;
 			go = nullptr;
 		}
@@ -108,6 +126,7 @@ void SceneLobby::Update(double dt)
 	SceneBase::Update(dt);
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
+	portal->Update(dt);
 	//player->UpdateLobby(dt);
 
 	// Updating of light things
@@ -130,6 +149,22 @@ void SceneLobby::Update(double dt)
 	{
 		m_speed += 0.1f;
 	}
+	if (Application::IsKeyPressed('W'))
+	{
+		player->pos.y += 5 * dt;
+	}
+	if (Application::IsKeyPressed('S'))
+	{
+		player->pos.y -= 5 * dt;
+	}
+	if (Application::IsKeyPressed('A'))
+	{
+		player->pos.x -= 5 * dt;
+	}
+	if (Application::IsKeyPressed('D'))
+	{
+		player->pos.x += 5 * dt;
+	}
 
 	goManager->Update(dt);
 }
@@ -137,7 +172,6 @@ void SceneLobby::Update(double dt)
 void SceneLobby::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;

@@ -104,6 +104,7 @@ void Player::Update(double dt)
 	{
 		physics->AddVelocity(Vector3(-speed * speed_multiplier * dt, 0, 0));
 	}
+
 	
 
 	if (stamina < max_stamina)
@@ -188,34 +189,41 @@ void Player::UpdateLobby(double dt)
 		stamina_rate_multiplier = 1.0f;
 	}
 
-	if (input->IsKeyDown('A'))
+	if (input->IsKeyPressed('A'))
 	{
-		physics->SetVelocity(Vector3(-speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		physics->AddVelocity(Vector3(-speed * speed_multiplier * dt, 0, 0));
 		stamina -= stamina_rate_multiplier * 50.f * dt;
 	}
-	else if (input->IsKeyDown('D'))
+	else if (input->IsKeyReleased('A'))
 	{
-		physics->SetVelocity(Vector3(speed * speed_multiplier * dt, physics->GetVelocity().y, physics->GetVelocity().z));
+		physics->AddVelocity(Vector3(speed * speed_multiplier * dt, 0, 0));
+	}
+	if (input->IsKeyPressed('D'))
+	{
+		physics->AddVelocity(Vector3(speed * speed_multiplier * dt, 0, 0));
 		stamina -= stamina_rate_multiplier * 50.f * dt;
 	}
-	else
+	else if (input->IsKeyReleased('D'))
 	{
-		physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
+		physics->AddVelocity(Vector3(-speed * speed_multiplier * dt, 0, 0));
 	}
-
 	if (input->IsKeyDown('W'))
 	{
-		physics->SetVelocity(Vector3(physics->GetVelocity().x, speed * speed_multiplier * dt, physics->GetVelocity().z));
+		physics->AddVelocity(Vector3(0, speed * speed_multiplier * dt, 0));
 		stamina -= stamina_rate_multiplier * 50.f * dt;
 	}
-	else if (input->IsKeyDown('S'))
+	else if (input->IsKeyReleased('W'))
 	{
-		physics->SetVelocity(Vector3(physics->GetVelocity().x, -speed * speed_multiplier * dt, physics->GetVelocity().z));
+		physics->AddVelocity(Vector3(0, -speed * speed_multiplier * dt, 0));
+	}
+	if (input->IsKeyDown('S'))
+	{
+		physics->AddVelocity(Vector3(0, -speed * speed_multiplier * dt, 0));
 		stamina -= stamina_rate_multiplier * 50.f * dt;
 	}
-	else
+	else if (input->IsKeyReleased('S'))
 	{
-		physics->SetVelocity(Vector3(physics->GetVelocity().y, 0, physics->GetVelocity().z));
+		physics->AddVelocity(Vector3(0, speed * speed_multiplier * dt, 0));
 	}
 
 
@@ -335,6 +343,9 @@ void Player::CollidedWith(GameObject* go)
 			break;
 		if (inventory->GetCurrentItemType() == Item::I_FIRETORCH)
 			currentHP++;
+		break;
+	case SceneBase::GEO_LOBBY_PORTAL_GRAVEYARD:
+		std::cout << "AAAAAAAAAAA" << std::endl;
 		break;
 	default:
 		break;

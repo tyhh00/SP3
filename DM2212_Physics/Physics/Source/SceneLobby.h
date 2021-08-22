@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Input.h"
 #include "GameObjectManager.h"
+#include "LobbyPortal.h"
 
 class SceneLobby : public SceneBase
 {
@@ -36,6 +37,7 @@ protected:
 	Input* input;
 	GameObjectManager* goManager;
 	Player* player;
+	LobbyPortal* portal;
 
 	double gridLength, gridHeight;
 	void CursorToWorldPosition(double& theX, double& theY);

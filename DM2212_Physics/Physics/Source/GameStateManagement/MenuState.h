@@ -24,6 +24,7 @@
 //#endif
 #include "GameStateBase.h"
 #include "../SceneManager.h"
+#include "../Input.h"
 
 //#include "..\Scene2D\Scene2D.h"
 struct ButtonData
@@ -36,8 +37,6 @@ class CMenuState : public CGameStateBase
 {
 public:
 	SceneManager* sceneManager;
-	//remove this bool later
-	bool spaceReleased;
 
 	// Constructor
 	CMenuState(void);
@@ -52,6 +51,8 @@ public:
 	virtual void Render(void);
 	// Destroy this class instance
 	virtual void Destroy(void);
+
+	Input* input;
 
 protected:
 	//CBackgroundEntity* background;

@@ -38,6 +38,7 @@ private:
 	Mesh* portalSprite;
 
 	float accel;
+	double dashTimer;
 	bool isDashing = false;
 
 	bool invisibility;
