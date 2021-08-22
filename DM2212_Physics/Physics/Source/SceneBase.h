@@ -270,6 +270,12 @@ public:
 	void LoadTile(GEOMETRY_TYPE type, std::string fileName, double length, double height, SHAPE_TYPE shapeType);
 	TileSetting* GetTileSetting(GEOMETRY_TYPE type);
 
+
+	float GetScreenWidth();
+	float GetScreenHeight();
+	float GetWorldWidth();
+	float GetWorldHeight();
+
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int(&charWidth)[256], int arrSize);
@@ -289,6 +295,10 @@ protected:
 	MS viewStack;
 	MS projectionStack;
 
+	float m_screenWidth;
+	float m_screenHeight;
+	float m_worldWidth;
+	float m_worldHeight;
 
 	bool bLightEnabled;
 

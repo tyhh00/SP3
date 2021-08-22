@@ -15,42 +15,50 @@
 
 class Player : public GameObject {
 public:
+
+	enum MOVEMENT_MODE {
+		WASD,
+		PLATFORMER,
+
+		M_TOTAL
+	};
+
 	Player();
 	~Player();
 
-	void Init(GameObjectManager* GOM, Inventory* inventory);
+	void Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* inventory);
 	void Update(double dt);
 	void UpdateLobby(double dt);
 	void Render(SceneBase* scene);
 	void CollidedWith(GameObject* go);
 	void SetAbilities(Ability* a, Ability* b);
-
+	void UpdateMovement(double dt);
 	float GetStamina();
 	void DecreaseStamina(float amt);
 
 private:
-	/*const float ACCEL_SPEED = 100.f;
-	const float MAX_ACCEL = 5.f;
-	const float MAX_ACCEL_VEL = 30.f;
-	const float MAX_VEL = 100.f;*/
+	const float MAX_VEL = 20.f;
+	const float MAX_SPRINTVEL = 40.f;
 
+	MOVEMENT_MODE mode;
 	SpriteAnimation* animatedSprites;
 	Mesh* portalSprite;
+	Mesh* livesIcon;
 
-	float accel;
-	double dashTimer;
 	bool isDashing = false;
 
 	bool invisibility;
-	bool AkeyDown;
-	bool DkeyDown;
 
-	float speed;
+	float accel;
+	float curr_max_vel;
 	float speed_multiplier;
 	float jump_force;
 
 	float stamina;
 	float max_stamina;
+
+	int lives;
+	int max_lives;
 
 	float stamina_rate_multiplier;
 

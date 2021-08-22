@@ -33,10 +33,6 @@ protected:
 	bool isDashing = false;
 	bool isGrappling = false;
 
-	float m_screenWidth;
-	float m_screenHeight;
-	float m_worldWidth;
-	float m_worldHeight;
 
 	Vector3 temp;
 	Vector3 displacement2;

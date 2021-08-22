@@ -74,10 +74,6 @@ protected:
 	double canSnapRotateIn;
 	GEOMETRY_TYPE scrolledGeo;
 
-	float m_screenWidth;
-	float m_screenHeight;
-	float m_worldWidth;
-	float m_worldHeight;
 
 public:
 	LevelEditor();

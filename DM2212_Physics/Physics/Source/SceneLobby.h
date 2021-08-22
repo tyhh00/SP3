@@ -28,11 +28,6 @@ protected:
 
 	float m_speed;
 
-	float m_screenWidth;
-	float m_screenHeight;
-	float m_worldWidth;
-	float m_worldHeight;
-
 	Inventory* inventory;
 	Input* input;
 	GameObjectManager* goManager;
