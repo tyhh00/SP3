@@ -15,6 +15,7 @@ public:
 	bool isWithinLight(Vector3 objPos);
 	bool isIntensified();
 	
+	void RefillBattery();
 private:
 
 	bool active;

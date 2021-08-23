@@ -60,6 +60,7 @@ bool CPlayGameState::Init(void)
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 
 	sceneManager = SceneManager::GetInstance();
+	//sceneManager->Init();
 
 	buttonManager = new ButtonManager(80, 60);
 
@@ -138,6 +139,6 @@ void CPlayGameState::Render(void)
 void CPlayGameState::Destroy(void)
 {
 	cout << "CPlayGameState::Destroy()\n" << endl;
-	//sceneManager->destroy();
+	sceneManager->destroy();
 	//sceneManager->Destroy();
 }

@@ -55,7 +55,7 @@ bool CMenuState::Init(void)
 	cout << "CMenuState::Init()\n" << endl;
 
 	sceneManager = SceneManager::GetInstance();
-	sceneManager->init();
+	//sceneManager->init();
 	
 	menuScene = new SceneMainMenu();
 	menuScene->Init();

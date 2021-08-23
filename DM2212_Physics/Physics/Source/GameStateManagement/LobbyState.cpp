@@ -43,7 +43,7 @@ bool CLobbyState::Init(void)
 	sceneLobby = new SceneLobby();
 	sceneLobby->Init();
 	sceneManager = SceneManager::GetInstance();
-	//sceneManager->init();
+	sceneManager->init();
 
 	// Input
 	input = Input::GetInstance();

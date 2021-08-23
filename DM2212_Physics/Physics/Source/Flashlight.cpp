@@ -91,3 +91,8 @@ bool Flashlight::isIntensified()
 	return intensified;
 }
 
+void Flashlight::RefillBattery()
+{
+	currBatt = maxBatt;
+}
+

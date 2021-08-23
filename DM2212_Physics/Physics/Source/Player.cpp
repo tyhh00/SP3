@@ -9,6 +9,7 @@
 #include "Ghost.h"
 #include "FireTorch.h"
 #include "Cheese.h"
+#include "Buttons/ProgressBar.h"
 
 Player::Player() : input(NULL)
 , goManager(NULL)
@@ -272,12 +273,14 @@ void Player::Render(SceneBase* scene)
 	scene->modelStack.PopMatrix();
 	
 	// Render Stamina Bar??
-	float max_length = 15.f;
+	ProgressBar stamina_bar(staminaBar, 40, 5, 15.f, 1.f);
+	stamina_bar.RenderHorizontal(scene, stamina, max_stamina);
+	/*float max_length = 15.f;
 	float scalex = (stamina / max_stamina) * max_length;
 	float offsetx = (max_length - scalex) * 0.5;
 	scene->modelStack.PushMatrix();
 	scene->RenderMeshOnScreen(staminaBar, 40 - offsetx, 5, scalex, 1.0f);
-	scene->modelStack.PopMatrix();
+	scene->modelStack.PopMatrix();*/
 
 
 	// hp
@@ -301,7 +304,7 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_BATTERY:
 		goManager->RemoveGO(go);
-		inventory->AddItem(new Battery(go->mesh));
+		inventory->AddItem(new Battery(go->mesh, inventory));
 		break;
 	case SceneBase::GEO_BONES_02:
 		goManager->RemoveGO(go);
@@ -337,7 +340,7 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_JUNGLE_GRASS_PLATFORM_RIGHT:
 		goManager->RemoveGO(go);
-		inventory->AddItem(new Battery(go->mesh));
+		inventory->AddItem(new Battery(go->mesh, inventory));
 		break;
 	case SceneBase::GEO_LOBBY_PORTAL_GRAVEYARD:
 		std::cout << "AAAAAAAAAAA" << std::endl;

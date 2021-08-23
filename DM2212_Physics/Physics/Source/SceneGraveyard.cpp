@@ -152,17 +152,12 @@ void SceneGraveyard::Update(double dt)
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
 
-	// Updating of light things
+	// Updating of light things - if got time, shift to within flashlight instead to organise better, but low priority
 	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
 	double mouseposx, mouseposy;
 	CursorToWorldPosition(mouseposx, mouseposy);
 	lights[1].position.Set(mouseposx, mouseposy, 10);
 
-	
-	if (input->IsMousePressed(0))
-	{
-		// flashlgiht power/exponent
-	}
 
 	if(input->IsKeyPressed('9'))
 	{

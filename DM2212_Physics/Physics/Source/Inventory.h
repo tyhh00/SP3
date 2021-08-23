@@ -32,6 +32,7 @@ public:
 	void DeleteItem(Item* item);
 	Item::ITEM_TYPE GetCurrentItemType();
 	Item* GetCurrentItem();
+	Item* GetItem(Item::ITEM_TYPE itemType);
 private:
 
 	INVENTORY_TYPE type;

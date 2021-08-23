@@ -159,6 +159,7 @@
     <ClCompile Include="Source\BulletSpawner.cpp" />
     <ClCompile Include="Source\Buttons\Button.cpp" />
     <ClCompile Include="Source\Buttons\ButtonManager.cpp" />
+    <ClCompile Include="Source\Buttons\ProgressBar.cpp" />
     <ClCompile Include="Source\Buttons\Text.cpp" />
     <ClCompile Include="Source\Buttons\UIItem.cpp" />
     <ClCompile Include="Source\Dash.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="Source\BulletSpawner.h" />
     <ClInclude Include="Source\Buttons\Button.h" />
     <ClInclude Include="Source\Buttons\ButtonManager.h" />
+    <ClInclude Include="Source\Buttons\ProgressBar.h" />
     <ClInclude Include="Source\Buttons\Text.h" />
     <ClInclude Include="Source\Buttons\UIItem.h" />
     <ClInclude Include="Source\Dash.h" />

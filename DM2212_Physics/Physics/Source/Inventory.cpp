@@ -354,3 +354,15 @@ Item* Inventory::GetCurrentItem()
 {
 	return currentItem;
 }
+
+Item* Inventory::GetItem(Item::ITEM_TYPE itemType)
+{
+	for (auto item : itemVector)
+	{
+		if (item->GetType() == Item::I_FLASHLIGHT)
+		{
+			return item;
+		}
+	}
+	return nullptr;
+}
