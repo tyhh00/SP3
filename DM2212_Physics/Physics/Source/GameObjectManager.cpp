@@ -1,6 +1,8 @@
 #include "GameObjectManager.h"
 #include "Debug.h"
 
+#include <algorithm>
+
 
 void GameObjectManager::Init()
 {
@@ -199,6 +201,9 @@ void GameObjectManager::Update(double dt)
 			if (go2 == nullptr || !go2->active)
 				continue;
 
+			if (go->dead)
+				break;
+
 			if (CheckCollision(go, go2, dt, false))
 			{
 				if (go->IsExplosive())
@@ -248,6 +253,9 @@ void GameObjectManager::Update(double dt)
 				continue;
 			}
 
+			if (go->dead)
+				break;
+
 			// attachment for checking if onGround
 			if (go->bottomSprite != nullptr)
 			{
@@ -294,18 +302,25 @@ void GameObjectManager::Update(double dt)
 
 	}
 
+	std::sort(toRemoveList.begin(), toRemoveList.end());
+	toRemoveList.erase(std::unique(toRemoveList.begin(), toRemoveList.end()), toRemoveList.end());
+
+	DEBUG_MSG("Next it begin");
 	for (std::vector<GameObject*>::iterator it = toRemoveList.begin(); it != toRemoveList.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
+		if (go == nullptr || go == NULL)
+			continue;
 		if (go->physics->GetMovable())
 		{
 			for (int i = 0; i < m_movableGOList.size(); i++)
 			{
 				if (m_movableGOList.at(i) == go)
 				{
-					std::cout << "Deleted: " << m_movableGOList.at(i) << std::endl;
+					DEBUG_MSG("Deleted: " << m_movableGOList.at(i));
 					delete m_movableGOList.at(i);
 					m_movableGOList.at(i) = nullptr;
+					go = nullptr;
 				}
 			}
 		}
@@ -317,11 +332,16 @@ void GameObjectManager::Update(double dt)
 				{
 					delete m_stationaryGOList.at(i);
 					m_stationaryGOList.at(i) = nullptr;
+					go = nullptr;
 				}
 			}
 		}
 	}
 	toRemoveList.clear();
+	m_movableGOList.erase(std::remove(m_movableGOList.begin(), m_movableGOList.end(), nullptr),
+		m_movableGOList.end());
+	m_stationaryGOList.erase(std::remove(m_stationaryGOList.begin(), m_stationaryGOList.end(), nullptr),
+		m_stationaryGOList.end());
 }
 
 void GameObjectManager::Render(SceneBase* scene)
