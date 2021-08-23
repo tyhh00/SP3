@@ -418,7 +418,7 @@ float SceneBase::GetWorldHeight()
 
 void SceneBase::Update(double dt)
 {
-	Input::GetInstance()->Update(dt);
+	//Input::GetInstance()->Update(dt);
 
 	//Keyboard Section
 	if(Application::IsKeyPressed('1'))
@@ -604,7 +604,7 @@ void SceneBase::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int size
 	viewStack.LoadIdentity(); //No need camera for ortho mode
 	modelStack.PushMatrix();
 	modelStack.LoadIdentity();
-	modelStack.Translate(x, y, 10);
+	modelStack.Translate(x, y, 1);
 	modelStack.Scale(sizex, sizey, 1);
 	RenderMesh(mesh, false); //UI should not have light
 	projectionStack.PopMatrix();

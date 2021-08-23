@@ -163,7 +163,6 @@
     <ClCompile Include="Source\Buttons\UIItem.cpp" />
     <ClCompile Include="Source\Dash.cpp" />
     <ClCompile Include="Source\FireTorch.cpp" />
-    <ClCompile Include="Source\GameStateManagement\PauseGameState.cpp" />
     <ClCompile Include="Source\Grappling.cpp" />
     <ClCompile Include="Source\GrimReaper.cpp" />
     <ClCompile Include="Source\Buttons\ButtonFactory.cpp" />
@@ -202,6 +201,7 @@
     <ClCompile Include="Source\SceneGraveyard.cpp" />
     <ClCompile Include="Source\SceneJungle.cpp" />
     <ClCompile Include="Source\SceneLobby.cpp" />
+    <ClCompile Include="Source\SceneMainMenu.cpp" />
     <ClCompile Include="Source\ScenePhysics.cpp" />
     <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\SceneRobot.cpp" />
@@ -227,7 +227,6 @@
     <ClInclude Include="Source\Buttons\UIItem.h" />
     <ClInclude Include="Source\Dash.h" />
     <ClInclude Include="Source\FireTorch.h" />
-    <ClInclude Include="Source\GameStateManagement\PauseGameState.h" />
     <ClInclude Include="Source\Grappling.h" />
     <ClInclude Include="Source\GrimReaper.h" />
     <ClInclude Include="Source\Buttons\ButtonFactory.h" />
@@ -271,6 +270,7 @@
     <ClInclude Include="Source\SceneGraveyard.h" />
     <ClInclude Include="Source\SceneJungle.h" />
     <ClInclude Include="Source\SceneLobby.h" />
+    <ClInclude Include="Source\SceneMainMenu.h" />
     <ClInclude Include="Source\ScenePhysics.h" />
     <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\SceneRobot.h" />

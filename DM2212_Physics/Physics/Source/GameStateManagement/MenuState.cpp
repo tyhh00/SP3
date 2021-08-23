@@ -44,7 +44,6 @@ using namespace std;
  @brief Constructor
  */
 CMenuState::CMenuState(void)
-	//: background(NULL)
 {
 
 }
@@ -54,7 +53,11 @@ CMenuState::CMenuState(void)
  */
 CMenuState::~CMenuState(void)
 {
-
+	if (menuScene)
+	{
+		delete menuScene;
+		menuScene = NULL;
+	}
 }
 
 /**
@@ -67,6 +70,9 @@ bool CMenuState::Init(void)
 	sceneManager = SceneManager::GetInstance();
 	sceneManager->init();
 	
+	menuScene = new SceneMainMenu();
+	menuScene->Init();
+
 	// Input
 	input = Input::GetInstance();
 
@@ -80,7 +86,8 @@ bool CMenuState::Init(void)
  */
 bool CMenuState::Update(const double dElapsedTime)
 {
-	
+	menuScene->Update(dElapsedTime);
+
 	if (Application::IsKeyPressed(VK_SPACE))
 	{
 		//Setting state and switching the scene to lobby
@@ -103,6 +110,8 @@ void CMenuState::Render(void)
 	// Clear the screen and buffer
 	glClearColor(0.0f, 0.55f, 1.00f, 1.00f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	menuScene->Render();
 	//cout << "CMenuState::Render()\n" << endl;
 }
 

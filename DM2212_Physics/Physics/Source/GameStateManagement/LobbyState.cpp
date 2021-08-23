@@ -30,7 +30,7 @@ CLobbyState::CLobbyState(void)
  */
 CLobbyState::~CLobbyState(void)
 {
-
+	
 }
 
 /**
@@ -87,6 +87,11 @@ bool CLobbyState::Update(const double dElapsedTime)
 		return true;
 	}
 
+	if (input->IsKeyPressed(VK_ESCAPE))
+	{
+		CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
+	}
+
 	return true;
 }
 
@@ -109,5 +114,4 @@ void CLobbyState::Destroy(void)
 {
 	cout << "CLobbyState::Destroy()\n" << endl;
 	//sceneManager->destroy();
-	//sceneManager->Destroy();
 }

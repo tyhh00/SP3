@@ -1,4 +1,4 @@
-﻿#include "SceneSplashScreen.h"
+﻿#include "SceneMainMenu.h"
 #include "GL\glew.h"
 #include "MeshBuilder.h"
 #include "Application.h"
@@ -6,16 +6,29 @@
 #include "Utility.h"
 #include <sstream>
 #include "GameStateManagement/GameStateManager.h"
+#include "Buttons/ButtonFactory.h"
 
-SceneSplashScreen::SceneSplashScreen()
+SceneMainMenu::SceneMainMenu() : buttonManager(NULL)
+		, buttonMesh(NULL)
+	
 {
 }
 
-SceneSplashScreen::~SceneSplashScreen()
+SceneMainMenu::~SceneMainMenu()
 {
+	if (buttonMesh)
+	{
+		delete buttonMesh;
+		buttonMesh = NULL;
+	}
+	if (buttonManager)
+	{
+		delete buttonManager;
+		buttonManager = NULL;
+	}
 }
 
-void SceneSplashScreen::Init()
+void SceneMainMenu::Init()
 {
 	SceneBase::Init();
 
@@ -25,89 +38,55 @@ void SceneSplashScreen::Init()
 	m_worldHeight = m_screenHeight;
 	m_worldWidth = m_screenWidth;
 
-	//Physics code here
-	m_speed = 1.f;
-	m_objectCount = 0;
-
 	Math::InitRNG();
 
-	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1, 1, 1), 36, 36, 0.1f);
+	buttonManager = new ButtonManager(80, 60);
+
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
-	meshList[GEO_BG]->material.kAmbient.Set(0.0, 0.0, 0.0);
-	meshList[GEO_BG]->textureID = LoadTGA("Image/WASABILogo.tga");
+	meshList[GEO_BG]->textureID = LoadTGA("Image/spacebackground2.tga");
 
-	// left eye
-	lights[0].type = Light::LIGHT_POINT;
-	lights[0].position.Set(m_worldWidth * 0.5 - 25, m_worldHeight * 0.5 + 8, 1);
-	lights[0].color.Set(1, 0, 0);
-	lights[0].power = 0;
-	lights[0].kC = 1.f;
-	lights[0].kL = 0.01f;
-	lights[0].kQ = 0.001f;
-	lights[0].cosCutoff = cos(Math::DegreeToRadian(45));
-	lights[0].cosInner = cos(Math::DegreeToRadian(30));
-	lights[0].exponent = 1.f;
-	lights[0].spotDirection.Set(0.f, 0.f, 1.f);
+	buttonMesh = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	buttonMesh->textureID = LoadTGA("Image/button.tga");
 
-	// right eye
-	lights[1].type = Light::LIGHT_POINT;
-	lights[1].position.Set(m_worldWidth * 0.5 + 23, m_worldHeight * 0.5 + 7, 1);
-	lights[1].color.Set(1, 0, 0);
-	lights[1].power = 0;
-	lights[1].kC = 1.f;
-	lights[1].kL = 0.01f;
-	lights[1].kQ = 0.001f;
-	lights[1].cosCutoff = cos(Math::DegreeToRadian(45));
-	lights[1].cosInner = cos(Math::DegreeToRadian(30));
-	lights[1].exponent = 3.f;
-	lights[1].spotDirection.Set(0.f, 0.f, 1.f);
-
-	// Make sure you pass uniform parameters after glUseProgram()
-	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
-
-	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &lights[0].color.r);
-	glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
-	glUniform1f(m_parameters[U_LIGHT0_KC], lights[0].kC);
-	glUniform1f(m_parameters[U_LIGHT0_KL], lights[0].kL);
-	glUniform1f(m_parameters[U_LIGHT0_KQ], lights[0].kQ);
-	glUniform1i(m_parameters[U_LIGHT0_TYPE], lights[0].type);
-	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], lights[0].cosCutoff);
-	glUniform1f(m_parameters[U_LIGHT0_COSINNER], lights[0].cosInner);
-	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], lights[0].exponent);
-
-	glUniform1i(m_parameters[U_LIGHT1_TYPE], lights[1].type);
-	glUniform3fv(m_parameters[U_LIGHT1_COLOR], 1, &lights[1].color.r);
-	glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
-	glUniform1f(m_parameters[U_LIGHT1_KC], lights[1].kC);
-	glUniform1f(m_parameters[U_LIGHT1_KL], lights[1].kL);
-	glUniform1f(m_parameters[U_LIGHT1_KQ], lights[1].kQ);
-	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], lights[1].cosCutoff);
-	glUniform1f(m_parameters[U_LIGHT1_COSINNER], lights[1].cosInner);
-	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], lights[1].exponent);
-
-	bLightEnabled = true;
-
-	ASTATE = AS_BRIGHTEN;
-	AS_timer = 0;
+	Button* playButton = ButtonFactory::createNoTextButton("play", 40, 30, 10, 5, buttonMesh);
+	buttonManager->addButton(playButton);
+	Button* creditsButton = ButtonFactory::createNoTextButton("credits", 40, 20, 10, 5, buttonMesh);
+	buttonManager->addButton(creditsButton);
+	Button* quitButton = ButtonFactory::createNoTextButton("quit", 40, 10, 10, 5, buttonMesh);
+	buttonManager->addButton(quitButton);
 
 	camera.Init(Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, 1), Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
+	
+	bLightEnabled = false;
 }
 
 
-void SceneSplashScreen::Update(double dt)
+void SceneMainMenu::Update(double dt)
 {
 	SceneBase::Update(dt);
+	buttonManager->Update(this, dt);
 	
-	if(Application::IsKeyPressed('9'))
+
+	for (auto button : buttonManager->getButtonsInteracted())
 	{
-		m_speed = Math::Max(0.f, m_speed - 0.1f);
+		if (button->justClicked)
+		{
+			if (button->buttonClicked->getName() == "play")
+			{
+				CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
+			}
+			else if (button->buttonClicked->getName() == "credits")
+			{
+				//...
+			}
+			else if (button->buttonClicked->getName() == "quit")
+			{
+				Application::quit = true;
+			}
+		}
 	}
-	if(Application::IsKeyPressed('0'))
-	{
-		m_speed += 0.1f;
-	}
-	
+
 	//Mouse Section
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
@@ -134,63 +113,10 @@ void SceneSplashScreen::Update(double dt)
 		std::cout << "RBUTTON UP" << std::endl;
 	}
 
-	camera.Update(camera.position, dt);
 
-	switch (ASTATE)
-	{
-	case AS_BRIGHTEN:
-		meshList[GEO_BG]->material.kAmbient.r += 0.5 * dt;
-		meshList[GEO_BG]->material.kAmbient.g += 0.5 * dt;
-		meshList[GEO_BG]->material.kAmbient.b += 0.5 * dt;
-		
-		if (meshList[GEO_BG]->material.kAmbient.r >= 1.0)
-		{
-			meshList[GEO_BG]->material.kAmbient.Set(1.0, 1.0, 1.0);
-			ASTATE = AS_INNOCENT;
-			AS_timer = 0;
-		}
-		break;
-	/*case AS_WAIT:
-		if (AS_timer > 0.5f)
-		{
-			AS_timer = 0;
-			ASTATE = AS_EVIL;
-			meshList[GEO_BG]->material.kAmbient.Set(1.0f, 0.2f, 0.2f);
-			break;
-		}
-		else
-		{
-			AS_timer += dt;
-		}
-		break;
-	case AS_EVIL:
-		if (AS_timer > 0.1f)
-		{
-			AS_timer = 0;
-			ASTATE = AS_INNOCENT;
-			meshList[GEO_BG]->material.kAmbient.Set(1.0f, 1.0f, 1.0f);
-			break;
-		}
-		else
-		{
-			AS_timer += dt;
-		}
-		break;*/
-	case AS_INNOCENT:
-		if (AS_timer > 1.0f)
-		{
-			CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
-			break;
-		}
-		else
-		{
-			AS_timer += dt;
-		}
-		break;
-	}
 }
 
-void SceneSplashScreen::Render()
+void SceneMainMenu::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -253,23 +179,16 @@ void SceneSplashScreen::Render()
 
 	RenderMesh(meshList[GEO_AXES], false);
 
-	//modelStack.PushMatrix();
-	//modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);
-	//RenderMesh(meshList[GEO_LIGHTBALL], false);
-	//modelStack.PopMatrix();
-
-
 	modelStack.PushMatrix();
 	modelStack.Translate(m_worldWidth * 0.5, m_worldHeight * 0.5, 0);
 	modelStack.Scale(m_worldWidth, m_worldHeight, 1);
 	RenderMesh(meshList[GEO_BG], true);
 	modelStack.PopMatrix();
 
+
+	buttonManager->Render(this);
+
 	std::ostringstream ss;
-	
-	ss.str("");
-	ss << "mat: " << Vector3(meshList[GEO_BG]->material.kDiffuse.r, meshList[GEO_BG]->material.kDiffuse.g, meshList[GEO_BG]->material.kDiffuse.b);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
 
 	// fps tings
 	ss.str("");
@@ -280,8 +199,7 @@ void SceneSplashScreen::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 3, 0, 0);
 }
 
-void SceneSplashScreen::Exit()
+void SceneMainMenu::Exit()
 {
 	SceneBase::Exit();
-	
 }

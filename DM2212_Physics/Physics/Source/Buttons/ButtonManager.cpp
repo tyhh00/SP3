@@ -45,7 +45,7 @@ void ButtonManager::Update(SceneBase* scene, double dt) {
 	elapsed += dt;
 
 	double xPos, yPos;
-	bool mousePressed = Input::GetInstance()->IsMousePressed(0);
+	bool mousePressed = Application::IsMousePressed(0);
 	const static float CLICK_COOLDOWN = 0.5f;
 
 	this->CursorPosition(xPos, yPos);
