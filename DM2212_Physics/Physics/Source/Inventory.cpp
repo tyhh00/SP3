@@ -13,11 +13,26 @@
  */
 void Inventory::Init(SceneBase* scene)
 {
-	for (int j = 0; j < 3; j++)
+	Mesh* mesh = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 2.0f);
+	mesh->textureID = LoadTGA("Image/10.tga");
+
+	buttonManager = new ButtonManager(80, 60);
+
+	int k = 0; //y cut-off
+	int count = -1;
+	for (int j = 0; j < TOTAL_INVEN_SLOTS; j++)
 	{
-		//Button* button = ButtonFactory::createNoTextButton("UIitem" + std::to_string(j + 1), 100 + (j * 10), 10, 10, 10, SceneBase::meshList[GEO_UI_APPLE]);
+		if (j == TOTAL_INVEN_SLOTS / 2)
+		{
+			k = -10;
+			count = 0;
+		}
+		else
+			count++;
+		Button* button = ButtonFactory::createNoTextButton("UIitem" + std::to_string(j + 1), 80 / TOTAL_INVEN_SLOTS + 10 + count * 10, (60 / 2) + k, 5, 5, mesh);
+		buttonManager->addButton(button);
 	}
-	buttonManager = new ButtonManager((float)Application::GetWindowWidth(), (float)Application::GetWindowHeight());
+
 
 	input = Input::GetInstance();
 
@@ -38,6 +53,19 @@ void Inventory::Update(double dt)
 	if (currentItem)
 		currentItem->Update(dt);
 
+	int vectorSize = itemVector.size();
+	for (int i = 0; i < TOTAL_INVEN_SLOTS; i++)
+	{
+		if (i < vectorSize)
+		{
+			buttonManager->getButtonByName("UIitem" + std::to_string(i + 1))->setQuadImage(itemVector[i]->GetItemMesh());
+		}
+	}
+
+	if (input->IsKeyPressed(VK_TAB))
+	{
+		enableInv = !enableInv;
+	}
 
 	if (input->IsKeyPressed(VK_LEFT))
 	{
@@ -51,21 +79,25 @@ void Inventory::Update(double dt)
 		CycleItem(true);
 		std::cout << "qty: " << currentItem->GetQuantity() << std::endl;
 	}
-	if (input->IsKeyReleased('5'))
+
+	buttonManager->Update(scene, dt);
+	for (auto& buttonCollide : buttonManager->getButtonsInteracted())
 	{
-		std::cout << "1" << std::endl;
-		SwitchItem(0);
-	}
-	if (input->IsKeyReleased('6'))
-	{
-		std::cout << "2" << std::endl;
-		SwitchItem(1);
+		for (int i = 0; i < 3; i++)
+		{
+			if (buttonCollide->buttonClicked->getName() == ("UIitem" + std::to_string(i + 1)) && buttonCollide->justClicked)
+			{
+				buttonManager->deactivateButton("UIitem" + std::to_string(i + 1));
+				SwitchItem(i);
+			}
+		}
 	}
 }
 
 void Inventory::Render()
 {
-	//buttonManager->Render(SceneManager::GetInstance()->activeScene);
+	if (enableInv)
+		buttonManager->Render(scene);
 }
 
 /**

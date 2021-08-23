@@ -163,15 +163,15 @@ void SceneJungle::Update(double dt)
 	if (input->IsKeyPressed('P'))
 	{
 		std::cout << "PRESSESD P" << std::endl;
-		Apple* newApple = new Apple();
-		inventory->AddItem(newApple);
+		//Apple* newApple = new Apple();
+		//inventory->AddItem(newApple);
 		//inventory.setmax(i_apple, 10);
 	}
 	if (input->IsKeyPressed('O'))
 	{
 		std::cout << "PRESSESD O" << std::endl;
-		Cheese* newCheese = new Cheese();
-		inventory->AddItem(newCheese);
+		//Cheese* newCheese = new Cheese();
+		//inventory->AddItem(newCheese);
 	}
 	if (input->IsKeyPressed('L'))
 	{
@@ -292,6 +292,8 @@ void SceneJungle::Render()
 
 		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1.0f, 1.0f, 1.0f), 4, 10, 10);
 	}
+
+	inventory->Render();
 
 	if (grappler && grappler->active)
 	{

@@ -3,6 +3,8 @@
 
 #include "GameObject.h"
 #include "Item.h"
+#include "Weapon.h"
+#include "Consumable.h"
 #include <vector>
 #include "Input.h"
 #include "Buttons/ButtonManager.h"
@@ -29,6 +31,9 @@ private:
 	//array to store all max Quantity
 	int maxQuantity[Item::I_TOTAL];
 	SceneBase* scene;
+
+	bool enableInv = true;
+	static const int TOTAL_INVEN_SLOTS = 10;
 };
 
 

@@ -25,7 +25,7 @@ public:
 	};
 
 	Item();
-	Item(GROUP_TYPE, ITEM_TYPE, int _quantity, bool _isStackable);
+	Item(GROUP_TYPE, ITEM_TYPE, int _quantity, bool _isStackable, Mesh* mesh);
 	~Item();
 	virtual void Init() = 0;
 	virtual void Update(double dt) = 0;
@@ -43,6 +43,8 @@ public:
 
 	void SetScene(SceneBase* scene);
 
+	Mesh* GetItemMesh();
+
 protected:
 	GROUP_TYPE groupType;
 	ITEM_TYPE itemType;
@@ -52,6 +54,8 @@ protected:
 	bool isStackable;
 
 	SceneBase* scene;
+
+	Mesh* mesh;
 };
 
 

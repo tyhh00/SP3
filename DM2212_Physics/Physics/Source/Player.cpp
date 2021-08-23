@@ -307,7 +307,7 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_JUNGLE_GRASS_BLOCK:
 		goManager->RemoveGO(go);
-		inventory->AddItem(new FireTorch);
+		inventory->AddItem(new Apple(go->mesh));
 		break;
 	case SceneBase::GEO_JUNGLE_DIRT_BLOCK:
 		if (inventory->GetCurrentItem() == nullptr)

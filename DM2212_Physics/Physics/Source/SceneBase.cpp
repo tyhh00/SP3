@@ -595,7 +595,7 @@ void SceneBase::RenderMesh(Mesh *mesh, bool enableLight)
 
 void SceneBase::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey)
 {
-	glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
 	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
 	projectionStack.PushMatrix();
@@ -604,7 +604,7 @@ void SceneBase::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int size
 	viewStack.LoadIdentity(); //No need camera for ortho mode
 	modelStack.PushMatrix();
 	modelStack.LoadIdentity();
-	modelStack.Translate(x, y, 0);
+	modelStack.Translate(x, y, 10);
 	modelStack.Scale(sizex, sizey, 1);
 	RenderMesh(mesh, false); //UI should not have light
 	projectionStack.PopMatrix();
