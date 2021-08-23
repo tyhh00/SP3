@@ -8,9 +8,10 @@ DashAbility::DashAbility() : Ability('Q', ABILITY_DASH)
 {
 	input = Input::GetInstance();
 	dashTimer = 0;
-	speed = 0;
+	dashDir = 0;
 	isDashing = false;
 	enableCollision = false;
+	maxVel = 0;
 }
 
 DashAbility::~DashAbility()
@@ -19,7 +20,6 @@ DashAbility::~DashAbility()
 
 void DashAbility::Update(double dt)
 {
-	std::cout << "updating dash ability" << std::endl;
 	if (input->IsKeyPressed('Q'))
 	{
 		if (!playerPhysics->GetVelocity().IsZero() && !isDashing)
@@ -29,6 +29,9 @@ void DashAbility::Update(double dt)
 	//if in dashing phase
 	if (isDashing)
 	{
+		//disable gravity
+		playerPhysics->SetGravityUpdate(false);
+
 		//disable collision
 		enableCollision = false;
 
@@ -43,19 +46,26 @@ void DashAbility::Update(double dt)
 			dashTimer = 0;
 			isDashing = false;
 			enableCollision = true;
+			playerPhysics->SetGravityUpdate(true);
 		}
 
 		//double check if player vel is not zero if not will have divide by zero error in normalized()
 		if (!playerPhysics->GetVelocity().IsZero())
 		{
 			//use the player's accel to determine the dir of the dash
-			float dir = accel * speed * speed * dt;
+			float dir = dashDir * 200 * 200 * dt;
+
+			maxVel = 100;
 
 			//add the dash dir to the player's vel
 			playerPhysics->AddVelocity(Vector3(dir, 0, 0));
 		}
-
-		std::cout << playerPhysics->GetVelocity() << std::endl;
+		std::cout << "VEL: " << playerPhysics->GetVelocity() << std::endl;
+	}
+	else
+	{
+		maxVel = 20;
+		enableCollision = true;
 	}
 
 }
@@ -64,13 +74,12 @@ void DashAbility::Render()
 {
 }
 
-void DashAbility::UpdatePlayer(float& _accel, Physics* _playerPhysics, float& _speed, bool& _enableCollision, bool& _isDashing)
+void DashAbility::UpdatePlayer(int& _dashDir, Physics* _playerPhysics, float& _maxVel, bool& _enableCollision)
 {
+	dashDir = _dashDir;
 	playerPhysics = _playerPhysics;
-	speed = _speed;
-	enableCollision = _enableCollision;
-	isDashing = _isDashing;
-	accel = _accel;
+	_maxVel = maxVel;
+	_enableCollision = enableCollision;
 }
 
 ABILITY_TYPE DashAbility::GetAbilityType()

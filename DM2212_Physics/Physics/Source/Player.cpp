@@ -105,9 +105,9 @@ void Player::Update(double dt)
 			{
 			case ABILITY_DASH:
 			{
-				abilityArray[i]->Update(dt);
 				DashAbility* ability = dynamic_cast<DashAbility*>(abilityArray[i]);
-				//ability->UpdatePlayer(accel, physics, speed, enableCollision, isDashing);
+				ability->UpdatePlayer(dashDir, physics, curr_max_vel, enableCollision);
+				abilityArray[i]->Update(dt);
 			}
 			break;
 			case ABILITY_PORTAL:
@@ -134,7 +134,7 @@ void Player::Update(double dt)
 			{
 				abilityArray[i]->Update(dt);
 				GrapplingAbility* ability = dynamic_cast<GrapplingAbility*>(abilityArray[i]);
-				ability->UpdatePlayer(pos, physics);
+				ability->UpdatePlayer(pos, physics, curr_max_vel);
 			}
 			break;
 			default:
@@ -156,7 +156,7 @@ void Player::Update(double dt)
 }
 
 void Player::UpdateMovement(double dt)
-{		
+{
 
 	if (mode == WASD)
 	{
@@ -203,14 +203,19 @@ void Player::UpdateMovement(double dt)
 
 		if (input->IsKeyDown('A'))
 		{
+			dashDir = -1;
 			physics->AddVelocity(leftAccel * dt);
 			stamina -= stamina_rate_multiplier * 50.f * dt;
 		}
-		if (input->IsKeyDown('D'))
+		else if (input->IsKeyDown('D'))
 		{
+			dashDir = 1;
 			physics->AddVelocity(rightAccel * dt);
 			stamina -= stamina_rate_multiplier * 50.f * dt;
 		}
+		else
+			dashDir = 0;
+
 		// JUMP SECTION
 		if (input->IsKeyPressed(VK_SPACE)
 			&& physics->GetOnGround())
