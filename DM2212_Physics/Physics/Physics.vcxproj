@@ -163,6 +163,7 @@
     <ClCompile Include="Source\Buttons\UIItem.cpp" />
     <ClCompile Include="Source\Dash.cpp" />
     <ClCompile Include="Source\FireTorch.cpp" />
+    <ClCompile Include="Source\GameStateManagement\PauseGameState.cpp" />
     <ClCompile Include="Source\Grappling.cpp" />
     <ClCompile Include="Source\GrimReaper.cpp" />
     <ClCompile Include="Source\Buttons\ButtonFactory.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="Source\Buttons\UIItem.h" />
     <ClInclude Include="Source\Dash.h" />
     <ClInclude Include="Source\FireTorch.h" />
+    <ClInclude Include="Source\GameStateManagement\PauseGameState.h" />
     <ClInclude Include="Source\Grappling.h" />
     <ClInclude Include="Source\GrimReaper.h" />
     <ClInclude Include="Source\Buttons\ButtonFactory.h" />

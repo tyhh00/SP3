@@ -17,6 +17,7 @@
 #include "GameStateManagement/MenuState.h"
 #include "GameStateManagement/LobbyState.h"
 #include "GameStateManagement/PlayGameState.h"
+#include "GameStateManagement/PauseGameState.h"
 
 bool Application::quit = false;
 
@@ -120,6 +121,7 @@ void Application::Init()
 	CGameStateManager::GetInstance()->AddGameState("MenuState", new CMenuState());
 	CGameStateManager::GetInstance()->AddGameState("LobbyState", new CLobbyState());
 	CGameStateManager::GetInstance()->AddGameState("PlayGameState", new CPlayGameState());
+	CGameStateManager::GetInstance()->AddGameState("PauseGameState", new CPauseGameState());
 
 	//set active scene
 	CGameStateManager::GetInstance()->SetActiveGameState("IntroState");

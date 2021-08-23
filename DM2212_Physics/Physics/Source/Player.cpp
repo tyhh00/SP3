@@ -6,6 +6,7 @@
 #include "Flashlight.h"
 #include "Battery.h"
 #include "Apple.h"
+#include "Ghost.h"
 #include "FireTorch.h"
 
 Player::Player() : input(NULL)
@@ -139,6 +140,15 @@ void Player::Update(double dt)
 			default:
 				break;
 			}
+		}
+	}
+
+	if (timeout > 0)
+	{
+		timeout -= dt;
+		if (timeout < 0)
+		{
+			timeout = 0;
 		}
 	}
 
@@ -298,6 +308,19 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_LOBBY_PORTAL_GRAVEYARD:
 		std::cout << "AAAAAAAAAAA" << std::endl;
+		break;
+	case SceneBase::GEO_ENEMY_GHOST:
+		if (timeout > 0) // on cooldown
+		{
+			break;
+		}
+		else
+		{
+			lives--;
+			Ghost* ghost = dynamic_cast<Ghost*>(go);
+			ghost->StartAttackCooldown();
+		}
+
 		break;
 	default:
 		break;
