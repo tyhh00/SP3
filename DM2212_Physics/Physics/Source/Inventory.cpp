@@ -139,7 +139,7 @@ void Inventory::Render()
 	if (enableInv)
 		buttonManager->Render(scene);
 
-	if (currentItem)
+	if (currentItem && !selectedPos.IsZero())
 		scene->RenderMeshOnScreen(selectedMesh, selectedPos.x, selectedPos.y, 2.2f, 2.2f, 2);
 }
 
