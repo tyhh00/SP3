@@ -22,16 +22,5 @@ BULLET_TYPE Bullet::GetBulletType()
 	return bulletType;
 }
 
-GameObject* Bullet::Clone()
-{
-	GameObject* go = GameObject::Clone();
-	Bullet* cloned = static_cast<Bullet*>(go);
-	
-	//Set bullet stuff
-	cloned->type = type;
-
-	return cloned;
-}
-
 
 	

@@ -5,7 +5,7 @@
 
 class FireTorch : public Weapon {
 public:
-	FireTorch();
+	FireTorch(Mesh* mesh);
 	~FireTorch();
 
 	void Init();

@@ -4,7 +4,7 @@
 
 class Consumable : public Item {
 public:
-	Consumable(ITEM_TYPE type);
+	Consumable(ITEM_TYPE type, Mesh* mesh);
 	void Init() override;
 	void Update(double dt) override;
 	

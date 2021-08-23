@@ -5,7 +5,7 @@
 
 class Flashlight : public Weapon {
 public:
-	Flashlight();
+	Flashlight(Mesh* mesh);
 	~Flashlight();
 
 	void Init();

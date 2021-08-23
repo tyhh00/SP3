@@ -3,12 +3,13 @@
 #include "LoadTGA.h"
 #include "Cheese.h"
 
-Cheese::Cheese(int _numOfHoles) : Consumable(I_CHEESE)
+Cheese::Cheese(Mesh* _mesh, int _numOfHoles) : Consumable(I_CHEESE, mesh)
 {
 	isStackable = true;
 	quantity = 1;
 	numOfHoles = _numOfHoles;
 	itemType = I_CHEESE;
+	mesh = _mesh;
 }
 
 void Cheese::Init()

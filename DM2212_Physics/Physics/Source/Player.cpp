@@ -8,6 +8,7 @@
 #include "Apple.h"
 #include "Ghost.h"
 #include "FireTorch.h"
+#include "Cheese.h"
 
 Player::Player() : input(NULL)
 , goManager(NULL)
@@ -285,11 +286,11 @@ void Player::CollidedWith(GameObject* go)
 	{
 	case SceneBase::GEO_FLASHLIGHT:
 		goManager->RemoveGO(go);
-		inventory->AddItem(new Flashlight);
+		inventory->AddItem(new Flashlight(go->mesh));
 		break;
 	case SceneBase::GEO_BATTERY:
 		goManager->RemoveGO(go);
-		inventory->AddItem(new Battery);
+		inventory->AddItem(new Battery(go->mesh));
 		break;
 	case SceneBase::GEO_BONES_02:
 		goManager->RemoveGO(go);
@@ -309,13 +310,23 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_JUNGLE_GRASS_BLOCK:
 		goManager->RemoveGO(go);
-		inventory->AddItem(new FireTorch);
+		inventory->AddItem(new Apple(go->mesh));
 		break;
 	case SceneBase::GEO_JUNGLE_DIRT_BLOCK:
-		if (inventory->GetCurrentItem() == nullptr)
-			break;
-		if (inventory->GetCurrentItemType() == Item::I_FIRETORCH)
-			currentHP++;
+		//if (inventory->GetCurrentItem() == nullptr)
+		//	break;
+		//if (inventory->GetCurrentItemType() == Item::I_FIRETORCH)
+		//	currentHP++;
+		goManager->RemoveGO(go);
+		inventory->AddItem(new Cheese(go->mesh));
+		break;
+	case SceneBase::GEO_JUNGLE_GRASS_PLATFORM_LEFT:
+		goManager->RemoveGO(go);
+		inventory->AddItem(new Flashlight(go->mesh));
+		break;
+	case SceneBase::GEO_JUNGLE_GRASS_PLATFORM_RIGHT:
+		goManager->RemoveGO(go);
+		inventory->AddItem(new Battery(go->mesh));
 		break;
 	case SceneBase::GEO_LOBBY_PORTAL_GRAVEYARD:
 		std::cout << "AAAAAAAAAAA" << std::endl;

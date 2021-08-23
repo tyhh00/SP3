@@ -3,7 +3,7 @@
 #include "LoadTGA.h"
 #include "Apple.h"
 
-Apple::Apple(int _quantity, int stemLength) : Consumable(I_APPLE)
+Apple::Apple(Mesh* _mesh, int _quantity, int stemLength) : Consumable(I_APPLE, mesh)
 	,stemLength(stemLength)
 {
 	isStackable = true;
@@ -11,7 +11,7 @@ Apple::Apple(int _quantity, int stemLength) : Consumable(I_APPLE)
 
 	input = Input::GetInstance();
 
-	//mesh = SceneBase::GEOMETRY_TYPE::GEO_UI_APPLE;
+	mesh = _mesh;
 }
 
 void Apple::Init()
@@ -22,6 +22,7 @@ void Apple::Update(double dt)
 {
 	if (input->IsKeyPressed('G'))
 	{
+		std::cout << quantity << std::endl;
 		RemoveQuantity(1);
 	}
 }

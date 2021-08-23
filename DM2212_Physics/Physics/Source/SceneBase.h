@@ -226,6 +226,8 @@ public:
 		GEO_LOBBY_PORTAL_OCEAN = 148,
 		GEO_LOBBY_PORTAL_ROBOT = 149,
 
+		GEO_ROBOT_ENEMY_1 = 150,
+
 		//Tiles End
 		GEO_TILES_END,
 
@@ -284,7 +286,7 @@ public:
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int(&charWidth)[256], int arrSize);
 	void RenderMesh(Mesh *mesh, bool enableLight);
-	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey);
+	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, int z = 1);
 	
 protected:
 	unsigned m_vertexArrayID;

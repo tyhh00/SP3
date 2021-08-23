@@ -3,12 +3,13 @@
 #include "LoadTGA.h"
 #include "Battery.h"
 
-Battery::Battery(int _quantity) : Consumable(I_BATTERY)
+Battery::Battery(Mesh* _mesh, int _quantity) : Consumable(I_BATTERY, mesh)
 {
 	isStackable = true;
 	quantity = _quantity;
 
 	input = Input::GetInstance();
+	mesh = _mesh;
 }
 
 void Battery::Init()

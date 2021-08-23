@@ -40,6 +40,8 @@ void PlasmaBullet::Update(double dt)
 	aliveTimer += dt;
 	animatedSprite->Update(dt);
 
+	DEBUG_MSG(&animatedSprite << ": " << animatedSprite->currentFrame);
+
 	//Attach pos of bullet to player
 	if (attachedPlayer != nullptr)
 	{
@@ -81,10 +83,7 @@ void PlasmaBullet::CollidedWith(GameObject* go)
 
 GameObject* PlasmaBullet::Clone()
 {
-
-	GameObject* go = Bullet::Clone();
-	PlasmaBullet* cloned = static_cast<PlasmaBullet*>(go);
-	cloned->animatedSprite = this->animatedSprite->Clone();
-
+	PlasmaBullet* cloned = new PlasmaBullet(this->scale, this->attachedPlayer);
+	//GameObject::CloneValues(this, cloned);
 	return cloned;
 }

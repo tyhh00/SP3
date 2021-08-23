@@ -22,11 +22,10 @@ public:
 
 	//GO Virtual Functions
 	virtual void CollidedWith(GameObject*) = 0;
-	virtual GameObject* Clone();
+	virtual GameObject* Clone() = 0;
 
 protected:
 	Bullet(Mesh* mesh, int geoTypeID, SHAPE_TYPE collisionShape, BULLET_TYPE type, Vector3 scale, bool explosive, float explosionRadius);
-
 private:
 	BULLET_TYPE bulletType;
 };
