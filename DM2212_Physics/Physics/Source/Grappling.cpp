@@ -4,7 +4,7 @@
 #include "MeshBuilder.h"
 
 
-GrapplingAbility::GrapplingAbility() : Ability('Q', ABILITY_GRAPPLER)
+GrapplingAbility::GrapplingAbility() : Ability('Z', ABILITY_GRAPPLER)
 {
 	//Store keyboard instance
 	input = Input::GetInstance();
@@ -18,7 +18,6 @@ GrapplingAbility::~GrapplingAbility()
 
 void GrapplingAbility::Update(double dt)
 {
-	std::cout << "updating grappling ability" << std::endl;
 	if (input->IsMousePressed(0))
 	{
 		double x, y;

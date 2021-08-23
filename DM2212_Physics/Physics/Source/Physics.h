@@ -23,6 +23,7 @@ private:
 	bool onGround;
 	bool isBouncable;
 	bool enableUpdate;
+	bool enableGravity;
 
 public:
 	Vector3 pos;
@@ -71,6 +72,9 @@ public:
 	bool GetUpdateEnabled();
 
 	void SetEnableCollision(bool _enableCollision);
+
+	void SetGravityUpdate(bool _enableUpdate);
+	bool GetGravityUpdate();
 
 	void CollisionResponse(Physics* go2, double dt);
 	void ApplyFriction(Physics* ball, Vector3 normal, double dt);

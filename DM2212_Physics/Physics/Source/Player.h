@@ -44,6 +44,7 @@ private:
 	Mesh* portalSprite;
 	Mesh* livesIcon;
 
+	int dashDir = 0;
 	bool isDashing = false;
 
 	bool invisibility;

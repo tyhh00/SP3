@@ -58,7 +58,7 @@ Physics::~Physics()
  */
 void Physics::Update(double dt)
 {
-	if (enableUpdate)
+	if (enableGravity)
 		vel.y += gravity.y * dt;
 }
 
@@ -217,6 +217,16 @@ void Physics::SetEnableUpdate(bool _enableUpdate)
 void Physics::SetEnableCollision(bool _enableCollision)
 {
 	collision = _enableCollision;
+}
+
+void Physics::SetGravityUpdate(bool _enableGravity)
+{
+	enableGravity = _enableGravity;
+}
+
+bool Physics::GetGravityUpdate()
+{
+	return enableGravity;
 }
 
 /**
