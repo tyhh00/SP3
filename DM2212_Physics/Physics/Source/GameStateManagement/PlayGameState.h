@@ -9,6 +9,7 @@
 
 #include "GameStateBase.h"
 #include "../SceneManager.h"
+#include "../Buttons/ButtonManager.h"
 
 class CPlayGameState : public CGameStateBase
 {
@@ -28,5 +29,13 @@ public:
 	virtual void Render(void);
 	// Destroy this class instance
 	virtual void Destroy(void);
+
+protected:
+
+	float m_screenWidth, m_screenHeight;
+
+	bool paused;
+	Mesh* resumeButtonMesh, *lobbyButtonMesh;
+	ButtonManager* buttonManager;
 
 };

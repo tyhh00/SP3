@@ -248,8 +248,8 @@
     <ClCompile Include="Source\LobbyPortal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GameStateManagement\PauseGameState.cpp">
-      <Filter>Source Files\GameStateManagement</Filter>
+    <ClCompile Include="Source\SceneMainMenu.cpp">
+      <Filter>Source Files\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -460,8 +460,8 @@
     <ClInclude Include="Source\LobbyPortal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GameStateManagement\PauseGameState.h">
-      <Filter>Header Files\GameStateManagement</Filter>
+    <ClInclude Include="Source\SceneMainMenu.h">
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -232,6 +232,10 @@ public:
 		GEO_TILES_END,
 
 
+		//UI
+		GEO_UI_APPLE,
+		GEO_UI_CHEESE,
+
 		GEO_BG,
 
 		GEO_FONT_CALIBRI,

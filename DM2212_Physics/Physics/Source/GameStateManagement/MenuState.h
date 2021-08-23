@@ -8,30 +8,14 @@
  */
 
 #include "GameStateBase.h"
-
-//#include "Primitives/Mesh.h"
-//#include "../Scene2D/BackgroundEntity.h"
-
 #include <string>
 
- // Include IMGUI
- // Important: GLEW and GLFW must be included before IMGUI
-//#ifndef IMGUI_ACTIVE
-//#include "GUI\imgui.h"
-//#include "GUI\backends\imgui_impl_glfw.h"
-//#include "GUI\backends\imgui_impl_opengl3.h"
-//#define IMGUI_ACTIVE
-//#endif
+ 
 #include "GameStateBase.h"
 #include "../SceneManager.h"
 #include "../Input.h"
+#include "../SceneMainMenu.h"
 
-//#include "..\Scene2D\Scene2D.h"
-struct ButtonData
-{
-	std::string fileName;
-	unsigned textureID;
-};
 
 class CMenuState : public CGameStateBase
 {
@@ -55,8 +39,6 @@ public:
 	Input* input;
 
 protected:
-	//CBackgroundEntity* background;
-	ButtonData startButtonData;
-	ButtonData optionsButtonData;
-	ButtonData exitButtonData;
+
+	SceneMainMenu* menuScene;
 };

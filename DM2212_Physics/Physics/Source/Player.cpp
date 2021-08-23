@@ -13,7 +13,7 @@ Player::Player() : input(NULL)
 , goManager(NULL)
 , inventory(NULL)
 , accel(200.f)
-, jump_force(20000.f)
+, jump_force(300.f)
 , max_stamina(100.f)
 , stamina(100.f)
 , curr_max_vel(MAX_VEL)
@@ -132,9 +132,9 @@ void Player::Update(double dt)
 			break;
 			case ABILITY_GRAPPLER:
 			{
-				abilityArray[i]->Update(dt);
 				GrapplingAbility* ability = dynamic_cast<GrapplingAbility*>(abilityArray[i]);
 				ability->UpdatePlayer(pos, physics, curr_max_vel);
+				abilityArray[i]->Update(dt);
 			}
 			break;
 			default:
@@ -152,7 +152,11 @@ void Player::Update(double dt)
 		}
 	}
 
+	curr_max_vel = Math::Clamp(curr_max_vel, MAX_VEL, 100.f);
 	physics->SetVelocity(Vector3(Math::Clamp(physics->GetVelocity().x, -curr_max_vel, curr_max_vel), physics->GetVelocity().y, physics->GetVelocity().z));
+
+	if (physics->GetVelocity().Length() > 100)
+		physics->SetVelocity(physics->GetVelocity().Normalized() * 100);
 }
 
 void Player::UpdateMovement(double dt)
@@ -222,7 +226,7 @@ void Player::UpdateMovement(double dt)
 		{
 			std::cout << "Space Key Pressed" << std::endl;
 			float accel_amt = jump_force / physics->GetMass();
-			physics->AddVelocity(Vector3(0, physics->GetVelocity().y + accel_amt * dt, 0));
+			physics->AddVelocity(Vector3(0, accel_amt, 0));
 		}
 
 		if (stamina < max_stamina)
@@ -261,6 +265,8 @@ void Player::Render(SceneBase* scene)
 	scene->modelStack.PopMatrix();
 
 	// Render Stamina Bar??
+
+
 
 	// hp
 	float HPscale = 2;
@@ -303,7 +309,7 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_JUNGLE_GRASS_BLOCK:
 		goManager->RemoveGO(go);
-		inventory->AddItem(new FireTorch);
+		inventory->AddItem(new Apple(go->mesh));
 		break;
 	case SceneBase::GEO_JUNGLE_DIRT_BLOCK:
 		if (inventory->GetCurrentItem() == nullptr)

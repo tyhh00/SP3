@@ -343,6 +343,12 @@ void SceneBase::Init()
 	meshList[GEO_BUTTON] = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BUTTON]->textureID = LoadTGA("Image/button.tga");
 
+	//UI
+	meshList[GEO_UI_APPLE] = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 1.0f);
+	meshList[GEO_UI_APPLE]->textureID = LoadTGA("Image/button.tga");
+	meshList[GEO_UI_CHEESE] = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 1.0f);
+	meshList[GEO_UI_CHEESE]->textureID = LoadTGA("Image/button.tga");
+
 	meshList[GEO_WALL] = MeshBuilder::GenerateQuad("Wall", Color(1, 1, 1), 2.0f);
 	meshList[GEO_BALL] = MeshBuilder::GenerateCircle("circle", 1.0f, Color(1, 1, 1));
 	meshList[GEO_100] = MeshBuilder::GenerateCircle("score tings", 1.0f, Color(1, 1, 1));
@@ -413,7 +419,7 @@ float SceneBase::GetWorldHeight()
 
 void SceneBase::Update(double dt)
 {
-	Input::GetInstance()->Update(dt);
+	//Input::GetInstance()->Update(dt);
 
 	//Keyboard Section
 	if(Application::IsKeyPressed('1'))
@@ -590,7 +596,7 @@ void SceneBase::RenderMesh(Mesh *mesh, bool enableLight)
 
 void SceneBase::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey)
 {
-	glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
 	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
 	projectionStack.PushMatrix();
@@ -599,7 +605,7 @@ void SceneBase::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int size
 	viewStack.LoadIdentity(); //No need camera for ortho mode
 	modelStack.PushMatrix();
 	modelStack.LoadIdentity();
-	modelStack.Translate(x, y, 0);
+	modelStack.Translate(x, y, 1);
 	modelStack.Scale(sizex, sizey, 1);
 	RenderMesh(mesh, false); //UI should not have light
 	projectionStack.PopMatrix();
