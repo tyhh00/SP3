@@ -286,7 +286,7 @@ public:
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int(&charWidth)[256], int arrSize);
 	void RenderMesh(Mesh *mesh, bool enableLight);
-	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, int z = 1);
+	void RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey, float z = 1);
 	
 protected:
 	unsigned m_vertexArrayID;

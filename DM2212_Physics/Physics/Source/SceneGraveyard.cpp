@@ -252,6 +252,7 @@ void SceneGraveyard::Render()
 	modelStack.PopMatrix();
 
 	goManager->Render(this);
+	inventory->Render();
 
 	std::ostringstream ss;
 	//ss.str("");

@@ -43,6 +43,7 @@ private:
 	SpriteAnimation* animatedSprites;
 	Mesh* portalSprite;
 	Mesh* livesIcon;
+	Mesh* staminaBar;
 
 	int dashDir = 0;
 	bool isDashing = false;

@@ -20,20 +20,7 @@
 // Include Mesh Builder
 #include "../MeshBuilder.h"
 #include "../Debug.h"
-// Include ImageLoader
-//#include "System\ImageLoader.h"
-// Include Shader Manager
-//#include "RenderControl\ShaderManager.h"
 
- // Include shader
-//#include "RenderControl\shader.h"
-
-// Include CSettings
-//#include "GameControl/Settings.h"
-
-// Include CKeyboardController
-//#include "Inputs/KeyboardController.h"
-//#include "../Application.h"
 
 #include "../SoundController/SoundController.h"
 
@@ -93,9 +80,6 @@ bool CMenuState::Update(const double dElapsedTime)
 		//Setting state and switching the scene to lobby
 		CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
 		
-		//Fading effect for sound
-		DEBUG_MSG("Fading out");
-		CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_MAINMENU, 3, 0.5);
 		return true;
 	}
 	

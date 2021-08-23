@@ -51,6 +51,11 @@ Player::~Player()
 		delete livesIcon;
 		livesIcon = NULL;
 	}
+	if (staminaBar)
+	{
+		delete staminaBar;
+		staminaBar = NULL;
+	}
 }
 
 void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* inventory)
@@ -66,6 +71,7 @@ void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* invento
 	portalSprite->textureID = LoadTGA("Image/PortalTravelSprite.tga");
 	livesIcon = MeshBuilder::GenerateQuad("hp icon", Color(1, 1, 1), 1.0f);
 	livesIcon->textureID = LoadTGA("Image/lives.tga");
+	staminaBar = MeshBuilder::GenerateQuad("stamina bar", Color(1.0f, 1.0f, 0.4f), 1.0f);
 
 	input = Input::GetInstance();
 
@@ -264,9 +270,14 @@ void Player::Render(SceneBase* scene)
 	scene->modelStack.Scale(scale.x, scale.y, scale.z);
 	scene->RenderMesh(mesh, true);
 	scene->modelStack.PopMatrix();
-
+	
 	// Render Stamina Bar??
-
+	float max_length = 15.f;
+	float scalex = (stamina / max_stamina) * max_length;
+	float offsetx = (max_length - scalex) * 0.5;
+	scene->modelStack.PushMatrix();
+	scene->RenderMeshOnScreen(staminaBar, 40 - offsetx, 5, scalex, 1.0f);
+	scene->modelStack.PopMatrix();
 
 
 	// hp

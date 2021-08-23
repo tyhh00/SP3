@@ -594,7 +594,7 @@ void SceneBase::RenderMesh(Mesh *mesh, bool enableLight)
 	}
 }
 
-void SceneBase::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, int z)
+void SceneBase::RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey, float z)
 {
 	//glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
