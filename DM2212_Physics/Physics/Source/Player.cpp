@@ -13,7 +13,7 @@ Player::Player() : input(NULL)
 , goManager(NULL)
 , inventory(NULL)
 , accel(200.f)
-, jump_force(20000.f)
+, jump_force(300.f)
 , max_stamina(100.f)
 , stamina(100.f)
 , curr_max_vel(MAX_VEL)
@@ -226,7 +226,7 @@ void Player::UpdateMovement(double dt)
 		{
 			std::cout << "Space Key Pressed" << std::endl;
 			float accel_amt = jump_force / physics->GetMass();
-			physics->AddVelocity(Vector3(0, physics->GetVelocity().y + accel_amt * dt, 0));
+			physics->AddVelocity(Vector3(0, accel_amt, 0));
 		}
 
 		if (stamina < max_stamina)
