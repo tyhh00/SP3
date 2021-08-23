@@ -174,11 +174,6 @@ void GameObjectManager::Update(double dt)
 			continue;
 		}
 
-		if (go->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET)
-		{
-			int a = 5;
-		}
-
 		go->Update(dt);
 		go->physics->Update(dt);
 		if(go->physics->GetUpdateEnabled())

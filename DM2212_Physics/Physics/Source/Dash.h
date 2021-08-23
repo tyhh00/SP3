@@ -17,7 +17,7 @@ public:
 
 	void Update(double dt);
 	void Render();
-	void UpdatePlayer(float& accel, Physics* physics, float& speed, bool& enableCollision, bool& isDashing);
+	void UpdatePlayer(int& dashDir, Physics* physics, float& maxVel, bool& enableCollision);
 	ABILITY_TYPE GetAbilityType();
 
 private:
@@ -28,9 +28,9 @@ private:
 	Input* input;
 
 	Physics* playerPhysics;
-	float speed;
 	bool enableCollision;
-	float accel;
+	float maxVel;
+	int dashDir;
 
 	void CursorToWorldPosition(double& theX, double& theY);
 

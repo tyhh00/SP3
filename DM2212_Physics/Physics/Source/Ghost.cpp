@@ -28,6 +28,9 @@ void Ghost::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 	hostileRange = 20.0f;
 	inactiveRange = 100.0f;
 
+	currentHP = 7;
+	maxHP = 7; // IN SECONDS
+
 	state_timer = 0;
 	state_interval;
 
@@ -54,9 +57,16 @@ void Ghost::Update(double dt)
 	if (isBeingAttacked())
 	{
 		mesh->material.kDiffuse.Set(1.0f, 0.5f, 0.5f);
+		state_interval = 0;
 		state = RAGE;
+		currentHP -= dt;
 	}
 
+	if (currentHP <= 0)
+	{
+		dead = true;
+		return;
+	}
 	switch (state)
 	{
 	case INACTIVE:
@@ -96,6 +106,7 @@ void Ghost::Update(double dt)
 		if ((*playerPos - pos).Length() < activeRange)
 		{
 			state = HOSTILE;
+			state_interval = 0;
 			physics->SetVelocity((*playerPos - pos).Normalized() * hostile_speed);
 			break;
 		}
@@ -125,12 +136,15 @@ void Ghost::Update(double dt)
 			physics->SetVelocity(Vector3(0, 0, 0));
 			break;
 		}
+		if (state_interval > 0)
+		{
+			state_interval -= dt;
+			break;
+		}
 		physics->SetVelocity((*playerPos - pos).Normalized() * hostile_speed);
 		break;
 	case RAGE:
 		physics->SetVelocity((*playerPos - pos).Normalized() * rage_speed);
-		std::cout << "VEL: " << physics->GetVelocity() << std::endl;
-		std::cout << "POS: " << pos << std::endl;
 		break;
 	}
 
@@ -145,7 +159,7 @@ void Ghost::Update(double dt)
 		animatedSprites->PlayAnimation("left", -1, 1.0f);
 	}
 
-
+	
 }
 
 bool Ghost::isWithinFlashlight()
@@ -177,4 +191,9 @@ bool Ghost::isBeingAttacked()
 		return true;
 	}
 	return false;
+}
+
+void Ghost::StartAttackCooldown()
+{
+	state_interval = 2.0f;
 }

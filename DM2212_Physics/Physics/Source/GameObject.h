@@ -62,8 +62,8 @@ struct GameObject
 	Vector3 scale;
 
 	double fireInterval;
-	int maxHP, currentHP;
-	double timeout;
+	float maxHP, currentHP; // in use
+	double timeout; // in use
 
 	Material mat;
 

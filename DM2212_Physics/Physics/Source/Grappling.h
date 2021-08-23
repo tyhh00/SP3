@@ -15,12 +15,13 @@ public:
 	GrapplingHook()
 	{
 		active = false;
-		//mesh = meshList[GEO_WALL];
+		mesh = MeshBuilder::GenerateQuad("Wall", Color(1, 1, 1), 2.0f);
 		enableCollision = false;
 	}
 	~GrapplingHook()
 	{
-
+		delete mesh;
+		mesh = nullptr;
 	}
 };
 
@@ -31,7 +32,7 @@ public:
 	~GrapplingAbility();
 
 	void Update(double dt);
-	void UpdatePlayer(Vector3& pos, Physics* playerPhysics);
+	void UpdatePlayer(Vector3& pos, Physics* playerPhysics, float& _maxVel);
 	void Render();
 	ABILITY_TYPE GetAbilityType();
 
@@ -44,6 +45,7 @@ private:
 	Physics* playerPhysics;
 
 	bool isGrappling;
+	float maxVel;
 
 	GrapplingHook grapplingHook;
 

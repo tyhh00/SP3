@@ -6,6 +6,7 @@
 #include "Flashlight.h"
 #include "Battery.h"
 #include "Apple.h"
+#include "Ghost.h"
 #include "FireTorch.h"
 
 Player::Player() : input(NULL)
@@ -104,9 +105,9 @@ void Player::Update(double dt)
 			{
 			case ABILITY_DASH:
 			{
-				abilityArray[i]->Update(dt);
 				DashAbility* ability = dynamic_cast<DashAbility*>(abilityArray[i]);
-				//ability->UpdatePlayer(accel, physics, speed, enableCollision, isDashing);
+				ability->UpdatePlayer(dashDir, physics, curr_max_vel, enableCollision);
+				abilityArray[i]->Update(dt);
 			}
 			break;
 			case ABILITY_PORTAL:
@@ -133,7 +134,7 @@ void Player::Update(double dt)
 			{
 				abilityArray[i]->Update(dt);
 				GrapplingAbility* ability = dynamic_cast<GrapplingAbility*>(abilityArray[i]);
-				ability->UpdatePlayer(pos, physics);
+				ability->UpdatePlayer(pos, physics, curr_max_vel);
 			}
 			break;
 			default:
@@ -142,11 +143,20 @@ void Player::Update(double dt)
 		}
 	}
 
+	if (timeout > 0)
+	{
+		timeout -= dt;
+		if (timeout < 0)
+		{
+			timeout = 0;
+		}
+	}
+
 	physics->SetVelocity(Vector3(Math::Clamp(physics->GetVelocity().x, -curr_max_vel, curr_max_vel), physics->GetVelocity().y, physics->GetVelocity().z));
 }
 
 void Player::UpdateMovement(double dt)
-{		
+{
 
 	if (mode == WASD)
 	{
@@ -193,14 +203,19 @@ void Player::UpdateMovement(double dt)
 
 		if (input->IsKeyDown('A'))
 		{
+			dashDir = -1;
 			physics->AddVelocity(leftAccel * dt);
 			stamina -= stamina_rate_multiplier * 50.f * dt;
 		}
-		if (input->IsKeyDown('D'))
+		else if (input->IsKeyDown('D'))
 		{
+			dashDir = 1;
 			physics->AddVelocity(rightAccel * dt);
 			stamina -= stamina_rate_multiplier * 50.f * dt;
 		}
+		else
+			dashDir = 0;
+
 		// JUMP SECTION
 		if (input->IsKeyPressed(VK_SPACE)
 			&& physics->GetOnGround())
@@ -298,6 +313,19 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_LOBBY_PORTAL_GRAVEYARD:
 		std::cout << "AAAAAAAAAAA" << std::endl;
+		break;
+	case SceneBase::GEO_ENEMY_GHOST:
+		if (timeout > 0) // on cooldown
+		{
+			break;
+		}
+		else
+		{
+			lives--;
+			Ghost* ghost = dynamic_cast<Ghost*>(go);
+			ghost->StartAttackCooldown();
+		}
+
 		break;
 	default:
 		break;
