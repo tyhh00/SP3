@@ -10,6 +10,7 @@ GrapplingAbility::GrapplingAbility() : Ability('Z', ABILITY_GRAPPLER)
 	input = Input::GetInstance();
 
 	isGrappling = false;
+	maxVel = 0;
 }
 
 GrapplingAbility::~GrapplingAbility()
@@ -47,7 +48,10 @@ void GrapplingAbility::Update(double dt)
 		grapplingHook.pos = playerPos + Vector3(displacement.x / 2, displacement.y / 2, 0);
 		grapplingHook.physics->SetNormal(displacement.Normalized());
 
+		//playerPhysics->AddVelocity(displacement);
+
 		playerPhysics->AddVelocity(Vector3(initialDisplacement.x, 0, 0));
+		maxVel = 100;
 		if (playerPhysics->GetVelocity().x > 0)
 		{
 			if (playerPos.x >= temp.x - displacement3.x)
@@ -57,6 +61,7 @@ void GrapplingAbility::Update(double dt)
 				std::cout << playerPos.x << std::endl;
 				isGrappling = false;
 				grapplingHook.active = false;
+				//maxVel = 20;
 			}
 		}
 		else
@@ -68,15 +73,17 @@ void GrapplingAbility::Update(double dt)
 				std::cout << playerPos.x << std::endl;
 				isGrappling = false;
 				grapplingHook.active = false;
+				//maxVel = 20;
 			}
 		}
 	}
 }
 
-void GrapplingAbility::UpdatePlayer(Vector3& pos, Physics* _playerPhysics)
+void GrapplingAbility::UpdatePlayer(Vector3& pos, Physics* _playerPhysics, float& _maxVel)
 {
 	playerPos = pos;
 	playerPhysics = _playerPhysics;
+	_maxVel = maxVel;
 }
 
 
@@ -84,11 +91,13 @@ void GrapplingAbility::Render()
 {
 	if (grapplingHook.active)
 	{
-		//scene->modelStack.PushMatrix();
-		//scene->modelStack.Translate(grapplingHook.pos.x, grapplingHook.pos.y, grapplingHook.pos.z);
-		//scene->modelStack.Scale(grapplingHook.scale.x, grapplingHook.scale.y, grapplingHook.scale.z);
-		//scene->RenderMesh(meshList[GEO_WALL], false);
-		//scene->modelStack.PopMatrix();
+		float angle = Math::RadianToDegree(atan2(grapplingHook.physics->GetNormal().y, grapplingHook.physics->GetNormal().x));
+		scene->modelStack.PushMatrix();
+		scene->modelStack.Translate(grapplingHook.pos.x, grapplingHook.pos.y, grapplingHook.pos.z);
+		scene->modelStack.Rotate(angle + grapplingHook.physics->GetRotateZ(), 0, 0, 1);
+		scene->modelStack.Scale(grapplingHook.scale.x, grapplingHook.scale.y, grapplingHook.scale.z);
+		scene->RenderMesh(grapplingHook.mesh, false);
+		scene->modelStack.PopMatrix();
 	}
 }
 

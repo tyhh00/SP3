@@ -133,7 +133,7 @@ void Player::Update(double dt)
 			{
 				abilityArray[i]->Update(dt);
 				GrapplingAbility* ability = dynamic_cast<GrapplingAbility*>(abilityArray[i]);
-				ability->UpdatePlayer(pos, physics);
+				ability->UpdatePlayer(pos, physics, curr_max_vel);
 			}
 			break;
 			default:
