@@ -169,43 +169,60 @@ void SceneLobby::Update(double dt)
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
 	
-	portal_graveyard->Update(dt);
-	portal_jungle->Update(dt);
-	portal_ocean->Update(dt);
-	portal_robot->Update(dt);
-
 	if (((portal_graveyard->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_graveyard->pos.x - 4)) && (player->pos.x <= (portal_graveyard->pos.x + 4)))
 	{
+		portal_graveyard->Open();
 		if (Application::IsKeyPressed(VK_RETURN))
 		{
 			sceneManager->setScene(w_graveyard);
 			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		}
 	}
+	else {
+		portal_graveyard->Close();
+	}
 	if (((portal_jungle->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_jungle->pos.x - 4)) && (player->pos.x <= (portal_jungle->pos.x + 4)))
 	{
+		portal_jungle->Open();
 		if (Application::IsKeyPressed(VK_RETURN))
 		{
 			sceneManager->setScene(w_jungle);
 			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		}
 	}
+	else {
+		portal_jungle->Close();
+	}
 	if (((portal_ocean->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_ocean->pos.x - 4)) && (player->pos.x <= (portal_ocean->pos.x + 4)))
 	{
+		portal_ocean->Open();
 		if (Application::IsKeyPressed(VK_RETURN))
 		{
 			//sceneManager->setScene(w_ocean);
 			//CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		}
 	}
+	else {
+		portal_ocean->Close();
+	}
 	if (((portal_robot->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_robot->pos.x - 4)) && (player->pos.x <= (portal_robot->pos.x + 4)))
 	{
+		portal_robot->Open();
 		if (Application::IsKeyPressed(VK_RETURN))
 		{
 			sceneManager->setScene(w_robot);
 			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		}
 	}
+	else {
+		portal_robot->Close();
+	}
+
+	portal_graveyard->Update(dt);
+	portal_jungle->Update(dt);
+	portal_ocean->Update(dt);
+	portal_robot->Update(dt);
+
 
 	// Updating of light things
 	//lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);

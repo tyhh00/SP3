@@ -330,6 +330,7 @@ void SpriteAnimation::Reset()
 {
 	currentFrame = animationList[currentAnimation]->frames[0];
 	playCount = 0;
+	currentTime = 0;
 }
 
 
