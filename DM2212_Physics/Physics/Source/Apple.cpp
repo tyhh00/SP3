@@ -22,6 +22,7 @@ void Apple::Update(double dt)
 {
 	if (input->IsKeyPressed('G'))
 	{
+		std::cout << quantity << std::endl;
 		RemoveQuantity(1);
 	}
 }

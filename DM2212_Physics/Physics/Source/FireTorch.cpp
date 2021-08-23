@@ -3,9 +3,10 @@
 #include "LoadTGA.h"
 #include "FireTorch.h"
 
-FireTorch::FireTorch() : Weapon(I_FIRETORCH)
+FireTorch::FireTorch(Mesh* _mesh) : Weapon(I_FIRETORCH, mesh)
 {
 	isStackable = false;
+	mesh = _mesh;
 }
 
 FireTorch::~FireTorch()

@@ -421,15 +421,15 @@ void SceneBase::Update(double dt)
 {
 	//Input::GetInstance()->Update(dt);
 
-	//Keyboard Section
-	if(Application::IsKeyPressed('1'))
-		glEnable(GL_CULL_FACE);
-	if(Application::IsKeyPressed('2'))
-		glDisable(GL_CULL_FACE);
-	if(Application::IsKeyPressed('3'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	if(Application::IsKeyPressed('4'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	////Keyboard Section
+	//if(Application::IsKeyPressed('1'))
+	//	glEnable(GL_CULL_FACE);
+	//if(Application::IsKeyPressed('2'))
+	//	glDisable(GL_CULL_FACE);
+	//if(Application::IsKeyPressed('3'))
+	//	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//if(Application::IsKeyPressed('4'))
+	//	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	
 	fps = (float)(1.f / dt);
 }
@@ -594,7 +594,7 @@ void SceneBase::RenderMesh(Mesh *mesh, bool enableLight)
 	}
 }
 
-void SceneBase::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey)
+void SceneBase::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, int z)
 {
 	//glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
@@ -605,7 +605,7 @@ void SceneBase::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int size
 	viewStack.LoadIdentity(); //No need camera for ortho mode
 	modelStack.PushMatrix();
 	modelStack.LoadIdentity();
-	modelStack.Translate(x, y, 1);
+	modelStack.Translate(x, y, z);
 	modelStack.Scale(sizex, sizey, 1);
 	RenderMesh(mesh, false); //UI should not have light
 	projectionStack.PopMatrix();

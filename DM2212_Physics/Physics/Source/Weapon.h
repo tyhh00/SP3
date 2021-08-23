@@ -4,7 +4,7 @@
 
 class Weapon : public Item {
 public:
-	Weapon(ITEM_TYPE type);
+	Weapon(ITEM_TYPE type, Mesh* mesh);
 	void Init() override;
 	void Update(double dt) override;
 	

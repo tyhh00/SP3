@@ -13,23 +13,22 @@
  */
 void Inventory::Init(SceneBase* scene)
 {
-	Mesh* mesh = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 2.0f);
-	mesh->textureID = LoadTGA("Image/10.tga");
+	emptyMesh = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 2.0f);
+	emptyMesh->textureID = LoadTGA("Image/blackUI.tga");
+	selectedMesh = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 2.0f);
+	selectedMesh->textureID = LoadTGA("Image/blueUI.tga");
 
 	buttonManager = new ButtonManager(80, 60);
 
-	int k = 0; //y cut-off
-	int count = -1;
-	for (int j = 0; j < TOTAL_INVEN_SLOTS; j++)
+	for (int i = 0; i < TOTAL_WEAPON_SLOTS; i++)
 	{
-		if (j == TOTAL_INVEN_SLOTS / 2)
-		{
-			k = -10;
-			count = 0;
-		}
-		else
-			count++;
-		Button* button = ButtonFactory::createNoTextButton("UIitem" + std::to_string(j + 1), 80 / TOTAL_INVEN_SLOTS + 10 + count * 10, (60 / 2) + k, 5, 5, mesh);
+		Button* button = ButtonFactory::createNoTextButton("WeaponItem" + std::to_string(i + 1), 80 * 0.9 + i * 5, (60 / 6), 2, 2, emptyMesh);
+		buttonManager->addButton(button);
+	}
+
+	for (int i = 0; i < TOTAL_CONSUMABLE_SLOTS; i++)
+	{
+		Button* button = ButtonFactory::createNoTextButton("ConsumableItem" + std::to_string(i + 1), 80 * 0.9 + 5, (60 / 3) + i * 5, 2, 2, emptyMesh);
 		buttonManager->addButton(button);
 	}
 
@@ -51,14 +50,29 @@ void Inventory::Init(SceneBase* scene)
 void Inventory::Update(double dt)
 {
 	if (currentItem)
-		currentItem->Update(dt);
-
-	int vectorSize = itemVector.size();
-	for (int i = 0; i < TOTAL_INVEN_SLOTS; i++)
 	{
-		if (i < vectorSize)
+		currentItem->Update(dt);
+		if (currentItem->GetQuantity() <= 0)
+			DeleteItem(currentItem);
+	}
+	
+	//update weapon slots
+	int weaponSize = weaponVector.size();
+	for (int i = 0; i < TOTAL_WEAPON_SLOTS; i++)
+	{
+		if (i < weaponSize)
 		{
-			buttonManager->getButtonByName("UIitem" + std::to_string(i + 1))->setQuadImage(itemVector[i]->GetItemMesh());
+			buttonManager->getButtonByName("WeaponItem" + std::to_string(i + 1))->setQuadImage(itemVector[i]->GetItemMesh());
+		}
+	}
+
+	//update consumable slots
+	int consumableSize = consumableVector.size();
+	for (int i = 0; i < TOTAL_CONSUMABLE_SLOTS; i++)
+	{
+		if (i < consumableSize)
+		{
+			buttonManager->getButtonByName("ConsumableItem" + std::to_string(i + 1))->setQuadImage(itemVector[i]->GetItemMesh());
 		}
 	}
 
@@ -80,24 +94,84 @@ void Inventory::Update(double dt)
 		std::cout << "qty: " << currentItem->GetQuantity() << std::endl;
 	}
 
-	buttonManager->Update(scene, dt);
-	for (auto& buttonCollide : buttonManager->getButtonsInteracted())
+	if (input->IsKeyPressed('1'))
 	{
-		for (int i = 0; i < 3; i++)
-		{
-			if (buttonCollide->buttonClicked->getName() == ("UIitem" + std::to_string(i + 1)) && buttonCollide->justClicked)
-			{
-				buttonManager->deactivateButton("UIitem" + std::to_string(i + 1));
-				SwitchItem(i);
-			}
-		}
+		SwitchItem(INVEN_WEAPON, 0);
+		selectedPos = Vector3(buttonManager->getButtonByName("WeaponItem1")->getUIInfo().originX, buttonManager->getButtonByName("WeaponItem1")->getUIInfo().originY, 0);
 	}
+	else if (input->IsKeyPressed('2'))
+	{
+		SwitchItem(INVEN_WEAPON, 1);
+		selectedPos = Vector3(buttonManager->getButtonByName("WeaponItem2")->getUIInfo().originX, buttonManager->getButtonByName("WeaponItem2")->getUIInfo().originY, 0);
+	}
+	else if (input->IsKeyPressed('3'))
+	{
+		SwitchItem(INVEN_CONSUMABLE, 0);
+		selectedPos = Vector3(buttonManager->getButtonByName("ConsumableItem1")->getUIInfo().originX, buttonManager->getButtonByName("ConsumableItem1")->getUIInfo().originY, 0);
+	}
+	else if (input->IsKeyPressed('4'))
+	{
+		SwitchItem(INVEN_CONSUMABLE, 1);
+		selectedPos = Vector3(buttonManager->getButtonByName("ConsumableItem2")->getUIInfo().originX, buttonManager->getButtonByName("ConsumableItem2")->getUIInfo().originY, 0);
+	}
+	else if (input->IsKeyPressed('5'))
+	{
+		SwitchItem(INVEN_CONSUMABLE, 2);
+		selectedPos = Vector3(buttonManager->getButtonByName("ConsumableItem3")->getUIInfo().originX, buttonManager->getButtonByName("ConsumableItem3")->getUIInfo().originY, 0);
+	}
+
+
+	//buttonManager->Update(scene, dt);
+	//for (auto& buttonCollide : buttonManager->getButtonsInteracted())
+	//{
+	//	for (int i = 0; i < 3; i++)
+	//	{
+	//		if (buttonCollide->buttonClicked->getName() == ("UIitem" + std::to_string(i + 1)) && buttonCollide->justClicked)
+	//		{
+	//			SwitchItem(i);
+	//		}
+	//	}
+	//}
 }
 
 void Inventory::Render()
 {
 	if (enableInv)
 		buttonManager->Render(scene);
+
+	if (currentItem)
+		scene->RenderMeshOnScreen(selectedMesh, selectedPos.x, selectedPos.y, 2.2f, 2.2f, 2);
+}
+
+/**
+ @brief Update the weapon and consumable vectors based on the item vector
+ */
+void Inventory::UpdateItemVector()
+{
+	weaponVector.clear();
+	consumableVector.clear();
+	for (int i = 0; i < TOTAL_WEAPON_SLOTS; i++)
+	{
+		buttonManager->getButtonByName("WeaponItem" + std::to_string(i + 1))->setQuadImage(emptyMesh);
+	}
+	for (int i = 0; i < TOTAL_CONSUMABLE_SLOTS; i++)
+	{
+		buttonManager->getButtonByName("ConsumableItem" + std::to_string(i + 1))->setQuadImage(emptyMesh);
+	}
+
+	for (Item* item : itemVector)
+	{
+		if (item->GetGroupType() == Item::G_CONSUMABLE)
+		{
+			Consumable* newConsumable = dynamic_cast<Consumable*>(item);
+			consumableVector.push_back(newConsumable);
+		}
+		else if (item->GetGroupType() == Item::G_WEAPON)
+		{
+			Weapon* newWeapon = dynamic_cast<Weapon*>(item);
+			weaponVector.push_back(newWeapon);
+		}
+	}
 }
 
 /**
@@ -144,13 +218,38 @@ void Inventory::CycleItem(bool forward)
 
 /**
  @brief Switch between inventory item using index for the vector
+ @param type An inventory type for the respective vector that you want to switch to
  @param index An Int for the index of the vector
  */
-void Inventory::SwitchItem(int index)
+void Inventory::SwitchItem(INVENTORY_TYPE type, int index)
 {
-	if (index >= itemVector.size())
-		return;
-	currentItem = itemVector[index];
+	switch (type)
+	{
+	case INVEN_ITEM:
+		if (index >= itemVector.size())
+		{
+			currentItem = nullptr;
+			break;
+		}
+		currentItem = itemVector[index];
+		break;
+	case INVEN_CONSUMABLE:
+		if (index >= consumableVector.size())
+		{
+			currentItem = nullptr;
+			break;
+		}		
+		currentItem = consumableVector[index];
+		break;
+	case INVEN_WEAPON:
+		if (index >= weaponVector.size())
+		{
+			currentItem = nullptr;
+			break;
+		}		
+		currentItem = weaponVector[index];
+		break;
+	}
 }
 
 /**
@@ -165,6 +264,7 @@ void Inventory::AddItem(Item* newItem)
 	{
 		itemVector.push_back(newItem);
 		currentItem = newItem;
+		UpdateItemVector();
 		return;
 	}
 
@@ -187,10 +287,22 @@ void Inventory::AddItem(Item* newItem)
 		}
 	}
 
+	if (newItem->GetGroupType() == Item::G_CONSUMABLE)
+	{
+		if (consumableVector.size() >= TOTAL_CONSUMABLE_SLOTS)
+			return;
+	}
+	else if (newItem->GetGroupType() == Item::G_WEAPON)
+	{
+		if (weaponVector.size() >= TOTAL_WEAPON_SLOTS)
+			return;
+	}
 	//if cannot find an existing item or is existing item is not stackable, add it to the item vector
 	std::cout << "adding new item to vector" << std::endl;
 	itemVector.push_back(newItem);
 	currentItem = newItem;
+
+	UpdateItemVector();
 }
 
 /**
@@ -216,6 +328,21 @@ int Inventory::AddQuantity(Item* item, int _quantity)
 	//else set qty to new qty
 	item->SetQuantity(newQuantity);
 	return 0;
+}
+
+void Inventory::DeleteItem(Item* delItem)
+{
+	for (std::vector<Item*>::iterator it = itemVector.begin(); it != itemVector.end(); ++it)
+	{
+		Item* item = (Item*)*it;
+		if (item == delItem)
+		{
+			itemVector.erase(it);
+			currentItem = nullptr;
+			break;
+		}
+	}
+	UpdateItemVector();
 }
 
 Item::ITEM_TYPE Inventory::GetCurrentItemType()
