@@ -20,7 +20,9 @@ using namespace std;
 /**
  @brief Constructor
  */
-CPlayGameState::CPlayGameState(void)
+CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
+	, resumeButtonMesh(NULL)
+	, lobbyButtonMesh(NULL)
 {
 
 }

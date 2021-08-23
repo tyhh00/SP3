@@ -89,7 +89,7 @@ bool CLobbyState::Update(const double dElapsedTime)
 
 	if (input->IsKeyPressed(VK_ESCAPE))
 	{
-		Application::quit = true;
+		CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 	}
 
 	return true;
