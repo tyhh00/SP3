@@ -33,9 +33,9 @@ protected:
 	GameObjectManager* goManager;
 	Player* player;
 	
-
 	double gridLength, gridHeight;
 	void CursorToWorldPosition(double& theX, double& theY);
+	void LoadBossScene();
 };
 
 #endif

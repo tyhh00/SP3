@@ -63,7 +63,6 @@ void SceneGraveyard::Init()
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BG]->textureID = LoadTGA("Image/GraveyardBG.tga");
 
-
 	//Level Loading
 	std::vector<GameObject*> tiles;
 	if(LevelLoader::GetInstance()->LoadTiles("GRAVEYARD_1_1", this->meshList, this->tileSize, tiles, gridLength, gridHeight))
@@ -345,6 +344,10 @@ void SceneGraveyard::CursorToWorldPosition(double& theX, double& theY)
 
 	theX = x;
 	theY = y;
+}
+
+void SceneGraveyard::LoadBossScene()
+{
 }
 
 void SceneGraveyard::Exit()

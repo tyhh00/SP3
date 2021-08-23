@@ -333,6 +333,8 @@ void Player::CollidedWith(GameObject* go)
 		}
 
 		break;
+	case SceneBase::GEO_GY_GATEKEEPER:
+		break;
 	default:
 		break;
 	}
