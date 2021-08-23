@@ -84,6 +84,7 @@ struct GameObject
 	virtual void Update(double dt);
 	virtual void Render(SceneBase* scene);
 	virtual GameObject* Clone();
+	static void CloneValues(GameObject* ref, GameObject* into);
 
 	virtual void CollidedWith(GameObject* go);
 	void AddBottomSprite();

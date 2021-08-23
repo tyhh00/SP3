@@ -65,22 +65,27 @@ void GameObject::Render(SceneBase* scene)
 GameObject* GameObject::Clone()
 {
 	GameObject* go = new GameObject();
-	go->type = this->type;
-	go->active = this->active;
-	go->currentHP = this->currentHP;
-	go->fireInterval = this->fireInterval;
-	go->geoTypeID = this->geoTypeID;
-	go->mat = this->mat;
-	go->maxHP = this->maxHP;
-	go->mesh = this->mesh;
-	go->physics = this->physics->Clone();
-	go->pos = this->pos;
-	go->scale = this->scale;
-	go->timeout = this->timeout;
-	go->explosive = this->explosive;
-	go->explosiveRadius = this->explosiveRadius;
-	go->dead = this->dead;
+	CloneValues(this, go);
 	return go;
+}
+
+void GameObject::CloneValues(GameObject* ref, GameObject* into)
+{
+	into->type = ref->type;
+	into->active = ref->active;
+	into->currentHP = ref->currentHP;
+	into->fireInterval = ref->fireInterval;
+	into->geoTypeID = ref->geoTypeID;
+	into->mat = ref->mat;
+	into->maxHP = ref->maxHP;
+	into->mesh = ref->mesh;
+	into->physics = ref->physics->Clone();
+	into->pos = Vector3(ref->pos);
+	into->scale = Vector3(ref->scale);
+	into->timeout = ref->timeout;
+	into->explosive = ref->explosive;
+	into->explosiveRadius = ref->explosiveRadius;
+	into->dead = ref->dead;
 }
 
 void GameObject::CollidedWith(GameObject* go)

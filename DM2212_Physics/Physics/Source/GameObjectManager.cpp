@@ -300,7 +300,6 @@ void GameObjectManager::Update(double dt)
 	std::sort(toRemoveList.begin(), toRemoveList.end());
 	toRemoveList.erase(std::unique(toRemoveList.begin(), toRemoveList.end()), toRemoveList.end());
 
-	DEBUG_MSG("Next it begin");
 	for (std::vector<GameObject*>::iterator it = toRemoveList.begin(); it != toRemoveList.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;

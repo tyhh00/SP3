@@ -10,6 +10,7 @@
 
 //Entity Includes
 #include "Player.h"
+#include "PlasmaRobot.h"
 
 //...
 
@@ -52,9 +53,6 @@ void SceneRobot::Init()
 	// Inventory 
 	inventory = new Inventory();
 	inventory->Init(this);
-	
-	spawner = new BulletSpawner(goManager, new PlasmaBullet(Vector3(2,2,2), player));
-	DEBUG_MSG("GOManager Robot: " << goManager);
 
 	//Store keyboard instance
 	input = Input::GetInstance();
@@ -91,11 +89,19 @@ void SceneRobot::Init()
 			delete go;
 			go = nullptr;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ROBOT_ENEMY_1)
+		{
+			PlasmaRobot* robot = new PlasmaRobot(player, new BulletSpawner(goManager, new PlasmaBullet(Vector3(2, 2, 2), player)));
+			goManager->AddGO(robot);
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	
 	// Add all remaining tiles
 	goManager->AddAllGO(tiles);
+
+
+	DEBUG_MSG("GOManager Robot: " << goManager);
 
 	// Camera 
 	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
@@ -134,13 +140,13 @@ void SceneRobot::Update(double dt)
 
 	if (input->IsKeyReleased('F'))
 	{
-		//spawner->SpawnBullet(player->pos, player->physics->GetNormal() * 3.0, player->physics->GetNormal());
-		PlasmaBullet* bul = new PlasmaBullet(Vector3(2, 2, 2), player);
+		spawner->SpawnBullet(player->pos, player->physics->GetNormal() * 3.0, player->physics->GetNormal());
+		/*PlasmaBullet* bul = new PlasmaBullet(Vector3(2, 2, 2), player);
 		bul->physics->SetVelocity(player->physics->GetNormal() * 12);
 		bul->physics->SetNormal(player->physics->GetNormal());
 		bul->pos = player->pos;
 		bul->pos.z += 1;
-		goManager->AddGO(bul);
+		goManager->AddGO(bul);*/
 	}
 	
 	goManager->Update(dt);
