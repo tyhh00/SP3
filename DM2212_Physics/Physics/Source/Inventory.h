@@ -5,11 +5,14 @@
 #include "Item.h"
 #include <vector>
 #include "Input.h"
+#include "Buttons/ButtonManager.h"
+#include "Buttons/ButtonFactory.h"
 
 class Inventory {
 public:
 	void Init(SceneBase* scene);
 	void Update(double dt);
+	void Render();
 
 	void CycleItem(bool forward = true);
 	void SwitchItem(int index);
@@ -18,6 +21,7 @@ public:
 	Item::ITEM_TYPE GetCurrentItemType();
 	Item* GetCurrentItem();
 private:
+	ButtonManager* buttonManager;
 	std::vector<Item*> itemVector;
 	Item* currentItem;
 	Input* input;

@@ -342,6 +342,12 @@ void SceneBase::Init()
 	meshList[GEO_BUTTON] = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BUTTON]->textureID = LoadTGA("Image/button.tga");
 
+	//UI
+	meshList[GEO_UI_APPLE] = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 1.0f);
+	meshList[GEO_UI_APPLE]->textureID = LoadTGA("Image/button.tga");
+	meshList[GEO_UI_CHEESE] = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 1.0f);
+	meshList[GEO_UI_CHEESE]->textureID = LoadTGA("Image/button.tga");
+
 	meshList[GEO_WALL] = MeshBuilder::GenerateQuad("Wall", Color(1, 1, 1), 2.0f);
 	meshList[GEO_BALL] = MeshBuilder::GenerateCircle("circle", 1.0f, Color(1, 1, 1));
 	meshList[GEO_100] = MeshBuilder::GenerateCircle("score tings", 1.0f, Color(1, 1, 1));

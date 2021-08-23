@@ -10,6 +10,8 @@ Apple::Apple(int _quantity, int stemLength) : Consumable(I_APPLE)
 	quantity = _quantity;
 
 	input = Input::GetInstance();
+
+	//mesh = SceneBase::GEOMETRY_TYPE::GEO_UI_APPLE;
 }
 
 void Apple::Init()
