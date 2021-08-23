@@ -262,6 +262,8 @@ void Player::Render(SceneBase* scene)
 
 	// Render Stamina Bar??
 
+
+
 	// hp
 	float HPscale = 2;
 	for (int i = 0; i < lives; i++)
