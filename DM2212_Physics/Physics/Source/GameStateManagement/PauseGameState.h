@@ -27,11 +27,11 @@
 #include "../Input.h"
 
 //#include "..\Scene2D\Scene2D.h"
-struct ButtonData
-{
-	std::string fileName;
-	unsigned textureID;
-};
+//struct ButtonData
+//{
+//	std::string fileName;
+//	unsigned textureID;
+//};
 
 class CPauseGameState : public CGameStateBase
 {
@@ -56,8 +56,8 @@ public:
 
 protected:
 	//CBackgroundEntity* background;
-	ButtonData startButtonData;
+	/*ButtonData startButtonData;
 	ButtonData optionsButtonData;
-	ButtonData exitButtonData;
+	ButtonData exitButtonData;*/
 	Mesh* bgMesh;
 };
