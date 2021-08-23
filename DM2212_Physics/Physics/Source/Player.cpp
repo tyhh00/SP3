@@ -132,9 +132,9 @@ void Player::Update(double dt)
 			break;
 			case ABILITY_GRAPPLER:
 			{
-				abilityArray[i]->Update(dt);
 				GrapplingAbility* ability = dynamic_cast<GrapplingAbility*>(abilityArray[i]);
 				ability->UpdatePlayer(pos, physics, curr_max_vel);
+				abilityArray[i]->Update(dt);
 			}
 			break;
 			default:
@@ -152,7 +152,11 @@ void Player::Update(double dt)
 		}
 	}
 
+	curr_max_vel = Math::Clamp(curr_max_vel, MAX_VEL, 100.f);
 	physics->SetVelocity(Vector3(Math::Clamp(physics->GetVelocity().x, -curr_max_vel, curr_max_vel), physics->GetVelocity().y, physics->GetVelocity().z));
+
+	if (physics->GetVelocity().Length() > 100)
+		physics->SetVelocity(physics->GetVelocity().Normalized() * 100);
 }
 
 void Player::UpdateMovement(double dt)

@@ -13,6 +13,12 @@
  */
 void Inventory::Init(SceneBase* scene)
 {
+	for (int j = 0; j < 3; j++)
+	{
+		//Button* button = ButtonFactory::createNoTextButton("UIitem" + std::to_string(j + 1), 100 + (j * 10), 10, 10, 10, SceneBase::meshList[GEO_UI_APPLE]);
+	}
+	buttonManager = new ButtonManager((float)Application::GetWindowWidth(), (float)Application::GetWindowHeight());
+
 	input = Input::GetInstance();
 
 	for (int i = 0; i < sizeof(maxQuantity) / sizeof(maxQuantity[0]); i++)
@@ -55,6 +61,11 @@ void Inventory::Update(double dt)
 		std::cout << "2" << std::endl;
 		SwitchItem(1);
 	}
+}
+
+void Inventory::Render()
+{
+	//buttonManager->Render(SceneManager::GetInstance()->activeScene);
 }
 
 /**
