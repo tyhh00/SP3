@@ -19,6 +19,7 @@ class SceneLobby : public SceneBase
 public:
 	SceneManager *sceneManager;
 
+
 	SceneLobby();
 	~SceneLobby();
 
