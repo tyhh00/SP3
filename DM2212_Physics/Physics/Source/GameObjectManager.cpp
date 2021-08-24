@@ -142,7 +142,6 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 	return false;
 }
 
-
 void GameObjectManager::Update(double dt)
 {
 	for (std::vector<GameObject*>::iterator it = toAddList.begin(); it != toAddList.end(); ++it)

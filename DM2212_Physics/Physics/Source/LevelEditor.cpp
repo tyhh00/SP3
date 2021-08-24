@@ -53,9 +53,6 @@ bool LevelEditor::LoadMap(std::string filename)
 	return (LevelLoader::GetInstance()->LoadTiles(filename, this->meshList, this->tileSize, gridObjects, gridLength, gridHeight));
 }
 
-
-
-
 void LevelEditor::SaveMap()
 {
 	if (unsavedChanges)

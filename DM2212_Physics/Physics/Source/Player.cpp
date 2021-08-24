@@ -22,8 +22,8 @@ Player::Player() : input(NULL)
 , max_stamina(100.f)
 , stamina(100.f)
 , curr_max_vel(MAX_VEL)
-, lives(3)
-, max_lives(3)
+//, lives(3)
+//, max_lives(3)
 , stamina_rate_multiplier(0.0f)
 , invisibility(false)
 {
@@ -73,8 +73,8 @@ void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* invento
 	}
 	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 1.0f);
 	portalSprite->textureID = LoadTGA("Image/PortalTravelSprite.tga");
-	livesIcon = MeshBuilder::GenerateQuad("hp icon", Color(1, 1, 1), 1.0f);
-	livesIcon->textureID = LoadTGA("Image/lives.tga");
+//	livesIcon = MeshBuilder::GenerateQuad("hp icon", Color(1, 1, 1), 1.0f);
+//	livesIcon->textureID = LoadTGA("Image/lives.tga");
 	staminaBar = MeshBuilder::GenerateQuad("stamina bar", Color(1.0f, 1.0f, 0.4f), 1.0f);
 
 	input = Input::GetInstance();
@@ -280,14 +280,14 @@ void Player::Render(SceneBase* scene)
 	stamina_bar.RenderHorizontal(scene, stamina, max_stamina);
 
 
-	// hp
-	float HPscale = 2;
-	for (int i = 0; i < lives; i++)
-	{
-		scene->modelStack.PushMatrix();
-		scene->RenderMeshOnScreen(livesIcon, HPscale * 0.5 + i * HPscale, 60 - HPscale * 0.5, HPscale, HPscale);
-		scene->modelStack.PopMatrix();
-	}
+	//// hp
+	//float HPscale = 2;
+	//for (int i = 0; i < lives; i++)
+	//{
+	//	scene->modelStack.PushMatrix();
+	//	scene->RenderMeshOnScreen(livesIcon, HPscale * 0.5 + i * HPscale, 60 - HPscale * 0.5, HPscale, HPscale);
+	//	scene->modelStack.PopMatrix();
+	//}
 	
 }
 
@@ -370,9 +370,10 @@ void Player::CollidedWith(GameObject* go)
 		}
 		else
 		{
-			lives--;
+			//lives--;
 			Ghost* ghost = dynamic_cast<Ghost*>(go);
 			ghost->StartAttackCooldown();
+			timeout = 1.0f;
 		}
 
 		break;

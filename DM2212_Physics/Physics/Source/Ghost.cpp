@@ -47,6 +47,8 @@ void Ghost::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 	mesh = animatedSprites;
 	mesh->textureID = LoadTGA("Image/ghost_sprite.tga");
 
+	//geoTypeID = mesh->textureID;
+
 	animatedSprites->PlayAnimation("inactive", -1, 1.0f);
 
 }

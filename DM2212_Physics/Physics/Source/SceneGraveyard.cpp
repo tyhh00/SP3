@@ -99,6 +99,7 @@ void SceneGraveyard::Init()
 			ghost->active = true;
 			ghost->scale = go->scale;
 			ghost->pos = go->pos;
+			ghost->geoTypeID = go->geoTypeID;
 			ghost->physics = go->physics->Clone();
 			ghost->physics->SetInelasticity(0.99f);
 			ghost->physics->SetIsBouncable(false);
