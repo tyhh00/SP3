@@ -254,6 +254,9 @@
     <ClCompile Include="Source\Buttons\ProgressBar.cpp">
       <Filter>Source Files\Buttons</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Monkey.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Bone.cpp">
       <Filter>Source Files\Items\Consumables</Filter>
     </ClCompile>
@@ -263,7 +266,7 @@
     <ClCompile Include="Source\Pickaxe.cpp">
       <Filter>Source Files\Items\Weapons</Filter>
 	 </ClCompile>
-    <ClCompile Include="UIManager.cpp">
+    <ClCompile Include="Source\UIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -481,6 +484,9 @@
     <ClInclude Include="Source\Buttons\ProgressBar.h">
       <Filter>Header Files\Buttons</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Monkey.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Bone.h">
       <Filter>Header Files\Items\Consumables</Filter>
     </ClInclude>
@@ -489,8 +495,8 @@
     </ClInclude>
     <ClInclude Include="Source\Pickaxe.h">
       <Filter>Header Files\Items\Weapons</Filter>
-	  </ClCompile>
-    <ClInclude Include="UIManager.h">
+	</ClInclude>
+    <ClInclude Include="Source\UIManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

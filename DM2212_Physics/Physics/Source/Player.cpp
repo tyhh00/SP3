@@ -7,6 +7,7 @@
 #include "Battery.h"
 #include "Apple.h"
 #include "Ghost.h"
+#include "Monkey.h"
 #include "FireTorch.h"
 #include "Cheese.h"
 #include "Bone.h"
@@ -67,6 +68,7 @@ void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* invento
 {
 	physics->SetMass(5);
 	physics->SetMovable(true);
+	currentHP = 100;
 
 	if (mode == WASD)
 	{
@@ -347,8 +349,17 @@ void Player::CollidedWith(GameObject* go)
 		//	break;
 		//if (inventory->GetCurrentItemType() == Item::I_FIRETORCH)
 		//	currentHP++;
-		goManager->RemoveGO(go);
-		inventory->AddItem(new Cheese(go->mesh));
+		//goManager->RemoveGO(go);
+		//inventory->AddItem(new Cheese(go->mesh));
+		if (timeout > 0) // on cooldown
+		{
+			break;
+		}
+		else
+		{
+			Monkey* monkey = dynamic_cast<Monkey*>(go);
+			monkey->StartAttackCooldown();
+		}
 		break;
 	case SceneBase::GEO_JUNGLE_GRASS_PLATFORM_LEFT:
 		goManager->RemoveGO(go);
