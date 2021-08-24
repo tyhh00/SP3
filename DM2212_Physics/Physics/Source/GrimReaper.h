@@ -23,6 +23,7 @@ private:
 		INACTIVE, // default state, not moving
 
 		CHASING,
+		PREWHACKING,
 		WHACKING,
 		COOLDOWN,
 

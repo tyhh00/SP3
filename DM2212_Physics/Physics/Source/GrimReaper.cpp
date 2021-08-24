@@ -58,37 +58,40 @@ void GrimReaper::Update(double dt)
 		state = CHASING;
 		break;
 	case CHASING:
-		std::cout << "CHASING" << std::endl;
 		if ((pos - *playerPos).Length() < whackRange)
 		{
-			std::cout << "//PLAYER WITHIN RANGE, ENTERING WHACKING STATE" << std::endl;
-			state = WHACKING;
-			attack_timer = 1.0;
+			state = PREWHACKING;
+			attack_timer = 0.5;
 			cooldown_timer = 0;
-			animatedSprites->PlayAnimation("HostileAttack", 0, 1.0f);
+			animatedSprites->PlayAnimation("HostileIdle", 0, 0.5f);
 			physics->SetVelocity(Vector3(0, 0, 0));
 			break;
 		}
 		physics->SetVelocity((*playerPos - pos).Normalized() * hostile_speed);
 		break;
+	case PREWHACKING:
+		if (attack_timer <= 0)
+		{
+			state = WHACKING;
+			animatedSprites->PlayAnimation("HostileAttack", 0, 1.0f);
+			animatedSprites->Reset();
+			break;
+		}
+		attack_timer -= dt;
+		break;
 	case WHACKING:
-		std::cout << "WHACKING" << std::endl;
 		if (attack_timer <= 0)
 		{
 			state = COOLDOWN;
 			cooldown_timer += 1.0f;
-			std::cout << "//FINISHED WHACKING, ENTERING COOLDOWN STATE NOW" << std::endl;
-			std::cout << "Current Cooldown Time: " << cooldown_timer << std::endl;
 			animatedSprites->PlayAnimation("HostileIdle", -1, 1.0f);
 			break;
 		}
 		attack_timer -= dt;
 		break;
 	case COOLDOWN:
-		std::cout << "COOLDOWN" << std::endl;
 		if (cooldown_timer <= 0)
 		{
-			std::cout << "//COOLDOWN END, ENTERING CHASING STATE NOW" << std::endl;
 			state = CHASING;
 			cooldown_timer = 0;
 			animatedSprites->PlayAnimation("HostileRunning", -1, 1.0f);
@@ -109,7 +112,6 @@ void GrimReaper::CollidedWith(GameObject* go)
 		state == WHACKING && cooldown_timer <= 0)
 	{
 		//go->currentHP -= 40;
-		std::cout << "//// PLAYER IS WHACKED. SET COOLDOWN." << std::endl;
 		cooldown_timer += 2.f;
 	}
 }

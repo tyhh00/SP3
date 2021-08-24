@@ -209,9 +209,9 @@ void SceneMainMenu::Render()
 	ss.str("");
 	ss.precision(5);
 	ss << "FPS: " << fps;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 3);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 0, 3);
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 3, 0, 0);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Main Menu", Color(1, 1, 1), 2, 0, 0);
 }
 
 void SceneMainMenu::Exit()

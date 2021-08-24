@@ -267,17 +267,17 @@ void SceneSplashScreen::Render()
 
 	std::ostringstream ss;
 	
-	ss.str("");
+	/*ss.str("");
 	ss << "mat: " << Vector3(meshList[GEO_BG]->material.kDiffuse.r, meshList[GEO_BG]->material.kDiffuse.g, meshList[GEO_BG]->material.kDiffuse.b);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 0, 4);*/
 
 	// fps tings
 	ss.str("");
 	ss.precision(5);
 	ss << "FPS: " << fps;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 3);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 0, 2);
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 3, 0, 0);
+	RenderTextOnScreen(meshList[GEO_TEXT], "SplashScreen", Color(1, 1, 1), 2, 0, 0);
 }
 
 void SceneSplashScreen::Exit()

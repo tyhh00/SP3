@@ -284,9 +284,9 @@ void SceneGraveyard::Render()
 	//ss.str("");
 	//ss << "LIGHT COLOR: " << Vector3(lights[0].color.r, lights[0].color.g, lights[0].color.b);
 	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
-	ss.str("");
+	/*ss.str("");
 	ss << "player vel: " << player->physics->GetVelocity();
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);*/
 	//ss.str("");
 	//ss << "camera pos: " << camera.position;
 	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);
@@ -297,9 +297,9 @@ void SceneGraveyard::Render()
 	ss.str("");
 	ss.precision(5);
 	ss << "FPS: " << fps;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 3);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 0, 2);
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 3, 0, 0);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Graveyard", Color(1, 1, 1), 2, 0, 0);
 }
 
 void SceneGraveyard::InitLights()
