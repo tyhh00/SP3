@@ -270,8 +270,8 @@ void Player::Render(SceneBase* scene)
 	scene->modelStack.PopMatrix();
 	
 	// Render Stamina Bar??
-	ProgressBar stamina_bar(staminaBar, 40, 5, 15.f, 1.f);
-	stamina_bar.RenderHorizontal(scene, stamina, max_stamina);
+	/*ProgressBar stamina_bar(staminaBar, 40, 5, 15.f, 1.f);
+	stamina_bar.RenderHorizontal(scene, stamina, max_stamina);*/
 
 
 	//// hp

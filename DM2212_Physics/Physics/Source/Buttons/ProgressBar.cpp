@@ -22,3 +22,5 @@ float ProgressBar::GetProgress()
 {
 	return this->progress;
 }
+
+

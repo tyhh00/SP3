@@ -26,6 +26,8 @@ class ProgressBar : public Button
 {
 public:
 	ProgressBar(std::string buttonName, float originX, float originY, float width, PROGRESSBAR_TYPE type, Mesh* quadTexture, float progress = 100);
+	~ProgressBar();
+	
 	void Render(SceneBase* scene);
 	void SetProgress(float progress);
 	float GetProgress();
