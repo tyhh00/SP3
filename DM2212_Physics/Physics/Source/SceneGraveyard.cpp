@@ -171,6 +171,11 @@ void SceneGraveyard::Update(double dt)
 		m_speed += 0.1f;
 	}
 	
+	if (input->IsKeyPressed('P'))
+	{
+		LoadBossScene();
+	}
+
 	goManager->Update(dt);
 	inventory->Update(dt);
 
