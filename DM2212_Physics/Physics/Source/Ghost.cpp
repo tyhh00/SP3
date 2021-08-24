@@ -36,8 +36,8 @@ void Ghost::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 
 	physics->SetMovable(true);
 	physics->SetEnableCollision(false);
-	physics->SetGravity(Vector3(0,0,0));
-
+	physics->SetGravity(Vector3(0, 0, 0));
+	 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("inactive", 9, 11);
 	animatedSprites->AddAnimation("right", 6, 8);

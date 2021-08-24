@@ -27,7 +27,7 @@ void Battery::Update(double dt)
 		{
 			Flashlight* flashlight = dynamic_cast<Flashlight*>(item);
 			flashlight->RefillBattery();
-			inventory->DeleteItem(this);
+			this->RemoveQuantity(1);
 		}
 	}
 }

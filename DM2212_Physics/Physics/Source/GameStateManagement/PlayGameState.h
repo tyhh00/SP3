@@ -36,6 +36,7 @@ protected:
 
 	bool paused;
 	Mesh* resumeButtonMesh, *lobbyButtonMesh;
+	Mesh* menuBG;
 	ButtonManager* buttonManager;
 
 };
