@@ -144,6 +144,8 @@ void SceneGraveyard::Init()
 	ability->SetCamera(&camera);
 	ability->SetScenePointer(this);
 	player->SetAbilities(ability, nullptr);
+
+	story_state = GY_INTRO;
 }
 
 void SceneGraveyard::Update(double dt)

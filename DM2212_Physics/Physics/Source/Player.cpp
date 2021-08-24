@@ -9,6 +9,9 @@
 #include "Ghost.h"
 #include "FireTorch.h"
 #include "Cheese.h"
+#include "Bone.h"
+#include "Skull.h"
+#include "Pickaxe.h"
 #include "Buttons/ProgressBar.h"
 
 Player::Player() : input(NULL)
@@ -275,12 +278,6 @@ void Player::Render(SceneBase* scene)
 	// Render Stamina Bar??
 	ProgressBar stamina_bar(staminaBar, 40, 5, 15.f, 1.f);
 	stamina_bar.RenderHorizontal(scene, stamina, max_stamina);
-	/*float max_length = 15.f;
-	float scalex = (stamina / max_stamina) * max_length;
-	float offsetx = (max_length - scalex) * 0.5;
-	scene->modelStack.PushMatrix();
-	scene->RenderMeshOnScreen(staminaBar, 40 - offsetx, 5, scalex, 1.0f);
-	scene->modelStack.PopMatrix();*/
 
 
 	// hp
@@ -302,25 +299,46 @@ void Player::CollidedWith(GameObject* go)
 		goManager->RemoveGO(go);
 		inventory->AddItem(new Flashlight(go->mesh));
 		break;
+	case SceneBase::GEO_PICKAXE:
+		goManager->RemoveGO(go);
+		inventory->AddItem(new Pickaxe(go->mesh));
+		break;
 	case SceneBase::GEO_BATTERY:
 		goManager->RemoveGO(go);
 		inventory->AddItem(new Battery(go->mesh, inventory));
 		break;
 	case SceneBase::GEO_BONES_02:
-		goManager->RemoveGO(go);
-	//	inventory->AddItem(new Battery);
+		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+			&& input->IsKeyPressed('F'))
+		{
+			goManager->RemoveGO(go);
+			inventory->AddItem(new Bone(go->mesh, 2));
+		}
 		break;
 	case SceneBase::GEO_BONES_03:
-		goManager->RemoveGO(go);
-		//	inventory->AddItem(new Battery);
+		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+			&& input->IsKeyPressed('F'))
+		{
+			goManager->RemoveGO(go);
+			inventory->AddItem(new Bone(go->mesh, 3));
+		}
 		break;
 	case SceneBase::GEO_BONES_10:
-		goManager->RemoveGO(go);
-		//	inventory->AddItem(new Battery);
+		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+			&& input->IsKeyPressed('F'))
+		{
+			goManager->RemoveGO(go);
+			inventory->AddItem(new Skull(go->mesh, 1));
+		}
 		break;
 	case SceneBase::GEO_BONES_11:
-		goManager->RemoveGO(go);
-		//	inventory->AddItem(new Battery);
+		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+			&& input->IsKeyPressed('F'))
+		{
+			goManager->RemoveGO(go);
+			inventory->AddItem(new Skull(go->mesh, 1));
+			inventory->AddItem(new Bone(go->mesh, 1));
+		}
 		break;
 	case SceneBase::GEO_JUNGLE_GRASS_BLOCK:
 		goManager->RemoveGO(go);
