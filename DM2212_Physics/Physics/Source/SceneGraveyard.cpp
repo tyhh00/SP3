@@ -171,12 +171,36 @@ void SceneGraveyard::Update(double dt)
 		m_speed += 0.1f;
 	}
 
+	if (input->IsKeyPressed('C'))
+	{
+		LoadBossScene();
+		story_state = CHURCH_INTRO;
+	}
+
 	goManager->Update(dt);
 	inventory->Update(dt);
 
 	if (player->currentHP <= 0)
 	{
 		gameLost = true;
+		return;
+	}
+
+	// TBC
+	switch (story_state)
+	{
+	case GY_INTRO:
+		break;
+	case GY_DEFAULT:
+		break;
+	case GY_GATEKEEPER1:
+		break;
+	case CHURCH_INTRO:
+		break;
+	case CHURCH_DEFAULT:
+		break;
+	case CHURCH_END:
+		break;
 	}
 }
 
@@ -382,8 +406,6 @@ void SceneGraveyard::LoadBossScene()
 
 			goManager->AddGO(player);
 
-			DEBUG_MSG("From Phy Editor: " << player->scale);
-
 
 			//Delete Grid Player
 			delete go;
@@ -435,6 +457,12 @@ void SceneGraveyard::LoadBossScene()
 
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);
+
+	// ABILITIES
+	PortalAbility* ability = new PortalAbility;
+	ability->SetCamera(&camera);
+	ability->SetScenePointer(this);
+	player->SetAbilities(ability, nullptr);
 }
 
 void SceneGraveyard::Exit()

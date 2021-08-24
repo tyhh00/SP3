@@ -44,7 +44,7 @@ void PortalAbility::Update(double dt)
 			{
 				// START OPENING START PORTAL
 				startPortal.active = true;
-				startPortal.SetAnimation("opening", 0, 0.5f);
+				startPortal.SetAnimation("opening", 0, 0.3f);
 				startPortal.pos = newPlayerPos;
 				anim_timer = 0;
 				ghost_portal = true;
@@ -59,7 +59,7 @@ void PortalAbility::Update(double dt)
 		break;
 	case OPENING_ANIM:
 		// OPENING START PORTAL
-		if (anim_timer >= 0.5)
+		if (anim_timer >= 0.3)
 		{
 			// PREP TO ENTER PLACING STATE
 			startPortal.SetAnimation("idle", -1, 1.0);
@@ -70,32 +70,39 @@ void PortalAbility::Update(double dt)
 		{
 			anim_timer += dt;
 		}
-		double mousePosX, mousePosY;
-		CursorToWorldPosition(mousePosX, mousePosY);
-		endPortal.pos.Set(mousePosX, mousePosY, 0);
+		std::cout << startPortal.portalSprite->currentFrame << std::endl;
+		if (Input::GetInstance()->IsKeyDown('Z'))
+		{
+			double mousePosX, mousePosY;
+			CursorToWorldPosition(mousePosX, mousePosY);
+			endPortal.pos.Set(mousePosX, mousePosY, 0);
+		}
 		break;
 	case PLACING:
 	{
 		// CHECK FOR PLACE PORTAL CONDITIONS
-		double mousePosX, mousePosY;
-		CursorToWorldPosition(mousePosX, mousePosY);
-		endPortal.pos.Set(mousePosX, mousePosY, 0);
 		if (!Input::GetInstance()->IsKeyDown('Z'))
 		{
 			// START OPENING END PORTAL
 			ghost_portal = false;
 			endPortal.active = true;
-			endPortal.SetAnimation("opening", 0, 0.5f);
+			endPortal.SetAnimation("opening", 0, 0.3f);
 			anim_timer = 0;
 
 			state = PLACING_ANIM;
 			std::cout << "PORTAL ABILITY: Placing other Portal" << std::endl;
 		}
+		else
+		{
+			double mousePosX, mousePosY;
+			CursorToWorldPosition(mousePosX, mousePosY);
+			endPortal.pos.Set(mousePosX, mousePosY, 0);
+		}
 	}
 		break;
 	case PLACING_ANIM:
 		// OPENING END PORTAL
-		if (anim_timer >= 0.5)
+		if (anim_timer >= 0.3)
 		{
 			// MOVE PLAYER FROM ONE PLACE TO OTHER
 			endPortal.SetAnimation("idle", -1, 1.0f);
@@ -122,7 +129,7 @@ void PortalAbility::Update(double dt)
 			// START CLOSING START PORTAL
 			newPlayerPos = endPortal.pos;
 			camera->SetMode(Camera::EDGE);
-			startPortal.SetAnimation("closing", 0, 0.5f);
+			startPortal.SetAnimation("closing", 0, 0.3f);
 			anim_timer = 0;
 			playerActiveState = true;
 			ghost_player = false;
@@ -136,13 +143,13 @@ void PortalAbility::Update(double dt)
 		break;
 	case CLOSINGSTART_ANIM:
 		// CLOSING START PORTAL
-		if (anim_timer >= 0.5)
+		if (anim_timer >= 0.3)
 		{ 
 			// RESET START PORTAL
 			// START CLOSING END PORTAL
 			startPortal.active = false;
 			startPortal.SetAnimation("idle", -1, 1.0f);
-			endPortal.SetAnimation("closing", 0, 0.5f);
+			endPortal.SetAnimation("closing", 0, 0.3f);
 			anim_timer = 0;
 
 			state = CLOSINGEND_ANIM;
@@ -154,7 +161,7 @@ void PortalAbility::Update(double dt)
 		break;
 	case CLOSINGEND_ANIM:
 		// CLOSING END PORTAL
-		if (anim_timer >= 0.5)
+		if (anim_timer >= 0.3)
 		{
 			// RESET END PORTAL
 			endPortal.active = false;

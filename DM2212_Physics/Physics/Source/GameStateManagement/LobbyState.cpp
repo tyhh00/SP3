@@ -113,5 +113,9 @@ void CLobbyState::Render(void)
 void CLobbyState::Destroy(void)
 {
 	cout << "CLobbyState::Destroy()\n" << endl;
-	//sceneManager->destroy();
+	if (sceneLobby)
+	{
+		delete sceneLobby;
+		sceneLobby = NULL;
+	}
 }

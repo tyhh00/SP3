@@ -392,7 +392,7 @@ void Physics::ApplyFriction(Physics* ball, Vector3 normal, double dt)
 		return;
 	}
 
-	std::cout << ball->GetVelocity() << std::endl;
+	//std::cout << ball->GetVelocity() << std::endl;
 
 	// - velocity parallel to surface by amount of Nforce
 	const float FRICTION_K = 0.1f;

@@ -34,26 +34,7 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
  */
 CPlayGameState::~CPlayGameState(void)
 {
-	if (resumeButtonMesh)
-	{
-		delete resumeButtonMesh;
-		resumeButtonMesh = NULL;
-	}
-	if (lobbyButtonMesh)
-	{
-		delete lobbyButtonMesh;
-		lobbyButtonMesh = NULL;
-	}
-	if (retryButtonMesh)
-	{
-		delete retryButtonMesh;
-		retryButtonMesh = NULL;
-	}
-	if (menuBG)
-	{
-		delete menuBG;
-		menuBG = NULL;
-	}
+	
 }
 
 /**
@@ -188,5 +169,25 @@ void CPlayGameState::Destroy(void)
 	{
 		delete buttonManager;
 		buttonManager = NULL;
+	}
+	if (resumeButtonMesh)
+	{
+		delete resumeButtonMesh;
+		resumeButtonMesh = NULL;
+	}
+	if (lobbyButtonMesh)
+	{
+		delete lobbyButtonMesh;
+		lobbyButtonMesh = NULL;
+	}
+	if (retryButtonMesh)
+	{
+		delete retryButtonMesh;
+		retryButtonMesh = NULL;
+	}
+	if (menuBG)
+	{
+		delete menuBG;
+		menuBG = NULL;
 	}
 }

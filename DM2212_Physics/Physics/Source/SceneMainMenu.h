@@ -23,6 +23,7 @@ public:
 
 protected:
 	Mesh* buttonMesh;
+	//Mesh* title;
 	SpriteAnimation* background;
 	ButtonManager* buttonManager;
 

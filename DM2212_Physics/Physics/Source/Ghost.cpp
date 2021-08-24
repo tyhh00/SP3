@@ -133,7 +133,6 @@ void Ghost::Update(double dt)
 		{
 			state_interval = 0;
 			Vector3 dir(Math::RandFloatMinMax(-1, 1), Math::RandFloatMinMax(-1, 1), 0);
-			std::cout << dir << std::endl;
 			physics->SetVelocity(dir.Normalized() * haunting_speed);
 		}
 		state_timer += dt;
