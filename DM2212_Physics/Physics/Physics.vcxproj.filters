@@ -254,6 +254,9 @@
     <ClCompile Include="Source\Buttons\ProgressBar.cpp">
       <Filter>Source Files\Buttons</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Monkey.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Bone.cpp">
       <Filter>Source Files\Items\Consumables</Filter>
     </ClCompile>
@@ -480,6 +483,9 @@
     </ClInclude>
     <ClInclude Include="Source\Buttons\ProgressBar.h">
       <Filter>Header Files\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Monkey.h">
+      <Filter>Header Files\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Source\Bone.h">
       <Filter>Header Files\Items\Consumables</Filter>

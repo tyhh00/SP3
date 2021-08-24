@@ -351,7 +351,77 @@ void SceneGraveyard::CursorToWorldPosition(double& theX, double& theY)
 
 void SceneGraveyard::LoadBossScene()
 {
-	
+	goManager->DeleteAllGOs();
+
+	m_worldHeight = 144;
+	m_worldWidth = 256;
+
+	// Unique Meshes
+	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	meshList[GEO_BG]->textureID = LoadTGA("Image/churchBG.tga");
+
+	//Level Loading
+	std::vector<GameObject*> tiles;
+	if (LevelLoader::GetInstance()->LoadTiles("GRAVEYARD_FINAL", this->meshList, this->tileSize, tiles, gridLength, gridHeight))
+		DEBUG_MSG("Level Did not load successfully");
+	for (auto& go : tiles)
+	{
+		if (go->geoTypeID == GEOMETRY_TYPE::GEO_PLAYER_GIRL1)
+		{
+			player->pos = go->pos;
+
+			goManager->AddGO(player);
+
+			//Delete Grid Player
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ENEMY_GHOST)
+		{
+			Ghost* ghost = new Ghost();
+
+			ghost->active = true;
+			ghost->scale = go->scale;
+			ghost->pos = go->pos;
+			ghost->physics = go->physics->Clone();
+			ghost->physics->SetInelasticity(0.99f);
+			ghost->physics->SetIsBouncable(false);
+			ghost->physics->SetGravity(Vector3(0, 0, 0));
+			ghost->Init(this, inventory, player->pos);
+
+			goManager->AddGO(ghost);
+
+			//Delete Grid ghost
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ENEMY_GRIMREAPER)
+		{
+			GrimReaper* reaper = new GrimReaper();
+
+			reaper->active = true;
+			reaper->scale = go->scale;
+			reaper->pos = go->pos;
+			reaper->physics = go->physics->Clone();
+			reaper->physics->SetInelasticity(0.99f);
+			reaper->physics->SetIsBouncable(false);
+			reaper->physics->SetGravity(Vector3(0, 0, 0));
+			reaper->Init(this, inventory, player->pos);
+
+			goManager->AddGO(reaper);
+
+			//Delete Grid reaper
+			delete go;
+			go = nullptr;
+		}
+	}
+	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
+
+	// Add all remaining tiles
+	goManager->AddAllGO(tiles);
+
+	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
+	camera.SetFocusTarget(player->pos);
 }
 
 void SceneGraveyard::Exit()

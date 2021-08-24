@@ -78,6 +78,27 @@ void SceneJungle::Init()
 			delete go;
 			go = nullptr;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_JUNGLE_DIRT_BLOCK)
+		{
+			Monkey* monkey = new Monkey();
+
+			monkey->active = true;
+			monkey->scale = go->scale;
+			monkey->pos = go->pos;
+			monkey->physics = go->physics->Clone();
+			monkey->physics->SetInelasticity(0.99f);
+			monkey->physics->SetIsBouncable(false);
+			monkey->physics->SetGravity(Vector3(0, 0, 0));
+			monkey->Init(this, inventory, player->pos);
+
+			monkey->AddBottomSprite();
+			monkey->bottomSprite->mesh = meshList[GEO_WALL];
+			goManager->AddGO(monkey);
+
+			//Delete Grid ghost
+			delete go;
+			go = nullptr;
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	

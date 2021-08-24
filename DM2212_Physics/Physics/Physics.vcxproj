@@ -169,6 +169,7 @@
     <ClCompile Include="Source\GrimReaper.cpp" />
     <ClCompile Include="Source\Buttons\ButtonFactory.cpp" />
     <ClCompile Include="Source\LobbyPortal.cpp" />
+    <ClCompile Include="Source\Monkey.cpp" />
     <ClCompile Include="Source\Pickaxe.cpp" />
     <ClCompile Include="Source\PlasmaBullet.cpp" />
     <ClCompile Include="Source\PlasmaRobot.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="Source\GrimReaper.h" />
     <ClInclude Include="Source\Buttons\ButtonFactory.h" />
     <ClInclude Include="Source\LobbyPortal.h" />
+    <ClInclude Include="Source\Monkey.h" />
     <ClInclude Include="Source\Pickaxe.h" />
     <ClInclude Include="Source\PlasmaBullet.h" />
     <ClInclude Include="Source\PlasmaRobot.h" />
