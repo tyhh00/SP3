@@ -14,6 +14,8 @@ class PlasmaBullet : public Bullet
 {
 	const bool explo = true;
 	const float rad = 3.0f;
+
+	const float AOESpread = 2.0f; //How much power it loses as the explosion spreads
 public:
 	PlasmaBullet(Vector3 scale, GameObject* attachedPlayer);
 	~PlasmaBullet();

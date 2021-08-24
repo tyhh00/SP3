@@ -42,7 +42,7 @@ private:
 	MOVEMENT_MODE mode;
 	SpriteAnimation* animatedSprites;
 	Mesh* portalSprite;
-	Mesh* livesIcon;
+//	Mesh* livesIcon;
 	Mesh* staminaBar;
 
 	int dashDir = 0;
@@ -57,9 +57,6 @@ private:
 
 	float stamina;
 	float max_stamina;
-
-	int lives;
-	int max_lives;
 
 	float stamina_rate_multiplier;
 

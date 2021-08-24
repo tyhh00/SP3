@@ -1,5 +1,5 @@
 #pragma once
-#include "../SceneBase.h"
+#include "Button.h"
 /******************************************************************************/
 /*!
 \file	ProgressBar.h
@@ -15,6 +15,24 @@ Used by Buttons and Text Objects to store their attributes.
 \brief AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.
 */
 /******************************************************************************/
+
+enum PROGRESSBAR_TYPE
+{
+	HORIZONTAL,
+	VERTICAL
+};
+
+class ProgressBar : public Button
+{
+public:
+	ProgressBar(std::string buttonName, float originX, float originY, float width, PROGRESSBAR_TYPE type, Mesh* quadTexture, float progress = 100);
+	void Render(SceneBase* scene);
+	void SetProgress(float progress);
+	float GetProgress();
+private:
+	float progress;
+};
+
 struct ProgressBar {
 	Mesh* mesh;
 

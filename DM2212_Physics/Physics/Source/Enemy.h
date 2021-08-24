@@ -31,7 +31,7 @@ protected:
 
 private:
 	SpriteAnimation* animatedSprites;
-	const ENEMY_TYPE type;
+	const ENEMY_TYPE enemyType;
 	//float speed;
 };
 

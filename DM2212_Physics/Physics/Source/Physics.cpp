@@ -22,7 +22,7 @@ Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale)
 	, isBouncable(true)
 	, onGround(true)
 	, enableUpdate(true)
-	, collision(true)
+	, collisionResponse(true)
 {
 }
 
@@ -45,7 +45,7 @@ Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale, Vector3 ve
 	, isBouncable(isBouncable)
 	, onGround(true)
 	, enableUpdate(true)
-	, collision(true)
+	, collisionResponse(true)
 {}
 
 Physics::~Physics()
@@ -214,9 +214,9 @@ void Physics::SetEnableUpdate(bool _enableUpdate)
 	enableUpdate = _enableUpdate;
 }
 
-void Physics::SetEnableCollision(bool _enableCollision)
+void Physics::SetEnableCollisionResponse(bool _enableCollision)
 {
-	collision = _enableCollision;
+	collisionResponse = _enableCollision;
 }
 
 void Physics::SetGravityUpdate(bool _enableGravity)
@@ -236,7 +236,7 @@ bool Physics::GetGravityUpdate()
  */
 void Physics::CollisionResponse(Physics* go2, double dt)
 {
-	if (!(this->collision && go2->collision))
+	if (!(this->collisionResponse && go2->collisionResponse))
 		return;
 	//no need to check if go1 is movable since go1 will only represent moving entities
 	if (go2->isMovable)
@@ -503,7 +503,6 @@ void Physics::ApplyContactForce(Physics* go1, Physics* go2, double dt, bool appl
 		Vector3 line = w0_b1 - projection;
 		go1->pos = go2->pos - line + N * (go1->scale.x + go2->scale.x); //set the ball to the top of the wall in the direction of the normal
 	}
-
 }
 
 Physics* Physics::Clone()
@@ -511,7 +510,7 @@ Physics* Physics::Clone()
 	Physics* newPhy = new Physics(this->shapeType, this->pos, this->scale, this->vel,
 		this->normal, this->dir, this->gravity, this->collisionNormal, this->mass,
 		this->momentOfInertia, this->angularVelocity, this->rotateZ, this->inelasticity, this->isMovable, this->isBouncable);
-	newPhy->collision = this->collision;
+	newPhy->collisionResponse = this->collisionResponse;
 	return newPhy;
 }
 

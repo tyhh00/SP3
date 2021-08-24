@@ -271,7 +271,8 @@ public:
 	void ToggleLightOnOff(int index, bool on); // turns a light on or off
 	void ToggleLightPower(int index, int power); // turns a light power
 	
-	
+	bool gameLost;
+	bool gameWin;
 
 	void LoadTile(GEOMETRY_TYPE type, std::string fileName, double length, double height, SHAPE_TYPE shapeType);
 	TileSetting* GetTileSetting(GEOMETRY_TYPE type);

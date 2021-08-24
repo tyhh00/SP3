@@ -7,7 +7,7 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, SHAPE_TYPE shapeType)
 	scale(1, 1, 1),
 	active(true),
 	fireInterval(0),
-	maxHP(0), currentHP(0), timeout(0), enableCollision(true),
+	maxHP(100), currentHP(-1), timeout(0), enableCollision(true),
 	bottomSprite(NULL), scene(NULL)
 	, explosive(false)
 	, explosiveRadius(1.0f)
@@ -23,8 +23,8 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHA
 	active(true),
 	fireInterval(0),
 	geoTypeID(geoTypeID),
-	maxHP(0),
-	currentHP(0),
+	maxHP(100),
+	currentHP(-1),
 	timeout(0),
 	physics(new Physics(shapeType, pos, scale)),
 	mesh(mesh),
@@ -34,6 +34,14 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHA
 	, explosiveRadius(1.0f)
 	, dead(false)
 {
+}
+
+bool GameObject::IsDamagable()
+{
+	if (currentHP < 0)
+		return false;
+	else
+		return true;
 }
 
 GameObject::~GameObject()
@@ -80,6 +88,7 @@ void GameObject::CloneValues(GameObject* ref, GameObject* into)
 	into->maxHP = ref->maxHP;
 	into->mesh = ref->mesh;
 	into->physics = ref->physics->Clone();
+	into->physics->pos = Vector3(ref->physics->pos);
 	into->pos = Vector3(ref->pos);
 	into->scale = Vector3(ref->scale);
 	into->timeout = ref->timeout;

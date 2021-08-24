@@ -332,7 +332,7 @@ void SceneBase::Init()
 	LoadTile(GEO_LOBBY_PORTAL_OCEAN, "LOBBY_portalFrame.tga", 2, 2, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_LOBBY_PORTAL_ROBOT, "LOBBY_portalFrame.tga", 2, 2, SHAPE_TYPE::RECTANGLE);
 
-	LoadTile(GEO_ROBOT_ENEMY_1, "ROBOT_ENEMY_1.tga", 2, 2, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_ROBOT_ENEMY_1, "ROBOT_ENEMY_1.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	
 	//Entities (Player, etc)
 
@@ -360,6 +360,9 @@ void SceneBase::Init()
 	meshList[GEO_HIGHLIGHT] = MeshBuilder::GenerateCircle("highlight", 1.0f, Color(0.0f, 1.0f, 0.0f));
 
 	bLightEnabled = false;
+
+	gameWin = false;
+	gameLost = false;
 }
 
 void SceneBase::LoadTile(GEOMETRY_TYPE type, std::string fileName, double length, double height, SHAPE_TYPE shapeType)

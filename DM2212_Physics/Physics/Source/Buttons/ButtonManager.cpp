@@ -11,7 +11,13 @@ ButtonManager::ButtonManager(float screenWidth, float screenHeight)
 	, screenHeight(screenHeight)
 	, elapsed(0.f)
 {
+}
 
+ButtonManager::ButtonManager()
+	: screenWidth(80)
+	, screenHeight(60)
+	, elapsed(0.f)
+{
 }
 
 /**

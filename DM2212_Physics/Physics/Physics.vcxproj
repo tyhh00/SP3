@@ -155,6 +155,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Battery.cpp" />
+    <ClCompile Include="Source\Bone.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\BulletSpawner.cpp" />
     <ClCompile Include="Source\Buttons\Button.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="Source\Buttons\ButtonFactory.cpp" />
     <ClCompile Include="Source\LobbyPortal.cpp" />
     <ClCompile Include="Source\Monkey.cpp" />
+    <ClCompile Include="Source\Pickaxe.cpp" />
     <ClCompile Include="Source\PlasmaBullet.cpp" />
     <ClCompile Include="Source\PlasmaRobot.cpp" />
     <ClCompile Include="Source\Ability.cpp" />
@@ -209,6 +211,7 @@
     <ClCompile Include="Source\SceneRobot.cpp" />
     <ClCompile Include="Source\SceneSplashScreen.cpp" />
     <ClCompile Include="Source\shader.cpp" />
+    <ClCompile Include="Source\Skull.cpp" />
     <ClCompile Include="Source\SpriteAnimation.cpp" />
     <ClCompile Include="Source\Inventory.cpp" />
     <ClCompile Include="Source\Item.cpp" />
@@ -218,9 +221,11 @@
     <ClCompile Include="Source\Weapon.cpp" />
     <ClCompile Include="Source\SoundController/SoundController.cpp" />
     <ClCompile Include="Source\SoundController/SoundInfo.cpp" />
+    <ClCompile Include="Source\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Battery.h" />
+    <ClInclude Include="Source\Bone.h" />
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\BulletSpawner.h" />
     <ClInclude Include="Source\Buttons\Button.h" />
@@ -235,6 +240,7 @@
     <ClInclude Include="Source\Buttons\ButtonFactory.h" />
     <ClInclude Include="Source\LobbyPortal.h" />
     <ClInclude Include="Source\Monkey.h" />
+    <ClInclude Include="Source\Pickaxe.h" />
     <ClInclude Include="Source\PlasmaBullet.h" />
     <ClInclude Include="Source\PlasmaRobot.h" />
     <ClInclude Include="Source\Ability.h" />
@@ -281,6 +287,7 @@
     <ClInclude Include="Source\SceneSplashScreen.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Shape.h" />
+    <ClInclude Include="Source\Skull.h" />
     <ClInclude Include="Source\SpriteAnimation.h" />
     <ClInclude Include="Source\Inventory.h" />
     <ClInclude Include="Source\Item.h" />
@@ -292,6 +299,7 @@
     <ClInclude Include="Source\SoundController/SoundController.h" />
     <ClInclude Include="Source\SoundController/SoundInfo.h" />
     <ClInclude Include="Source\SoundController/SoundType.h" />
+    <ClInclude Include="Source\UIManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

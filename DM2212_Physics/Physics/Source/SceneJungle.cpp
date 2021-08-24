@@ -153,6 +153,11 @@ void SceneJungle::Update(double dt)
 	}
 
 	goManager->Update(dt);
+
+	if (player->currentHP <= 0)
+	{
+		gameLost = true;
+	}
 }
 
 void SceneJungle::Render()
