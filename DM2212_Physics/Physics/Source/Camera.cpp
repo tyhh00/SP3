@@ -53,10 +53,11 @@ void Camera::Update(Vector3 focusTarget, double dt)
 {
 
 	// use C to unlock view and move camera freely (for editing level/just viewing level purposes etc)
-	if (input->IsKeyPressed('C'))
+	// no need anym with second update func
+	/*if (input->IsKeyPressed('C'))
 	{		
 		ToggleAutoLock();
-	}
+	}*/
 	
 	// example of switching mode;; to be removed in final product zz
 	if (input->IsKeyPressed('M'))

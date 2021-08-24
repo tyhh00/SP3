@@ -13,6 +13,7 @@
 #include "Ghost.h"
 #include "Tumbleweed.h"
 #include "GrimReaper.h"
+#include "Tombstone.h"
 
 //...
 
@@ -449,6 +450,24 @@ void SceneGraveyard::LoadBossScene()
 			delete go;
 			go = nullptr;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_TOMBSTONE || go->geoTypeID == GEOMETRY_TYPE::GEO_TOMBSTONE_CROSS)
+		{
+			Tombstone* stone = new Tombstone();
+
+			stone->active = true;
+			stone->scale = go->scale;
+			stone->pos = go->pos;
+			stone->physics = go->physics->Clone();
+			stone->mesh = MeshBuilder::GenerateQuad("stone", Color(1.0f, 1.0f, 1.0f), 2.0f);
+			stone->mesh->textureID = go->mesh->textureID;
+			stone->Init(this, inventory);
+
+			goManager->AddGO(stone);
+
+			//Delete Grid stone
+			delete go;
+			go = nullptr;
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 
@@ -457,6 +476,7 @@ void SceneGraveyard::LoadBossScene()
 
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);
+	camera.SetMode(Camera::CENTER);
 
 	// ABILITIES
 	PortalAbility* ability = new PortalAbility;

@@ -144,6 +144,7 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 
 void GameObjectManager::Update(double dt)
 {
+	// Add GOs that need to be added
 	for (std::vector<GameObject*>::iterator it = toAddList.begin(); it != toAddList.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
@@ -160,6 +161,7 @@ void GameObjectManager::Update(double dt)
 
 
 	// Game Objects
+	// Update Moveable GOs
 	for (std::vector<GameObject*>::iterator it = m_movableGOList.begin(); it != m_movableGOList.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
@@ -307,7 +309,23 @@ void GameObjectManager::Update(double dt)
 		}
 
 	}
+	// Update Stationary GOs
+	for (std::vector<GameObject*>::iterator it = m_stationaryGOList.begin(); it != m_stationaryGOList.end(); ++it)
+	{
+		GameObject* go = (GameObject*)*it;
+		if (go == nullptr || !go->active)
+			continue;
 
+		if (go->dead)
+		{
+			toRemoveList.push_back(go);
+			continue;
+		}
+
+		go->Update(dt);
+	}
+
+	// Remove GOs that need to be deleted
 	std::sort(toRemoveList.begin(), toRemoveList.end());
 	toRemoveList.erase(std::unique(toRemoveList.begin(), toRemoveList.end()), toRemoveList.end());
 
