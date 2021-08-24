@@ -34,11 +34,6 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
  */
 CPlayGameState::~CPlayGameState(void)
 {
-	if (buttonManager)
-	{
-		delete buttonManager;
-		buttonManager = NULL;
-	}
 	if (resumeButtonMesh)
 	{
 		delete resumeButtonMesh;
@@ -189,5 +184,9 @@ void CPlayGameState::Destroy(void)
 {
 	cout << "CPlayGameState::Destroy()\n" << endl;
 	sceneManager->destroy();
-	//sceneManager->Destroy();
+	if (buttonManager)
+	{
+		delete buttonManager;
+		buttonManager = NULL;
+	}
 }

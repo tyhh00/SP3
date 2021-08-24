@@ -41,9 +41,6 @@ void SceneManager::setScene(worlds sceneType)
 	case w_graveyard:
 		activeScene = graveyard;
 		break;
-	case w_church:
-		activeScene = church;
-		break;
 	case w_levelEditor:
 		activeScene = levelEditor;
 		break;
