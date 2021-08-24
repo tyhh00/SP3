@@ -68,6 +68,7 @@ void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* invento
 {
 	physics->SetMass(5);
 	physics->SetMovable(true);
+	currentHP = 100;
 
 	if (mode == WASD)
 	{
@@ -356,7 +357,6 @@ void Player::CollidedWith(GameObject* go)
 		}
 		else
 		{
-			lives--;
 			Monkey* monkey = dynamic_cast<Monkey*>(go);
 			monkey->StartAttackCooldown();
 		}
@@ -368,18 +368,6 @@ void Player::CollidedWith(GameObject* go)
 	case SceneBase::GEO_JUNGLE_GRASS_PLATFORM_RIGHT:
 		goManager->RemoveGO(go);
 		inventory->AddItem(new Battery(go->mesh, inventory));
-		break;
-	case SceneBase::GEO_ENEMY_GHOST:
-		if (timeout > 0) // on cooldown
-		{
-			break;
-		}
-		else
-		{
-			lives--;
-			Ghost* ghost = dynamic_cast<Ghost*>(go);
-			ghost->StartAttackCooldown();
-		}
 		break;
 	case SceneBase::GEO_LOBBY_PORTAL_GRAVEYARD:
 		std::cout << "AAAAAAAAAAA" << std::endl;

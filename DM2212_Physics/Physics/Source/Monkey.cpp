@@ -31,7 +31,7 @@ void Monkey::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 	state_interval;
 
 	physics->SetMovable(true);
-	physics->SetEnableCollision(true);
+	physics->SetEnableCollisionResponse(true);
 	physics->SetGravity(Vector3(0,-98.f,0));
 
 	//animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
@@ -91,7 +91,7 @@ void Monkey::Update(double dt)
 			break;
 		}
 		else
-			physics->SetVelocity(Vector3((*playerPos - pos).Normalized().x * movement_speed, 0, 0));
+			physics->SetVelocity(Vector3((*playerPos - pos).Normalized().x * movement_speed, physics->GetVelocity().y, physics->GetVelocity().z));
 	}
 	break;
 	}
