@@ -7,6 +7,7 @@
 #include "Battery.h"
 #include "Apple.h"
 #include "Ghost.h"
+#include "Monkey.h"
 #include "FireTorch.h"
 #include "Cheese.h"
 #include "Buttons/ProgressBar.h"
@@ -331,8 +332,18 @@ void Player::CollidedWith(GameObject* go)
 		//	break;
 		//if (inventory->GetCurrentItemType() == Item::I_FIRETORCH)
 		//	currentHP++;
-		goManager->RemoveGO(go);
-		inventory->AddItem(new Cheese(go->mesh));
+		//goManager->RemoveGO(go);
+		//inventory->AddItem(new Cheese(go->mesh));
+		if (timeout > 0) // on cooldown
+		{
+			break;
+		}
+		else
+		{
+			lives--;
+			Monkey* monkey = dynamic_cast<Monkey*>(go);
+			monkey->StartAttackCooldown();
+		}
 		break;
 	case SceneBase::GEO_JUNGLE_GRASS_PLATFORM_LEFT:
 		goManager->RemoveGO(go);
@@ -341,9 +352,6 @@ void Player::CollidedWith(GameObject* go)
 	case SceneBase::GEO_JUNGLE_GRASS_PLATFORM_RIGHT:
 		goManager->RemoveGO(go);
 		inventory->AddItem(new Battery(go->mesh, inventory));
-		break;
-	case SceneBase::GEO_LOBBY_PORTAL_GRAVEYARD:
-		std::cout << "AAAAAAAAAAA" << std::endl;
 		break;
 	case SceneBase::GEO_ENEMY_GHOST:
 		if (timeout > 0) // on cooldown
@@ -356,7 +364,9 @@ void Player::CollidedWith(GameObject* go)
 			Ghost* ghost = dynamic_cast<Ghost*>(go);
 			ghost->StartAttackCooldown();
 		}
-
+		break;
+	case SceneBase::GEO_LOBBY_PORTAL_GRAVEYARD:
+		std::cout << "AAAAAAAAAAA" << std::endl;
 		break;
 	case SceneBase::GEO_GY_GATEKEEPER:
 		break;
