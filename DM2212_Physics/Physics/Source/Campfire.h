@@ -24,7 +24,7 @@ public:
 
 	SceneBase* scene;
 	Inventory* inv;
-	Vector3 playerPos;
+	Vector3* playerPos;
 };
 
 #endif
