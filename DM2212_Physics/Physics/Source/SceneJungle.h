@@ -33,23 +33,13 @@ protected:
 	bool isDashing = false;
 	bool isGrappling = false;
 
-
-	Vector3 temp;
-	Vector3 displacement2;
-	GameObject* go;
-	GameObject* grappler;
 	Player* player;
 	Inventory* inventory;
+
 	Input* input;
 	GameObjectManager* goManager;
 
 	double gridLength, gridHeight;
-
-	GameObject* FetchGO(bool isMovable);
-	bool CheckCollision(GameObject* go1, GameObject* go2, float dt); // Checks for collision
-	void ApplyFriction(GameObject* ball, Vector3 normal, double dt); // Apply Friction
-	void ApplyInelastic(GameObject* ball, Vector3 normal, double dt); //Decrease vel of object
-	void CollisionResponse(GameObject* go1, GameObject* go2, float dt);
 };
 
 #endif

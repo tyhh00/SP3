@@ -132,6 +132,7 @@ void Inventory::Update(double dt)
 	//		}
 	//	}
 	//}
+	itemVector.erase(std::remove(itemVector.begin(), itemVector.end(), nullptr), itemVector.end());
 }
 
 void Inventory::Render()
@@ -282,6 +283,8 @@ void Inventory::AddItem(Item* newItem)
 				//add the quantity to the existing item
 				std::cout << "adding new qty to item: " << item->GetType() << std::endl;
 				AddQuantity(item, newItem->GetQuantity());
+				delete newItem;
+				newItem = nullptr;
 				return;
 			}
 		}
@@ -337,7 +340,8 @@ void Inventory::DeleteItem(Item* delItem)
 		Item* item = (Item*)*it;
 		if (item == delItem)
 		{
-			itemVector.erase(it);
+			delete item;
+			item = nullptr;
 			currentItem = nullptr;
 			break;
 		}
