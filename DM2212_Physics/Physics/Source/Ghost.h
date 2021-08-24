@@ -16,7 +16,7 @@ public:
 
 	void Init(SceneBase* scene, Inventory* inventory, Vector3& target);
 	void Update(double dt);
-	void StartAttackCooldown();
+	void CollidedWith(GameObject* go);
 
 private:
 	enum GHOST_STATE {

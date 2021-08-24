@@ -159,6 +159,11 @@ void SceneRobot::Update(double dt)
 	
 	goManager->Update(dt);
 
+	if (player->currentHP <= 0)
+	{
+		gameLost = true;
+	}
+
 }
 
 void SceneRobot::Render()

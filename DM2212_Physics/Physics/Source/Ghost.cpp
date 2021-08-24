@@ -36,9 +36,15 @@ void Ghost::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 	state_interval;
 
 	physics->SetMovable(true);
+<<<<<<< HEAD
 	physics->SetEnableCollisionResponse(false);
 	physics->SetGravity(Vector3(0,0,0));
 
+=======
+	physics->SetEnableCollision(false);
+	physics->SetGravity(Vector3(0, 0, 0));
+	 
+>>>>>>> 33c66f33734ebbf9768b8b480be9062dcdec642f
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("inactive", 9, 11);
 	animatedSprites->AddAnimation("right", 6, 8);
@@ -47,6 +53,8 @@ void Ghost::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 
 	mesh = animatedSprites;
 	mesh->textureID = LoadTGA("Image/ghost_sprite.tga");
+
+	//geoTypeID = mesh->textureID;
 
 	animatedSprites->PlayAnimation("inactive", -1, 1.0f);
 
@@ -61,6 +69,15 @@ void Ghost::Update(double dt)
 		state_interval = 0;
 		state = RAGE;
 		currentHP -= dt;
+	}
+
+	if (timeout > 0)
+	{
+		timeout -= dt;
+		if (timeout < 0)
+		{
+			timeout = 0;
+		}
 	}
 
 	if (currentHP <= 0)
@@ -137,15 +154,24 @@ void Ghost::Update(double dt)
 			physics->SetVelocity(Vector3(0, 0, 0));
 			break;
 		}
-		if (state_interval > 0)
+		if (timeout <= 0)
 		{
-			state_interval -= dt;
-			break;
+			physics->SetVelocity((*playerPos - pos).Normalized() * hostile_speed);
 		}
-		physics->SetVelocity((*playerPos - pos).Normalized() * hostile_speed);
+		else
+		{
+			physics->SetVelocity((*playerPos - pos).Normalized() * 0);
+		}
 		break;
 	case RAGE:
-		physics->SetVelocity((*playerPos - pos).Normalized() * rage_speed);
+		if (timeout <= 0)
+		{
+			physics->SetVelocity((*playerPos - pos).Normalized() * rage_speed);
+		}
+		else
+		{
+			physics->SetVelocity((*playerPos - pos).Normalized() * 0);
+		}
 		break;
 	}
 
@@ -161,6 +187,18 @@ void Ghost::Update(double dt)
 	}
 
 	
+}
+
+void Ghost::CollidedWith(GameObject* go)
+{
+	if (go->type == GO_PLAYER)
+	{
+		if (timeout <= 0)
+		{
+			go->currentHP -= 20;
+			timeout = 2.0f;
+		}
+	}
 }
 
 bool Ghost::isWithinFlashlight()
@@ -192,9 +230,4 @@ bool Ghost::isBeingAttacked()
 		return true;
 	}
 	return false;
-}
-
-void Ghost::StartAttackCooldown()
-{
-	state_interval = 2.0f;
 }

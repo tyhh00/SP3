@@ -38,6 +38,10 @@ struct GameObject
 		GO_50, // ELASTIC + SCORE
 		GO_10, // ELASTIC + SCORE
 
+
+		GO_PLAYER,
+		GO_ENEMY,
+
 		GO_TILE, //Size 2.f Object representing all Grid Tiles
 		GO_TILE_DECORATIVE,
 

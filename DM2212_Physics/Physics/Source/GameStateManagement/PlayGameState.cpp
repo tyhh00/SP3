@@ -23,6 +23,8 @@ using namespace std;
 CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
 	, resumeButtonMesh(NULL)
 	, lobbyButtonMesh(NULL)
+	, retryButtonMesh(NULL)
+	, menuBG(NULL)
 {
 
 }
@@ -47,6 +49,16 @@ CPlayGameState::~CPlayGameState(void)
 		delete lobbyButtonMesh;
 		lobbyButtonMesh = NULL;
 	}
+	if (retryButtonMesh)
+	{
+		delete retryButtonMesh;
+		retryButtonMesh = NULL;
+	}
+	if (menuBG)
+	{
+		delete menuBG;
+		menuBG = NULL;
+	}
 }
 
 /**
@@ -65,20 +77,32 @@ bool CPlayGameState::Init(void)
 	buttonManager = new ButtonManager(80, 60);
 
 	resumeButtonMesh = MeshBuilder::GenerateQuad("resume button", Color(1, 1, 1), 1.0f);
-	resumeButtonMesh->textureID = LoadTGA("Image/button.tga");
+	resumeButtonMesh->textureID = LoadTGA("Image/ResumeButton.tga");
 	lobbyButtonMesh = MeshBuilder::GenerateQuad("back to lobby button", Color(1, 1, 1), 1.0f);
-	lobbyButtonMesh->textureID = LoadTGA("Image/button.tga");
+	lobbyButtonMesh->textureID = LoadTGA("Image/LobbyButton.tga");
+	retryButtonMesh = MeshBuilder::GenerateQuad("retry button", Color(1, 1, 1), 1.0f);
+	retryButtonMesh->textureID = LoadTGA("Image/RetryButton.tga");
+	menuBG = MeshBuilder::GenerateQuad("menu bg", Color(1, 1, 1), 1.0f);
+	menuBG->textureID = LoadTGA("Image/MenuBG.tga");
 
+	Button* menuBGButton = ButtonFactory::createNoTextButton("menuBG", 40, 30,
+												30, 40, menuBG);
 	Button* resumeButton = ButtonFactory::createNoTextButton("resume", 40, 30,
-												10, 5, resumeButtonMesh);
+												15, 7, resumeButtonMesh);
 	Button* lobbyButton = ButtonFactory::createNoTextButton("lobby", 40, 20,
-												10, 5, lobbyButtonMesh);
+												15, 7, lobbyButtonMesh);
+	Button* retryButton = ButtonFactory::createNoTextButton("retry", 40, 30,
+												15, 7, retryButtonMesh);
+	menuBGButton->disable();
 	resumeButton->disable();
 	lobbyButton->disable();
+	retryButton->disable();
 	buttonManager->addButton(resumeButton);
 	buttonManager->addButton(lobbyButton);
+	buttonManager->addButton(retryButton);
+	buttonManager->addButton(menuBGButton);
 
-	paused = false;
+	currentState = DEFAULT;
 
 	return true;
 }
@@ -88,10 +112,17 @@ bool CPlayGameState::Init(void)
  */
 bool CPlayGameState::Update(const double dElapsedTime)
 {
-	if (!paused)
+	switch (currentState)
 	{
+	case DEFAULT:
 		sceneManager->update(dElapsedTime);
+		break;
+	case PAUSED:
+		break;
+	case GAMEOVER:
+		break;
 	}
+
 	buttonManager->Update(sceneManager->getScene(), dElapsedTime);
 	for (auto button : buttonManager->getButtonsInteracted())
 	{
@@ -101,7 +132,16 @@ bool CPlayGameState::Update(const double dElapsedTime)
 			{
 				buttonManager->deactivateButton("resume");
 				buttonManager->deactivateButton("lobby");
-				paused = false;
+				buttonManager->deactivateButton("menuBG");
+				currentState = DEFAULT;
+			}
+			else if (button->buttonClicked->getName() == "retry")
+			{
+				buttonManager->deactivateButton("retry");
+				buttonManager->deactivateButton("lobby");
+				buttonManager->deactivateButton("menuBG");
+				sceneManager->resetScene();
+				currentState = DEFAULT;
 			}
 			else if (button->buttonClicked->getName() == "lobby")
 			{
@@ -113,11 +153,20 @@ bool CPlayGameState::Update(const double dElapsedTime)
 		}
 	}
 	
-	if (!paused && Input::GetInstance()->IsKeyPressed(VK_ESCAPE))
+	// state change conditions
+	if (currentState == DEFAULT && Input::GetInstance()->IsKeyPressed(VK_ESCAPE))
 	{
-		paused = true;
+		currentState = PAUSED;
 		buttonManager->activateButton("resume");
 		buttonManager->activateButton("lobby");
+		buttonManager->activateButton("menuBG");
+	}
+	if (sceneManager->getScene()->gameLost)
+	{
+		currentState = GAMEOVER;
+		buttonManager->activateButton("retry");
+		buttonManager->activateButton("lobby");
+		buttonManager->activateButton("menuBG");
 	}
 	return true;
 }

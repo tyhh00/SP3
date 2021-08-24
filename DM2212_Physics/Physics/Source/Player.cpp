@@ -9,6 +9,9 @@
 #include "Ghost.h"
 #include "FireTorch.h"
 #include "Cheese.h"
+#include "Bone.h"
+#include "Skull.h"
+#include "Pickaxe.h"
 #include "Buttons/ProgressBar.h"
 
 Player::Player() : input(NULL)
@@ -19,11 +22,12 @@ Player::Player() : input(NULL)
 , max_stamina(100.f)
 , stamina(100.f)
 , curr_max_vel(MAX_VEL)
-, lives(3)
-, max_lives(3)
+//, lives(3)
+//, max_lives(3)
 , stamina_rate_multiplier(0.0f)
 , invisibility(false)
 {
+	type = GO_PLAYER;
 }
 
 Player::~Player()
@@ -47,11 +51,11 @@ Player::~Player()
 		delete animatedSprites;
 		animatedSprites = NULL;
 	}
-	if (livesIcon)
+	/*if (livesIcon)
 	{
 		delete livesIcon;
 		livesIcon = NULL;
-	}
+	}*/
 	if (staminaBar)
 	{
 		delete staminaBar;
@@ -70,8 +74,8 @@ void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* invento
 	}
 	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 1.0f);
 	portalSprite->textureID = LoadTGA("Image/PortalTravelSprite.tga");
-	livesIcon = MeshBuilder::GenerateQuad("hp icon", Color(1, 1, 1), 1.0f);
-	livesIcon->textureID = LoadTGA("Image/lives.tga");
+//	livesIcon = MeshBuilder::GenerateQuad("hp icon", Color(1, 1, 1), 1.0f);
+//	livesIcon->textureID = LoadTGA("Image/lives.tga");
 	staminaBar = MeshBuilder::GenerateQuad("stamina bar", Color(1.0f, 1.0f, 0.4f), 1.0f);
 
 	input = Input::GetInstance();
@@ -113,9 +117,9 @@ void Player::Update(double dt)
 			{
 			case ABILITY_DASH:
 			{
+				abilityArray[i]->Update(dt);
 				DashAbility* ability = dynamic_cast<DashAbility*>(abilityArray[i]);
 				ability->UpdatePlayer(dashDir, physics, curr_max_vel, enableCollision);
-				abilityArray[i]->Update(dt);
 			}
 			break;
 			case ABILITY_PORTAL:
@@ -140,9 +144,9 @@ void Player::Update(double dt)
 			break;
 			case ABILITY_GRAPPLER:
 			{
+				abilityArray[i]->Update(dt);
 				GrapplingAbility* ability = dynamic_cast<GrapplingAbility*>(abilityArray[i]);
 				ability->UpdatePlayer(pos, physics, curr_max_vel);
-				abilityArray[i]->Update(dt);
 			}
 			break;
 			default:
@@ -151,14 +155,6 @@ void Player::Update(double dt)
 		}
 	}
 
-	if (timeout > 0)
-	{
-		timeout -= dt;
-		if (timeout < 0)
-		{
-			timeout = 0;
-		}
-	}
 
 	curr_max_vel = Math::Clamp(curr_max_vel, MAX_VEL, 100.f);
 	physics->SetVelocity(Vector3(Math::Clamp(physics->GetVelocity().x, -curr_max_vel, curr_max_vel), physics->GetVelocity().y, physics->GetVelocity().z));
@@ -275,52 +271,72 @@ void Player::Render(SceneBase* scene)
 	// Render Stamina Bar??
 	ProgressBar stamina_bar(staminaBar, 40, 5, 15.f, 1.f);
 	stamina_bar.RenderHorizontal(scene, stamina, max_stamina);
-	/*float max_length = 15.f;
-	float scalex = (stamina / max_stamina) * max_length;
-	float offsetx = (max_length - scalex) * 0.5;
-	scene->modelStack.PushMatrix();
-	scene->RenderMeshOnScreen(staminaBar, 40 - offsetx, 5, scalex, 1.0f);
-	scene->modelStack.PopMatrix();*/
 
 
-	// hp
-	float HPscale = 2;
-	for (int i = 0; i < lives; i++)
-	{
-		scene->modelStack.PushMatrix();
-		scene->RenderMeshOnScreen(livesIcon, HPscale * 0.5 + i * HPscale, 60 - HPscale * 0.5, HPscale, HPscale);
-		scene->modelStack.PopMatrix();
-	}
+	//// hp
+	//float HPscale = 2;
+	//for (int i = 0; i < lives; i++)
+	//{
+	//	scene->modelStack.PushMatrix();
+	//	scene->RenderMeshOnScreen(livesIcon, HPscale * 0.5 + i * HPscale, 60 - HPscale * 0.5, HPscale, HPscale);
+	//	scene->modelStack.PopMatrix();
+	//}
 	
 }
 
 void Player::CollidedWith(GameObject* go)
 {
+	if (go->type == GO_ENEMY)
+	{
+		//...
+	}
+
 	switch (go->geoTypeID)
 	{
 	case SceneBase::GEO_FLASHLIGHT:
 		goManager->RemoveGO(go);
 		inventory->AddItem(new Flashlight(go->mesh));
 		break;
+	case SceneBase::GEO_PICKAXE:
+		goManager->RemoveGO(go);
+		inventory->AddItem(new Pickaxe(go->mesh));
+		break;
 	case SceneBase::GEO_BATTERY:
 		goManager->RemoveGO(go);
 		inventory->AddItem(new Battery(go->mesh, inventory));
 		break;
 	case SceneBase::GEO_BONES_02:
-		goManager->RemoveGO(go);
-	//	inventory->AddItem(new Battery);
+		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+			&& input->IsKeyPressed('F'))
+		{
+			goManager->RemoveGO(go);
+			inventory->AddItem(new Bone(go->mesh, 2));
+		}
 		break;
 	case SceneBase::GEO_BONES_03:
-		goManager->RemoveGO(go);
-		//	inventory->AddItem(new Battery);
+		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+			&& input->IsKeyPressed('F'))
+		{
+			goManager->RemoveGO(go);
+			inventory->AddItem(new Bone(go->mesh, 3));
+		}
 		break;
 	case SceneBase::GEO_BONES_10:
-		goManager->RemoveGO(go);
-		//	inventory->AddItem(new Battery);
+		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+			&& input->IsKeyPressed('F'))
+		{
+			goManager->RemoveGO(go);
+			inventory->AddItem(new Skull(go->mesh, 1));
+		}
 		break;
 	case SceneBase::GEO_BONES_11:
-		goManager->RemoveGO(go);
-		//	inventory->AddItem(new Battery);
+		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+			&& input->IsKeyPressed('F'))
+		{
+			goManager->RemoveGO(go);
+			inventory->AddItem(new Skull(go->mesh, 1));
+			inventory->AddItem(new Bone(go->mesh, 1));
+		}
 		break;
 	case SceneBase::GEO_JUNGLE_GRASS_BLOCK:
 		goManager->RemoveGO(go);
@@ -344,19 +360,6 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_LOBBY_PORTAL_GRAVEYARD:
 		std::cout << "AAAAAAAAAAA" << std::endl;
-		break;
-	case SceneBase::GEO_ENEMY_GHOST:
-		if (timeout > 0) // on cooldown
-		{
-			break;
-		}
-		else
-		{
-			lives--;
-			Ghost* ghost = dynamic_cast<Ghost*>(go);
-			ghost->StartAttackCooldown();
-		}
-
 		break;
 	case SceneBase::GEO_GY_GATEKEEPER:
 		break;

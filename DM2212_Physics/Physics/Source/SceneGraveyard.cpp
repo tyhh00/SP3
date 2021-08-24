@@ -99,6 +99,7 @@ void SceneGraveyard::Init()
 			ghost->active = true;
 			ghost->scale = go->scale;
 			ghost->pos = go->pos;
+			ghost->geoTypeID = go->geoTypeID;
 			ghost->physics = go->physics->Clone();
 			ghost->physics->SetInelasticity(0.99f);
 			ghost->physics->SetIsBouncable(false);
@@ -144,6 +145,8 @@ void SceneGraveyard::Init()
 	ability->SetCamera(&camera);
 	ability->SetScenePointer(this);
 	player->SetAbilities(ability, nullptr);
+
+	story_state = GY_INTRO;
 }
 
 void SceneGraveyard::Update(double dt)
@@ -171,6 +174,10 @@ void SceneGraveyard::Update(double dt)
 	goManager->Update(dt);
 	inventory->Update(dt);
 
+	if (player->currentHP <= 0)
+	{
+		gameLost = true;
+	}
 }
 
 void SceneGraveyard::Render()
@@ -344,6 +351,7 @@ void SceneGraveyard::CursorToWorldPosition(double& theX, double& theY)
 
 void SceneGraveyard::LoadBossScene()
 {
+	
 }
 
 void SceneGraveyard::Exit()

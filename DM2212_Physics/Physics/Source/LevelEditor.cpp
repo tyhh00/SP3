@@ -23,7 +23,11 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
+<<<<<<< HEAD
 	std::string mapToLoad = "ROBOT_1_1";
+=======
+	std::string mapToLoad = "JUNGLE_1_1";
+>>>>>>> 33c66f33734ebbf9768b8b480be9062dcdec642f
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
@@ -52,9 +56,6 @@ bool LevelEditor::LoadMap(std::string filename)
 	
 	return (LevelLoader::GetInstance()->LoadTiles(filename, this->meshList, this->tileSize, gridObjects, gridLength, gridHeight));
 }
-
-
-
 
 void LevelEditor::SaveMap()
 {

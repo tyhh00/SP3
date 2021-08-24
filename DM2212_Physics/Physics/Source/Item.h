@@ -21,6 +21,9 @@ public:
 		I_BATTERY,
 		I_FIRETORCH,
 		I_GRAPPLER,
+		I_BONE,
+		I_SKULL,
+		I_PICKAXE,
 		I_TOTAL
 	};
 

@@ -32,10 +32,19 @@ public:
 
 protected:
 
+	enum GAME_STATE
+	{
+		DEFAULT,
+		PAUSED,
+		GAMEOVER,
+		GS_TOTAL
+	};
+
 	float m_screenWidth, m_screenHeight;
 
-	bool paused;
-	Mesh* resumeButtonMesh, *lobbyButtonMesh;
+	GAME_STATE currentState;
+	Mesh* resumeButtonMesh, *lobbyButtonMesh, *retryButtonMesh;
+	Mesh* menuBG;
 	ButtonManager* buttonManager;
 
 };

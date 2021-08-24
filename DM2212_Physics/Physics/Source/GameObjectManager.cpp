@@ -142,7 +142,6 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 	return false;
 }
 
-
 void GameObjectManager::Update(double dt)
 {
 	for (std::vector<GameObject*>::iterator it = toAddList.begin(); it != toAddList.end(); ++it)
@@ -218,6 +217,7 @@ void GameObjectManager::Update(double dt)
 						if (go != go3 && CheckCollision(go, go3, dt, true))
 						{
 							go->CollidedWith(go3);
+							go3->CollidedWith(go);
 						}
 					}
 					for (auto& go3 : m_stationaryGOList)
@@ -227,6 +227,7 @@ void GameObjectManager::Update(double dt)
 						if (go != go3 && CheckCollision(go, go3, dt, true))
 						{
 							go->CollidedWith(go3);
+							go3->CollidedWith(go);
 						}
 					}
 					go->dead = true;
@@ -235,6 +236,7 @@ void GameObjectManager::Update(double dt)
 				else
 				{
 					go->CollidedWith(go2);
+					go2->CollidedWith(go);
 					go->physics->CollisionResponse(go2->physics, dt);
 				}
 				go->pos = go->physics->pos;
@@ -391,13 +393,11 @@ void GameObjectManager::RemoveGO(GameObject* go)
 {
 	toRemoveList.push_back(go);
 }
-
 void GameObjectManager::AddAllGO(std::vector<GameObject*> gos)
 {
 	for (auto& go : gos)
 		AddGO(go);
 }
-
 void GameObjectManager::Exit()
 {
 	while (m_movableGOList.size() > 0)
