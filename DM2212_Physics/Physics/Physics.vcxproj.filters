@@ -263,7 +263,7 @@
     <ClCompile Include="Source\Pickaxe.cpp">
       <Filter>Source Files\Items\Weapons</Filter>
 	 </ClCompile>
-    <ClCompile Include="UIManager.cpp">
+    <ClCompile Include="Source\UIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -489,8 +489,8 @@
     </ClInclude>
     <ClInclude Include="Source\Pickaxe.h">
       <Filter>Header Files\Items\Weapons</Filter>
-	  </ClCompile>
-    <ClInclude Include="UIManager.h">
+	</ClInclude>
+    <ClInclude Include="Source\UIManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

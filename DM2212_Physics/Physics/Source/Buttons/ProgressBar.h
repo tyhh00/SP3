@@ -33,6 +33,7 @@ public:
 	float GetProgress();
 private:
 	float progress;
+	float barWidth;
 };
 
 

@@ -23,6 +23,7 @@ Buttons creatable for UI.
 /******************************************************************************/
 class Button
 {
+protected:
 	bool enabled; // whether a button is enabled
 	const std::string buttonName; // the button's name
 	UIItem UIInfo; // UIInfo of a button storing origin position and size.
