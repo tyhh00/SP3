@@ -8,6 +8,7 @@
 #include "Inventory.h"
 #include "Apple.h"
 #include "Cheese.h"
+#include "Campfire.h"
 #include "Monkey.h"
 #include "Player.h"
 #include "Input.h"
