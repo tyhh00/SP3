@@ -56,6 +56,7 @@ void DashAbility::Update(double dt)
 			float dir = dashDir * 200 * 200 * dt;
 
 			maxVel = 100;
+			std::cout << maxVel << std::endl;
 
 			//add the dash dir to the player's vel
 			playerPhysics->AddVelocity(Vector3(dir, 0, 0));
@@ -76,10 +77,13 @@ void DashAbility::Render()
 
 void DashAbility::UpdatePlayer(int& _dashDir, Physics* _playerPhysics, float& _maxVel, bool& _enableCollision)
 {
-	dashDir = _dashDir;
 	playerPhysics = _playerPhysics;
-	_maxVel = maxVel;
 	_enableCollision = enableCollision;
+	if (isDashing)
+	{
+		dashDir = _dashDir;
+		_maxVel = maxVel;
+	}
 }
 
 ABILITY_TYPE DashAbility::GetAbilityType()

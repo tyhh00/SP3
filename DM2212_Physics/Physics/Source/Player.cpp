@@ -116,9 +116,9 @@ void Player::Update(double dt)
 			{
 			case ABILITY_DASH:
 			{
+				abilityArray[i]->Update(dt);
 				DashAbility* ability = dynamic_cast<DashAbility*>(abilityArray[i]);
 				ability->UpdatePlayer(dashDir, physics, curr_max_vel, enableCollision);
-				abilityArray[i]->Update(dt);
 			}
 			break;
 			case ABILITY_PORTAL:
@@ -143,9 +143,9 @@ void Player::Update(double dt)
 			break;
 			case ABILITY_GRAPPLER:
 			{
+				abilityArray[i]->Update(dt);
 				GrapplingAbility* ability = dynamic_cast<GrapplingAbility*>(abilityArray[i]);
 				ability->UpdatePlayer(pos, physics, curr_max_vel);
-				abilityArray[i]->Update(dt);
 			}
 			break;
 			default:
