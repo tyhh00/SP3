@@ -7,7 +7,7 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, SHAPE_TYPE shapeType)
 	scale(1, 1, 1),
 	active(true),
 	fireInterval(0),
-	maxHP(0), currentHP(0), timeout(0), enableCollision(true),
+	maxHP(100), currentHP(100), timeout(0), enableCollision(true),
 	bottomSprite(NULL), scene(NULL)
 	, explosive(false)
 	, explosiveRadius(1.0f)
@@ -23,8 +23,8 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHA
 	active(true),
 	fireInterval(0),
 	geoTypeID(geoTypeID),
-	maxHP(0),
-	currentHP(0),
+	maxHP(100),
+	currentHP(100),
 	timeout(0),
 	physics(new Physics(shapeType, pos, scale)),
 	mesh(mesh),

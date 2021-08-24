@@ -174,6 +174,10 @@ void SceneGraveyard::Update(double dt)
 	goManager->Update(dt);
 	inventory->Update(dt);
 
+	if (player->currentHP <= 0)
+	{
+		gameLost = true;
+	}
 }
 
 void SceneGraveyard::Render()

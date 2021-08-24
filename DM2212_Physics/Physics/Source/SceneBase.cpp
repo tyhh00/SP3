@@ -360,6 +360,9 @@ void SceneBase::Init()
 	meshList[GEO_HIGHLIGHT] = MeshBuilder::GenerateCircle("highlight", 1.0f, Color(0.0f, 1.0f, 0.0f));
 
 	bLightEnabled = false;
+
+	gameWin = false;
+	gameLost = false;
 }
 
 void SceneBase::LoadTile(GEOMETRY_TYPE type, std::string fileName, double length, double height, SHAPE_TYPE shapeType)

@@ -50,11 +50,11 @@ Player::~Player()
 		delete animatedSprites;
 		animatedSprites = NULL;
 	}
-	if (livesIcon)
+	/*if (livesIcon)
 	{
 		delete livesIcon;
 		livesIcon = NULL;
-	}
+	}*/
 	if (staminaBar)
 	{
 		delete staminaBar;
@@ -374,6 +374,7 @@ void Player::CollidedWith(GameObject* go)
 			Ghost* ghost = dynamic_cast<Ghost*>(go);
 			ghost->StartAttackCooldown();
 			timeout = 1.0f;
+			currentHP -= 20;
 		}
 
 		break;
