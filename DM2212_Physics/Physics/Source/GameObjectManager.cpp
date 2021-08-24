@@ -386,7 +386,7 @@ void GameObjectManager::AddAllGO(std::vector<GameObject*> gos)
 	for (auto& go : gos)
 		AddGO(go);
 }
-void GameObjectManager::Exit()
+void GameObjectManager::DeleteAllGOs()
 {
 	while (m_movableGOList.size() > 0)
 	{
@@ -400,4 +400,8 @@ void GameObjectManager::Exit()
 		delete go;
 		m_stationaryGOList.pop_back();
 	}
+}
+void GameObjectManager::Exit()
+{
+	DeleteAllGOs();
 }
