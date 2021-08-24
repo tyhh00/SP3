@@ -215,9 +215,6 @@
     <ClCompile Include="Source\Tumbleweed.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneChurch.cpp">
-      <Filter>Source Files\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GrimReaper.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
@@ -265,8 +262,8 @@
     </ClCompile>
     <ClCompile Include="Source\Pickaxe.cpp">
       <Filter>Source Files\Items\Weapons</Filter>
-	 </ClCompile>
-    <ClCompile Include="UIManager.cpp">
+    </ClCompile>
+    <ClCompile Include="Source\UIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -445,9 +442,6 @@
     <ClInclude Include="Source\Tumbleweed.h">
       <Filter>Header Files\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneChurch.h">
-      <Filter>Header Files\Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GrimReaper.h">
       <Filter>Header Files\Enemies</Filter>
     </ClInclude>
@@ -495,8 +489,8 @@
     </ClInclude>
     <ClInclude Include="Source\Pickaxe.h">
       <Filter>Header Files\Items\Weapons</Filter>
-	  </ClCompile>
-    <ClInclude Include="UIManager.h">
+    </ClInclude>
+    <ClInclude Include="Source\UIManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
