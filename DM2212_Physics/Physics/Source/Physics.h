@@ -18,7 +18,7 @@ private:
 	float rotateZ;
 	float inelasticity;
 
-	bool collision;
+	bool collisionResponse;
 	bool isMovable;
 	bool onGround;
 	bool isBouncable;
@@ -71,7 +71,7 @@ public:
 	void SetEnableUpdate(bool _enableUpdate);
 	bool GetUpdateEnabled();
 
-	void SetEnableCollision(bool _enableCollision);
+	void SetEnableCollisionResponse(bool _enableCollisionResponse);
 
 	void SetGravityUpdate(bool _enableUpdate);
 	bool GetGravityUpdate();

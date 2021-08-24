@@ -78,7 +78,6 @@ void PlasmaBullet::Update(double dt)
 void PlasmaBullet::CollidedWith(GameObject* go)
 {
 	go->dead = true;
-	DEBUG_MSG("Collided With " << go->pos);
 }
 
 GameObject* PlasmaBullet::Clone()

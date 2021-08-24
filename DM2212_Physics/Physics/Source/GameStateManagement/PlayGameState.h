@@ -10,11 +10,13 @@
 #include "GameStateBase.h"
 #include "../SceneManager.h"
 #include "../Buttons/ButtonManager.h"
+#include "../UIManager.h"
 
 class CPlayGameState : public CGameStateBase
 {
 public:
 	SceneManager* sceneManager;
+	UIManager* uiManager;
 
 	// Constructor
 	CPlayGameState(void);

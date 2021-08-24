@@ -262,6 +262,9 @@
     </ClCompile>
     <ClCompile Include="Source\Pickaxe.cpp">
       <Filter>Source Files\Items\Weapons</Filter>
+	 </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -486,6 +489,9 @@
     </ClInclude>
     <ClInclude Include="Source\Pickaxe.h">
       <Filter>Header Files\Items\Weapons</Filter>
+	  </ClCompile>
+    <ClInclude Include="UIManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

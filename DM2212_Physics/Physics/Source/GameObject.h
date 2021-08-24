@@ -97,6 +97,8 @@ struct GameObject
 	bool IsExplosive();
 	float GetExplosiveRadius();
 
+	bool IsDamagable(); //Check if object is a damagable object
+
 	void SetCurrHealth(float _currentHP);
 	float GetCurrHealth();
 

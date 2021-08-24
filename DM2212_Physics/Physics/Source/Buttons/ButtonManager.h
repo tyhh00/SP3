@@ -52,6 +52,7 @@ class ButtonManager
 	float elapsed;
 
 public:
+	ButtonManager();
 	ButtonManager(float screenWidth, float screenHeight);
 	~ButtonManager();
 

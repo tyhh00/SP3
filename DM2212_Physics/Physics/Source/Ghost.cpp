@@ -15,6 +15,7 @@ Ghost::~Ghost()
 
 void Ghost::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 {
+	Enemy::Init();
 	this->scene = scene;
 	this->inventory = inventory;
 	playerPos = &target;
@@ -35,9 +36,9 @@ void Ghost::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 	state_interval;
 
 	physics->SetMovable(true);
-	physics->SetEnableCollision(false);
-	physics->SetGravity(Vector3(0, 0, 0));
-	 
+	physics->SetEnableCollisionResponse(false);
+	physics->SetGravity(Vector3(0,0,0));
+
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("inactive", 9, 11);
 	animatedSprites->AddAnimation("right", 6, 8);

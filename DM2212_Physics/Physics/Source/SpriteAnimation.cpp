@@ -139,7 +139,6 @@ void SpriteAnimation::Render()
 
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-
 	//Draw based on the current frame
 	if (mode == DRAW_LINES)
 		glDrawElements(GL_LINES, 6, GL_UNSIGNED_INT, (void*)(currentFrame * 6 * sizeof(GLuint)));

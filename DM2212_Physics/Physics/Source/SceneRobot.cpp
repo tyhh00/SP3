@@ -91,8 +91,16 @@ void SceneRobot::Init()
 		}
 		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ROBOT_ENEMY_1)
 		{
-			PlasmaRobot* robot = new PlasmaRobot(player, new BulletSpawner(goManager, new PlasmaBullet(Vector3(2, 2, 2), player)));
+			PlasmaRobot* robot = new PlasmaRobot();
+			robot->active = true;
+			robot->scale = go->scale;
+			robot->pos = go->pos;
+			robot->physics = go->physics->Clone();
+			robot->Init(player, new BulletSpawner(goManager, new PlasmaBullet(Vector3(2, 2, 2), player)));
+
 			goManager->AddGO(robot);
+			delete go;
+			go = nullptr;
 		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
@@ -140,7 +148,7 @@ void SceneRobot::Update(double dt)
 
 	if (input->IsKeyReleased('F'))
 	{
-		spawner->SpawnBullet(player->pos, player->physics->GetNormal() * 3.0, player->physics->GetNormal());
+		//spawner->SpawnBullet(player->pos, player->physics->GetNormal() * 3.0, player->physics->GetNormal());
 		/*PlasmaBullet* bul = new PlasmaBullet(Vector3(2, 2, 2), player);
 		bul->physics->SetVelocity(player->physics->GetNormal() * 12);
 		bul->physics->SetNormal(player->physics->GetNormal());
