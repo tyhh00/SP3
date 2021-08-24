@@ -78,7 +78,7 @@ void SceneJungle::Init()
 			delete go;
 			go = nullptr;
 		}
-		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_JUNGLE_DIRT_BLOCK)
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_JUNGLE_MONKEY)
 		{
 			Monkey* monkey = new Monkey();
 
@@ -95,7 +95,7 @@ void SceneJungle::Init()
 			monkey->bottomSprite->mesh = meshList[GEO_WALL];
 			goManager->AddGO(monkey);
 
-			//Delete Grid ghost
+			//Delete Grid monkey
 			delete go;
 			go = nullptr;
 		}
@@ -114,7 +114,7 @@ void SceneJungle::Init()
 
 			goManager->AddGO(campfire);
 
-			//Delete Grid ghost
+			//Delete Grid campfire
 			delete go;
 			go = nullptr;
 		}

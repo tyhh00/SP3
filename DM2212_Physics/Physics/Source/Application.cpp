@@ -115,6 +115,8 @@ void Application::Init()
 //	m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
 	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
 	
+	UIManager::GetInstance()->Init();
+
 	//create gamestates
 	CGameStateManager::GetInstance()->AddGameState("IntroState", new CIntroState());
 	CGameStateManager::GetInstance()->AddGameState("MenuState", new CMenuState());

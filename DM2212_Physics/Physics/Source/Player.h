@@ -36,8 +36,8 @@ public:
 	void DecreaseStamina(float amt);
 
 private:
-	const float MAX_VEL = 20.f;
-	const float MAX_SPRINTVEL = 40.f;
+	const float MAX_VEL = 30.f;
+	const float MAX_SPRINTVEL = 45.f;
 
 	MOVEMENT_MODE mode;
 	SpriteAnimation* animatedSprites;

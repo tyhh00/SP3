@@ -32,3 +32,8 @@ Button* ButtonFactory::createButton(std::string buttonName, float originX, float
 	namedButton->getTextObject()->setTextOffsetFromTopLeft(offsetX, offsetY);
 	return namedButton;
 }
+
+ProgressBar* ButtonFactory::createProgressBar(std::string buttonName, float originX, float originY, float thickness, float length, PROGRESSBAR_TYPE type, Mesh* quadTexture)
+{
+	return new ProgressBar(buttonName, originX, originY, thickness, length, type, quadTexture, 100);
+}

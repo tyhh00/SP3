@@ -21,6 +21,14 @@ Buttons creatable for UI.
 \brief Buttons creatable for UI. Used by ButtonManager
 */
 /******************************************************************************/
+
+enum BUTTON_TYPE
+{
+	REGULAR,
+	PROGRESS_BAR,
+	BUTTONTYPE_COUNT
+};
+
 class Button
 {
 protected:
@@ -30,6 +38,7 @@ protected:
 	Mesh* quadTexture; // Image of the button (if any)
 	//Text Component 
 	Text* text; // optional text compoenent of a button.
+	BUTTON_TYPE buttonType;
 
 public:
 	Button(std::string buttonName, float originX, float originY, float quadXSize, float quadYSize, Mesh* quadTexture);
@@ -48,7 +57,9 @@ public:
 	Text* getTextObject();
 	void setQuadImage(Mesh* type);
 
-	void Render(SceneBase* scene);
+	BUTTON_TYPE getButtonType();
+
+	virtual void Render(SceneBase* scene);
 
 	~Button();
 };

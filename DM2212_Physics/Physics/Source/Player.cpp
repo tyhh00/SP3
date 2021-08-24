@@ -13,13 +13,13 @@
 #include "Bone.h"
 #include "Skull.h"
 #include "Pickaxe.h"
-#include "Buttons/ProgressBar.h"
+#include "UIManager.h"
 
 Player::Player() : input(NULL)
 , goManager(NULL)
 , inventory(NULL)
 , accel(200.f)
-, jump_force(300.f)
+, jump_force(420.f)
 , max_stamina(100.f)
 , stamina(100.f)
 , curr_max_vel(MAX_VEL)
@@ -81,6 +81,12 @@ void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* invento
 	staminaBar = MeshBuilder::GenerateQuad("stamina bar", Color(1.0f, 1.0f, 0.4f), 1.0f);
 
 	input = Input::GetInstance();
+
+	//This is initialised in PlayGameState
+	ProgressBar* pHealthBar = dynamic_cast<ProgressBar*>(
+		UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("playerhealth")
+		);
+	pHealthBar->SetProgress(1.f);
 
 	for (int i = 0; i < 2; ++i)
 	{
@@ -274,6 +280,12 @@ void Player::Render(SceneBase* scene)
 	/*ProgressBar stamina_bar(staminaBar, 40, 5, 15.f, 1.f);
 	stamina_bar.RenderHorizontal(scene, stamina, max_stamina);*/
 
+	//This is initialised in PlayGameState
+	ProgressBar* pHealthBar = dynamic_cast<ProgressBar*>(
+		UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("playerhealth")
+		);
+	pHealthBar->SetProgress(currentHP / maxHP);
+
 
 	//// hp
 	//float HPscale = 2;
@@ -361,13 +373,17 @@ void Player::CollidedWith(GameObject* go)
 			monkey->StartAttackCooldown();
 		}
 		break;
-	case SceneBase::GEO_JUNGLE_GRASS_PLATFORM_LEFT:
+	case SceneBase::GEO_JUNGLE_FIRETORCH:
 		goManager->RemoveGO(go);
-		inventory->AddItem(new Flashlight(go->mesh));
+		inventory->AddItem(new FireTorch(go->mesh));
 		break;
-	case SceneBase::GEO_JUNGLE_GRASS_PLATFORM_RIGHT:
+	case SceneBase::GEO_JUNGLE_APPLE:
 		goManager->RemoveGO(go);
-		inventory->AddItem(new Battery(go->mesh, inventory));
+		inventory->AddItem(new Apple(go->mesh));
+		break;
+	case SceneBase::GEO_JUNGLE_BANANA:
+		goManager->RemoveGO(go);
+		inventory->AddItem(new Cheese(go->mesh));
 		break;
 	case SceneBase::GEO_LOBBY_PORTAL_GRAVEYARD:
 		std::cout << "AAAAAAAAAAA" << std::endl;

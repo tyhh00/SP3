@@ -148,11 +148,11 @@ void SceneBase::Init()
 	//Load In Fonts (As of 22.8.21 Update)
 	meshList[GEO_FONT_CALIBRI] = MeshBuilder::GenerateText("calibri", 16, 16);
 	meshList[GEO_FONT_CALIBRI]->textureID = LoadTGA("Image//calibri.tga");
-	Text::loadFont(CALIBRI, "calibri", meshList[GEO_FONT_CALIBRI]);
+	Text::loadFont(CALIBRI, "calibri", GEO_FONT_CALIBRI);
 
 	meshList[GEO_FONT_SUPERMARIO] = MeshBuilder::GenerateText("supermario", 16, 16);
 	meshList[GEO_FONT_SUPERMARIO]->textureID = LoadTGA("Image//supermario.tga");
-	Text::loadFont(SUPERMARIO, "supermario", meshList[GEO_FONT_SUPERMARIO]);
+	Text::loadFont(SUPERMARIO, "supermario", GEO_FONT_SUPERMARIO);
 
 	//Tiles (Player tile, environmental tiles)
 	LoadTile(GEO_TILEGRID, "Grid.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -302,6 +302,9 @@ void SceneBase::Init()
 	LoadTile(GEO_JUNGLE_GRASS_TOP_RIGHT, "JUNGLE_GRASS_TOP_RIGHT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_MONKEY, "GEO_JUNGLE_MONKEY.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_CAMPFIRE, "GEO_JUNGLE_CAMPFIRE.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_FIRETORCH, "GEO_JUNGLE_FIRETORCH.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_APPLE, "GEO_JUNGLE_APPLE.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_BANANA, "GEO_JUNGLE_BANANA.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 
 	LoadTile(GEO_FLASHLIGHT, "flashlight.tga", 0.386, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_BATTERY, "battery.tga", 0.318, 1, SHAPE_TYPE::RECTANGLE);
@@ -402,6 +405,11 @@ TileSetting* SceneBase::GetTileSetting(GEOMETRY_TYPE type)
 		DEBUG_MSG("Unable to get tile setting of GEOMETRY_TYPE ID: " << type << ". Are you sure this is even a tile?");
 }
 
+Mesh* SceneBase::GetMesh(GEOMETRY_TYPE type)
+{
+	return meshList[type];
+}
+
 float SceneBase::GetScreenWidth()
 {
 	return m_screenWidth;
@@ -473,7 +481,7 @@ void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 
 	glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
-	ortho.SetToOrtho(0, 178, 0, 100, -10, 10);
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
 	projectionStack.PushMatrix();
 	projectionStack.LoadMatrix(ortho);
 	viewStack.PushMatrix();
@@ -511,9 +519,9 @@ void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
 
-	glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
-	ortho.SetToOrtho(0, 178, 0, 100, -10, 10);
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
 	projectionStack.PushMatrix();
 	projectionStack.LoadMatrix(ortho);
 	viewStack.PushMatrix();
@@ -523,7 +531,6 @@ void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	modelStack.Translate(x, y, 1);
 	modelStack.Scale(size, size, size);
 
-	glDisable(GL_DEPTH_TEST);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
 	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
 	glUniform1i(m_parameters[U_LIGHTENABLED], 0);

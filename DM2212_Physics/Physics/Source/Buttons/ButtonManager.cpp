@@ -41,13 +41,19 @@ void ButtonManager::setScreenSize(float screenWidth, float screenHeight)
 	}
 }
 
+//@DEPRECATED
+void ButtonManager::Update(SceneBase* scene, double dt)
+{
+	Update(dt);
+}
+
 /**
  * \brief Updates all buttons, whether they are now clicked or not clicked.
  * 
  * \param scene - Scene that is currently using this Button Manager
  * \param dt - delta time of frame
  */
-void ButtonManager::Update(SceneBase* scene, double dt) {
+void ButtonManager::Update(double dt) {
 	elapsed += dt;
 
 	double xPos, yPos;
@@ -220,6 +226,11 @@ Button* ButtonManager::getButtonByName(std::string buttonName) {
  * \param button - Button Object to be added
  */
 void ButtonManager::addButton(Button* button) {
+	for (auto& b : buttons)
+	{
+		if (b->getName() == button->getName())
+			return;
+	}
 	buttons.push_back(button);
 }
 
