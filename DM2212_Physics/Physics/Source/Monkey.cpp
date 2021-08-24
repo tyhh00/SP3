@@ -85,7 +85,10 @@ void Monkey::Update(double dt)
 			break;
 		}
 		else
-			physics->SetVelocity(Vector3((*playerPos - pos).Normalized().x * movement_speed, physics->GetVelocity().y, physics->GetVelocity().z));
+		{
+			if (!(*playerPos - pos).IsZero())
+				physics->SetVelocity(Vector3((*playerPos - pos).Normalized().x * movement_speed, physics->GetVelocity().y, physics->GetVelocity().z));
+		}
 	}
 	break;
 	}

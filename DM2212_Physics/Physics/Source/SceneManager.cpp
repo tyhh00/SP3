@@ -23,8 +23,6 @@ void SceneManager::init()
 	levelEditor->Init();
 	graveyard = new SceneGraveyard();
 	graveyard->Init();
-	church = new SceneChurch();
-	church->Init();
 	robot = new SceneRobot();
 	robot->Init();
 	std::cout << "FINISHED INITTING ALL SCENES" << std::endl;

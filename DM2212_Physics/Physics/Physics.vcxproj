@@ -163,6 +163,7 @@
     <ClCompile Include="Source\Buttons\ProgressBar.cpp" />
     <ClCompile Include="Source\Buttons\Text.cpp" />
     <ClCompile Include="Source\Buttons\UIItem.cpp" />
+    <ClCompile Include="Source\Campfire.cpp" />
     <ClCompile Include="Source\Dash.cpp" />
     <ClCompile Include="Source\FireTorch.cpp" />
     <ClCompile Include="Source\Grappling.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="Source\Buttons\ProgressBar.h" />
     <ClInclude Include="Source\Buttons\Text.h" />
     <ClInclude Include="Source\Buttons\UIItem.h" />
+    <ClInclude Include="Source\Campfire.h" />
     <ClInclude Include="Source\Dash.h" />
     <ClInclude Include="Source\FireTorch.h" />
     <ClInclude Include="Source\Grappling.h" />
