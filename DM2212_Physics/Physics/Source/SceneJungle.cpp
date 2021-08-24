@@ -78,7 +78,7 @@ void SceneJungle::Init()
 			delete go;
 			go = nullptr;
 		}
-		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_JUNGLE_DIRT_BLOCK)
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_JUNGLE_MONKEY)
 		{
 			Monkey* monkey = new Monkey();
 
@@ -95,7 +95,26 @@ void SceneJungle::Init()
 			monkey->bottomSprite->mesh = meshList[GEO_WALL];
 			goManager->AddGO(monkey);
 
-			//Delete Grid ghost
+			//Delete Grid monkey
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_JUNGLE_CAMPFIRE)
+		{
+			Campfire* campfire = new Campfire();
+
+			campfire->active = true;
+			campfire->scale = go->scale;
+			campfire->pos = go->pos;
+			campfire->physics = go->physics->Clone();
+			campfire->physics->SetInelasticity(0.99f);
+			campfire->physics->SetIsBouncable(false);
+			campfire->physics->SetGravity(Vector3(0, 0, 0));
+			campfire->Init(this, inventory, player->pos);
+
+			goManager->AddGO(campfire);
+
+			//Delete Grid campfire
 			delete go;
 			go = nullptr;
 		}

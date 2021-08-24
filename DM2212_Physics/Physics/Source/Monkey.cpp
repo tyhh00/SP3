@@ -34,17 +34,17 @@ void Monkey::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 	physics->SetEnableCollisionResponse(true);
 	physics->SetGravity(Vector3(0,-98.f,0));
 
-	//animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
-	//animatedSprites->AddAnimation("inactive", 9, 11);
-	//animatedSprites->AddAnimation("right", 6, 8);
-	//animatedSprites->AddAnimation("left", 3, 5);
-	//animatedSprites->AddAnimation("mid", 0, 2);
+	animatedSprites = MeshBuilder::GenerateSpriteAnimation(1, 18, 2.0f, 2.0f);
+	animatedSprites->AddAnimation("jumpRight", 0, 2);
+	animatedSprites->AddAnimation("jumpLeft", 3, 5);
+	animatedSprites->AddAnimation("runRight", 6, 10);
+	animatedSprites->AddAnimation("runLeft", 11, 15);
+	animatedSprites->AddAnimation("idle", 16, 18);
 
-	mesh = MeshBuilder::GenerateQuad("monkey", Color(1, 1, 1), 2.f);
-	mesh->textureID = LoadTGA("Image/Tiles/JUNGLE_SNOWMAN.tga");
+	mesh = animatedSprites;
+	mesh->textureID = LoadTGA("Image/monkey1.tga");
 
-	//animatedSprites->PlayAnimation("inactive", -1, 1.0f);
-
+	animatedSprites->PlayAnimation("idle", -1, 1.0f);
 }
 
 void Monkey::Update(double dt)
@@ -73,39 +73,54 @@ void Monkey::Update(double dt)
 		break;
 	case JUMP:
 		physics->AddVelocity(Vector3((*playerPos - pos).Normalized().x * 5, 50, 0));
-		std::cout << (*playerPos - pos).Normalized().x << std::endl;
 		state = ATTACK;
 		break;
 	case ATTACK:
 	{
 		if (!physics->GetOnGround())
 			break;
-		//if ((*playerPos - pos).Length() < 2)
-		//{
-		//	state_interval = 0;
-		//	break;
-		//}
 		if (playerPos->y - 3 > pos.y)
 		{
 			state = JUMP;
 			break;
 		}
 		else
-			physics->SetVelocity(Vector3((*playerPos - pos).Normalized().x * movement_speed, physics->GetVelocity().y, physics->GetVelocity().z));
+		{
+			if (!(*playerPos - pos).IsZero())
+				physics->SetVelocity(Vector3((*playerPos - pos).Normalized().x * movement_speed, physics->GetVelocity().y, physics->GetVelocity().z));
+		}
 	}
 	break;
 	}
 
-	//animatedSprites->Update(dt);
+	animatedSprites->Update(dt);
 
-	//if (physics->GetVelocity().x > 0)
-	//{
-	//	animatedSprites->PlayAnimation("right", -1, 1.0f);
-	//}
-	//else if (physics->GetVelocity().x < 0)
-	//{
-	//	animatedSprites->PlayAnimation("left", -1, 1.0f);
-	//}
+	if (!physics->GetOnGround())
+	{
+		if (physics->GetVelocity().x > 0)
+		{
+			animatedSprites->PlayAnimation("jumpRight", -1, 1.0f);
+		}
+		else if (physics->GetVelocity().x < 0)
+		{
+			animatedSprites->PlayAnimation("jumpLeft", -1, 1.0f);
+		}
+	}
+	else
+	{
+		if (physics->GetVelocity().x > 0)
+		{
+			animatedSprites->PlayAnimation("runRight", -1, 1.0f);
+		}
+		else if (physics->GetVelocity().x < 0)
+		{
+			animatedSprites->PlayAnimation("runLeft", -1, 1.0f);
+		}
+		else
+		{
+			animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		}
+	}
 }
 
 void Monkey::StartAttackCooldown()

@@ -170,7 +170,7 @@ void SceneGraveyard::Update(double dt)
 	{
 		m_speed += 0.1f;
 	}
-	
+
 	goManager->Update(dt);
 	inventory->Update(dt);
 
@@ -368,9 +368,22 @@ void SceneGraveyard::LoadBossScene()
 	{
 		if (go->geoTypeID == GEOMETRY_TYPE::GEO_PLAYER_GIRL1)
 		{
+			player = new Player();
+			player->active = true;
+			player->scale = go->scale;
 			player->pos = go->pos;
+			player->physics = go->physics->Clone();
+			player->physics->SetInelasticity(0.99f);
+			player->physics->SetIsBouncable(false);
+			player->Init(Player::PLATFORMER, goManager, inventory);
+
+			player->AddBottomSprite();
+			player->bottomSprite->mesh = meshList[GEO_WALL];
 
 			goManager->AddGO(player);
+
+			DEBUG_MSG("From Phy Editor: " << player->scale);
+
 
 			//Delete Grid Player
 			delete go;

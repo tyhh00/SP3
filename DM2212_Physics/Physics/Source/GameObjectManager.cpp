@@ -261,6 +261,7 @@ void GameObjectManager::Update(double dt)
 			if (go->dead)
 				break;
 
+			go2->Update(dt);
 			// attachment for checking if onGround
 			if (go->bottomSprite != nullptr)
 			{

@@ -373,13 +373,17 @@ void Player::CollidedWith(GameObject* go)
 			monkey->StartAttackCooldown();
 		}
 		break;
-	case SceneBase::GEO_JUNGLE_GRASS_PLATFORM_LEFT:
+	case SceneBase::GEO_JUNGLE_FIRETORCH:
 		goManager->RemoveGO(go);
-		inventory->AddItem(new Flashlight(go->mesh));
+		inventory->AddItem(new FireTorch(go->mesh));
 		break;
-	case SceneBase::GEO_JUNGLE_GRASS_PLATFORM_RIGHT:
+	case SceneBase::GEO_JUNGLE_APPLE:
 		goManager->RemoveGO(go);
-		inventory->AddItem(new Battery(go->mesh, inventory));
+		inventory->AddItem(new Apple(go->mesh));
+		break;
+	case SceneBase::GEO_JUNGLE_BANANA:
+		goManager->RemoveGO(go);
+		inventory->AddItem(new Cheese(go->mesh));
 		break;
 	case SceneBase::GEO_LOBBY_PORTAL_GRAVEYARD:
 		std::cout << "AAAAAAAAAAA" << std::endl;
