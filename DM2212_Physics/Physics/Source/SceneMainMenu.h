@@ -8,6 +8,7 @@
 #include "GameObjectManager.h"
 #include "Input.h"
 #include "Buttons/ButtonManager.h"
+#include "SpriteAnimation.h"
 
 class SceneMainMenu : public SceneBase
 {
@@ -22,6 +23,7 @@ public:
 
 protected:
 	Mesh* buttonMesh;
+	SpriteAnimation* background;
 	ButtonManager* buttonManager;
 
 };

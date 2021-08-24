@@ -12,6 +12,7 @@
 
 SceneMainMenu::SceneMainMenu() : buttonManager(NULL)
 		, buttonMesh(NULL)
+	, background(NULL)
 	
 {
 }
@@ -28,6 +29,11 @@ SceneMainMenu::~SceneMainMenu()
 		delete buttonManager;
 		buttonManager = NULL;
 	}
+	if (background)
+	{
+		delete background;
+		background = NULL;
+	}
 }
 
 void SceneMainMenu::Init()
@@ -42,10 +48,14 @@ void SceneMainMenu::Init()
 
 	Math::InitRNG();
 
-	buttonManager = new ButtonManager(80, 60);
 
-	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
-	meshList[GEO_BG]->textureID = LoadTGA("Image/spacebackground2.tga");
+	background = MeshBuilder::GenerateSpriteAnimation(5, 5, 1.0f, 1.0f);
+	background->AddAnimation("idle", 0, 24);
+
+	background->PlayAnimation("idle", -1, 2.5f);
+	background->textureID = LoadTGA("Image/MainMenuBG.tga");
+
+	buttonManager = new ButtonManager(80, 60);
 
 	buttonMesh = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
 	buttonMesh->textureID = LoadTGA("Image/button.tga");
@@ -68,7 +78,7 @@ void SceneMainMenu::Update(double dt)
 {
 	SceneBase::Update(dt);
 	buttonManager->Update(this, dt);
-	
+	background->Update(dt);
 
 	for (auto button : buttonManager->getButtonsInteracted())
 	{
@@ -187,7 +197,7 @@ void SceneMainMenu::Render()
 	modelStack.PushMatrix();
 	modelStack.Translate(m_worldWidth * 0.5, m_worldHeight * 0.5, 0);
 	modelStack.Scale(m_worldWidth, m_worldHeight, 1);
-	RenderMesh(meshList[GEO_BG], true);
+	RenderMesh(background, true);
 	modelStack.PopMatrix();
 
 

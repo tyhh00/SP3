@@ -170,7 +170,6 @@ void SceneGraveyard::Update(double dt)
 	{
 		m_speed += 0.1f;
 	}
-	
 
 	goManager->Update(dt);
 	inventory->Update(dt);

@@ -9,14 +9,12 @@
 
 #include "SceneRobot.h"
 #include "SceneGraveyard.h"
-#include "SceneChurch.h"
 
 enum worlds
 {
 	w_physics = 0,
 	w_jungle,
 	w_graveyard,
-	w_church,
 	w_robot,
 	w_levelEditor,
 	w_sceneTotal
