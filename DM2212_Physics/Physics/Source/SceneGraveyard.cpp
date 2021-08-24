@@ -351,6 +351,7 @@ void SceneGraveyard::CursorToWorldPosition(double& theX, double& theY)
 
 void SceneGraveyard::LoadBossScene()
 {
+	
 }
 
 void SceneGraveyard::Exit()

@@ -27,6 +27,7 @@ Player::Player() : input(NULL)
 , stamina_rate_multiplier(0.0f)
 , invisibility(false)
 {
+	type = GO_PLAYER;
 }
 
 Player::~Player()
@@ -154,14 +155,6 @@ void Player::Update(double dt)
 		}
 	}
 
-	if (timeout > 0)
-	{
-		timeout -= dt;
-		if (timeout < 0)
-		{
-			timeout = 0;
-		}
-	}
 
 	curr_max_vel = Math::Clamp(curr_max_vel, MAX_VEL, 100.f);
 	physics->SetVelocity(Vector3(Math::Clamp(physics->GetVelocity().x, -curr_max_vel, curr_max_vel), physics->GetVelocity().y, physics->GetVelocity().z));
@@ -293,6 +286,11 @@ void Player::Render(SceneBase* scene)
 
 void Player::CollidedWith(GameObject* go)
 {
+	if (go->type == GO_ENEMY)
+	{
+		//...
+	}
+
 	switch (go->geoTypeID)
 	{
 	case SceneBase::GEO_FLASHLIGHT:
@@ -362,21 +360,6 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_LOBBY_PORTAL_GRAVEYARD:
 		std::cout << "AAAAAAAAAAA" << std::endl;
-		break;
-	case SceneBase::GEO_ENEMY_GHOST:
-		if (timeout > 0) // on cooldown
-		{
-			break;
-		}
-		else
-		{
-			//lives--;
-			Ghost* ghost = dynamic_cast<Ghost*>(go);
-			ghost->StartAttackCooldown();
-			timeout = 1.0f;
-			currentHP -= 20;
-		}
-
 		break;
 	case SceneBase::GEO_GY_GATEKEEPER:
 		break;
