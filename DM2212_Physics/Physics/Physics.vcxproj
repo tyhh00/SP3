@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\GameManager.cpp" />
     <ClCompile Include="Source\Battery.cpp" />
     <ClCompile Include="Source\Bone.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
@@ -224,6 +225,7 @@
     <ClCompile Include="Source\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\GameManager.h" />
     <ClInclude Include="Source\Battery.h" />
     <ClInclude Include="Source\Bone.h" />
     <ClInclude Include="Source\Bullet.h" />

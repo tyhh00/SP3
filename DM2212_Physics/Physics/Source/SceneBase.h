@@ -282,6 +282,7 @@ public:
 	void LoadTile(GEOMETRY_TYPE type, std::string fileName, double length, double height, SHAPE_TYPE shapeType);
 	TileSetting* GetTileSetting(GEOMETRY_TYPE type);
 
+	Mesh* GetMesh(GEOMETRY_TYPE type);
 
 	float GetScreenWidth();
 	float GetScreenHeight();

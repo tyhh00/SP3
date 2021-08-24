@@ -10,12 +10,12 @@ Font Text::loadedFonts[FONT_COUNT];
  * \return whether the fonts are loaded. Returns false if already loaded
  */
 
-bool Text::loadFont(FONTTYPE fType, std::string widthSheetName, Mesh* fontMesh, float fontVerticalOffset)
+bool Text::loadFont(FONTTYPE fType, std::string widthSheetName, SceneBase::GEOMETRY_TYPE typeID, float fontVerticalOffset)
 {
     if (loadedFonts[fType].type == FONTTYPE::FONT_COUNT) //Aka not set
     {
         loadedFonts[fType].type = fType;
-        loadedFonts[fType].fontMesh = fontMesh;
+        loadedFonts[fType].geoType = typeID;
         loadedFonts[fType].verticalOffset = 1.0;
         LoadTextData(loadedFonts[fType].textWidth, "TextData//" + widthSheetName + ".csv");
 
@@ -237,7 +237,7 @@ void Text::Render(SceneBase* scene) {
         ss.str("");
         ss.clear();
         ss << entry;
-        scene->RenderTextOnScreen(this->textFont.fontMesh, ss.str(), color, size, startX, startY - this->textFont.verticalOffset * size * i, textFont.textWidth, 256);
+        scene->RenderTextOnScreen(scene->GetMesh(this->textFont.geoType), ss.str(), color, size, startX, startY - this->textFont.verticalOffset * size * i, textFont.textWidth, 256);
         i++;
     }
 

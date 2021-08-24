@@ -29,11 +29,11 @@ enum FONTTYPE {
 /******************************************************************************/
 struct Font {
 	FONTTYPE type;
-	Mesh* fontMesh;
+	SceneBase::GEOMETRY_TYPE geoType;
 	int textWidth[256];
 	float verticalOffset;
 
-	Font() : type(FONT_COUNT), fontMesh(nullptr) {}
+	Font() : type(FONT_COUNT), geoType(SceneBase::GEOMETRY_TYPE::NUM_GEOMETRY) {}
 };
 
 /******************************************************************************/
@@ -62,7 +62,7 @@ class Text
 
 public:
 	//Static Public Members
-	static bool loadFont(FONTTYPE, std::string widthSheetName, Mesh* fontMesh, float fontVerticalOffset = 1.f);
+	static bool loadFont(FONTTYPE, std::string widthSheetName, SceneBase::GEOMETRY_TYPE geoTypeID, float fontVerticalOffset = 1.f);
 	static bool areFontsLoaded();
 	static Font* getFont(FONTTYPE);
 	static void splitText(std::string txt, char delim, std::vector<std::string>& out);
