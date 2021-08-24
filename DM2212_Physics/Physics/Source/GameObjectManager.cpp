@@ -199,6 +199,14 @@ void GameObjectManager::Update(double dt)
 			if (go->dead)
 				break;
 
+			if (go->bottomSprite != nullptr)
+			{
+				if (CheckCollision(go->bottomSprite, go2, dt, false))
+				{
+					go->physics->SetOnGround(true);
+				}
+			}
+
 			if (CheckCollision(go, go2, dt, false))
 			{
 				if (go->IsExplosive())
@@ -307,6 +315,10 @@ void GameObjectManager::Update(double dt)
 			continue;
 		if (go->physics->GetMovable())
 		{
+			if (go->geoTypeID == 150)
+			{
+				DEBUG_MSG("Deleted robot?");
+			}
 			for (int i = 0; i < m_movableGOList.size(); i++)
 			{
 				if (m_movableGOList.at(i) == go)

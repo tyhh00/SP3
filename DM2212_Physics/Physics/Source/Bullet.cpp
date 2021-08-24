@@ -6,7 +6,7 @@ Bullet::Bullet(Mesh* mesh, int geoTypeID, SHAPE_TYPE collisionShape, BULLET_TYPE
 {
 	this->physics->SetMovable(true);
 	this->physics->SetGravity(false);
-	this->physics->SetEnableCollision(false);
+	this->physics->SetEnableCollisionResponse(false);
 	this->explosive = explosive;
 	this->explosiveRadius = explosionRadius;
 	this->scale = scale;
