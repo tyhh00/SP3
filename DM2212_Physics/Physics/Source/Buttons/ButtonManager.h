@@ -57,8 +57,11 @@ public:
 	~ButtonManager();
 
 	void setScreenSize(float screenWidth, float screenHeight);
-
+	
+	//@DEPRECATED
 	void Update(SceneBase* scene, double dt);
+
+	void Update(double dt);
 	void Render(SceneBase * scene);
 
 	void addButton(Button* button);

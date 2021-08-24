@@ -96,7 +96,7 @@ void SceneRobot::Init()
 			robot->scale = go->scale;
 			robot->pos = go->pos;
 			robot->physics = go->physics->Clone();
-			robot->Init(player, new BulletSpawner(goManager, new PlasmaBullet(Vector3(2, 2, 2), player)));
+			robot->Init(player, new BulletSpawner(goManager, new PlasmaBullet(Vector3(2, 2, 2), robot)));
 
 			goManager->AddGO(robot);
 			delete go;

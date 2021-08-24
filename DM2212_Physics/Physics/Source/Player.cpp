@@ -13,7 +13,7 @@
 #include "Bone.h"
 #include "Skull.h"
 #include "Pickaxe.h"
-#include "Buttons/ProgressBar.h"
+#include "UIManager.h"
 
 Player::Player() : input(NULL)
 , goManager(NULL)
@@ -81,6 +81,12 @@ void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* invento
 	staminaBar = MeshBuilder::GenerateQuad("stamina bar", Color(1.0f, 1.0f, 0.4f), 1.0f);
 
 	input = Input::GetInstance();
+
+	//This is initialised in PlayGameState
+	ProgressBar* pHealthBar = dynamic_cast<ProgressBar*>(
+		UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("playerhealth")
+		);
+	pHealthBar->SetProgress(1.f);
 
 	for (int i = 0; i < 2; ++i)
 	{
@@ -273,6 +279,12 @@ void Player::Render(SceneBase* scene)
 	// Render Stamina Bar??
 	/*ProgressBar stamina_bar(staminaBar, 40, 5, 15.f, 1.f);
 	stamina_bar.RenderHorizontal(scene, stamina, max_stamina);*/
+
+	//This is initialised in PlayGameState
+	ProgressBar* pHealthBar = dynamic_cast<ProgressBar*>(
+		UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("playerhealth")
+		);
+	pHealthBar->SetProgress(currentHP / maxHP);
 
 
 	//// hp

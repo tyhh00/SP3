@@ -15,13 +15,20 @@ class UIManager : public CSingletonTemplate<UIManager>
 
 public:
 	ButtonManager* GetButtonManager(UI_TYPE);
+
+	void SetActive(UI_TYPE type, bool active);
+	bool IsActive(UI_TYPE type);
+	void SetAllActive(bool active);
+
 	void Init();
 	void Update(double dt);
+	void Render(SceneBase* scene);
 
 protected:
 	UIManager();
 	~UIManager();
 
 	ButtonManager* bm_array[UI_COUNT];
+	bool active_array[UI_COUNT];
 };
 

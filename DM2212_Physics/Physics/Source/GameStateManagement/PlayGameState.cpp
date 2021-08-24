@@ -73,6 +73,8 @@ bool CPlayGameState::Init(void)
 
 	sceneManager = SceneManager::GetInstance();
 	//sceneManager->Init();
+	uiManager = UIManager::GetInstance();
+	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, true);
 
 	buttonManager = new ButtonManager(80, 60);
 
@@ -122,6 +124,9 @@ bool CPlayGameState::Update(const double dElapsedTime)
 	case GAMEOVER:
 		break;
 	}
+
+	UIManager::GetInstance()->Update(dElapsedTime);
+
 
 	buttonManager->Update(sceneManager->getScene(), dElapsedTime);
 	for (auto button : buttonManager->getButtonsInteracted())
@@ -180,6 +185,7 @@ void CPlayGameState::Render(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	sceneManager->render();
 	buttonManager->Render(sceneManager->getScene());
+	UIManager::GetInstance()->Render(sceneManager->getScene());
 }
 
 /**
@@ -189,5 +195,6 @@ void CPlayGameState::Destroy(void)
 {
 	cout << "CPlayGameState::Destroy()\n" << endl;
 	sceneManager->destroy();
+	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, false);
 	//sceneManager->Destroy();
 }

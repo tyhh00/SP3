@@ -12,7 +12,7 @@
 \param quadTexture - geometry type of the button's background
 */
 /******************************************************************************/
-Button::Button(std::string buttonName, float originX, float originY, float quadSizeX, float quadSizeY, Mesh* quadTexture) : buttonName(buttonName) {
+Button::Button(std::string buttonName, float originX, float originY, float quadSizeX, float quadSizeY, Mesh* quadTexture) : buttonName(buttonName), buttonType(REGULAR) {
 	//this->scene = scene;
 	this->text = nullptr;
 	this->enabled = true;
@@ -21,6 +21,11 @@ Button::Button(std::string buttonName, float originX, float originY, float quadS
 	this->UIInfo.sizeX = quadSizeX;
 	this->UIInfo.sizeY = quadSizeY;
 	this->quadTexture = quadTexture;
+}
+
+BUTTON_TYPE Button::getButtonType()
+{
+    return buttonType;
 }
 
 /**

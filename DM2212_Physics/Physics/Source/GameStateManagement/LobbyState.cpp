@@ -14,6 +14,8 @@
 // Include CGameStateManager
 #include "GameStateManager.h"
 
+#include "../UIManager.h"
+
 #include <iostream>
 using namespace std;
 
@@ -30,7 +32,12 @@ CLobbyState::CLobbyState(void)
  */
 CLobbyState::~CLobbyState(void)
 {
-	
+	for (auto& mesh : meshGenerated)
+{
+	delete mesh;
+	mesh = nullptr;
+}
+meshGenerated.clear();
 }
 
 /**
@@ -39,6 +46,24 @@ CLobbyState::~CLobbyState(void)
 bool CLobbyState::Init(void)
 {
 	cout << "CLobbyState::Init()\n" << endl;
+
+	//Init of UIManagement
+	uiManager = UIManager::GetInstance();
+	ButtonManager* bm_gameplayStat = uiManager->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS);
+
+	if (meshGenerated.size() < 1)
+	{
+		//HealthBar
+		Mesh* playerHealth = MeshBuilder::GenerateQuad("health", Color(0.8, 0.2, 0.2), 1.0f);
+		meshGenerated.push_back(playerHealth);
+
+		Mesh* healthIcon = MeshBuilder::GenerateQuad("health", Color(0.9, 0.2, 0.2), 1.0f);
+		healthIcon->textureID = LoadTGA("Image/lives.tga");
+		meshGenerated.push_back(healthIcon);
+
+		bm_gameplayStat->addButton(ButtonFactory::createProgressBar("playerhealth", 7, 59, 1, 7, HORIZONTAL, playerHealth));
+		bm_gameplayStat->addButton(ButtonFactory::createNoTextButton("healthicon", 2.2, 59, 1.2, 1.2, healthIcon));
+	}
 
 	sceneLobby = new SceneLobby();
 	sceneLobby->Init();
