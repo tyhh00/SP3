@@ -220,6 +220,7 @@
     <ClCompile Include="Source\Weapon.cpp" />
     <ClCompile Include="Source\SoundController/SoundController.cpp" />
     <ClCompile Include="Source\SoundController/SoundInfo.cpp" />
+    <ClCompile Include="Source\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Battery.h" />
@@ -296,6 +297,7 @@
     <ClInclude Include="Source\SoundController/SoundController.h" />
     <ClInclude Include="Source\SoundController/SoundInfo.h" />
     <ClInclude Include="Source\SoundController/SoundType.h" />
+    <ClInclude Include="Source\UIManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

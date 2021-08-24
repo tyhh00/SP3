@@ -4,7 +4,7 @@
 
 class PlasmaRobot : public Enemy
 {
-	const float ATTACK_COOLDOWN = 7.0f;
+	const float ATTACK_COOLDOWN = 8.0f;
 	const float BULLET_SPEED = 14.0f;
 public:
 	PlasmaRobot();

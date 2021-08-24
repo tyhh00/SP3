@@ -5,7 +5,7 @@ PlasmaRobot::PlasmaRobot()
 	: target(target)
 	, spawner(spawner)
 	, Enemy(ROBOT_ENEMY_PLASMA)
-	, targetRange(25)
+	, targetRange(45)
 	, dyingAnim(0.0)
 	, attackCD(0.0)
 	, attackTime(0.0)
@@ -49,6 +49,7 @@ void PlasmaRobot::Update(double dt)
 	//DEBUG_MSG("enemypos" << this->pos);
 	stateActive += dt;
 	animatedSprite->Update(dt);
+	attackCD -= dt;
 
 	if (this->physics->GetVelocity().LengthSquared() > 0.1)
 	{
@@ -74,9 +75,10 @@ void PlasmaRobot::Update(double dt)
 		animatedSprite->PlayAnimation("walking-" + GetWalkingDirection(), -1, 3.3);
 		Vector3 dis = target->pos - this->pos;
 		this->physics->SetVelocity(dis.Normalized() * 6);
-		if (dis.LengthSquared() <= targetRange * targetRange)
+		if (dis.LengthSquared() <= targetRange * targetRange && attackCD <= 1)
 		{
 			state = AIMING;
+			animatedSprite->PlayAnimation("idle-" + GetWalkingDirection(), -1, 1.2);
 		}
 		else if (stateActive > 3.0)
 		{
@@ -86,7 +88,6 @@ void PlasmaRobot::Update(double dt)
 	}
 	if (state == AIMING)
 	{
-
 		Vector3 dis = this->pos - target->pos;
 		if (dis.LengthSquared() >= targetRange * targetRange)
 		{
@@ -94,15 +95,21 @@ void PlasmaRobot::Update(double dt)
 		}
 		else
 		{
-			animatedSprite->PlayAnimation("idle-"+GetWalkingDirection(), -1, 1.2);
-			attackCD -= dt;
+
 			if (attackCD <= 0.0)
 			{
+				attackTime = 0.0;
 				attackCD = ATTACK_COOLDOWN;
-				animatedSprite->PlayAnimation("walking-" + GetWalkingDirection(), -1, 3.3);
+				animatedSprite->PlayAnimation("chargingattack-" + GetWalkingDirection(), 0, 2);
 				Vector3 dis = target->pos - this->pos;
 				spawner->SpawnBullet(this->pos, dis * BULLET_SPEED, dis);
 				DEBUG_MSG("Spawning bullet at " << this->pos);
+			}
+
+			attackTime += dt;
+			if (attackTime > 2.0)
+			{
+				state = WALKING;
 			}
 		}
 	}

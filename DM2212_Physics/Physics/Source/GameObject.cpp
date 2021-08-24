@@ -88,6 +88,7 @@ void GameObject::CloneValues(GameObject* ref, GameObject* into)
 	into->maxHP = ref->maxHP;
 	into->mesh = ref->mesh;
 	into->physics = ref->physics->Clone();
+	into->physics->pos = Vector3(ref->physics->pos);
 	into->pos = Vector3(ref->pos);
 	into->scale = Vector3(ref->scale);
 	into->timeout = ref->timeout;
