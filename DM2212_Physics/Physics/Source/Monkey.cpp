@@ -5,7 +5,7 @@
 #include "LoadTGA.h"
 #include "Flashlight.h"
 
-Monkey::Monkey() : Enemy(GY_MONKEY)
+Monkey::Monkey() : Enemy(JG_MONKEY)
 {
 }
 
