@@ -11,6 +11,7 @@
 //Include the standard C++ headers
 #include <stdio.h>
 #include <stdlib.h>
+#include "Debug.h"
 
 extern GLFWwindow* m_window;
 
@@ -42,6 +43,10 @@ void Input::Update(double dt)
 		{
 			currKeyboardStatus[i] = false;
 		}
+		if (IsKeyReleased(i))
+		{
+			typedEntry += i;
+		}
 	}
 
 	//update all mouse keys
@@ -57,6 +62,23 @@ void Input::Update(double dt)
 			currMouseStatus[i] = false;
 		}
 	}
+	
+	DEBUG_MSG(typedEntry);
+}
+
+std::string Input::GetTypedEntry()
+{
+	if (IsKeyReleased(VK_RETURN))
+	{
+		std::string val = typedEntry;
+		typedEntry = "";
+		return val;
+	}
+}
+
+void Input::ClearTypedEntry()
+{
+	typedEntry = "";
 }
 
 bool Input::IsKeyPressed(unsigned short key)

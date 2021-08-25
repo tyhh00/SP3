@@ -74,6 +74,7 @@ protected:
 	double canSnapRotateIn;
 	GEOMETRY_TYPE scrolledGeo;
 
+	bool decorativeMode;
 
 public:
 	LevelEditor();

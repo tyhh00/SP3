@@ -1,4 +1,4 @@
-# Format: "TILE_ID Enum Val":"Position":"Rotation":"Scale"
+# Format: "TILE_ID Enum Val":"Position":"Rotation":"Scale":TILE_TYPE"
 GridLength: 3.5
 GridHeight: 3.5
 Tiles: 

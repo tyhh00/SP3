@@ -1,6 +1,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 #include "SingletonTemplate.h"
+#include <string>
 
 class Input : public CSingletonTemplate<Input> {
 	friend CSingletonTemplate<Input>;
@@ -15,6 +16,10 @@ public:
 	bool IsMousePressed(unsigned short key);
 	bool IsMouseDown(unsigned short key);
 	bool IsMouseReleased(unsigned short key);
+
+	std::string GetTypedEntry();
+	void ClearTypedEntry();
+
 private:
 	static const unsigned short MAX_KEYBOARD_KEYS = 348;
 	static const unsigned short MAX_MOUSE_KEYS = 3;
@@ -22,6 +27,7 @@ private:
 	bool currKeyboardStatus[MAX_KEYBOARD_KEYS];
 	bool prevMouseStatus[MAX_MOUSE_KEYS];
 	bool currMouseStatus[MAX_MOUSE_KEYS];
+	std::string typedEntry;
 };
 
 
