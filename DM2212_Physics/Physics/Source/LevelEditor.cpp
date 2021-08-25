@@ -29,8 +29,8 @@ void LevelEditor::Init()
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = 300;//144
-	m_worldWidth = 1000;//256
+	m_worldHeight = 143;//144
+	m_worldWidth = 1000;
 
 	mapLoaded = false;
 

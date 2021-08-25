@@ -17,6 +17,7 @@
 #include "GameStateManagement/MenuState.h"
 #include "GameStateManagement/LobbyState.h"
 #include "GameStateManagement/PlayGameState.h"
+#include "Buttons/DialogueManager.h"
 
 #include "GameManager.h"
 
@@ -118,7 +119,6 @@ void Application::Init()
 	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
 	
 	UIManager::GetInstance()->Init();
-
 	GameManager::GetInstance()->Init();
 
 	//create gamestates
@@ -217,6 +217,7 @@ void Application::Exit()
 	SceneManager::GetInstance()->destroy();
 	SceneManager::GetInstance()->Destroy();
 
+	DialogueManager::GetInstance()->Destroy();
 	//Close OpenGL window and terminate GLFW
 	glfwDestroyWindow(m_window);
 	//Finalize and clean up GLFW

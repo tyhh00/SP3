@@ -50,15 +50,22 @@ void SceneLobby::Init()
 	m_speed = 1.f;
 	Math::InitRNG();
 
+	//Store keyboard instance
+	input = Input::GetInstance();
 	// GO Manager
 	goManager = new GameObjectManager();
 	goManager->Init();
 	// Inventory 
 	inventory = new Inventory();
 	inventory->Init(this);
+	// Dialogue Manager
+	dialogueManager = DialogueManager::GetInstance();
+	dialogueManager->Init();
+	dialogueManager->AddDialogue(PLAYER, "TEST AAAAAAAAAAA");
+	dialogueManager->AddDialogue(PLAYER, "DIALOGUE 2");
+	dialogueManager->AddDialogue(PLAYER, "where am i question mark?!");
+	dialogueManager->AddDialogue(PLAYER, "oooh vending machine hungy hungy very very ");
 
-	//Store keyboard instance
-	input = Input::GetInstance();
 
 	// Unique Meshes
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
@@ -223,14 +230,16 @@ void SceneLobby::Update(double dt)
 	portal_ocean->Update(dt);
 	portal_robot->Update(dt);
 
+	// DIALOGUE TEST
+	if (input->IsKeyPressed('T'))
+	{
+		dialogueManager->AddDialogue(PLAYER, "TEST AAAAAAAAAAA");
+	}
+	if (input->IsKeyPressed('Y'))
+	{
+		dialogueManager->AddDialogue(GATEKEEPER, "LALALALALLALALALALALALALALALALALALALALALALALALALALAL", RIGHT);
+	}
 
-	// Updating of light things
-	//lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
-	//double mouseposx, mouseposy;
-	//CursorToWorldPosition(mouseposx, mouseposy);
-	//lights[1].position.Set(mouseposx, mouseposy, 10);
-
-	
 	if (Application::IsMousePressed(2))
 	{
 
@@ -245,7 +254,8 @@ void SceneLobby::Update(double dt)
 		m_speed += 0.1f;
 	}
 
-	goManager->Update(dt);
+	if (!dialogueManager->Update(dt))
+		goManager->Update(dt);
 }
 
 void SceneLobby::Render()
@@ -321,6 +331,8 @@ void SceneLobby::Render()
 	modelStack.PopMatrix();
 
 	goManager->Render(this);
+
+	dialogueManager->Render(this);
 
 	std::ostringstream ss;
 	//ss.str("");

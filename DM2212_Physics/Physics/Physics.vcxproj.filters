@@ -314,6 +314,9 @@
     <ClCompile Include="Source\Dragon.cpp">
       <Filter>Source Files\GameObjects\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Buttons\DialogueManager.cpp">
+      <Filter>Source Files\Buttons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -576,6 +579,9 @@
     </ClInclude>
     <ClInclude Include="Source\Dragon.h">
       <Filter>Header Files\GameObjects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Buttons\DialogueManager.h">
+      <Filter>Header Files\Buttons</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
