@@ -23,8 +23,7 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
-	std::string mapToLoad = "GRAVEYARD_FINAL";
-
+	std::string mapToLoad = "ROBOT_1_1";
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
@@ -43,6 +42,7 @@ void LevelEditor::Init()
 	scrolledGeo = static_cast<GEOMETRY_TYPE>(GEOMETRY_TYPE::GEO_TILES_START + 1);
 
 	decorativeMode = false;
+	renderMode = RENDER_ALL;
 
 	camera.Init(Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 1), Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
@@ -160,6 +160,14 @@ void LevelEditor::Update(double dt)
 	else if (Input::GetInstance()->IsKeyReleased('D'))
 	{
 		decorativeMode = !decorativeMode;
+	}
+
+	else if (Input::GetInstance()->IsKeyReleased('0'))
+	{
+		int v = renderMode;
+		if (++v >= RENDER_COUNT)
+			v = 0;
+		renderMode = static_cast<RENDERMODE_STATE>(v);
 	}
 
 	static bool cannotPasteYet = true; //after pressing Left-Click, you must let go of left click once before u can start placing blocks
@@ -486,6 +494,12 @@ void LevelEditor::Render()
 	for (std::vector<GameObject*>::iterator it = gridObjects.begin(); it != gridObjects.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
+
+		if (renderMode == RENDER_SOLID && go->type == GameObject::GO_TILE_DECORATIVE)
+			continue;
+		else if (renderMode == RENDER_DECORATIVE && go->type == GameObject::GO_TILE)
+			continue;
+
 		float angle = Math::RadianToDegree(atan2(go->physics->GetNormal().y, go->physics->GetNormal().x));
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
@@ -566,6 +580,23 @@ void LevelEditor::Render()
 	ss.precision(3);
 	ss << "Decorative Mode " << (decorativeMode ? "ENABLED" : "Disabled");
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color((decorativeMode ? 0 : 1), (decorativeMode ? 1 : 0), 0), 3, 0, 79);
+
+	ss.str("");
+	ss.precision(3);
+	switch (renderMode)
+	{
+	case RENDER_ALL:
+		ss << "ALL TILES SHOWN";
+		break;
+	case RENDER_SOLID:
+		ss << "ONLY SOLID TILES SHOWN";
+		break;
+	case RENDER_DECORATIVE:
+		ss << "ONLY DECORATIVE TILES SHOWN";
+		break;
+	}
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0,1,0), 3, 0, 76);
+
 
 
 	//int line = 88;
