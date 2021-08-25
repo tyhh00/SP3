@@ -33,12 +33,6 @@
     <Filter Include="Header Files\GameStateManagement">
       <UniqueIdentifier>{2ac4f12d-650b-4433-8d25-3bcfd0f7eef1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Enemies">
-      <UniqueIdentifier>{f97e5982-d90b-47d1-86ab-9c49c1e58bce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Enemies">
-      <UniqueIdentifier>{250eb8ee-5db9-4fc9-8d90-5d099e364722}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Bullets">
       <UniqueIdentifier>{2e274b80-99a5-407a-97b4-d47a7d91a0e4}</UniqueIdentifier>
     </Filter>
@@ -62,6 +56,24 @@
     </Filter>
     <Filter Include="Source Files\Buttons">
       <UniqueIdentifier>{d80baf97-911f-4225-85cf-48499c139b6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObjects">
+      <UniqueIdentifier>{2d691390-865d-4dd4-a500-fdaa0e2f63c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObjects\Enemies">
+      <UniqueIdentifier>{f97e5982-d90b-47d1-86ab-9c49c1e58bce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObjects">
+      <UniqueIdentifier>{56789151-4b4f-4138-b5ab-dd7d8d64008c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObjects\Enemies">
+      <UniqueIdentifier>{250eb8ee-5db9-4fc9-8d90-5d099e364722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Abilities">
+      <UniqueIdentifier>{ec0e668e-22dd-4865-8228-d650ca04be48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Abilities">
+      <UniqueIdentifier>{66532af8-dbf7-4377-bbaf-f0ddcaaabe7d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,9 +108,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\SceneBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\LevelEditor.cpp">
@@ -158,20 +167,14 @@
     <ClCompile Include="Source\Item.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Portal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SceneLobby.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\Enemy.cpp">
-      <Filter>Source Files\Enemies</Filter>
+      <Filter>Source Files\GameObjects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Source\Ghost.cpp">
-      <Filter>Source Files\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Ability.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameObjects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Source\SceneRobot.cpp">
       <Filter>Source Files\Scenes</Filter>
@@ -183,7 +186,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\PlasmaRobot.cpp">
-      <Filter>Source Files\Enemies</Filter>
+      <Filter>Source Files\GameObjects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Source\PlasmaBullet.cpp">
       <Filter>Source Files\Bullets</Filter>
@@ -213,13 +216,10 @@
       <Filter>Source Files\Items\Consumables</Filter>
     </ClCompile>
     <ClCompile Include="Source\Tumbleweed.cpp">
-      <Filter>Source Files\Enemies</Filter>
+      <Filter>Source Files\GameObjects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Source\GrimReaper.cpp">
-      <Filter>Source Files\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Dash.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameObjects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Source\Grappling.cpp">
       <Filter>Source Files</Filter>
@@ -252,7 +252,7 @@
       <Filter>Source Files\Buttons</Filter>
     </ClCompile>
     <ClCompile Include="Source\Monkey.cpp">
-      <Filter>Source Files\Enemies</Filter>
+      <Filter>Source Files\GameObjects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Source\Bone.cpp">
       <Filter>Source Files\Items\Consumables</Filter>
@@ -266,14 +266,26 @@
     <ClCompile Include="Source\UIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Campfire.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Campfire.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Tombstone.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Dash.cpp">
+      <Filter>Source Files\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Portal.cpp">
+      <Filter>Source Files\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Ability.cpp">
+      <Filter>Source Files\Abilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -281,9 +293,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Light.h">
@@ -317,9 +326,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\LevelEditor.h">
@@ -394,20 +400,14 @@
     <ClInclude Include="Source\SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Portal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\SceneLobby.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Enemy.h">
-      <Filter>Header Files\Enemies</Filter>
+      <Filter>Header Files\GameObjects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Source\Ghost.h">
-      <Filter>Header Files\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Ability.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GameObjects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneRobot.h">
       <Filter>Header Files\Scenes</Filter>
@@ -419,7 +419,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\PlasmaRobot.h">
-      <Filter>Header Files\Enemies</Filter>
+      <Filter>Header Files\GameObjects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Source\PlasmaBullet.h">
       <Filter>Header Files\Bullets</Filter>
@@ -449,16 +449,10 @@
       <Filter>Header Files\Items\Consumables</Filter>
     </ClInclude>
     <ClInclude Include="Source\Tumbleweed.h">
-      <Filter>Header Files\Enemies</Filter>
+      <Filter>Header Files\GameObjects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Source\GrimReaper.h">
-      <Filter>Header Files\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Dash.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Grappling.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GameObjects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Source\FireTorch.h">
       <Filter>Header Files\Items\Weapons</Filter>
@@ -488,7 +482,7 @@
       <Filter>Header Files\Buttons</Filter>
     </ClInclude>
     <ClInclude Include="Source\Monkey.h">
-      <Filter>Header Files\Enemies</Filter>
+      <Filter>Header Files\GameObjects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Source\Bone.h">
       <Filter>Header Files\Items\Consumables</Filter>
@@ -502,14 +496,32 @@
     <ClInclude Include="Source\UIManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Campfire.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\GameObject.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Campfire.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Tombstone.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Grappling.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Portal.h">
+      <Filter>Header Files\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Dash.h">
+      <Filter>Header Files\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Ability.h">
+      <Filter>Header Files\Abilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
