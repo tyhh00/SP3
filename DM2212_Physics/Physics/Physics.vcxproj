@@ -211,6 +211,7 @@
     <ClCompile Include="Source\Inventory.cpp" />
     <ClCompile Include="Source\Item.cpp" />
     <ClCompile Include="Source\Physics.cpp" />
+    <ClCompile Include="Source\Trident.cpp" />
     <ClCompile Include="Source\Tumbleweed.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
     <ClCompile Include="Source\Weapon.cpp" />
@@ -281,6 +282,7 @@
     <ClInclude Include="Source\Inventory.h" />
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\Physics.h" />
+    <ClInclude Include="Source\Trident.h" />
     <ClInclude Include="Source\Tumbleweed.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />

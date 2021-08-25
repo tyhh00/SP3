@@ -21,6 +21,7 @@ public:
 		I_BATTERY,
 		I_FIRETORCH,
 		I_GRAPPLER,
+		I_TRIDENT,
 		I_TOTAL
 	};
 
