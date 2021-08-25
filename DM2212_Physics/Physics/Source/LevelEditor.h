@@ -41,6 +41,14 @@ enum SCROLLER_STATE
 	SCROLLER_GEOSWITCHER
 };
 
+enum RENDERMODE_STATE
+{
+	RENDER_ALL,
+	RENDER_SOLID,
+	RENDER_DECORATIVE,
+	RENDER_COUNT
+};
+
 //LevelEditor itself will be a scene
 //Since we dont need GO_Type, we just use GEO_TYPE(Since its directly working with art)
 class LevelEditor : public SceneBase
@@ -74,6 +82,8 @@ protected:
 	double canSnapRotateIn;
 	GEOMETRY_TYPE scrolledGeo;
 
+	bool decorativeMode;
+	RENDERMODE_STATE renderMode;
 
 public:
 	LevelEditor();

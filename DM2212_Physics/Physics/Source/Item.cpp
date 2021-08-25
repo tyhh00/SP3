@@ -18,6 +18,15 @@ Item::Item(GROUP_TYPE _groupType, ITEM_TYPE _itemType, int _quantity, bool _isSt
 {
 }
 
+Item::Item(GROUP_TYPE _groupType, ITEM_TYPE _itemType, int _quantity, bool _isStackable)
+	: groupType(_groupType)
+	, itemType(_itemType)
+	, quantity(_quantity)
+	, isStackable(_isStackable)
+	, scene(NULL)
+{
+}
+
 Item::~Item()
 {
 }

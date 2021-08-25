@@ -25,6 +25,8 @@ void SceneManager::init()
 	graveyard->Init();
 	robot = new SceneRobot();
 	robot->Init();
+	ocean = new SceneOcean();
+	ocean->Init();
 	std::cout << "FINISHED INITTING ALL SCENES" << std::endl;
 }
 
@@ -46,6 +48,9 @@ void SceneManager::setScene(worlds sceneType)
 		break;
 	case w_robot:
 		activeScene = robot;
+		break;
+	case w_ocean:
+		activeScene = ocean;
 		break;
 	}
 	activeScene->InitLights();
@@ -79,5 +84,6 @@ void SceneManager::destroy()
 	graveyard->Exit();
 	levelEditor->Exit();
 	robot->Exit();
+	ocean->Exit();
 }
 

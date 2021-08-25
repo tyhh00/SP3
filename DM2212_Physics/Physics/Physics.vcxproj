@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Recall.cpp" />
     <ClCompile Include="Source\GameManager.cpp" />
     <ClCompile Include="Source\Battery.cpp" />
     <ClCompile Include="Source\Bone.cpp" />
@@ -207,6 +208,7 @@
     <ClCompile Include="Source\SceneJungle.cpp" />
     <ClCompile Include="Source\SceneLobby.cpp" />
     <ClCompile Include="Source\SceneMainMenu.cpp" />
+    <ClCompile Include="Source\SceneOcean.cpp" />
     <ClCompile Include="Source\ScenePhysics.cpp" />
     <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\SceneRobot.cpp" />
@@ -227,6 +229,7 @@
     <ClCompile Include="Source\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Recall.h" />
     <ClInclude Include="Source\GameManager.h" />
     <ClInclude Include="Source\Battery.h" />
     <ClInclude Include="Source\Bone.h" />
@@ -285,6 +288,7 @@
     <ClInclude Include="Source\SceneJungle.h" />
     <ClInclude Include="Source\SceneLobby.h" />
     <ClInclude Include="Source\SceneMainMenu.h" />
+    <ClInclude Include="Source\SceneOcean.h" />
     <ClInclude Include="Source\ScenePhysics.h" />
     <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\SceneRobot.h" />

@@ -25,6 +25,7 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
 	, lobbyButtonMesh(NULL)
 	, retryButtonMesh(NULL)
 	, menuBG(NULL)
+	, buttonHighlight(NULL)
 {
 
 }
@@ -63,6 +64,9 @@ bool CPlayGameState::Init(void)
 	menuBG = MeshBuilder::GenerateQuad("menu bg", Color(1, 1, 1), 1.0f);
 	menuBG->textureID = LoadTGA("Image/MenuBG.tga");
 
+	Mesh* highlight = MeshBuilder::GenerateQuad("Button Hover Highlight", Color(1, 1, 1), 1.0f);
+	highlight->textureID = LoadTGA("Image/ButtonHighlightA.tga");
+
 	Button* menuBGButton = ButtonFactory::createNoTextButton("menuBG", 40, 30,
 												30, 40, menuBG);
 	Button* resumeButton = ButtonFactory::createNoTextButton("resume", 40, 30,
@@ -71,13 +75,18 @@ bool CPlayGameState::Init(void)
 												15, 7, lobbyButtonMesh);
 	Button* retryButton = ButtonFactory::createNoTextButton("retry", 40, 30,
 												15, 7, retryButtonMesh);
+	buttonHighlight = ButtonFactory::createNoTextButton("highlight", 40, 30,
+		16, 8, highlight);
+
 	menuBGButton->disable();
 	resumeButton->disable();
 	lobbyButton->disable();
 	retryButton->disable();
+	buttonHighlight->disable();
 	buttonManager->addButton(resumeButton);
 	buttonManager->addButton(lobbyButton);
 	buttonManager->addButton(retryButton);
+	buttonManager->addButton(buttonHighlight);
 	buttonManager->addButton(menuBGButton);
 
 	currentState = DEFAULT;
@@ -103,10 +112,15 @@ bool CPlayGameState::Update(const double dElapsedTime)
 
 	UIManager::GetInstance()->Update(dElapsedTime);
 
-
+	buttonManager->deactivateButton("highlight");
 	buttonManager->Update(sceneManager->getScene(), dElapsedTime);
 	for (auto button : buttonManager->getButtonsInteracted())
 	{
+		if (button->hovering && button->buttonClicked->getName() != "menuBG")
+		{
+			buttonManager->activateButton("highlight");
+			buttonHighlight->setOrigin(button->buttonClicked->getOriginX(), button->buttonClicked->getOriginY());
+		}
 		if (button->justClicked)
 		{
 			if (button->buttonClicked->getName() == "resume")

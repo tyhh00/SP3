@@ -4,7 +4,7 @@
 #include "MeshBuilder.h"
 
 
-PortalAbility::PortalAbility() : Ability('Z', ABILITY_PORTAL)
+PortalAbility::PortalAbility() : Ability('Z', ABILITY_PORTAL, 10.0f)
 {
 	ghost_portal = false;
 	ghost_player = false;
@@ -15,7 +15,6 @@ PortalAbility::PortalAbility() : Ability('Z', ABILITY_PORTAL)
 
 	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 2.0f);
 	portalSprite->textureID = LoadTGA("Image/PortalTravelSprite.tga");
-
 
 	playerActiveState = true;
 	conditionsMet = false;

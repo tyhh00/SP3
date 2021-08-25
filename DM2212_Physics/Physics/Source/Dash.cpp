@@ -4,7 +4,7 @@
 #include "MeshBuilder.h"
 
 
-DashAbility::DashAbility() : Ability('Q', ABILITY_DASH)
+DashAbility::DashAbility() : Ability('Q', ABILITY_DASH, 10.f)
 {
 	input = Input::GetInstance();
 	dashTimer = 0;
@@ -20,7 +20,7 @@ DashAbility::~DashAbility()
 
 void DashAbility::Update(double dt)
 {
-	if (input->IsKeyPressed('Q'))
+	if (input->IsKeyPressed(buttonChar))
 	{
 		if (!playerPhysics->GetVelocity().IsZero() && !isDashing)
 			isDashing = true;

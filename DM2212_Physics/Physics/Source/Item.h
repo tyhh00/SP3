@@ -30,6 +30,7 @@ public:
 
 	Item();
 	Item(GROUP_TYPE, ITEM_TYPE, int _quantity, bool _isStackable, Mesh* mesh);
+	Item(GROUP_TYPE, ITEM_TYPE, int _quantity, bool _isStackable);
 	~Item();
 	virtual void Init() = 0;
 	virtual void Update(double dt) = 0;
