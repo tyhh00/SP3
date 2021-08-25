@@ -14,18 +14,19 @@ public:
 	Dragon();
 	~Dragon();
 
-	void Init(SceneBase* scene, Inventory* inventory, Vector3& target); // keep target only if you need to access player pos
+	void Init(SceneBase* scene, Vector3& target, int numParts); // keep target only if you need to access player pos
 	void Update(double dt);
+	void Render(SceneBase* scene);
+	float convertidk(float pain);
 
 private:
 	enum ENEMY_STATE {
 		INACTIVE, // default state, not moving
-		ROLL,
-
+		SINCURVE,
+		ATTACK,
+		DEAD,
 		GSTATE_TOTAL
 	};
-
-	float roll_speed;
 
 	float activeRange;
 	
@@ -36,6 +37,10 @@ private:
 	SpriteAnimation* animatedSprites;
 	Inventory* inventory;
 
+	std::vector<GameObject*> dragon;
+	float angle; 
+	float curve;
+	double curveTimer;
 };
 
 
