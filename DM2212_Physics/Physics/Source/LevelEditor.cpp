@@ -32,6 +32,8 @@ void LevelEditor::Init()
 	m_worldHeight = 300;//144
 	m_worldWidth = 256;
 
+	mapLoaded = false;
+
 	stackOnGrid = true;
 
 	snapPosToGrid = true;
@@ -39,6 +41,8 @@ void LevelEditor::Init()
 
 	canScrollIn = scrollingSpeed;
 	scrolledGeo = static_cast<GEOMETRY_TYPE>(GEOMETRY_TYPE::GEO_TILES_START + 1);
+
+	decorativeMode = false;
 
 	camera.Init(Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 1), Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
@@ -49,7 +53,7 @@ void LevelEditor::Init()
 bool LevelEditor::LoadMap(std::string filename)
 {
 	mapName = filename;
-	
+	mapLoaded = true;
 	return (LevelLoader::GetInstance()->LoadTiles(filename, this->meshList, this->tileSize, gridObjects, gridLength, gridHeight));
 }
 
@@ -68,10 +72,18 @@ void LevelEditor::SaveMap()
 
 		for (auto& go : gridObjects)
 		{
-			file << go->geoTypeID << ":" <<
+			std::stringstream ss;
+			ss << go->geoTypeID << ":" <<
 				go->pos.x << "," << go->pos.y << "," << go->pos.z << ":" <<
 				go->physics->GetNormal().x << "," << go->physics->GetNormal().y << "," << go->physics->GetNormal().z << ":" <<
-				go->scale.x / (tileSize[go->geoTypeID]->gridLength * gridLength) << "," << go->scale.y / (tileSize[go->geoTypeID]->gridHeight  * gridHeight) << "," << go->scale.z / gridLength << std::endl;
+				go->scale.x / (tileSize[go->geoTypeID]->gridLength * gridLength) << "," << go->scale.y / (tileSize[go->geoTypeID]->gridHeight * gridHeight) << "," << go->scale.z / gridLength;
+				
+			if (go->type == GameObject::GO_TILE_DECORATIVE)
+			{
+				ss << ":DECORATIVE";
+			}
+
+			file << ss.str() << std::endl;
 		}
 
 		DEBUG_MSG("Saved " << mapName);
@@ -143,6 +155,11 @@ void LevelEditor::Update(double dt)
 	else if (Input::GetInstance()->IsKeyReleased('2'))
 	{
 		snapRotToGrid = !snapRotToGrid;
+	}
+
+	else if (Input::GetInstance()->IsKeyReleased('D'))
+	{
+		decorativeMode = !decorativeMode;
 	}
 
 	static bool cannotPasteYet = true; //after pressing Left-Click, you must let go of left click once before u can start placing blocks
@@ -357,7 +374,12 @@ void LevelEditor::Update(double dt)
 
 				if (!dup && !cannotPasteYet)
 				{
-					gridObjects.push_back(heldOnTo->Clone());
+					GameObject* clone = heldOnTo->Clone();
+					if (decorativeMode)
+						clone->type = GameObject::GO_TILE_DECORATIVE;
+					else
+						clone->type = GameObject::GO_TILE;
+					gridObjects.push_back(clone);
 					pastedOnce = true;
 				}
 			}
@@ -539,6 +561,12 @@ void LevelEditor::Render()
 	ss.precision(3);
 	ss << "Snap Rotation " << (snapRotToGrid? "ENABLED" : "Disabled");
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color((snapRotToGrid ? 0 : 1), (snapRotToGrid ? 1 : 0), 0), 3, 0, 82);
+
+	ss.str("");
+	ss.precision(3);
+	ss << "Decorative Mode " << (decorativeMode ? "ENABLED" : "Disabled");
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color((decorativeMode ? 0 : 1), (decorativeMode ? 1 : 0), 0), 3, 0, 79);
+
 
 	//int line = 88;
 

@@ -218,9 +218,6 @@
     <ClCompile Include="Source\GrimReaper.cpp">
       <Filter>Source Files\GameObjects\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Grappling.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\FireTorch.cpp">
       <Filter>Source Files\Items\Weapons</Filter>
     </ClCompile>
@@ -292,6 +289,9 @@
     </ClCompile>
     <ClCompile Include="Source\GameObject.cpp">
       <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Grappling.cpp">
+      <Filter>Source Files\Abilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -517,9 +517,6 @@
     <ClInclude Include="Source\Tombstone.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Grappling.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Portal.h">
       <Filter>Header Files\Abilities</Filter>
     </ClInclude>
@@ -534,6 +531,9 @@
     </ClInclude>
     <ClInclude Include="Source\SceneOcean.h">
       <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Grappling.h">
+      <Filter>Header Files\Abilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
