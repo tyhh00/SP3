@@ -32,6 +32,7 @@ void Trident::Update(double dt)
 	if (input->IsMousePressed(0) && tridentGO == nullptr)
 	{
 		mouseDownPos.Set(mouseposx, mouseposy, 0);
+		camera->SetMode(Camera::CENTER);
 	}
 	if (input->IsMouseReleased(0) && tridentGO == nullptr)
 	{
@@ -42,6 +43,7 @@ void Trident::Update(double dt)
 		Vector3 vel = mouseDownPos - mousePos;
 		tridentGO->physics->SetVelocity(vel);
 		GOmanager->AddGO(tridentGO);
+		camera->SetMode(Camera::EDGE);
 	}
 	if (tridentGO)
 	{
