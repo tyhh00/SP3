@@ -1,4 +1,5 @@
 #include "Recall.h"
+#include "Debug.h"
 
 RecallAbility::RecallAbility(GameObject* assigned, double recallTime)
 	: Ability('Z', ABILITY_RECALL, 10.0)
@@ -6,6 +7,7 @@ RecallAbility::RecallAbility(GameObject* assigned, double recallTime)
 	, recallTime(recallTime)
 	, recallActive(false)
 	, elapsed(0.0)
+	, lastActive(0.0)
 {}
 
 RecallAbility::~RecallAbility() {}
@@ -18,20 +20,31 @@ void RecallAbility::Update(double dt)
 
 	//Ability Management
 	elapsed += dt;
+	lastActive += dt;
 	if (assigned && !recallActive)
 	{
 		bool add = true;
 
 		//If Queue at the end
-		if (pos_queue.size() > 0 && elapsed - pos_queue.back().first > recallTime)
+		if (pos_queue.size() > 0 && elapsed - pos_queue.at(0).first > recallTime)
 		{
 			pos_queue.erase(pos_queue.begin());
 		}
-		else
+		if (pos_queue.size() == 0)
 		{
-			if( !(pos_queue.size() > 0 && (pos_queue.at(0).second- assigned->pos).LengthSquared() < 0.1 ))
-				pos_queue.push_back(std::pair<double, Vector3>(elapsed, assigned->pos));
+			if (lastActive > recallTime)
+			{
+				DEBUG_MSG("Pushback pos");
+				pos_queue.push_back(std::pair<double, Vector3>(elapsed, Vector3(assigned->pos)));
+			}
 		}
+		else if (!(pos_queue.at(pos_queue.size() - 1).second - assigned->pos).LengthSquared() < 0.05
+			&& lastActive > recallTime)
+		{
+			DEBUG_MSG("Pushback pos");
+			pos_queue.push_back(std::pair<double, Vector3>(elapsed, Vector3(assigned->pos)));
+		}
+		
 	}
 
 	//Activating Ability
@@ -39,12 +52,14 @@ void RecallAbility::Update(double dt)
 		&& !recallActive
 		&& Input::GetInstance()->IsKeyPressed(buttonChar) 
 		&& assigned
+		&& lastActive > recallTime
 		&& elapsed - pos_queue.at(0).first > recallTime-0.3
 		)
 	{
 		abilityCD_timeleft = abilityCooldownDuration;
 		recallActive = true;
 		assigned->physics->SetMovable(false);
+		lastActive = 0.0;
 	}
 
 	if (recallActive)
@@ -53,10 +68,10 @@ void RecallAbility::Update(double dt)
 		{
 			if (pos_queue.size() > 0)
 			{
-				Vector3 pos = pos_queue.back().second;
+				Vector3 pos = pos_queue.at(pos_queue.size()-1).second;
 				assigned->pos = pos;
 				assigned->physics->pos = pos;
-				pos_queue.pop_back();
+				pos_queue.erase(pos_queue.end()-1);
 			}
 			else
 			{

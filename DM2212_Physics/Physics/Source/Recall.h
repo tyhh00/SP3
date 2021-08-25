@@ -21,6 +21,8 @@ private:
 	double recallTime;
 	bool recallActive;
 
+	double lastActive;
+
 	std::vector<std::pair<double, Vector3>> pos_queue;
 };
 

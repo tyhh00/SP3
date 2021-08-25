@@ -236,6 +236,8 @@ public:
 		GEO_OCEAN_CRAB = 156,
 		GEO_OCEAN_DRAGONHEAD = 157,
 
+		GEO_COIN = 158,
+
 		//Tiles End
 		GEO_TILES_END,
 

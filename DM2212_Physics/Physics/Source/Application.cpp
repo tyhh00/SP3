@@ -18,6 +18,8 @@
 #include "GameStateManagement/LobbyState.h"
 #include "GameStateManagement/PlayGameState.h"
 
+#include "GameManager.h"
+
 bool Application::quit = false;
 
 GLFWwindow* m_window;
@@ -116,6 +118,8 @@ void Application::Init()
 	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
 	
 	UIManager::GetInstance()->Init();
+
+	GameManager::GetInstance()->Init();
 
 	//create gamestates
 	CGameStateManager::GetInstance()->AddGameState("IntroState", new CIntroState());

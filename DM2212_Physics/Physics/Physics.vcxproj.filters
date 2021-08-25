@@ -301,6 +301,7 @@
     </ClCompile>
     <ClCompile Include="Source\LightBullet.cpp">
       <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Recall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -557,6 +558,7 @@
     </ClInclude>
     <ClInclude Include="Source\LightBullet.h">
       <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Recall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
