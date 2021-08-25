@@ -7,6 +7,8 @@ class GameManager : public CSingletonTemplate<GameManager>
 
 public:
 
+	void Init();
+
 	bool getGameOverStatus();
 	void setGameOver(bool);
 
