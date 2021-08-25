@@ -4,7 +4,7 @@
 #include "MeshBuilder.h"
 
 
-GrapplingAbility::GrapplingAbility() : Ability('Z', ABILITY_GRAPPLER)
+GrapplingAbility::GrapplingAbility() : Ability('Z', ABILITY_GRAPPLER, 5.0f)
 {
 	//Store keyboard instance
 	input = Input::GetInstance();

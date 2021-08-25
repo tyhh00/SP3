@@ -4,7 +4,7 @@
 #include "MeshBuilder.h"
 
 
-DashAbility::DashAbility() : Ability('Q', ABILITY_DASH)
+DashAbility::DashAbility() : Ability('Q', ABILITY_DASH, 10.f)
 {
 	input = Input::GetInstance();
 	dashTimer = 0;

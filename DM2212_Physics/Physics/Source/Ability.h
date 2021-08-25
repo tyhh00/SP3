@@ -22,7 +22,7 @@ public:
 	Ability(char buttonChar, ABILITY_TYPE type, double abilityDurationCooldown);
 	~Ability();
 
-	virtual void Update(double dt);
+	virtual void Update(double dt) = 0;
 	virtual void Render() = 0;
 	virtual ABILITY_TYPE GetAbilityType() = 0;
 
