@@ -85,12 +85,15 @@ void GrapplingAbility::Update(double dt)
 				grapplingHook.active = false;
 			}
 		}
+		std::cout << maxVel << std::endl;
 	}
 	else if (playerPhysics != nullptr)
 	{
-		if (playerPhysics->GetVelocity().x < 5 && playerPhysics->GetVelocity().x > -5)
+		if (playerPhysics->GetVelocity().x < 1 && playerPhysics->GetVelocity().x > -1)
 		{
+			std::cout << "DONE" << std::endl;
 			maxVel = 20;
+			endGrappled = true;
 		}
 	}
 }
@@ -98,7 +101,7 @@ void GrapplingAbility::Update(double dt)
 void GrapplingAbility::UpdatePlayer(Vector3& pos, Physics* _playerPhysics, float& _maxVel)
 {
 	playerPhysics = _playerPhysics;
-	if (isGrappling)
+	if (isGrappling || !endGrappled)
 	{
 		playerPos = pos;
 		_maxVel = maxVel;

@@ -24,6 +24,7 @@ public:
 		I_BONE,
 		I_SKULL,
 		I_PICKAXE,
+		I_TRIDENT,
 		I_TOTAL
 	};
 
