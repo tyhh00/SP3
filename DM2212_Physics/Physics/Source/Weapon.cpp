@@ -8,6 +8,10 @@ Weapon::Weapon(ITEM_TYPE type, Mesh* _mesh) : Item(G_WEAPON, type, 1, false, mes
 	mesh = _mesh;
 }
 
+Weapon::Weapon(ITEM_TYPE type) : Item(G_WEAPON, type, 1, false)
+{
+}
+
 void Weapon::Init()
 {
 	

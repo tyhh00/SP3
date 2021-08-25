@@ -198,8 +198,8 @@ void SceneLobby::Update(double dt)
 		portal_ocean->Open();
 		if (Application::IsKeyPressed(VK_RETURN))
 		{
-			//sceneManager->setScene(w_ocean);
-			//CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+			sceneManager->setScene(w_ocean);
+			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		}
 	}
 	else {

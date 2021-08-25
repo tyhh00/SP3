@@ -2,35 +2,36 @@
 #define TRIDENT_H
 #include "Weapon.h"
 #include "Input.h"
+#include "Camera.h"
+#include "GameObjectManager.h"
+
+class TridentGO : public GameObject {
+public:
+	TridentGO();
+	~TridentGO();
+
+	void Init();
+	void Update(double dt);
+};
 
 class Trident : public Weapon {
 public:
 	Trident();
 	~Trident();
 
-	void Init();
+	void Init(Camera* cam, GameObjectManager* goManager, Vector3& pos);
 	void Update(double dt);
 	bool IsEqual(Item* item1);
 	
-	bool isWithinLight(Vector3 objPos);
-	bool isIntensified();
-	
 private:
-
-	bool active;
-	bool intensified;
-
-	float battery;
-	float batt_usage_rate;
-	float rate_multiplier;
-
-	float currBatt;
-	float maxBatt;
-
-	float light_radius;
-	Vector3 light_pos;
-
 	Input* input;
+	void CursorToWorldPosition(double& theX, double& theY);
+	bool checkWithinScreen();
+	Camera* camera;
+	GameObjectManager* GOmanager;
+	TridentGO* tridentGO;
+	Vector3* playerPos;
+	Vector3 mouseDownPos;
 };
 
 
