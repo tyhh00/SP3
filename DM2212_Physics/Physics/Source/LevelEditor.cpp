@@ -30,7 +30,7 @@ void LevelEditor::Init()
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	m_worldHeight = 300;//144
-	m_worldWidth = 256;
+	m_worldWidth = 1000;//256
 
 	mapLoaded = false;
 

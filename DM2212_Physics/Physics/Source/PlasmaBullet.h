@@ -17,7 +17,7 @@ class PlasmaBullet : public Bullet
 
 	const float AOESpread = 2.0f; //How much power it loses as the explosion spreads
 public:
-	PlasmaBullet(Vector3 scale, GameObject* attachedPlayer);
+	PlasmaBullet(Vector3 scale, GameObject* attachedPlayer, float bulletSpeed = 100);
 	~PlasmaBullet();
 
 	//GO Virtual Functions

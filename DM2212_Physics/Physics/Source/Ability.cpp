@@ -5,7 +5,7 @@ Ability::Ability(char buttonChar, ABILITY_TYPE type, double abilityCooldownDurat
 	, type(type)
 	, camera(nullptr)
 	, goManager(nullptr)
-	, abilityCooldownDuration(5.0)
+	, abilityCooldownDuration(abilityCooldownDuration)
 	, abilityCD_timeleft(0.0)
 {}
 
@@ -46,7 +46,7 @@ double Ability::GetCooldownLeft()
 
 double Ability::GetCooldownDuration()
 {
-	return this->abilityCooldownDuration;;
+	return this->abilityCooldownDuration;
 }
 
 double Ability::GetCooldownTillReadyPercentage()
