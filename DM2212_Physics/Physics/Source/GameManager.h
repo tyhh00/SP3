@@ -28,7 +28,6 @@ public:
 protected:
 	GameManager();
 	~GameManager();
-	void Init();
 
 	bool gameOver;
 	double gameElapsed; //From load of lobby scene till end of game
