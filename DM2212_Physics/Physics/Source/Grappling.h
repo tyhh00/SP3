@@ -48,6 +48,7 @@ private:
 	float maxVel;
 	float gradualVelTimer;
 	bool justGrappled = false;
+	bool endGrappled = false;
 
 	GrapplingHook grapplingHook;
 

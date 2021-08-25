@@ -62,7 +62,7 @@ void Inventory::Update(double dt)
 	{
 		if (i < weaponSize)
 		{
-			buttonManager->getButtonByName("WeaponItem" + std::to_string(i + 1))->setQuadImage(itemVector[i]->GetItemMesh());
+			buttonManager->getButtonByName("WeaponItem" + std::to_string(i + 1))->setQuadImage(weaponVector[i]->GetItemMesh());
 		}
 	}
 
@@ -72,7 +72,7 @@ void Inventory::Update(double dt)
 	{
 		if (i < consumableSize)
 		{
-			buttonManager->getButtonByName("ConsumableItem" + std::to_string(i + 1))->setQuadImage(itemVector[i]->GetItemMesh());
+			buttonManager->getButtonByName("ConsumableItem" + std::to_string(i + 1))->setQuadImage(consumableVector[i]->GetItemMesh());
 		}
 	}
 
