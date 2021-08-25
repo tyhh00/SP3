@@ -154,6 +154,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\LightBullet.cpp" />
+    <ClCompile Include="Source\Pistol.cpp" />
+    <ClCompile Include="Source\Crab.cpp" />
     <ClCompile Include="Source\Recall.cpp" />
     <ClCompile Include="Source\GameManager.cpp" />
     <ClCompile Include="Source\Battery.cpp" />
@@ -229,6 +232,9 @@
     <ClCompile Include="Source\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\LightBullet.h" />
+    <ClInclude Include="Source\Pistol.h" />
+    <ClInclude Include="Source\Crab.h" />
     <ClInclude Include="Source\Recall.h" />
     <ClInclude Include="Source\GameManager.h" />
     <ClInclude Include="Source\Battery.h" />

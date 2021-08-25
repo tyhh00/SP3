@@ -11,6 +11,8 @@
 #include "Campfire.h"
 #include "Monkey.h"
 #include "Player.h"
+#include "LightBullet.h"
+#include "Pistol.h"
 #include "Input.h"
 #include "GameObjectManager.h"
 #include "Grappling.h"

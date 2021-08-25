@@ -5,7 +5,7 @@
 #include "LoadTGA.h"
 #include "Flashlight.h"
 
-Monkey::Monkey() : Enemy(GY_MONKEY)
+Monkey::Monkey() : Enemy(JG_MONKEY)
 {
 }
 
@@ -13,16 +13,18 @@ Monkey::~Monkey()
 {
 }
 
-void Monkey::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
+void Monkey::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, Weapon* _weapon)
 {
 	this->scene = scene;
 	this->inventory = inventory;
+	this->weapon = _weapon;
 	playerPos = &target;
 
 	state = IDLE;
 
 	movement_speed = 20.0f;
 	activeRange = 40.0f;
+	shootTimer = 2;
 
 	currentHP = 7;
 	maxHP = 7; // IN SECONDS
@@ -86,8 +88,16 @@ void Monkey::Update(double dt)
 		}
 		else
 		{
+			shootTimer += dt;
 			if (!(*playerPos - pos).IsZero())
+			{
 				physics->SetVelocity(Vector3((*playerPos - pos).Normalized().x * movement_speed, physics->GetVelocity().y, physics->GetVelocity().z));
+				if (shootTimer >= 2)
+				{
+					weapon->GetBulletSpawner()->SpawnBullet(pos, Vector3((*playerPos - pos).Normalized().x, 0, 0), Vector3(0, 1, 0));
+					shootTimer = 0;
+				}
+			}
 		}
 	}
 	break;

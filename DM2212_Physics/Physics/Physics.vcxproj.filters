@@ -293,8 +293,19 @@
     <ClCompile Include="Source\Grappling.cpp">
       <Filter>Source Files\Abilities</Filter>
     </ClCompile>
-    <ClCompile Include="Recall.cpp">
+    <ClCompile Include="Source\Recall.cpp">
+      <Filter>Source Files\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pistol.cpp">
+      <Filter>Source Files\Items\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LightBullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    <ClCompile Include="Source\Recall.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Crab.cpp">
+      <Filter>Source Files\GameObjects\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -538,8 +549,19 @@
     <ClInclude Include="Source\Grappling.h">
       <Filter>Header Files\Abilities</Filter>
     </ClInclude>
-    <ClInclude Include="Recall.h">
+    <ClInclude Include="Source\Recall.h">
+      <Filter>Header Files\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Pistol.h">
+      <Filter>Header Files\Items\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LightBullet.h">
+      <Filter>Header Files\Bullets</Filter>
+    <ClInclude Include="Source\Recall.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Crab.h">
+      <Filter>Header Files\GameObjects\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

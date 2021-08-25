@@ -158,6 +158,7 @@ void Player::Update(double dt)
 			}
 			break;
 			default:
+				abilityArray[i]->Update(dt);
 				break;
 			}
 		}
@@ -350,27 +351,6 @@ void Player::CollidedWith(GameObject* go)
 			goManager->RemoveGO(go);
 			inventory->AddItem(new Skull(1));
 			inventory->AddItem(new Bone(1));
-		}
-		break;
-	case SceneBase::GEO_JUNGLE_GRASS_BLOCK:
-		goManager->RemoveGO(go);
-		inventory->AddItem(new Apple(go->mesh));
-		break;
-	case SceneBase::GEO_JUNGLE_DIRT_BLOCK:
-		//if (inventory->GetCurrentItem() == nullptr)
-		//	break;
-		//if (inventory->GetCurrentItemType() == Item::I_FIRETORCH)
-		//	currentHP++;
-		//goManager->RemoveGO(go);
-		//inventory->AddItem(new Cheese(go->mesh));
-		if (timeout > 0) // on cooldown
-		{
-			break;
-		}
-		else
-		{
-			Monkey* monkey = dynamic_cast<Monkey*>(go);
-			monkey->StartAttackCooldown();
 		}
 		break;
 	case SceneBase::GEO_JUNGLE_FIRETORCH:
