@@ -5,7 +5,7 @@
 
 class Skull : public Consumable {
 public:
-	Skull(Mesh* mesh, int _quantity = 1);
+	Skull(int _quantity = 1);
 	void Init() override;
 	void Update(double dt) override;
 	bool IsEqual(Item* item) override;

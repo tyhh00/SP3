@@ -5,7 +5,7 @@
 
 class Bone : public Consumable {
 public:
-	Bone(Mesh* mesh, int _quantity = 1);
+	Bone(int _quantity = 1);
 	void Init() override;
 	void Update(double dt) override;
 	bool IsEqual(Item* item) override;

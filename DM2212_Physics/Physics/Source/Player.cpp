@@ -324,7 +324,7 @@ void Player::CollidedWith(GameObject* go)
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
-			inventory->AddItem(new Bone(go->mesh, 2));
+			inventory->AddItem(new Bone(2));
 		}
 		break;
 	case SceneBase::GEO_BONES_03:
@@ -332,7 +332,7 @@ void Player::CollidedWith(GameObject* go)
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
-			inventory->AddItem(new Bone(go->mesh, 3));
+			inventory->AddItem(new Bone(3));
 		}
 		break;
 	case SceneBase::GEO_BONES_10:
@@ -340,7 +340,7 @@ void Player::CollidedWith(GameObject* go)
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
-			inventory->AddItem(new Skull(go->mesh, 1));
+			inventory->AddItem(new Skull(1));
 		}
 		break;
 	case SceneBase::GEO_BONES_11:
@@ -348,8 +348,8 @@ void Player::CollidedWith(GameObject* go)
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
-			inventory->AddItem(new Skull(go->mesh, 1));
-			inventory->AddItem(new Bone(go->mesh, 1));
+			inventory->AddItem(new Skull(1));
+			inventory->AddItem(new Bone(1));
 		}
 		break;
 	case SceneBase::GEO_JUNGLE_GRASS_BLOCK:
