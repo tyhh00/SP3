@@ -341,7 +341,7 @@ void SceneBase::Init()
 	LoadTile(GEO_OCEAN_CRAB, "enemy_crab.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_DRAGONHEAD, "enemy_dragonHead.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 
-	LoadTile(GEO_COIN, "coin_tile.tga", 1, 1, SHAPE_TYPE::CIRCLE);
+	LoadTile(GEO_COIN, "coin_tile.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	
 	//Entities (Player, etc)
 

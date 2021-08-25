@@ -12,6 +12,8 @@
 #include "Player.h"
 #include "PlasmaRobot.h"
 
+#include "Coin.h"
+
 //Ability Includes
 #include "Recall.h"
 
@@ -105,7 +107,16 @@ void SceneRobot::Init()
 		}
 		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_COIN)
 		{
+			Coin* coin = new Coin(1);
+			coin->active = true;
+			coin->scale = go->scale;
+			coin->pos = go->pos;
+			coin->physics = go->physics->Clone();
+			coin->Init();
+			goManager->AddGO(coin);
 
+			delete go;
+			go = nullptr;
 		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());

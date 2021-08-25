@@ -308,6 +308,12 @@
     <ClCompile Include="Source\Crab.cpp">
       <Filter>Source Files\GameObjects\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Coin.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Dragon.cpp">
+      <Filter>Source Files\GameObjects\Enemies</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Buttons\DialogueManager.cpp">
       <Filter>Source Files\Buttons</Filter>
     </ClCompile>
@@ -566,6 +572,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Crab.h">
+      <Filter>Header Files\GameObjects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Coin.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Dragon.h">
       <Filter>Header Files\GameObjects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Source\Buttons\DialogueManager.h">

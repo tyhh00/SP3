@@ -14,6 +14,8 @@
 #include "Skull.h"
 #include "Pickaxe.h"
 #include "UIManager.h"
+#include "Coin.h"
+#include "GameManager.h"
 
 Player::Player() : input(NULL)
 , goManager(NULL)
@@ -306,6 +308,10 @@ void Player::CollidedWith(GameObject* go)
 
 	switch (go->geoTypeID)
 	{
+	case SceneBase::GEO_COIN:
+		GameManager::GetInstance()->addCoins(dynamic_cast<Coin*>(go)->getCoinVal());
+		goManager->RemoveGO(go);
+		break;
 	case SceneBase::GEO_FLASHLIGHT:
 		goManager->RemoveGO(go);
 		inventory->AddItem(new Flashlight(go->mesh));
