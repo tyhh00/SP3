@@ -116,7 +116,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 	buttonManager->Update(sceneManager->getScene(), dElapsedTime);
 	for (auto button : buttonManager->getButtonsInteracted())
 	{
-		if (button->hovering && button->buttonClicked->getName != "menuBG")
+		if (button->hovering && button->buttonClicked->getName() != "menuBG")
 		{
 			buttonManager->activateButton("highlight");
 			buttonHighlight->setOrigin(button->buttonClicked->getOriginX(), button->buttonClicked->getOriginY());
