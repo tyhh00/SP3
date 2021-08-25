@@ -82,6 +82,25 @@ void SceneOcean::Init()
 			delete go;
 			go = nullptr;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_OCEAN_CRAB)
+		{
+			Crab* crab = new Crab();
+			crab->active = true;
+			crab->scale = go->scale;
+			crab->pos = go->pos;
+			crab->physics = go->physics->Clone();
+			crab->physics->SetInelasticity(0.99f);
+			crab->physics->SetIsBouncable(false);
+			crab->Init(player->pos, Crab::LAR);
+
+			crab->AddBottomSprite();
+			crab->bottomSprite->mesh = meshList[GEO_WALL];
+			goManager->AddGO(crab);
+
+			//Delete Grid Player
+			delete go;
+			go = nullptr;
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	
