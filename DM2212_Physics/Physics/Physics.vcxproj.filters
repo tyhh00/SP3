@@ -294,7 +294,7 @@
       <Filter>Source Files\Abilities</Filter>
     </ClCompile>
     <ClCompile Include="Source\Recall.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Abilities</Filter>
     </ClCompile>
     <ClCompile Include="Source\Pistol.cpp">
       <Filter>Source Files\Items\Weapons</Filter>
@@ -545,7 +545,7 @@
       <Filter>Header Files\Abilities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Recall.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Abilities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Pistol.h">
       <Filter>Header Files\Items\Weapons</Filter>

@@ -12,7 +12,8 @@
 #include "Player.h"
 #include "PlasmaRobot.h"
 
-//...
+//Ability Includes
+#include "Recall.h"
 
 SceneRobot::SceneRobot()
 {
@@ -116,7 +117,7 @@ void SceneRobot::Init()
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);
 
-	player->SetAbilities(nullptr, nullptr);
+	player->SetAbilities(new RecallAbility(player, 3.0), nullptr);
 }
 
 void SceneRobot::Update(double dt)

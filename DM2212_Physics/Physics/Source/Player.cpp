@@ -158,6 +158,7 @@ void Player::Update(double dt)
 			}
 			break;
 			default:
+				abilityArray[i]->Update(dt);
 				break;
 			}
 		}

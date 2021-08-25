@@ -2,17 +2,17 @@
 #include "Ability.h"
 #include <vector>
 
-#include <queue>
 
-class Recall : public Ability
+class RecallAbility : public Ability
 {
 	const float recall_speed = 2.0; //Multiplier of DT so it moves 5s worth of movement in 2.5s
 public:
-	Recall(GameObject*, double recallTime);
-	~Recall();
+	RecallAbility(GameObject*, double recallTime);
+	~RecallAbility();
 
 	void Update(double dt);
 	void Render();
+	ABILITY_TYPE GetAbilityType();
 
 private:
 	GameObject* assigned;
@@ -21,6 +21,6 @@ private:
 	double recallTime;
 	bool recallActive;
 
-	std::queue<std::pair<double, Vector3>> pos_queue;
+	std::vector<std::pair<double, Vector3>> pos_queue;
 };
 
