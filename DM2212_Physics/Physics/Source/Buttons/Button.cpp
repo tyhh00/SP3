@@ -28,6 +28,16 @@ BUTTON_TYPE Button::getButtonType()
     return buttonType;
 }
 
+float Button::getOriginX()
+{
+	return UIInfo.originX;
+}
+
+float Button::getOriginY()
+{
+	return UIInfo.originY;
+}
+
 /**
  * \brief Button Destructor
  * 
@@ -114,6 +124,7 @@ void Button::Render(SceneBase* scene) {
 		if (text != nullptr) {
 			text->Render(scene);
 		}
+		
 	}
 }
 

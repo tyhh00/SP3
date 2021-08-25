@@ -8,10 +8,12 @@ Recall::Recall(GameObject* assigned, double recallTime)
 
 void Recall::Update(double dt)
 {
-	elapsed += dt;
 	abilityCD_timeleft -= dt;
 	if (abilityCD_timeleft < 0.0)
 		abilityCD_timeleft = 0.0;
+
+	//Ability Management
+	elapsed += dt;
 	if (assigned)
 	{
 		bool add = true;
@@ -26,4 +28,18 @@ void Recall::Update(double dt)
 			pos_queue.push(std::pair<double, Vector3>(elapsed, assigned->pos));
 		}
 	}
+
+	//Activating Ability
+	if (abilityCD_timeleft <= 0.0 && !recallActive)
+	{
+		abilityCD_timeleft = abilityCooldownDuration;
+		recallActive = true;
+		recallTime = 0.0;
+	}
+
+}
+
+void Recall::Render()
+{
+
 }

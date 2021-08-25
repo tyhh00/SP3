@@ -47,6 +47,9 @@ protected:
 	GAME_STATE currentState;
 	Mesh* resumeButtonMesh, *lobbyButtonMesh, *retryButtonMesh;
 	Mesh* menuBG;
+
+	Button* buttonHighlight;
+
 	ButtonManager* buttonManager;
 
 };
