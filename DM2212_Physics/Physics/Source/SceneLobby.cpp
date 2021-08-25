@@ -230,14 +230,16 @@ void SceneLobby::Update(double dt)
 	portal_ocean->Update(dt);
 	portal_robot->Update(dt);
 
+	// DIALOGUE TEST
+	if (input->IsKeyPressed('T'))
+	{
+		dialogueManager->AddDialogue(PLAYER, "TEST AAAAAAAAAAA");
+	}
+	if (input->IsKeyPressed('Y'))
+	{
+		dialogueManager->AddDialogue(GATEKEEPER, "LALALALALLALALALALALALALALALALALALALALALALALALALALAL", RIGHT);
+	}
 
-	// Updating of light things
-	//lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
-	//double mouseposx, mouseposy;
-	//CursorToWorldPosition(mouseposx, mouseposy);
-	//lights[1].position.Set(mouseposx, mouseposy, 10);
-
-	
 	if (Application::IsMousePressed(2))
 	{
 

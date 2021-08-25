@@ -45,7 +45,7 @@ public:
 
 private:
 
-	Mesh* dialogueBG;
+	Mesh* dialogueBG_left, *dialogueBG_right;
 	Mesh* personaMesh[PERSONA_TOTAL];
 	std::deque<Dialogue*> dialogueList;
 
