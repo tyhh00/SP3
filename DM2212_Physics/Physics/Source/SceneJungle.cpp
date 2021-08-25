@@ -86,7 +86,7 @@ void SceneJungle::Init()
 			monkey->physics->SetInelasticity(0.99f);
 			monkey->physics->SetIsBouncable(false);
 			monkey->physics->SetGravity(Vector3(0, 0, 0));
-			monkey->Init(this, inventory, player->pos);
+			monkey->Init(this, inventory, player->pos, new Pistol(goManager, new LightBullet(Vector3(2, 2, 2), monkey, 100), meshList[GEO_WALL]));
 
 			monkey->AddBottomSprite();
 			monkey->bottomSprite->mesh = meshList[GEO_WALL];

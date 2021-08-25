@@ -6,6 +6,7 @@
 enum BULLET_TYPE
 {
 	PLASMA,
+	LIGHT,
 	BULLET_COUNT
 };
 
@@ -24,8 +25,12 @@ public:
 	virtual void CollidedWith(GameObject*) = 0;
 	virtual GameObject* Clone() = 0;
 
+	void SetBulletSpeed(float _bulletSpeed);
+	float GetBulletSpeed();
+
 protected:
-	Bullet(Mesh* mesh, int geoTypeID, SHAPE_TYPE collisionShape, BULLET_TYPE type, Vector3 scale, bool explosive, float explosionRadius);
+	Bullet(Mesh* mesh, int geoTypeID, SHAPE_TYPE collisionShape, BULLET_TYPE type, Vector3 scale, bool explosive, float explosionRadius, float _bulletSpeed);
+	float bulletSpeed;
 private:
 	BULLET_TYPE bulletType;
 };

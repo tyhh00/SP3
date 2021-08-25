@@ -3,9 +3,9 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 
-PlasmaBullet::PlasmaBullet(Vector3 scale, GameObject* attachedPlayer)
+PlasmaBullet::PlasmaBullet(Vector3 scale, GameObject* attachedPlayer, float bulletSpeed)
 //Init with nullptr mesh and -1 geoType since we're overriding mesh with animatedSprite
-	: Bullet(nullptr, -1, SHAPE_TYPE::CIRCLE, BULLET_TYPE::PLASMA, scale, true, 5.5f)
+	: Bullet(nullptr, -1, SHAPE_TYPE::CIRCLE, BULLET_TYPE::PLASMA, scale, true, 5.5f, bulletSpeed)
 	, attachedPlayer(attachedPlayer)
 {
 	//ANIMATED SPRITE

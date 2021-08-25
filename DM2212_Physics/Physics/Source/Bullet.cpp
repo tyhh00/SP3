@@ -1,8 +1,19 @@
 #include "Bullet.h"
 
-Bullet::Bullet(Mesh* mesh, int geoTypeID, SHAPE_TYPE collisionShape, BULLET_TYPE type, Vector3 scale, bool explosive, float explosionRadius)
+void Bullet::SetBulletSpeed(float _bulletSpeed)
+{
+	bulletSpeed = _bulletSpeed;
+}
+
+float Bullet::GetBulletSpeed()
+{
+	return bulletSpeed;
+}
+
+Bullet::Bullet(Mesh* mesh, int geoTypeID, SHAPE_TYPE collisionShape, BULLET_TYPE type, Vector3 scale, bool explosive, float explosionRadius, float _bulletSpeed)
 	: GameObject(GameObject::GAMEOBJECT_TYPE::GO_BULLET, mesh, geoTypeID, collisionShape)
 	, bulletType(type)
+	, bulletSpeed(_bulletSpeed)
 {
 	this->physics->SetMovable(true);
 	this->physics->SetGravity(false);

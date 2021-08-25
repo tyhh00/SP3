@@ -43,7 +43,7 @@ void Input::Update(double dt)
 		{
 			currKeyboardStatus[i] = false;
 		}
-		if (IsKeyReleased(i))
+		if (IsKeyPressed(i) && i > 48 && i <= 125 )
 		{
 			typedEntry += i;
 		}

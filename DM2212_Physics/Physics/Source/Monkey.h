@@ -7,6 +7,7 @@
 #include "Input.h"
 #include "Enemy.h"
 #include "Inventory.h"
+#include "Weapon.h"
 
 
 class Monkey : public Enemy {
@@ -14,7 +15,7 @@ public:
 	Monkey();
 	~Monkey();
 
-	void Init(SceneBase* scene, Inventory* inventory, Vector3& target);
+	void Init(SceneBase* scene, Inventory* inventory, Vector3& target, Weapon* _weapon);
 	void Update(double dt);
 	void StartAttackCooldown();
 	bool isBeingAttacked();
@@ -30,6 +31,7 @@ private:
 
 	float movement_speed;
 	float activeRange;
+	float shootTimer;
 
 	MONKEY_STATE state;
 	double state_timer;
@@ -39,6 +41,7 @@ private:
 	
 	SpriteAnimation* animatedSprites;
 	Inventory* inventory;
+	Weapon* weapon;
 };
 
 
