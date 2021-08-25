@@ -164,7 +164,6 @@ void Player::Update(double dt)
 		}
 	}
 
-
 	curr_max_vel = Math::Clamp(curr_max_vel, MAX_VEL, 100.f);
 	physics->SetVelocity(Vector3(Math::Clamp(physics->GetVelocity().x, -curr_max_vel, curr_max_vel), physics->GetVelocity().y, physics->GetVelocity().z));
 
@@ -174,7 +173,6 @@ void Player::Update(double dt)
 
 void Player::UpdateMovement(double dt)
 {
-
 	if (mode == WASD)
 	{
 		float speed = 20.f;
