@@ -50,6 +50,8 @@ void SceneLobby::Init()
 	m_speed = 1.f;
 	Math::InitRNG();
 
+	// Dialogue Manager
+	dialogueManager = DialogueManager::GetInstance();
 	// GO Manager
 	goManager = new GameObjectManager();
 	goManager->Init();

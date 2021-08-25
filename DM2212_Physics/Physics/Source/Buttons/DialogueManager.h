@@ -12,13 +12,19 @@ enum PERSONA {
 	PERSONA_TOTAL
 };
 
+enum PERSONA_DISPLAY {
+	LEFT,
+	RIGHT
+};
+
 struct Dialogue {
-	PERSONA persona;
+	Mesh* personaIcon;
+	PERSONA_DISPLAY displayPos;
 	std::string text;
 	double lifetime;
 	
-	Dialogue(PERSONA who, std::string message, double lifetime = 2.0f)
-		: persona(who), text(message), lifetime(lifetime)
+	Dialogue(Mesh* mesh, std::string message, PERSONA_DISPLAY display_pos = LEFT, double lifetime = 2.0f)
+		: personaIcon(mesh), text(message), displayPos(display_pos), lifetime(lifetime)
 	{
 
 	}
@@ -31,13 +37,14 @@ public:
 	DialogueManager();
 	~DialogueManager();
 
-	void Init(float screenWidth, float screenHeight);
+	void Init();
 	void Update(double dt);
 	void Render(SceneBase* scene);
 
-	void AddDialogue(PERSONA who, std::string message, double lifetime = 2.0f);
+	void AddDialogue(PERSONA who, std::string message, PERSONA_DISPLAY display_pos = LEFT, double lifetime = 2.0f);
 
 private:
+
 	Mesh* dialogueBG;
 	Mesh* personaMesh[PERSONA_TOTAL];
 	std::deque<Dialogue*> dialogueList;

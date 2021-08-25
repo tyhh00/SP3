@@ -12,6 +12,7 @@
 #include "LobbyPortal.h"
 #include "GameStateManagement/GameStateManager.h"
 #include "SceneManager.h"
+#include "Buttons/DialogueManager.h"
 
 
 class SceneLobby : public SceneBase
@@ -37,6 +38,7 @@ protected:
 	Inventory* inventory;
 	Input* input;
 	GameObjectManager* goManager;
+	DialogueManager* dialogueManager;
 	Player* player;
 	LobbyPortal* portal_graveyard, *portal_jungle, *portal_ocean, *portal_robot;
 
