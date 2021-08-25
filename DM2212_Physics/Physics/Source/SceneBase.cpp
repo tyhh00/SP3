@@ -338,6 +338,9 @@ void SceneBase::Init()
 	LoadTile(GEO_LOBBY_PORTAL_ROBOT, "LOBBY_portalFrame.tga", 2, 2, SHAPE_TYPE::RECTANGLE);
 
 	LoadTile(GEO_ROBOT_ENEMY_1, "ROBOT_ENEMY_1.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+
+	LoadTile(GEO_OCEAN_CRAB, "enemy_crab.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_DRAGONHEAD, "enemy_dragonHead.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	
 	//Entities (Player, etc)
 
