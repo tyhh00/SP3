@@ -58,6 +58,8 @@ public:
 	void setQuadImage(Mesh* type);
 
 	BUTTON_TYPE getButtonType();
+	float getOriginX();
+	float getOriginY();
 
 	virtual void Render(SceneBase* scene);
 
