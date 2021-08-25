@@ -114,9 +114,11 @@ bool LevelLoader::LoadTiles(std::string filename, Mesh* meshList[], TileSetting*
 			if (split.size() >= 5)
 			{
 				std::string TILE_TYPE = split.at(4);
+				TILE_TYPE.erase(std::remove(TILE_TYPE.begin(), TILE_TYPE.end(), '\r'), TILE_TYPE.end());
 				if (TILE_TYPE == "DECORATIVE")
 				{
 					obj->type = GameObject::GO_TILE_DECORATIVE;
+					obj->enableCollision = false;
 				}
 			}
 

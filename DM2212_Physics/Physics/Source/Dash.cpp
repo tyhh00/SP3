@@ -20,7 +20,7 @@ DashAbility::~DashAbility()
 
 void DashAbility::Update(double dt)
 {
-	if (input->IsKeyPressed('Q'))
+	if (input->IsKeyPressed(buttonChar))
 	{
 		if (!playerPhysics->GetVelocity().IsZero() && !isDashing)
 			isDashing = true;

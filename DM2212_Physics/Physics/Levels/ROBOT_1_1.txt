@@ -1,4 +1,4 @@
-# Format: "TILE_ID Enum Val":"Position":"Rotation":"Scale":TILE_TYPE"
+# Format: "TILE_ID Enum Val":"Position":"Rotation":"Scale"
 GridLength: 3.5
 GridHeight: 3.5
 Tiles: 
@@ -95,6 +95,9 @@ Tiles:
 51:49,28,0:1,0,0:1,1,1
 50:42,28,0:1,0,0:1,1,1
 84:56,56,0:1,0,0:1,1,1
-84:63,56,0:1,0,0:1,1,1
 84:49,56,0:1,0,0:1,1,1
 150:98,14,0:1,0,0:1,1,1
+84:63,56,0:1,0,0:1,1,1
+84:91,35,0:1,0,0:1,1,1:DECORATIVE
+84:98,35,0:1,0,0:1,1,1:DECORATIVE
+84:105,35,0:1,0,0:1,1,1:DECORATIVE
