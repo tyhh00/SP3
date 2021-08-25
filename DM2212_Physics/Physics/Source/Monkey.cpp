@@ -74,7 +74,7 @@ void Monkey::Update(double dt)
 		}
 		break;
 	case JUMP:
-		physics->AddVelocity(Vector3((*playerPos - pos).Normalized().x * 10, 50, 0));
+		physics->AddVelocity(Vector3((*playerPos - pos).Normalized().x * 5, 50, 0));
 		state = ATTACK;
 		break;
 	case ATTACK:
