@@ -78,6 +78,8 @@ private:
 class SpriteAnimation : public Mesh
 {
 public:
+	int currentFrame;
+
 	SpriteAnimation(int row, int col);
 	~SpriteAnimation();
 
@@ -94,7 +96,7 @@ public:
 	void Resume();
 	void Reset();
 
-	SpriteAnimation* Clone();
+	static void CloneValues(SpriteAnimation* ref, SpriteAnimation* into);
 
 private:
 	//number of rows
@@ -105,7 +107,7 @@ private:
 	//the current time of the animation
 	float currentTime;
 	//the current frame of the animation
-	int currentFrame;
+	
 	//How many time it has play
 	int playCount;
 

@@ -23,13 +23,14 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
-	std::string mapToLoad = "JUNGLE_1_1";
+	std::string mapToLoad = "GRAVEYARD_FINAL";
+
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = m_screenHeight;
-	m_worldWidth = m_screenWidth;
+	m_worldHeight = 144;
+	m_worldWidth = 256;
 
 	stackOnGrid = true;
 
@@ -41,7 +42,6 @@ void LevelEditor::Init()
 
 	camera.Init(Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 1), Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
-	//camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
 	LoadMap(mapToLoad);
 }
@@ -52,9 +52,6 @@ bool LevelEditor::LoadMap(std::string filename)
 	
 	return (LevelLoader::GetInstance()->LoadTiles(filename, this->meshList, this->tileSize, gridObjects, gridLength, gridHeight));
 }
-
-
-
 
 void LevelEditor::SaveMap()
 {

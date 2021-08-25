@@ -20,20 +20,7 @@
 // Include Mesh Builder
 #include "../MeshBuilder.h"
 #include "../Debug.h"
-// Include ImageLoader
-//#include "System\ImageLoader.h"
-// Include Shader Manager
-//#include "RenderControl\ShaderManager.h"
 
- // Include shader
-//#include "RenderControl\shader.h"
-
-// Include CSettings
-//#include "GameControl/Settings.h"
-
-// Include CKeyboardController
-//#include "Inputs/KeyboardController.h"
-//#include "../Application.h"
 
 #include "../SoundController/SoundController.h"
 
@@ -44,7 +31,6 @@ using namespace std;
  @brief Constructor
  */
 CMenuState::CMenuState(void)
-	//: background(NULL)
 {
 
 }
@@ -54,7 +40,11 @@ CMenuState::CMenuState(void)
  */
 CMenuState::~CMenuState(void)
 {
-
+	if (menuScene)
+	{
+		delete menuScene;
+		menuScene = NULL;
+	}
 }
 
 /**
@@ -65,8 +55,11 @@ bool CMenuState::Init(void)
 	cout << "CMenuState::Init()\n" << endl;
 
 	sceneManager = SceneManager::GetInstance();
-	sceneManager->init();
+	//sceneManager->init();
 	
+	menuScene = new SceneMainMenu();
+	menuScene->Init();
+
 	// Input
 	input = Input::GetInstance();
 
@@ -80,15 +73,13 @@ bool CMenuState::Init(void)
  */
 bool CMenuState::Update(const double dElapsedTime)
 {
-	
+	menuScene->Update(dElapsedTime);
+
 	if (Application::IsKeyPressed(VK_SPACE))
 	{
 		//Setting state and switching the scene to lobby
 		CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
 		
-		//Fading effect for sound
-		DEBUG_MSG("Fading out");
-		CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_MAINMENU, 3, 0.5);
 		return true;
 	}
 	
@@ -103,6 +94,8 @@ void CMenuState::Render(void)
 	// Clear the screen and buffer
 	glClearColor(0.0f, 0.55f, 1.00f, 1.00f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	menuScene->Render();
 	//cout << "CMenuState::Render()\n" << endl;
 }
 

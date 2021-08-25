@@ -13,6 +13,7 @@ enum ENEMY_TYPE
 	GY_GHOST,
 	GY_TUMBLEWEED,
 	GY_GRIMREAPER,
+	GY_MONKEY,
 
 	//End
 	ENEMY_COUNT
@@ -30,7 +31,7 @@ protected:
 
 private:
 	SpriteAnimation* animatedSprites;
-	const ENEMY_TYPE type;
+	const ENEMY_TYPE enemyType;
 	//float speed;
 };
 

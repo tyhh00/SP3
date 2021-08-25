@@ -11,12 +11,17 @@
 #include "../SceneManager.h"
 #include "../Input.h"
 #include "../SceneLobby.h"
+#include "../UIManager.h"
+#include <vector>
 
 class CLobbyState : public CGameStateBase
 {
 public:
 	SceneManager* sceneManager;
 	SceneLobby* sceneLobby;
+	UIManager* uiManager;
+
+	std::vector<Mesh*> meshGenerated;
 
 	// Constructor
 	CLobbyState(void);

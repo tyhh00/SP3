@@ -11,6 +11,8 @@ GrapplingAbility::GrapplingAbility() : Ability('Z', ABILITY_GRAPPLER)
 
 	isGrappling = false;
 	maxVel = 0;
+	gradualVelTimer = 0;
+	playerPhysics = nullptr;
 }
 
 GrapplingAbility::~GrapplingAbility()
@@ -38,52 +40,69 @@ void GrapplingAbility::Update(double dt)
 
 		grapplingHook.active = true;
 	}
+	//else
+	//{
+	//	isGrappling = false;
+	//	grapplingHook.active = false;
+	//}
 
 	if (isGrappling)
 	{
 		Vector3 displacement = temp - playerPos;
 		Vector3 displacement3 = playerPos - temp;
 
-		grapplingHook.scale = Vector3(displacement.Length() / 2, 1, 1);
+		grapplingHook.scale = Vector3(displacement.Length() / 2, 0.25f, 1);
 		grapplingHook.pos = playerPos + Vector3(displacement.x / 2, displacement.y / 2, 0);
 		grapplingHook.physics->SetNormal(displacement.Normalized());
 
-		//playerPhysics->AddVelocity(displacement);
+		//Vector3 halfDisplacement = Vector3(displacement.x / 2, displacement.y / 2, displacement.z);
+		//playerPhysics->AddVelocity(halfDisplacement);
 
 		playerPhysics->AddVelocity(Vector3(initialDisplacement.x, 0, 0));
 		maxVel = 100;
+
 		if (playerPhysics->GetVelocity().x > 0)
 		{
 			if (playerPos.x >= temp.x - displacement3.x)
 			{
+				//playerPhysics->AddVelocity(Vector3(0, initialDisplacement.Length(), 0));
 				std::cout << "Stopped grappling" << std::endl;
 				std::cout << displacement3 << std::endl;
 				std::cout << playerPos.x << std::endl;
 				isGrappling = false;
 				grapplingHook.active = false;
-				//maxVel = 20;
 			}
 		}
 		else
 		{
 			if (playerPos.x <= temp.x - displacement3.x)
 			{
+				//playerPhysics->AddVelocity(Vector3(0, initialDisplacement.Length(), 0));
 				std::cout << "Stopped grappling" << std::endl;
 				std::cout << displacement3 << std::endl;
 				std::cout << playerPos.x << std::endl;
 				isGrappling = false;
 				grapplingHook.active = false;
-				//maxVel = 20;
 			}
+		}
+	}
+	else if (playerPhysics != nullptr)
+	{
+		if (playerPhysics->GetVelocity().x < 5 && playerPhysics->GetVelocity().x > -5)
+		{
+			maxVel = 20;
 		}
 	}
 }
 
 void GrapplingAbility::UpdatePlayer(Vector3& pos, Physics* _playerPhysics, float& _maxVel)
 {
-	playerPos = pos;
 	playerPhysics = _playerPhysics;
-	_maxVel = maxVel;
+	if (isGrappling)
+	{
+		playerPos = pos;
+		_maxVel = maxVel;
+	}
 }
 
 

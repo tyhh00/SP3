@@ -3,7 +3,7 @@
 #include "LoadTGA.h"
 #include "Flashlight.h"
 
-Flashlight::Flashlight() : Weapon(I_FLASHLIGHT)
+Flashlight::Flashlight(Mesh* _mesh) : Weapon(I_FLASHLIGHT, mesh)
 {
 	isStackable = true;
 	active = false;
@@ -12,6 +12,7 @@ Flashlight::Flashlight() : Weapon(I_FLASHLIGHT)
 	currBatt = maxBatt = 100;
 	batt_usage_rate = 2.0f;
 	rate_multiplier = 1.0f;
+	mesh = _mesh;
 }
 
 Flashlight::~Flashlight()
@@ -88,5 +89,10 @@ bool Flashlight::isWithinLight(Vector3 objPos)
 bool Flashlight::isIntensified()
 {
 	return intensified;
+}
+
+void Flashlight::RefillBattery()
+{
+	currBatt = maxBatt;
 }
 

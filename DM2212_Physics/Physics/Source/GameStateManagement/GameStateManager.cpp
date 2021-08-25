@@ -4,6 +4,8 @@
 
 #include <iostream>
 
+#include "../Input.h"
+
 using namespace std;
 
 /**
@@ -13,8 +15,6 @@ CGameStateManager::CGameStateManager(void)
 	: activeGameState(nullptr)
 	, nextGameState(nullptr)
 	, prevGameState(nullptr)
-	, overlayGameState(nullptr)
-	, overlayState(false)
 {
 }
 
@@ -34,8 +34,7 @@ void CGameStateManager::Destroy(void)
 	activeGameState = nullptr;
 	nextGameState = nullptr;
 	prevGameState = nullptr;
-	overlayGameState = nullptr;
-
+	
 	// Delete all scenes stored and empty the entire map
 	std::map<std::string, CGameStateBase*>::iterator it, end;
 	end = GameStateMap.end();
@@ -52,6 +51,7 @@ void CGameStateManager::Destroy(void)
  */
 bool CGameStateManager::Update(const double dElapsedTime)
 {
+	Input::GetInstance()->Update(dElapsedTime);
 	CSoundController::GetInstance()->FadeUpdater(dElapsedTime);
 	// Check for change of scene
 	if (nextGameState != activeGameState)
@@ -69,20 +69,8 @@ bool CGameStateManager::Update(const double dElapsedTime)
 		// Init the new active CGameState
 		activeGameState->Init();
 	}
-	// check if need delete overlayGameState
-	if (!overlayState && overlayGameState)
-	{
-		overlayGameState->Destroy();
-		overlayGameState = nullptr;
-		overlayState = false;
-	}
-	// Update the active GameState
-	if (overlayGameState)
-	{
-		overlayGameState->Update(dElapsedTime);
-		return true;
-	}
-	else if (activeGameState)
+	
+	if (activeGameState)
 	{
 		if (activeGameState->Update(dElapsedTime) == false)
 			return false;
@@ -98,8 +86,6 @@ void CGameStateManager::Render(void)
 {
 	if (activeGameState)
 		activeGameState->Render();
-	if (overlayGameState)
-		overlayGameState->Render();
 }
 
 /**
@@ -184,32 +170,3 @@ bool CGameStateManager::CheckGameStateExist(const std::string& _name)
 	return GameStateMap.count(_name) != 0;
 }
 
-bool CGameStateManager::SetOverlayGameState(const std::string& _name)
-{
-	if (CheckGameStateExist(_name))
-	{
-		// If it does not exist, then unable to proceed
-		cout << "CGameStateManager::AddGameState - Duplicate scene name provided" << endl;
-		return false;
-	}
-	else if (overlayGameState != nullptr)
-	{
-		cout << "There is already another overlay game state running!" << endl;
-		return false;
-	}
-	overlayGameState = GameStateMap[_name];
-	overlayGameState->Init();
-	overlayState = true;
-	return true;
-}
-
-bool CGameStateManager::RemoveOverlayGameState()
-{
-	if (overlayGameState == nullptr)
-	{
-		cout << "No Overlay State to Remove" << endl;
-		return false;
-	}
-	overlayState = false;
-	return true;
-}

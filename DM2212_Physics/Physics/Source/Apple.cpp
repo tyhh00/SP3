@@ -3,13 +3,15 @@
 #include "LoadTGA.h"
 #include "Apple.h"
 
-Apple::Apple(int _quantity, int stemLength) : Consumable(I_APPLE)
+Apple::Apple(Mesh* _mesh, int _quantity, int stemLength) : Consumable(I_APPLE, mesh)
 	,stemLength(stemLength)
 {
 	isStackable = true;
 	quantity = _quantity;
 
 	input = Input::GetInstance();
+
+	mesh = _mesh;
 }
 
 void Apple::Init()
@@ -20,6 +22,7 @@ void Apple::Update(double dt)
 {
 	if (input->IsKeyPressed('G'))
 	{
+		std::cout << quantity << std::endl;
 		RemoveQuantity(1);
 	}
 }

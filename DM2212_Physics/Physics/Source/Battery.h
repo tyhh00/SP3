@@ -2,10 +2,11 @@
 #define BATTERY_H
 #include "Consumable.h"
 #include "Input.h"
+#include "Inventory.h"
 
 class Battery : public Consumable {
 public:
-	Battery(int _quantity = 1);
+	Battery(Mesh* mesh, Inventory* inventory, int _quantity = 1);
 	void Init() override;
 	void Update(double dt) override;
 	bool IsEqual(Item* item) override;
@@ -13,6 +14,8 @@ public:
 private:
 	
 	Input* input;
+
+	Inventory* inventory;
 };
 
 

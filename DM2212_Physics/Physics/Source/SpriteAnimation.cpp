@@ -139,7 +139,6 @@ void SpriteAnimation::Render()
 
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-
 	//Draw based on the current frame
 	if (mode == DRAW_LINES)
 		glDrawElements(GL_LINES, 6, GL_UNSIGNED_INT, (void*)(currentFrame * 6 * sizeof(GLuint)));
@@ -334,18 +333,16 @@ void SpriteAnimation::Reset()
 }
 
 
-SpriteAnimation* SpriteAnimation::Clone()
+void SpriteAnimation::CloneValues(SpriteAnimation* ref, SpriteAnimation* into)
 {
-	SpriteAnimation* clone = new SpriteAnimation(row, col);
-	clone->currentTime = this->currentTime;
-	clone->currentFrame = this->currentFrame;
-	clone->playCount = this->playCount;
-	this->currentAnimation = this->currentAnimation;
+	into->currentTime = ref->currentTime;
+	into->currentFrame = ref->currentFrame;
+	into->playCount = ref->playCount;
+	into->currentAnimation = ref->currentAnimation;
 	std::unordered_map<std::string, Animation*> cloneList;
-	for (auto& entry : this->animationList)
+	for (auto& entry : ref->animationList)
 	{
 		cloneList.insert(std::make_pair(entry.first, entry.second->Clone()));
 	}
-	this->animationList = cloneList;
-	return clone;
+	into->animationList = cloneList;
 }

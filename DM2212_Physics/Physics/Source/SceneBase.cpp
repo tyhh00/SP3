@@ -148,11 +148,11 @@ void SceneBase::Init()
 	//Load In Fonts (As of 22.8.21 Update)
 	meshList[GEO_FONT_CALIBRI] = MeshBuilder::GenerateText("calibri", 16, 16);
 	meshList[GEO_FONT_CALIBRI]->textureID = LoadTGA("Image//calibri.tga");
-	Text::loadFont(CALIBRI, "calibri", meshList[GEO_FONT_CALIBRI]);
+	Text::loadFont(CALIBRI, "calibri", GEO_FONT_CALIBRI);
 
 	meshList[GEO_FONT_SUPERMARIO] = MeshBuilder::GenerateText("supermario", 16, 16);
 	meshList[GEO_FONT_SUPERMARIO]->textureID = LoadTGA("Image//supermario.tga");
-	Text::loadFont(SUPERMARIO, "supermario", meshList[GEO_FONT_SUPERMARIO]);
+	Text::loadFont(SUPERMARIO, "supermario", GEO_FONT_SUPERMARIO);
 
 	//Tiles (Player tile, environmental tiles)
 	LoadTile(GEO_TILEGRID, "Grid.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -276,8 +276,8 @@ void SceneBase::Init()
 	LoadTile(GEO_ROBOT_SMALLCUBE_17_DIAMOND4, "ROBOT_SMALLCUBE_17_DIAMOND4.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_ROBOT_SMALLCUBE_18_SIGN1, "ROBOT_SMALLCUBE_18_SIGN1.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 
-	LoadTile(GEO_JUNGLE_DIRT_BLOCK,	"JUNGLE_DIRT_BLOCK.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_JUNGLE_DIRT_CENTER, "JUNGLE_DIRT_CENTER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_DIRT_BLOCK,	"JUNGLE_SNOWMAN.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_DIRT_CENTER, "JUNGLE_DIRT_CENTER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);//
 	LoadTile(GEO_JUNGLE_DIRT_INTERSECTION_BOTTOM_LEFT, "JUNGLE_DIRT_INTERSECTION_BOTTOM_LEFT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_DIRT_INTERSECTION_BOTTOM_RIGHT, "JUNGLE_DIRT_INTERSECTION_BOTTOM_RIGHT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_DIRT_INTERSECTION_TOP_LEFT, "JUNGLE_DIRT_INTERSECTION_TOP_LEFT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -287,7 +287,7 @@ void SceneBase::Init()
 	LoadTile(GEO_JUNGLE_DIRT_MIDDLE_RIGHT, "JUNGLE_DIRT_MIDDLE_RIGHT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_DIRT_MIDDLE_TOP, "JUNGLE_DIRT_MIDDLE_TOP.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_DIRT_PLATFORM_LEFT, "JUNGLE_DIRT_PLATFORM_LEFT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_JUNGLE_DIRT_PLATFORM_MIDDLE, "JUNGLE_DIRT_PLATFORM_MIDDLE.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_DIRT_PLATFORM_MIDDLE, "JUNGLE_DIRT_PLATFORM_MIDDLE.tga", 1, 1, SHAPE_TYPE::RECTANGLE);//
 	LoadTile(GEO_JUNGLE_DIRT_PLATFORM_RIGHT, "JUNGLE_DIRT_PLATFORM_RIGHT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_DIRT_TOP, "JUNGLE_DIRT_TOP.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_DIRT_TOP_LEFT, "JUNGLE_DIRT_TOP_LEFT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -300,6 +300,11 @@ void SceneBase::Init()
 	LoadTile(GEO_JUNGLE_GRASS_TOP, "JUNGLE_GRASS_TOP.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_GRASS_TOP_LEFT, "JUNGLE_GRASS_TOP_LEFT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_GRASS_TOP_RIGHT, "JUNGLE_GRASS_TOP_RIGHT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_MONKEY, "GEO_JUNGLE_MONKEY.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_CAMPFIRE, "GEO_JUNGLE_CAMPFIRE.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_FIRETORCH, "GEO_JUNGLE_FIRETORCH.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_APPLE, "GEO_JUNGLE_APPLE.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_BANANA, "GEO_JUNGLE_BANANA.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 
 	LoadTile(GEO_FLASHLIGHT, "flashlight.tga", 0.386, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_BATTERY, "battery.tga", 0.318, 1, SHAPE_TYPE::RECTANGLE);
@@ -331,9 +336,10 @@ void SceneBase::Init()
 	LoadTile(GEO_LOBBY_PORTAL_GRAVEYARD, "LOBBY_portalFrame.tga", 2, 2, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_LOBBY_PORTAL_OCEAN, "LOBBY_portalFrame.tga", 2, 2, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_LOBBY_PORTAL_ROBOT, "LOBBY_portalFrame.tga", 2, 2, SHAPE_TYPE::RECTANGLE);
+
+	LoadTile(GEO_ROBOT_ENEMY_1, "ROBOT_ENEMY_1.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	
 	//Entities (Player, etc)
-
 
 	//Shapes
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
@@ -341,6 +347,12 @@ void SceneBase::Init()
 	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(1, 1, 1), 2.f);
 	meshList[GEO_BUTTON] = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BUTTON]->textureID = LoadTGA("Image/button.tga");
+
+	//UI
+	meshList[GEO_UI_APPLE] = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 1.0f);
+	meshList[GEO_UI_APPLE]->textureID = LoadTGA("Image/button.tga");
+	meshList[GEO_UI_CHEESE] = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 1.0f);
+	meshList[GEO_UI_CHEESE]->textureID = LoadTGA("Image/button.tga");
 
 	meshList[GEO_WALL] = MeshBuilder::GenerateQuad("Wall", Color(1, 1, 1), 2.0f);
 	meshList[GEO_BALL] = MeshBuilder::GenerateCircle("circle", 1.0f, Color(1, 1, 1));
@@ -353,6 +365,9 @@ void SceneBase::Init()
 	meshList[GEO_HIGHLIGHT] = MeshBuilder::GenerateCircle("highlight", 1.0f, Color(0.0f, 1.0f, 0.0f));
 
 	bLightEnabled = false;
+
+	gameWin = false;
+	gameLost = false;
 }
 
 void SceneBase::LoadTile(GEOMETRY_TYPE type, std::string fileName, double length, double height, SHAPE_TYPE shapeType)
@@ -390,6 +405,11 @@ TileSetting* SceneBase::GetTileSetting(GEOMETRY_TYPE type)
 		DEBUG_MSG("Unable to get tile setting of GEOMETRY_TYPE ID: " << type << ". Are you sure this is even a tile?");
 }
 
+Mesh* SceneBase::GetMesh(GEOMETRY_TYPE type)
+{
+	return meshList[type];
+}
+
 float SceneBase::GetScreenWidth()
 {
 	return m_screenWidth;
@@ -412,17 +432,17 @@ float SceneBase::GetWorldHeight()
 
 void SceneBase::Update(double dt)
 {
-	Input::GetInstance()->Update(dt);
+	//Input::GetInstance()->Update(dt);
 
-	//Keyboard Section
-	if(Application::IsKeyPressed('1'))
-		glEnable(GL_CULL_FACE);
-	if(Application::IsKeyPressed('2'))
-		glDisable(GL_CULL_FACE);
-	if(Application::IsKeyPressed('3'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	if(Application::IsKeyPressed('4'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	////Keyboard Section
+	//if(Application::IsKeyPressed('1'))
+	//	glEnable(GL_CULL_FACE);
+	//if(Application::IsKeyPressed('2'))
+	//	glDisable(GL_CULL_FACE);
+	//if(Application::IsKeyPressed('3'))
+	//	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//if(Application::IsKeyPressed('4'))
+	//	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	
 	fps = (float)(1.f / dt);
 }
@@ -461,7 +481,7 @@ void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 
 	glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
-	ortho.SetToOrtho(0, 178, 0, 100, -10, 10);
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
 	projectionStack.PushMatrix();
 	projectionStack.LoadMatrix(ortho);
 	viewStack.PushMatrix();
@@ -499,9 +519,9 @@ void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
 
-	glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
-	ortho.SetToOrtho(0, 178, 0, 100, -10, 10);
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
 	projectionStack.PushMatrix();
 	projectionStack.LoadMatrix(ortho);
 	viewStack.PushMatrix();
@@ -511,7 +531,6 @@ void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	modelStack.Translate(x, y, 1);
 	modelStack.Scale(size, size, size);
 
-	glDisable(GL_DEPTH_TEST);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
 	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
 	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
@@ -587,9 +606,9 @@ void SceneBase::RenderMesh(Mesh *mesh, bool enableLight)
 	}
 }
 
-void SceneBase::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey)
+void SceneBase::RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey, float z)
 {
-	glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
 	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
 	projectionStack.PushMatrix();
@@ -598,7 +617,7 @@ void SceneBase::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int size
 	viewStack.LoadIdentity(); //No need camera for ortho mode
 	modelStack.PushMatrix();
 	modelStack.LoadIdentity();
-	modelStack.Translate(x, y, 0);
+	modelStack.Translate(x, y, z);
 	modelStack.Scale(sizex, sizey, 1);
 	RenderMesh(mesh, false); //UI should not have light
 	projectionStack.PopMatrix();

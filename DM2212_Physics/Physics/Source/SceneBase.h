@@ -226,9 +226,20 @@ public:
 		GEO_LOBBY_PORTAL_OCEAN = 148,
 		GEO_LOBBY_PORTAL_ROBOT = 149,
 
+		GEO_ROBOT_ENEMY_1 = 150,
+		GEO_JUNGLE_MONKEY = 151,
+		GEO_JUNGLE_CAMPFIRE = 152,
+		GEO_JUNGLE_FIRETORCH = 153,
+		GEO_JUNGLE_APPLE = 154,
+		GEO_JUNGLE_BANANA = 155,
+
 		//Tiles End
 		GEO_TILES_END,
 
+
+		//UI
+		GEO_UI_APPLE,
+		GEO_UI_CHEESE,
 
 		GEO_BG,
 
@@ -265,11 +276,13 @@ public:
 	void ToggleLightOnOff(int index, bool on); // turns a light on or off
 	void ToggleLightPower(int index, int power); // turns a light power
 	
-	
+	bool gameLost;
+	bool gameWin;
 
 	void LoadTile(GEOMETRY_TYPE type, std::string fileName, double length, double height, SHAPE_TYPE shapeType);
 	TileSetting* GetTileSetting(GEOMETRY_TYPE type);
 
+	Mesh* GetMesh(GEOMETRY_TYPE type);
 
 	float GetScreenWidth();
 	float GetScreenHeight();
@@ -280,7 +293,7 @@ public:
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int(&charWidth)[256], int arrSize);
 	void RenderMesh(Mesh *mesh, bool enableLight);
-	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey);
+	void RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey, float z = 1);
 	
 protected:
 	unsigned m_vertexArrayID;

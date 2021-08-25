@@ -8,12 +8,13 @@ Item::Item()
 {
 }
 
-Item::Item(GROUP_TYPE _groupType, ITEM_TYPE _itemType, int _quantity, bool _isStackable)
+Item::Item(GROUP_TYPE _groupType, ITEM_TYPE _itemType, int _quantity, bool _isStackable, Mesh* _mesh)
 	: groupType(_groupType)
 	, itemType(_itemType)
 	, quantity(_quantity)
 	, isStackable(_isStackable)
 	, scene(NULL)
+	, mesh(_mesh)
 {
 }
 
@@ -94,4 +95,9 @@ bool Item::GetIsStackable()
 void Item::SetScene(SceneBase* scene)
 {
 	this->scene = scene;
+}
+
+Mesh* Item::GetItemMesh()
+{
+	return mesh;
 }

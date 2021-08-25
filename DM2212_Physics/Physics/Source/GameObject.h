@@ -38,6 +38,10 @@ struct GameObject
 		GO_50, // ELASTIC + SCORE
 		GO_10, // ELASTIC + SCORE
 
+
+		GO_PLAYER,
+		GO_ENEMY,
+
 		GO_TILE, //Size 2.f Object representing all Grid Tiles
 		GO_TILE_DECORATIVE,
 
@@ -84,6 +88,7 @@ struct GameObject
 	virtual void Update(double dt);
 	virtual void Render(SceneBase* scene);
 	virtual GameObject* Clone();
+	static void CloneValues(GameObject* ref, GameObject* into);
 
 	virtual void CollidedWith(GameObject* go);
 	void AddBottomSprite();
@@ -91,6 +96,8 @@ struct GameObject
 
 	bool IsExplosive();
 	float GetExplosiveRadius();
+
+	bool IsDamagable(); //Check if object is a damagable object
 
 	void SetCurrHealth(float _currentHP);
 	float GetCurrHealth();

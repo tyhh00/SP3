@@ -329,9 +329,9 @@ void SceneLobby::Render()
 	/*ss.str("");
 	ss << "player vel: " << player->physics->GetVelocity();
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);*/
-	ss.str("");
+	/*ss.str("");
 	ss << "camera pos: " << camera.position;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 0, 12);*/
 
 
 
@@ -339,9 +339,9 @@ void SceneLobby::Render()
 	ss.str("");
 	ss.precision(5);
 	ss << "FPS: " << fps;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 3);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 0, 2);
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 3, 0, 0);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 2, 0, 0);
 }
 
 void SceneLobby::InitLights()

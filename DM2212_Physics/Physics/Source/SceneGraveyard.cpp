@@ -13,6 +13,7 @@
 #include "Ghost.h"
 #include "Tumbleweed.h"
 #include "GrimReaper.h"
+#include "Tombstone.h"
 
 //...
 
@@ -63,7 +64,6 @@ void SceneGraveyard::Init()
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BG]->textureID = LoadTGA("Image/GraveyardBG.tga");
 
-
 	//Level Loading
 	std::vector<GameObject*> tiles;
 	if(LevelLoader::GetInstance()->LoadTiles("GRAVEYARD_1_1", this->meshList, this->tileSize, tiles, gridLength, gridHeight))
@@ -100,6 +100,7 @@ void SceneGraveyard::Init()
 			ghost->active = true;
 			ghost->scale = go->scale;
 			ghost->pos = go->pos;
+			ghost->geoTypeID = go->geoTypeID;
 			ghost->physics = go->physics->Clone();
 			ghost->physics->SetInelasticity(0.99f);
 			ghost->physics->SetIsBouncable(false);
@@ -145,6 +146,8 @@ void SceneGraveyard::Init()
 	ability->SetCamera(&camera);
 	ability->SetScenePointer(this);
 	player->SetAbilities(ability, nullptr);
+
+	story_state = GY_INTRO;
 }
 
 void SceneGraveyard::Update(double dt)
@@ -153,17 +156,12 @@ void SceneGraveyard::Update(double dt)
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
 
-	// Updating of light things
+	// Updating of light things - if got time, shift to within flashlight instead to organise better, but low priority
 	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
 	double mouseposx, mouseposy;
 	CursorToWorldPosition(mouseposx, mouseposy);
 	lights[1].position.Set(mouseposx, mouseposy, 10);
 
-	
-	if (input->IsMousePressed(0))
-	{
-		// flashlgiht power/exponent
-	}
 
 	if(input->IsKeyPressed('9'))
 	{
@@ -173,10 +171,38 @@ void SceneGraveyard::Update(double dt)
 	{
 		m_speed += 0.1f;
 	}
-	
+
+	if (input->IsKeyPressed('C'))
+	{
+		LoadBossScene();
+		story_state = CHURCH_INTRO;
+	}
+
 	goManager->Update(dt);
 	inventory->Update(dt);
 
+	if (player->currentHP <= 0)
+	{
+		gameLost = true;
+		return;
+	}
+
+	// TBC
+	switch (story_state)
+	{
+	case GY_INTRO:
+		break;
+	case GY_DEFAULT:
+		break;
+	case GY_GATEKEEPER1:
+		break;
+	case CHURCH_INTRO:
+		break;
+	case CHURCH_DEFAULT:
+		break;
+	case CHURCH_END:
+		break;
+	}
 }
 
 void SceneGraveyard::Render()
@@ -253,14 +279,15 @@ void SceneGraveyard::Render()
 	modelStack.PopMatrix();
 
 	goManager->Render(this);
+	inventory->Render();
 
 	std::ostringstream ss;
 	//ss.str("");
 	//ss << "LIGHT COLOR: " << Vector3(lights[0].color.r, lights[0].color.g, lights[0].color.b);
 	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
-	ss.str("");
+	/*ss.str("");
 	ss << "player vel: " << player->physics->GetVelocity();
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);*/
 	//ss.str("");
 	//ss << "camera pos: " << camera.position;
 	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);
@@ -271,9 +298,9 @@ void SceneGraveyard::Render()
 	ss.str("");
 	ss.precision(5);
 	ss << "FPS: " << fps;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 3);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 0, 2);
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 3, 0, 0);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Graveyard", Color(1, 1, 1), 2, 0, 0);
 }
 
 void SceneGraveyard::InitLights()
@@ -345,6 +372,117 @@ void SceneGraveyard::CursorToWorldPosition(double& theX, double& theY)
 
 	theX = x;
 	theY = y;
+}
+
+void SceneGraveyard::LoadBossScene()
+{
+	goManager->DeleteAllGOs();
+
+	m_worldHeight = 144;
+	m_worldWidth = 256;
+
+	// Unique Meshes
+	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	meshList[GEO_BG]->textureID = LoadTGA("Image/churchBG.tga");
+
+	//Level Loading
+	std::vector<GameObject*> tiles;
+	if (LevelLoader::GetInstance()->LoadTiles("GRAVEYARD_FINAL", this->meshList, this->tileSize, tiles, gridLength, gridHeight))
+		DEBUG_MSG("Level Did not load successfully");
+	for (auto& go : tiles)
+	{
+		if (go->geoTypeID == GEOMETRY_TYPE::GEO_PLAYER_GIRL1)
+		{
+			player = new Player();
+			player->active = true;
+			player->scale = go->scale;
+			player->pos = go->pos;
+			player->physics = go->physics->Clone();
+			player->physics->SetInelasticity(0.99f);
+			player->physics->SetIsBouncable(false);
+			player->Init(Player::PLATFORMER, goManager, inventory);
+
+			player->AddBottomSprite();
+			player->bottomSprite->mesh = meshList[GEO_WALL];
+
+			goManager->AddGO(player);
+
+
+			//Delete Grid Player
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ENEMY_GHOST)
+		{
+			Ghost* ghost = new Ghost();
+
+			ghost->active = true;
+			ghost->scale = go->scale;
+			ghost->pos = go->pos;
+			ghost->physics = go->physics->Clone();
+			ghost->physics->SetInelasticity(0.99f);
+			ghost->physics->SetIsBouncable(false);
+			ghost->physics->SetGravity(Vector3(0, 0, 0));
+			ghost->Init(this, inventory, player->pos);
+
+			goManager->AddGO(ghost);
+
+			//Delete Grid ghost
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ENEMY_GRIMREAPER)
+		{
+			GrimReaper* reaper = new GrimReaper();
+
+			reaper->active = true;
+			reaper->scale = go->scale;
+			reaper->pos = go->pos;
+			reaper->physics = go->physics->Clone();
+			reaper->physics->SetInelasticity(0.99f);
+			reaper->physics->SetIsBouncable(false);
+			reaper->physics->SetGravity(Vector3(0, 0, 0));
+			reaper->Init(this, inventory, player->pos);
+
+			goManager->AddGO(reaper);
+
+			//Delete Grid reaper
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_TOMBSTONE || go->geoTypeID == GEOMETRY_TYPE::GEO_TOMBSTONE_CROSS)
+		{
+			Tombstone* stone = new Tombstone();
+
+			stone->active = true;
+			stone->scale = go->scale;
+			stone->pos = go->pos;
+			stone->physics = go->physics->Clone();
+			stone->mesh = MeshBuilder::GenerateQuad("stone", Color(1.0f, 1.0f, 1.0f), 2.0f);
+			stone->mesh->textureID = go->mesh->textureID;
+			stone->Init(this, inventory);
+
+			goManager->AddGO(stone);
+
+			//Delete Grid stone
+			delete go;
+			go = nullptr;
+		}
+	}
+	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
+
+	// Add all remaining tiles
+	goManager->AddAllGO(tiles);
+
+	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
+	camera.SetFocusTarget(player->pos);
+	camera.SetMode(Camera::CENTER);
+
+	// ABILITIES
+	PortalAbility* ability = new PortalAbility;
+	ability->SetCamera(&camera);
+	ability->SetScenePointer(this);
+	player->SetAbilities(ability, nullptr);
 }
 
 void SceneGraveyard::Exit()

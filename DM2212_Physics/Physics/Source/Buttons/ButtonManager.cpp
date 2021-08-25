@@ -11,7 +11,13 @@ ButtonManager::ButtonManager(float screenWidth, float screenHeight)
 	, screenHeight(screenHeight)
 	, elapsed(0.f)
 {
+}
 
+ButtonManager::ButtonManager()
+	: screenWidth(80)
+	, screenHeight(60)
+	, elapsed(0.f)
+{
 }
 
 /**
@@ -35,17 +41,23 @@ void ButtonManager::setScreenSize(float screenWidth, float screenHeight)
 	}
 }
 
+//@DEPRECATED
+void ButtonManager::Update(SceneBase* scene, double dt)
+{
+	Update(dt);
+}
+
 /**
  * \brief Updates all buttons, whether they are now clicked or not clicked.
  * 
  * \param scene - Scene that is currently using this Button Manager
  * \param dt - delta time of frame
  */
-void ButtonManager::Update(SceneBase* scene, double dt) {
+void ButtonManager::Update(double dt) {
 	elapsed += dt;
 
 	double xPos, yPos;
-	bool mousePressed = Input::GetInstance()->IsMousePressed(0);
+	bool mousePressed = Application::IsMousePressed(0);
 	const static float CLICK_COOLDOWN = 0.5f;
 
 	this->CursorPosition(xPos, yPos);
@@ -214,6 +226,11 @@ Button* ButtonManager::getButtonByName(std::string buttonName) {
  * \param button - Button Object to be added
  */
 void ButtonManager::addButton(Button* button) {
+	for (auto& b : buttons)
+	{
+		if (b->getName() == button->getName())
+			return;
+	}
 	buttons.push_back(button);
 }
 

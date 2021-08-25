@@ -17,7 +17,6 @@
 #include "GameStateManagement/MenuState.h"
 #include "GameStateManagement/LobbyState.h"
 #include "GameStateManagement/PlayGameState.h"
-#include "GameStateManagement/PauseGameState.h"
 
 bool Application::quit = false;
 
@@ -116,12 +115,14 @@ void Application::Init()
 //	m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
 	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
 	
+	UIManager::GetInstance()->Init();
+
 	//create gamestates
 	CGameStateManager::GetInstance()->AddGameState("IntroState", new CIntroState());
 	CGameStateManager::GetInstance()->AddGameState("MenuState", new CMenuState());
 	CGameStateManager::GetInstance()->AddGameState("LobbyState", new CLobbyState());
 	CGameStateManager::GetInstance()->AddGameState("PlayGameState", new CPlayGameState());
-	CGameStateManager::GetInstance()->AddGameState("PauseGameState", new CPauseGameState());
+	
 
 	//set active scene
 	CGameStateManager::GetInstance()->SetActiveGameState("IntroState");
@@ -170,12 +171,13 @@ void Application::Run()
 		sceneArray[i]->Init();
 	}*/
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-	while (!glfwWindowShouldClose(m_window) && !quit && !IsKeyPressed(VK_ESCAPE))
+	while (!glfwWindowShouldClose(m_window) && !quit)
 	{
 		/*if (dElapsedTime > 0.0166666666666667)
 			dElapsedTime = 0.0166666666666667;*/
 
 		//update gamestate manager
+		
 		if (CGameStateManager::GetInstance()->Update(m_timer.getElapsedTime()) == false)
 		{
 			break;
@@ -207,6 +209,9 @@ void Application::Exit()
 {
 	//Destroy CGameStateManager
 	CGameStateManager::GetInstance()->Destroy();
+
+	SceneManager::GetInstance()->destroy();
+	SceneManager::GetInstance()->Destroy();
 
 	//Close OpenGL window and terminate GLFW
 	glfwDestroyWindow(m_window);

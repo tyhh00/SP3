@@ -36,13 +36,14 @@ public:
 	void DecreaseStamina(float amt);
 
 private:
-	const float MAX_VEL = 20.f;
-	const float MAX_SPRINTVEL = 40.f;
+	const float MAX_VEL = 30.f;
+	const float MAX_SPRINTVEL = 45.f;
 
 	MOVEMENT_MODE mode;
 	SpriteAnimation* animatedSprites;
 	Mesh* portalSprite;
-	Mesh* livesIcon;
+//	Mesh* livesIcon;
+	Mesh* staminaBar;
 
 	int dashDir = 0;
 	bool isDashing = false;
@@ -56,9 +57,6 @@ private:
 
 	float stamina;
 	float max_stamina;
-
-	int lives;
-	int max_lives;
 
 	float stamina_rate_multiplier;
 

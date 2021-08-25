@@ -13,8 +13,8 @@
 class Portal : public GameObject {
 	
 private:
-	SpriteAnimation* portalSprite;
 public:
+	SpriteAnimation* portalSprite;
 	Portal::~Portal()
 	{
 		delete portalSprite;
@@ -38,6 +38,7 @@ public:
 	}
 	void SetAnimation(std::string anim_name, int repeat, double anim_time) {
 		portalSprite->PlayAnimation(anim_name, repeat, anim_time);
+		portalSprite->Reset();
 	}
 };
 
