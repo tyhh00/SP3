@@ -11,31 +11,41 @@
 
 class Crab : public Enemy {
 public:
+	enum MOVEMENT_TYPE {
+		LAR,
+		EDGE,
+		JUMP,
+		MTYPE_TOTAL
+	};
+
 	Crab();
 	~Crab();
 
-	void Init(SceneBase* scene, Inventory* inventory, Vector3& target); // keep target only if you need to access player pos
+	void Init(Vector3& target, MOVEMENT_TYPE type); // keep target only if you need to access player pos
 	void Update(double dt);
 
 private:
 	enum ENEMY_STATE {
-		INACTIVE, // default state, not moving
-		ROLL,
-
+		IDLE,
+		WLAR,
+		ATTACK,
+		DIE,
 		GSTATE_TOTAL
 	};
 
-	float roll_speed;
 
 	float activeRange;
-	
+	double crabTimer;
+	double WLARTimer; //walk left and right timer
 	ENEMY_STATE state;
-
+	float tempVel;
+	MOVEMENT_TYPE mType;
 	Vector3 *playerPos; // to keep track of player pos
 	
 	SpriteAnimation* animatedSprites;
-	Inventory* inventory;
 
+	void updateMType(double dt);
+	void CollidedWith(GameObject* go);
 };
 
 

@@ -14,6 +14,7 @@
 #include "Input.h"
 #include "GameObjectManager.h"
 #include "Trident.h"
+#include "Crab.h"
 
 class SceneOcean : public SceneBase
 {

@@ -63,7 +63,7 @@ void Input::Update(double dt)
 		}
 	}
 	
-	DEBUG_MSG(typedEntry);
+	//DEBUG_MSG(typedEntry);
 }
 
 std::string Input::GetTypedEntry()
