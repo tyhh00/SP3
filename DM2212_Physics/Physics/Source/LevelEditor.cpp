@@ -25,10 +25,11 @@ void LevelEditor::Init()
 
 	std::string mapToLoad = "ROBOT_1_1";
 
+
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = 144;
+	m_worldHeight = 300;//144
 	m_worldWidth = 256;
 
 	mapLoaded = false;

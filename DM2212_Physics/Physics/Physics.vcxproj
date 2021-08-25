@@ -208,6 +208,7 @@
     <ClCompile Include="Source\SceneJungle.cpp" />
     <ClCompile Include="Source\SceneLobby.cpp" />
     <ClCompile Include="Source\SceneMainMenu.cpp" />
+    <ClCompile Include="Source\SceneOcean.cpp" />
     <ClCompile Include="Source\ScenePhysics.cpp" />
     <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\SceneRobot.cpp" />
@@ -287,6 +288,7 @@
     <ClInclude Include="Source\SceneJungle.h" />
     <ClInclude Include="Source\SceneLobby.h" />
     <ClInclude Include="Source\SceneMainMenu.h" />
+    <ClInclude Include="Source\SceneOcean.h" />
     <ClInclude Include="Source\ScenePhysics.h" />
     <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\SceneRobot.h" />
