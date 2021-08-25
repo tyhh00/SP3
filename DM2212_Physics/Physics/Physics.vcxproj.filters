@@ -293,6 +293,9 @@
     <ClCompile Include="Source\Grappling.cpp">
       <Filter>Source Files\Abilities</Filter>
     </ClCompile>
+    <ClCompile Include="Recall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -534,6 +537,9 @@
     </ClInclude>
     <ClInclude Include="Source\Grappling.h">
       <Filter>Header Files\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Recall.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
