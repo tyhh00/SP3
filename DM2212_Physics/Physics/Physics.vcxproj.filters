@@ -308,6 +308,9 @@
     <ClCompile Include="Source\Crab.cpp">
       <Filter>Source Files\GameObjects\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Coin.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -564,6 +567,9 @@
     </ClInclude>
     <ClInclude Include="Source\Crab.h">
       <Filter>Header Files\GameObjects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Coin.h">
+      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

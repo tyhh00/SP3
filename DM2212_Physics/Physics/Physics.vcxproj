@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Coin.cpp" />
     <ClCompile Include="Source\LightBullet.cpp" />
     <ClCompile Include="Source\Pistol.cpp" />
     <ClCompile Include="Source\Crab.cpp" />
@@ -232,6 +233,7 @@
     <ClCompile Include="Source\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Coin.h" />
     <ClInclude Include="Source\LightBullet.h" />
     <ClInclude Include="Source\Pistol.h" />
     <ClInclude Include="Source\Crab.h" />
