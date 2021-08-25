@@ -32,11 +32,8 @@ void SceneJungle::Init()
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	m_worldHeight = m_screenHeight * 3;
-	m_worldWidth = m_screenWidth * 5;
+	m_worldWidth = m_screenWidth * 10;
 
-	//Camera init
-	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
-	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 
 	//Inventory init
 	inventory = new Inventory();
@@ -124,6 +121,12 @@ void SceneJungle::Init()
 	//Add all remainding tiles
 	goManager->AddAllGO(tiles);
 	
+	//Camera init
+	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
+	camera.SetFocusTarget(player->pos);
+	camera.SetMode(Camera::CENTER);
+
 	// ABILITIES
 	DashAbility* ability = new DashAbility;
 	ability->SetCamera(&camera);
@@ -140,7 +143,7 @@ void SceneJungle::Update(double dt)
 {
 	SceneBase::Update(dt);
 	inventory->Update(dt);
-	camera.Update(camera.position, dt);
+	camera.Update(player->pos, dt);
 
 	if (input->IsKeyPressed('P'))
 	{
@@ -172,7 +175,6 @@ void SceneJungle::Update(double dt)
 	}
 
 	goManager->Update(dt);
-
 	if (player->currentHP <= 0)
 	{
 		gameLost = true;
@@ -182,7 +184,6 @@ void SceneJungle::Update(double dt)
 void SceneJungle::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
