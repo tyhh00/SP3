@@ -24,11 +24,13 @@ public:
 		I_BONE,
 		I_SKULL,
 		I_PICKAXE,
+		I_TRIDENT,
 		I_TOTAL
 	};
 
 	Item();
 	Item(GROUP_TYPE, ITEM_TYPE, int _quantity, bool _isStackable, Mesh* mesh);
+	Item(GROUP_TYPE, ITEM_TYPE, int _quantity, bool _isStackable);
 	~Item();
 	virtual void Init() = 0;
 	virtual void Update(double dt) = 0;
