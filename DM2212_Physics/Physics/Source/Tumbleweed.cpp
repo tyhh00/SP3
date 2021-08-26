@@ -13,11 +13,8 @@ Tumbleweed::~Tumbleweed()
 {
 }
 
-void Tumbleweed::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
+void Tumbleweed::Init()
 {
-	this->scene = scene;
-	this->inventory = inventory;
-	playerPos = &target;
 
 	state = ROLL;
 

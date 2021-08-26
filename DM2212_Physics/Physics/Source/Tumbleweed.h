@@ -14,12 +14,12 @@ public:
 	Tumbleweed();
 	~Tumbleweed();
 
-	void Init(SceneBase* scene, Inventory* inventory, Vector3& target); // keep target only if you need to access player pos
+	void Init(); 
 	void Update(double dt);
 	void CollidedWith(GameObject* go);
 
 private:
-	enum ENEMY_STATE {
+	enum ENEMY_STATE { // keep in case want add more
 		ROLL,
 
 		GSTATE_TOTAL
@@ -29,11 +29,8 @@ private:
 	double roll_timer;
 	
 	ENEMY_STATE state;
-
-	Vector3 *playerPos; // to keep track of player pos
 	
 	SpriteAnimation* animatedSprites;
-	Inventory* inventory;
 
 };
 

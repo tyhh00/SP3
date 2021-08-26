@@ -123,7 +123,7 @@ void SceneGraveyard::Init()
 			weed->physics = go->physics->Clone();
 			weed->physics->SetInelasticity(0.99f);
 			weed->physics->SetIsBouncable(false);
-			weed->Init(this, inventory, player->pos);
+			weed->Init();
 
 			goManager->AddGO(weed);
 
