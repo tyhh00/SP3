@@ -9,6 +9,15 @@ BulletSpawner::~BulletSpawner()
 {
 	delete bulletPrototype; //Since this is not added into GOManagement, we settle it here
 	bulletPrototype = nullptr; 
+
+	for (auto& go : activeBullets)
+	{
+		if (go)
+		{
+			delete go;
+			go = nullptr;
+		}
+	}
 }
 
 BULLET_TYPE BulletSpawner::GetBulletType()
@@ -33,8 +42,16 @@ void BulletSpawner::SpawnBullet(Vector3 pos, Vector3 vel, Vector3 normal)
 	GameObject* clone = bulletPrototype->Clone();
 	clone->pos = pos;
 	clone->physics->pos = pos;
-	std::cout << "SPEED: " << bulletPrototype->GetBulletSpeed() << std::endl;
 	clone->physics->SetVelocity(vel.Normalize() * bulletPrototype->GetBulletSpeed());
 	clone->physics->SetNormal(normal);
 	gom_ref->AddGO(clone);
+	activeBullets.push_back(clone);
+
+	for (auto& go : activeBullets)
+	{
+		if (!go)
+			go = nullptr;
+	}
+	activeBullets.erase(std::remove(activeBullets.begin(), activeBullets.end(), nullptr),
+		activeBullets.end());
 }

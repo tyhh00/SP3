@@ -45,7 +45,7 @@ void SceneRobot::Init()
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	m_worldHeight = 143;
-	m_worldWidth = 250;
+	m_worldWidth = 500;
 
 	//Physics code here
 	m_speed = 1.f;
@@ -100,7 +100,7 @@ void SceneRobot::Init()
 			robot->scale = go->scale;
 			robot->pos = go->pos;
 			robot->physics = go->physics->Clone();
-			robot->Init(player, new BulletSpawner(goManager, new PlasmaBullet(Vector3(2, 2, 2), robot, 14)));
+			robot->Init(player, new BulletSpawner(goManager, new PlasmaBullet(Vector3(2, 2, 2), robot, 40)));
 			robot->AddBottomSprite();
 			robot->bottomSprite->mesh = meshList[GEO_WALL];
 
@@ -141,13 +141,13 @@ void SceneRobot::Init()
 	DEBUG_MSG("GOManager Robot: " << goManager);
 
 	// Camera 
-	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(player->pos.x, player->pos.y, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);
 
 	player->SetAbilities(new RecallAbility(player, 3.0), nullptr);
 
-	spawner = new BulletSpawner(goManager, new BlackHoleBullet(meshList[GEO_BLACKHOLE], GEO_BLACKHOLE, Vector3(2, 2, 2), player));
+	spawner = new BulletSpawner(goManager, new BlackHoleBullet(meshList[GEO_BLACKHOLE], GEO_BLACKHOLE, Vector3(3, 3, 3), player));
 
 }
 

@@ -56,6 +56,11 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 		case RECTANGLE:
 			Vector3 dis = go2->pos - go1->pos;
 
+			if (dis.LengthSquared() < go1_fScale.x * go1_fScale.x)
+				return true;
+			else
+				dis = (dis.Length() - go1_fScale.x) * dis.Normalized();
+
 			Vector3 N = go2->physics->GetNormal();
 			if (dis.Dot(N) < 0)
 			{
@@ -101,10 +106,10 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 		case CIRCLE:
 		{
 			Vector3 dis = go2->pos - go1->pos;
-			if (dis.LengthSquared() < go2->scale.x)
+			if (dis.LengthSquared() < go2_fScale.x * go2_fScale.x)
 				dis = Vector3(0, 0, 0);
 			else
-				dis = (dis.Length() - go2->scale.x) * dis.Normalized();
+				dis = (dis.Length() - go2_fScale.x) * dis.Normalized();
 			Vector3 N = go2->physics->GetNormal();
 			if (dis.Dot(N) < 0)
 			{
@@ -237,6 +242,7 @@ void GameObjectManager::Update(double dt)
 			go->bottomSprite->physics->scale = go->bottomSprite->scale;
 			go->bottomSprite->physics->SetVelocity(go->physics->GetVelocity());
 		}
+
 		// Collision with moving and moving
 		for (std::vector<GameObject*>::iterator it2 = it + 1; it2 != m_movableGOList.end(); ++it2)
 		{
@@ -318,9 +324,6 @@ void GameObjectManager::Update(double dt)
 				toRemoveList.push_back(go2);
 				continue;
 			}
-
-			if (go->dead)
-				break;
 
 			go2->Update(dt);
 			// attachment for checking if onGround

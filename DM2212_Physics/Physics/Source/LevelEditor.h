@@ -74,6 +74,8 @@ protected:
 
 	bool stackOnGrid;
 
+	bool ctrlToggle;
+
 	SCROLLER_STATE scrollState;
 
 	GameObject* heldOnTo;

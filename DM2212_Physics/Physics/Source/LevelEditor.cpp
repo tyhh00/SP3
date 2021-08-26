@@ -23,7 +23,7 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
-	std::string mapToLoad ="OCEAN_1_1";
+	std::string mapToLoad ="ROBOT_1_1";
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
@@ -37,6 +37,8 @@ void LevelEditor::Init()
 
 	snapPosToGrid = true;
 	snapRotToGrid = true;
+
+	ctrlToggle = false;
 
 	canScrollIn = scrollingSpeed;
 	scrolledGeo = static_cast<GEOMETRY_TYPE>(GEOMETRY_TYPE::GEO_TILES_START + 1);
@@ -133,11 +135,13 @@ void LevelEditor::Update(double dt)
 	bool CTRLKeyRelease = false;
 	if (!bCTRLState && Application::IsKeyPressed(VK_CONTROL))
 		bCTRLState = true; //Down
-	else if (bCTRLState && !Application::IsKeyPressed(VK_CONTROL))
+	else if (bCTRLState && !Application::IsKeyPressed(VK_CONTROL) && !ctrlToggle)
 	{
 		bCTRLState = false; //Up
 		CTRLKeyRelease = true;
 	}
+	else if (bCTRLState && ctrlToggle && Input::GetInstance()->IsKeyReleased(VK_CONTROL))
+		bCTRLState = false;
 
 	scrollState = SCROLLER_GEOSWITCHER;
 	if (Application::IsKeyPressed('S'))
@@ -170,6 +174,11 @@ void LevelEditor::Update(double dt)
 		renderMode = static_cast<RENDERMODE_STATE>(v);
 	}
 
+	else if (Input::GetInstance()->IsKeyReleased('9'))
+	{
+		ctrlToggle = !ctrlToggle;
+	}
+
 	static bool cannotPasteYet = true; //after pressing Left-Click, you must let go of left click once before u can start placing blocks
 	static bool pastedOnce = false;
 	
@@ -187,6 +196,7 @@ void LevelEditor::Update(double dt)
 			if (heldOnTo == nullptr && bLButtonState)
 			{
 				heldOnTo = go;
+				scrolledGeo = static_cast<GEOMETRY_TYPE>(heldOnTo->geoTypeID);
 				cannotPasteYet = true;
 			}
 			else if (heldOnTo != nullptr && !bLButtonState && !bCTRLState)
@@ -199,7 +209,7 @@ void LevelEditor::Update(double dt)
 						dup = true;
 						break;
 					}
-					else if (heldOnTo != go && go->pos == heldOnTo->pos && go->scale == heldOnTo->scale)
+					else if (heldOnTo != go && go->pos == heldOnTo->pos)
 					{
 						dup = true;
 						break;

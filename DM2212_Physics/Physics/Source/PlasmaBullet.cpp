@@ -47,12 +47,13 @@ void PlasmaBullet::Update(double dt)
 		this->pos.z += 1; //Set it infront of player
 	}
 
-	if (aliveTimer > 0.7 && state == CHARGINGUP_PHASE1)
+	if (aliveTimer > 0.5 && state == CHARGINGUP_PHASE1)
 	{
+		animatedSprite->Reset();
 		animatedSprite->PlayAnimation("fullycharged", -1, 3.0);
 		state = CHARGINGUP_PHASE2;
 	}
-	else if (aliveTimer > 1.0 && state == CHARGINGUP_PHASE2)
+	else if (aliveTimer > 0.55 && state == CHARGINGUP_PHASE2)
 	{
 		attachedPlayer = nullptr; //Disable attaching of pos to player
 

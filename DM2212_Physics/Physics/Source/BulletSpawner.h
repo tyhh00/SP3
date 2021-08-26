@@ -21,5 +21,6 @@ public:
 private:
 	GameObjectManager* gom_ref;
 	Bullet* bulletPrototype;
+	std::vector<GameObject*> activeBullets;
 };
 

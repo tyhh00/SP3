@@ -85,6 +85,7 @@ struct GameObject
 	bool explosive; //on impact, is this explosive?
 	float explosiveRadius;
 	bool damagableByExplosive;
+	bool explodeNow; //Explode without colliding, just explode now!
 
 	//Temporarily disable GO (Made invisible, upon approaching timeleft 0, it will start blinking
 	bool respawnableBlock;
