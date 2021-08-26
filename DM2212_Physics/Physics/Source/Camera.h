@@ -10,7 +10,8 @@ public:
 
 	enum MODE {
 		EDGE,
-		CENTER
+		CENTER,
+		DELAYEDCENTER
 	};
 
 	Vector3 position;
@@ -29,7 +30,7 @@ public:
 	bool view_locked; // whether view is set to focus on target
 	bool auto_lock; // whether view will return to target once last transition is complete
 
-	//bool Creleased; 
+	double delay_timer;
 
 
 	Input* input;
