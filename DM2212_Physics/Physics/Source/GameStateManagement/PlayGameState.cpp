@@ -27,6 +27,49 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
 	, menuBG(NULL)
 	, buttonHighlight(NULL)
 {
+	m_screenHeight = 100.f;
+	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
+
+	sceneManager = SceneManager::GetInstance();
+
+	dialogueManager = DialogueManager::GetInstance();
+	uiManager = UIManager::GetInstance();
+
+	buttonManager = new ButtonManager(80, 60);
+
+	resumeButtonMesh = MeshBuilder::GenerateQuad("resume button", Color(1, 1, 1), 1.0f);
+	resumeButtonMesh->textureID = LoadTGA("Image/ResumeButton.tga");
+	lobbyButtonMesh = MeshBuilder::GenerateQuad("back to lobby button", Color(1, 1, 1), 1.0f);
+	lobbyButtonMesh->textureID = LoadTGA("Image/LobbyButton.tga");
+	retryButtonMesh = MeshBuilder::GenerateQuad("retry button", Color(1, 1, 1), 1.0f);
+	retryButtonMesh->textureID = LoadTGA("Image/RetryButton.tga");
+	menuBG = MeshBuilder::GenerateQuad("menu bg", Color(1, 1, 1), 1.0f);
+	menuBG->textureID = LoadTGA("Image/MenuBG.tga");
+
+	Mesh* highlight = MeshBuilder::GenerateQuad("Button Hover Highlight", Color(1, 1, 1), 1.0f);
+	highlight->textureID = LoadTGA("Image/ButtonHighlightA.tga");
+
+	Button* menuBGButton = ButtonFactory::createNoTextButton("menuBG", 40, 30,
+		30, 40, menuBG);
+	Button* resumeButton = ButtonFactory::createNoTextButton("resume", 40, 30,
+		15, 7, resumeButtonMesh);
+	Button* lobbyButton = ButtonFactory::createNoTextButton("lobby", 40, 20,
+		15, 7, lobbyButtonMesh);
+	Button* retryButton = ButtonFactory::createNoTextButton("retry", 40, 30,
+		15, 7, retryButtonMesh);
+	buttonHighlight = ButtonFactory::createNoTextButton("highlight", 40, 30,
+		16, 8, highlight);
+
+	menuBGButton->disable();
+	resumeButton->disable();
+	lobbyButton->disable();
+	retryButton->disable();
+	buttonHighlight->disable();
+	buttonManager->addButton(resumeButton);
+	buttonManager->addButton(lobbyButton);
+	buttonManager->addButton(retryButton);
+	buttonManager->addButton(buttonHighlight);
+	buttonManager->addButton(menuBGButton);
 }
 
 /**
@@ -67,51 +110,16 @@ CPlayGameState::~CPlayGameState(void)
 bool CPlayGameState::Init(void)
 {
 	cout << "CPlayGameState::Init()\n" << endl;
-	m_screenHeight = 100.f;
-	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 
-	sceneManager = SceneManager::GetInstance();
-	
-	dialogueManager = DialogueManager::GetInstance();
-	uiManager = UIManager::GetInstance();
 	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, true);
 
-	buttonManager = new ButtonManager(80, 60);
-
-	resumeButtonMesh = MeshBuilder::GenerateQuad("resume button", Color(1, 1, 1), 1.0f);
-	resumeButtonMesh->textureID = LoadTGA("Image/ResumeButton.tga");
-	lobbyButtonMesh = MeshBuilder::GenerateQuad("back to lobby button", Color(1, 1, 1), 1.0f);
-	lobbyButtonMesh->textureID = LoadTGA("Image/LobbyButton.tga");
-	retryButtonMesh = MeshBuilder::GenerateQuad("retry button", Color(1, 1, 1), 1.0f);
-	retryButtonMesh->textureID = LoadTGA("Image/RetryButton.tga");
-	menuBG = MeshBuilder::GenerateQuad("menu bg", Color(1, 1, 1), 1.0f);
-	menuBG->textureID = LoadTGA("Image/MenuBG.tga");
-
-	Mesh* highlight = MeshBuilder::GenerateQuad("Button Hover Highlight", Color(1, 1, 1), 1.0f);
-	highlight->textureID = LoadTGA("Image/ButtonHighlightA.tga");
-
-	Button* menuBGButton = ButtonFactory::createNoTextButton("menuBG", 40, 30,
-		30, 40, menuBG);
-	Button* resumeButton = ButtonFactory::createNoTextButton("resume", 40, 30,
-		15, 7, resumeButtonMesh);
-	Button* lobbyButton = ButtonFactory::createNoTextButton("lobby", 40, 20,
-		15, 7, lobbyButtonMesh);
-	Button* retryButton = ButtonFactory::createNoTextButton("retry", 40, 30,
-		15, 7, retryButtonMesh);
-	buttonHighlight = ButtonFactory::createNoTextButton("highlight", 40, 30,
-		16, 8, highlight);
-
-	menuBGButton->disable();
-	resumeButton->disable();
-	lobbyButton->disable();
-	retryButton->disable();
-	buttonHighlight->disable();
-	buttonManager->addButton(resumeButton);
-	buttonManager->addButton(lobbyButton);
-	buttonManager->addButton(retryButton);
-	buttonManager->addButton(buttonHighlight);
-	buttonManager->addButton(menuBGButton);
 	currentState = DEFAULT;
+
+	buttonManager->deactivateButton("highlight");
+	buttonManager->deactivateButton("retry");
+	buttonManager->deactivateButton("lobby");
+	buttonManager->deactivateButton("menuBG");
+	buttonManager->deactivateButton("resume");
 
 	return true;
 }

@@ -7,6 +7,12 @@ using namespace std;
 SceneManager::SceneManager()
 	: activeScene(NULL)
 {
+	physics = new ScenePhysics();
+	jungle = new SceneJungle();
+	levelEditor = new LevelEditor();
+	graveyard = new SceneGraveyard();
+	robot = new SceneRobot();
+	ocean = new SceneOcean();
 }
 
 SceneManager::~SceneManager()
@@ -45,19 +51,12 @@ SceneManager::~SceneManager()
 
 void SceneManager::init()
 {
-	physics = new ScenePhysics();
-	physics->Init();
-	jungle = new SceneJungle();
+	/*physics->Init();
 	jungle->Init();
-	levelEditor = new LevelEditor();
 	levelEditor->Init();
-	graveyard = new SceneGraveyard();
 	graveyard->Init();
-	robot = new SceneRobot();
 	robot->Init();
-	ocean = new SceneOcean();
-	ocean->Init();
-	std::cout << "FINISHED INITTING ALL SCENES" << std::endl;
+	ocean->Init();*/
 }
 
 void SceneManager::setScene(worlds sceneType)
@@ -83,6 +82,7 @@ void SceneManager::setScene(worlds sceneType)
 		activeScene = ocean;
 		break;
 	}
+	activeScene->Init();
 	activeScene->InitLights();
 	
 }
@@ -110,10 +110,11 @@ void SceneManager::render()
 
 void SceneManager::destroy()
 {
-	physics->Exit();
+	/*physics->Exit();
 	graveyard->Exit();
 	levelEditor->Exit();
 	robot->Exit();
-	ocean->Exit();
+	ocean->Exit();*/
+	activeScene->Exit();
 }
 

@@ -19,21 +19,7 @@ SceneMainMenu::SceneMainMenu() : buttonManager(NULL)
 
 SceneMainMenu::~SceneMainMenu()
 {
-	if (buttonMesh)
-	{
-		delete buttonMesh;
-		buttonMesh = NULL;
-	}
-	if (buttonManager)
-	{
-		delete buttonManager;
-		buttonManager = NULL;
-	}
-	if (background)
-	{
-		delete background;
-		background = NULL;
-	}
+	
 }
 
 void SceneMainMenu::Init()
@@ -217,4 +203,19 @@ void SceneMainMenu::Render()
 void SceneMainMenu::Exit()
 {
 	SceneBase::Exit();
+	if (buttonMesh)
+	{
+		delete buttonMesh;
+		buttonMesh = NULL;
+	}
+	if (buttonManager)
+	{
+		delete buttonManager;
+		buttonManager = NULL;
+	}
+	if (background)
+	{
+		delete background;
+		background = NULL;
+	}
 }

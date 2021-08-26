@@ -146,7 +146,6 @@ void Application::Init()
 		//return -1;
 	}
 
-
 }
 
 
@@ -154,9 +153,9 @@ void Application::Run()
 {
 	GameManager::GetInstance()->Init();
 	UIManager::GetInstance()->Init();
-
+	DialogueManager::GetInstance()->Init();
 	//double dElapsedTime = 0.0;
-	SceneManager::GetInstance()->init();
+	//SceneManager::GetInstance()->init();
 
 	//create gamestates
 	CGameStateManager::GetInstance()->AddGameState("IntroState", new CIntroState());
@@ -207,7 +206,7 @@ void Application::Exit()
 	//Destroy CGameStateManager
 	CGameStateManager::GetInstance()->Destroy();
 
-	SceneManager::GetInstance()->destroy();
+	//SceneManager::GetInstance()->destroy();
 	SceneManager::GetInstance()->Destroy();
 
 	DialogueManager::GetInstance()->Destroy();
