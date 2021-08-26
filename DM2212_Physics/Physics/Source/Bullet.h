@@ -11,6 +11,12 @@ enum BULLET_TYPE
 	BULLET_COUNT
 };
 
+enum BULLET_STATUS
+{
+	ALLY,
+	ENEMY
+};
+
 //To be used by Bullet Spawner to create actual bullet
 class Bullet : public GameObject
 {
@@ -29,10 +35,14 @@ public:
 	void SetBulletSpeed(float _bulletSpeed);
 	float GetBulletSpeed();
 
+	void SetBulletStatus(BULLET_STATUS status);
+
 protected:
 	Bullet(Mesh* mesh, int geoTypeID, SHAPE_TYPE collisionShape, BULLET_TYPE type, Vector3 scale, bool explosive, float explosionRadius, float _bulletSpeed);
 	float bulletSpeed;
 private:
 	BULLET_TYPE bulletType;
+	BULLET_STATUS bulletStatus;
+	
 };
 

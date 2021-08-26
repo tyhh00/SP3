@@ -75,13 +75,13 @@ void PlasmaBullet::Update(double dt)
 
 void PlasmaBullet::CollidedWith(GameObject* go)
 {
-	if (go->type == GameObject::GO_TILE && go->IsDamagableByExplosive())
+	if (go->type == GameObject::GO_TILE)
 	{
 		if (go->IsResponable())
 		{
 			go->SetTemporaryDisable(8.7);
 		}
-		else
+		else if (go->IsDamagableByExplosive())
 		{
 			go->dead = true;
 		}

@@ -7,6 +7,8 @@
 #include "Physics.h"
 #include "SceneBase.h"
 
+#include <set>
+
 typedef struct Attachment Attachment;
 
 struct GameObject
@@ -71,6 +73,8 @@ struct GameObject
 	float maxHP, currentHP; // in use
 	double timeout; // in use
 
+	float angle;
+
 	Material mat;
 
 	Physics* physics;
@@ -90,6 +94,9 @@ struct GameObject
 	float appearDurationLeft; //How much duration left in appear state
 	float reappearIn; //Respawning animation how long more till frame is showed
 	float reappearCD; //After reappeared, how long more till next one shows
+
+	//Reponse Collision whitelisted GAMEOBJECT_TYPES
+	std::set<int> responseWhitelist;
 
 	//Heathbar
 	bool healthBar;
@@ -135,6 +142,10 @@ struct GameObject
 	float GetRangeCheckMulti();
 
 	void ShowHealthBar(bool show);
+
+	void AddToResponseWhitelist(GAMEOBJECT_TYPE type);
+	void RemoveFromResponseWhitelist(GAMEOBJECT_TYPE type);
+	bool CanCollisionRespondTo(GAMEOBJECT_TYPE type);
 };
 
 struct Attachment : public GameObject

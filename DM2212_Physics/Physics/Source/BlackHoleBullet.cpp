@@ -45,6 +45,7 @@ void BlackHoleBullet::Init()
 void BlackHoleBullet::Update(double dt)
 {
 	aliveTimer += dt;
+	deltaTime = dt;
 
 	//Attach pos of bullet to player
 	if (attachedPlayer != nullptr)
@@ -59,15 +60,23 @@ void BlackHoleBullet::Update(double dt)
 	else if (aliveTimer >= 0.5 && state == ROLLING
 		&& physics->GetVelocity().x < 1)
 	{
-		DEBUG_MSG("Rolling");
+		if(state == ROLLING) //Upon happen once set alive timer back to 0.5 so suction last for 2.5s
+			aliveTimer = 0.5;
 		physics->SetInelasticity(0.99f);
 		physics->SetIsBouncable(false);
 		physics->SetGravity(Vector3(0, 0, 0));
 		physics->SetVelocity(Vector3(0, 0, 0));
+
+		physics->SetEnableCollisionResponse(false);
+		physics->SetMovable(false);
+		physics->SetVelocity(Vector3(0, 0, 0));
+		physics->SetGravityUpdate(false);
+
 		state = ACTIVE;
 		spriteRotationSpeed = Math::DegreeToRadian(120);
+		rangeCheckMulti = 4.0;
 	}
-	else if (aliveTimer >= 3.0)
+	else if (aliveTimer >= 3.0 && state == ACTIVE)
 	{
 		state = SCALINGDOWN;
 		scale -= normalisedScale * scaleSpeed * dt;
@@ -76,17 +85,52 @@ void BlackHoleBullet::Update(double dt)
 			scale.x = 0.1;
 			scale.y = 0.1;
 			dead = true;
-			DEBUG_MSG("DEactivating blackhole");
 		}
 	}
-	/*float angle = Math::RadianToDegree(atan2(physics->GetNormal().y, physics->GetNormal().x));
-	angle += spriteRotationSpeed * dt;
-	physics->SetNormal(Vector3(cosf(angle), sinf(angle)));*/
+	this->angle += spriteRotationSpeed * dt;
+	if (angle > 2 * Math::PI)
+	{
+		angle = 0;
+	}
 }
 
 void BlackHoleBullet::CollidedWith(GameObject* go)
 {
-	
+	if (state == ACTIVE)
+	{
+		if (go->type == GO_ENEMY || go->type == GO_BULLET && go != this)
+		{
+			if (go->type == GO_BULLET)
+			{
+				BlackHoleBullet* poten_bul = dynamic_cast<BlackHoleBullet*>(go);
+				if (poten_bul) // Dont suck in other Blackholes
+				{
+					return;
+				}
+			}
+			Vector3 dis = this->pos - go->pos;
+			if (!dis.IsZero())
+			{
+				DEBUG_MSG("DIS length square" << dis.LengthSquared());
+				Vector3 dis_N = dis.Normalized();
+				if (dis.LengthSquared() <= 70 * 70)
+				{
+					go->physics->SetVelocity(dis_N * 8);
+					DEBUG_MSG("GO MOVING INTO BH");
+				}
+
+				dis = this->pos - go->pos;
+				if (dis.LengthSquared() <= 10 * 10)
+				{
+					if (go->currentHP > 0)
+					{
+						go->currentHP -= 10 * deltaTime;
+					}
+				}
+			}
+
+		}
+	}
 }
 
 GameObject* BlackHoleBullet::Clone()

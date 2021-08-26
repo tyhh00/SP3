@@ -31,8 +31,8 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 	}
 	else
 	{
-		go1_fScale = go1->scale;
-		go2_fScale = go2->scale;
+		go1_fScale = go1->scale * go1->rangeCheckMulti;
+		go2_fScale = go2->scale * go2->rangeCheckMulti;
 	}
 	if (go1_fScale.LengthSquared() <= Math::EPSILON || go2_fScale.LengthSquared() <= Math::EPSILON)
 	{
@@ -100,9 +100,11 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 		{
 		case CIRCLE:
 		{
-
-
 			Vector3 dis = go2->pos - go1->pos;
+			if (dis.LengthSquared() < go2->scale.x)
+				dis = Vector3(0, 0, 0);
+			else
+				dis = (dis.Length() - go2->scale.x) * dis.Normalized();
 			Vector3 N = go2->physics->GetNormal();
 			if (dis.Dot(N) < 0)
 			{
@@ -253,12 +255,18 @@ void GameObjectManager::Update(double dt)
 					go->physics->SetOnGround(true);
 				}
 			}
+			if (go->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET
+				|| go2->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET)
+			{
+				int a = -5;
+			}
 
 			if (CheckCollision(go, go2, dt, false))
 			{
-				if (go->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET)
+				if (go->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET
+					|| go2->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET)
 				{
-					int a = -5;
+					DEBUG_MSG("SOME BULLET COLLISION");
 				}
 				if (go->IsExplosive())
 				{
@@ -266,7 +274,7 @@ void GameObjectManager::Update(double dt)
 					{
 						if (go3 == nullptr || !go3->active)
 							continue;
-						if (go != go3 && go != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
+						if (go != go3 && go3 != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
 						{
 							go->CollidedWith(go3);
 							go3->CollidedWith(go);
@@ -276,7 +284,7 @@ void GameObjectManager::Update(double dt)
 					{
 						if (go3 == nullptr)
 							continue;
-						if (go != go3 && go != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
+						if (go != go3 && go3 != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
 						{
 							go->CollidedWith(go3);
 							go3->CollidedWith(go);
@@ -286,7 +294,11 @@ void GameObjectManager::Update(double dt)
 
 				go->CollidedWith(go2);
 				go2->CollidedWith(go);
-				go->physics->CollisionResponse(go2->physics, dt);
+				if (go->CanCollisionRespondTo(go2->type) &&
+					go2->CanCollisionRespondTo(go->type))
+				{
+					go->physics->CollisionResponse(go2->physics, dt);
+				}
 				
 				go->pos = go->physics->pos;
 				go2->pos = go2->physics->pos;
@@ -334,7 +346,7 @@ void GameObjectManager::Update(double dt)
 					{
 						if (go3 == nullptr || !go3->active)
 							continue;
-						if (go != go3 && go != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
+						if (go != go3 && go3 != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
 						{
 							go->CollidedWith(go3);
 							go3->CollidedWith(go);
@@ -344,7 +356,7 @@ void GameObjectManager::Update(double dt)
 					{
 						if (go3 == nullptr)
 							continue;
-						if (go != go3 && go != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
+						if (go != go3 && go3 != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
 						{
 							go->CollidedWith(go3);
 							go3->CollidedWith(go);
@@ -353,7 +365,11 @@ void GameObjectManager::Update(double dt)
 				}
 				go->CollidedWith(go2);
 				go2->CollidedWith(go);
-				go->physics->CollisionResponse(go2->physics, dt);
+				if (go->CanCollisionRespondTo(go2->type) &&
+					go2->CanCollisionRespondTo(go->type))
+				{
+					go->physics->CollisionResponse(go2->physics, dt);
+				}
 				go->pos = go->physics->pos;
 				go2->pos = go2->physics->pos;
 				continue; //remove if stays at the end

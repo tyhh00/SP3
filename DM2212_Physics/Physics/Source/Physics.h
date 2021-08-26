@@ -4,6 +4,8 @@
 #include "Vector3.h"
 #include "Shape.h"
 
+#include <set>
+
 class Physics {
 private:
 	Vector3 vel;

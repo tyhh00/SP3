@@ -33,5 +33,7 @@ private:
 
 	//Custom GO Attachment for Position Updating
 	GameObject* attachedPlayer;
+
+	float deltaTime; //For CollidedWith Function
 };
 
