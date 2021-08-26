@@ -11,12 +11,13 @@ GrimReaper::GrimReaper() : Enemy(GY_GRIMREAPER)
 
 GrimReaper::~GrimReaper()
 {
+
 }
 
-void GrimReaper::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
+void GrimReaper::Init(SceneBase* scene, GameObjectManager* GOM, Vector3 &target)
 {
 	this->scene = scene;
-	this->inventory = inventory;
+	this->goManager = GOM;
 	playerPos = &target;
 
 	state = INACTIVE;
@@ -50,8 +51,19 @@ void GrimReaper::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 
 }
 
+
+
 void GrimReaper::Update(double dt)
 { 
+	currentHP = goManager->GetNumGOsbyType(GO_TOMBSTONE) * 10;
+	
+	std::cout << "GrimReaper.cpp : CURRENT HP: " << currentHP << std::endl;
+	if (currentHP <= 0)
+	{
+		dead = true;
+		return;
+	}
+
 	switch (state)
 	{
 	case INACTIVE:

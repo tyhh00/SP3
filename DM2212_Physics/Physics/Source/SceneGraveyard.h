@@ -11,6 +11,8 @@
 #include "GameObjectManager.h"
 #include "Buttons/DialogueManager.h"
 #include "SceneManager.h"
+#include "Gatekeeper.h"
+#include "GrimReaper.h"
 
 class SceneGraveyard : public SceneBase
 {
@@ -29,8 +31,9 @@ protected:
 
 	enum STORY_STATE {
 		GY_INTRO, // if got tutorial then let player pick up flashlight and learn to use it,, can run dialogues too if any
-		GY_DEFAULT, // main gameplay in graveyard scene
-		GY_GATEKEEPER1, // initial meeting w gatekeeper, player given a pickaxe
+		GY_FINDGATEKEEPER, // wait for initial meeting w gatekeeper, add dialogue + give pickaxe
+		GY_GATEKEEPER_DIALOGUE,
+		GY_GATEKEEPER2, // wait for church entry requirements
 		CHURCH_INTRO, // after meeting requirements, enter church, play any intro dialogue/storyline
 		CHURCH_DEFAULT, // main boss fight gameplay
 		CHURCH_END, // after defeating boss storyline/dialogue or anyth rlly
@@ -42,11 +45,15 @@ protected:
 
 	STORY_STATE story_state;
 
+	Player* player;
+	GameObject* pickaxe;
+	Gatekeeper* gatekeeper;
+	GrimReaper* reaper;
+
 	Inventory* inventory;
 	Input* input;
 	GameObjectManager* goManager;
 	DialogueManager* dialogueManager;
-	Player* player;
 	
 	double gridLength, gridHeight;
 	void CursorToWorldPosition(double& theX, double& theY);

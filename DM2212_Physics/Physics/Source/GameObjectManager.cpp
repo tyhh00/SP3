@@ -470,7 +470,7 @@ void GameObjectManager::Render(SceneBase* scene)
 	{
 		GameObject* go = (GameObject*)*it;
 
-		if (go == nullptr)
+		if (go == nullptr || !go->active)
 			continue;
 
 		go->Render(scene);
@@ -488,6 +488,31 @@ void GameObjectManager::AddAllGO(std::vector<GameObject*> gos)
 {
 	for (auto& go : gos)
 		AddGO(go);
+}
+int GameObjectManager::GetNumGOsbyType(GameObject::GAMEOBJECT_TYPE type)
+{
+	int num = 0;
+	for (auto go : m_movableGOList)
+	{
+		if (go != nullptr)
+		{
+			if (go->type == type)
+			{
+				num++;
+			}
+		}
+	}
+	for (auto go : m_stationaryGOList)
+	{
+		if (go != nullptr)
+		{
+			if (go->type == type)
+			{
+				num++;
+			}
+		}
+	}
+	return num;
 }
 void GameObjectManager::DeleteAllGOs()
 {

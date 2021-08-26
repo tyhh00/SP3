@@ -23,7 +23,8 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
-	std::string mapToLoad ="ROBOT_1_1";
+	std::string mapToLoad ="GRAVEYARD_1_1";
+
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;

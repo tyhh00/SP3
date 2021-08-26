@@ -316,7 +316,7 @@
     </ClCompile>
     <ClCompile Include="Source\BlackHoleBullet.cpp">
       <Filter>Source Files\Bullets</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Source\Dragon.cpp">
       <Filter>Source Files\GameObjects\Enemies</Filter>
     </ClCompile>
@@ -588,12 +588,15 @@
     </ClInclude>
     <ClInclude Include="Source\BlackHoleBullet.h">
       <Filter>Header Files\Bullets</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Source\Dragon.h">
       <Filter>Header Files\GameObjects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Source\Buttons\DialogueManager.h">
       <Filter>Header Files\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Gatekeeper.h">
+      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

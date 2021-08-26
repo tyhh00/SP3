@@ -25,6 +25,12 @@ using namespace std;
  */
 CLobbyState::CLobbyState(void)
 {
+	sceneLobby = new SceneLobby();
+	sceneManager = SceneManager::GetInstance();
+
+	// Input
+	input = Input::GetInstance();
+
 }
 
 /**
@@ -32,6 +38,11 @@ CLobbyState::CLobbyState(void)
  */
 CLobbyState::~CLobbyState(void)
 {
+	if (sceneLobby)
+	{
+		delete sceneLobby;
+		sceneLobby = NULL;
+	}
 }
 
 /**
@@ -40,16 +51,7 @@ CLobbyState::~CLobbyState(void)
 bool CLobbyState::Init(void)
 {
 	cout << "CLobbyState::Init()\n" << endl;
-
-	sceneLobby = new SceneLobby();
 	sceneLobby->Init();
-	sceneManager = SceneManager::GetInstance();
-	//sceneManager->init();
-	
-
-	// Input
-	input = Input::GetInstance();
-
 	return true;
 }
 
@@ -114,10 +116,6 @@ void CLobbyState::Render(void)
  */
 void CLobbyState::Destroy(void)
 {
+	sceneLobby->Exit();
 	cout << "CLobbyState::Destroy()\n" << endl;
-	if (sceneLobby)
-	{
-		delete sceneLobby;
-		sceneLobby = NULL;
-	}
 }

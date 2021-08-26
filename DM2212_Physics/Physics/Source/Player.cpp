@@ -97,7 +97,7 @@ void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* invento
 	}
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
-	animatedSprites->AddAnimation("idle", 0, 1);
+	animatedSprites->AddAnimation("idle", 1, 2);
 	animatedSprites->AddAnimation("right", 6, 8);
 	animatedSprites->AddAnimation("left", 3, 5);
 	animatedSprites->AddAnimation("up", 9, 11);

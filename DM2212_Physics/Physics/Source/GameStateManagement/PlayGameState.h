@@ -46,7 +46,7 @@ protected:
 	float m_screenWidth, m_screenHeight;
 
 	GAME_STATE currentState;
-	Mesh* resumeButtonMesh, *lobbyButtonMesh, *retryButtonMesh;
+	Mesh* resumeButtonMesh, *lobbyButtonMesh, *retryButtonMesh, *optionsButtonMesh, *backButtonMesh;
 	Mesh* menuBG;
 
 	Button* buttonHighlight;

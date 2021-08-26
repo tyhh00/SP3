@@ -242,6 +242,7 @@
     <ClInclude Include="Source\Dragon.h" />
     <ClInclude Include="Source\Coin.h" />
     <ClInclude Include="Source\Buttons\DialogueManager.h" />
+    <ClInclude Include="Source\Gatekeeper.h" />
     <ClInclude Include="Source\LightBullet.h" />
     <ClInclude Include="Source\Pistol.h" />
     <ClInclude Include="Source\Crab.h" />
