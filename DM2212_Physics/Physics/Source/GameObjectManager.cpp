@@ -528,6 +528,8 @@ void GameObjectManager::DeleteAllGOs()
 		delete go;
 		m_stationaryGOList.pop_back();
 	}
+	toAddList.clear();
+	toRemoveList.clear();
 }
 void GameObjectManager::Exit()
 {
