@@ -20,6 +20,8 @@ void UIManager::Init()
 		bm_array[i] = new ButtonManager();
 		active_array[i] = false;
 	}
+
+
 }
 
 ButtonManager* UIManager::GetButtonManager(UI_TYPE type)

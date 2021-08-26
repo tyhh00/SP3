@@ -25,7 +25,6 @@ using namespace std;
  */
 CLobbyState::CLobbyState(void)
 {
-
 }
 
 /**
@@ -47,6 +46,11 @@ meshGenerated.clear();
 bool CLobbyState::Init(void)
 {
 	cout << "CLobbyState::Init()\n" << endl;
+
+	sceneLobby = new SceneLobby();
+	sceneLobby->Init();
+	sceneManager = SceneManager::GetInstance();
+	//sceneManager->init();
 
 	//Init of UIManagement
 	uiManager = UIManager::GetInstance();
@@ -75,11 +79,6 @@ bool CLobbyState::Init(void)
 		bm_gameplayStat->addButton(ButtonFactory::createNoTextButton("coinicon", 2.2, 57, 1.2, 1.2, coinIcon));
 		bm_gameplayStat->addButton(ButtonFactory::createTextButton("coinvalue", 4.6, 55.1, 2, 2, 0, 0, Color(0.9, 0.9, 0.9), std::to_string(GameManager::GetInstance()->getCoins()), 1.4, SUPERMARIO));
 	}
-
-	sceneLobby = new SceneLobby();
-	sceneLobby->Init();
-	sceneManager = SceneManager::GetInstance();
-	sceneManager->init();
 
 	// Input
 	input = Input::GetInstance();

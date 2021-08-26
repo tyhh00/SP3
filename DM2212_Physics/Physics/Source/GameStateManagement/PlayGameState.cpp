@@ -27,7 +27,6 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
 	, menuBG(NULL)
 	, buttonHighlight(NULL)
 {
-
 }
 
 /**
@@ -35,7 +34,31 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
  */
 CPlayGameState::~CPlayGameState(void)
 {
-	
+	if (buttonManager)
+	{
+		delete buttonManager;
+		buttonManager = NULL;
+	}
+	if (resumeButtonMesh)
+	{
+		delete resumeButtonMesh;
+		resumeButtonMesh = NULL;
+	}
+	if (lobbyButtonMesh)
+	{
+		delete lobbyButtonMesh;
+		lobbyButtonMesh = NULL;
+	}
+	if (retryButtonMesh)
+	{
+		delete retryButtonMesh;
+		retryButtonMesh = NULL;
+	}
+	if (menuBG)
+	{
+		delete menuBG;
+		menuBG = NULL;
+	}
 }
 
 /**
@@ -44,12 +67,12 @@ CPlayGameState::~CPlayGameState(void)
 bool CPlayGameState::Init(void)
 {
 	cout << "CPlayGameState::Init()\n" << endl;
-
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 
 	sceneManager = SceneManager::GetInstance();
-	//sceneManager->Init();
+	
+	dialogueManager = DialogueManager::GetInstance();
 	uiManager = UIManager::GetInstance();
 	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, true);
 
@@ -68,13 +91,13 @@ bool CPlayGameState::Init(void)
 	highlight->textureID = LoadTGA("Image/ButtonHighlightA.tga");
 
 	Button* menuBGButton = ButtonFactory::createNoTextButton("menuBG", 40, 30,
-												30, 40, menuBG);
+		30, 40, menuBG);
 	Button* resumeButton = ButtonFactory::createNoTextButton("resume", 40, 30,
-												15, 7, resumeButtonMesh);
+		15, 7, resumeButtonMesh);
 	Button* lobbyButton = ButtonFactory::createNoTextButton("lobby", 40, 20,
-												15, 7, lobbyButtonMesh);
+		15, 7, lobbyButtonMesh);
 	Button* retryButton = ButtonFactory::createNoTextButton("retry", 40, 30,
-												15, 7, retryButtonMesh);
+		15, 7, retryButtonMesh);
 	buttonHighlight = ButtonFactory::createNoTextButton("highlight", 40, 30,
 		16, 8, highlight);
 
@@ -88,7 +111,6 @@ bool CPlayGameState::Init(void)
 	buttonManager->addButton(retryButton);
 	buttonManager->addButton(buttonHighlight);
 	buttonManager->addButton(menuBGButton);
-
 	currentState = DEFAULT;
 
 	return true;
@@ -102,7 +124,8 @@ bool CPlayGameState::Update(const double dElapsedTime)
 	switch (currentState)
 	{
 	case DEFAULT:
-		sceneManager->update(dElapsedTime);
+		if (!dialogueManager->Update(dElapsedTime))
+			sceneManager->update(dElapsedTime);
 		break;
 	case PAUSED:
 		break;
@@ -141,6 +164,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 			else if (button->buttonClicked->getName() == "lobby")
 			{
 				// Load the menu state
+				sceneManager->resetScene();
 				cout << "Loading LobbyState" << endl;
 				CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
 				return true;
@@ -174,6 +198,7 @@ void CPlayGameState::Render(void)
 	glClearColor(0.0f, 0.55f, 1.00f, 1.00f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	sceneManager->render();
+	dialogueManager->Render(sceneManager->getScene());
 	buttonManager->Render(sceneManager->getScene());
 	UIManager::GetInstance()->Render(sceneManager->getScene());
 }
@@ -184,31 +209,5 @@ void CPlayGameState::Render(void)
 void CPlayGameState::Destroy(void)
 {
 	cout << "CPlayGameState::Destroy()\n" << endl;
-	sceneManager->destroy();
 	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, false);
-	if (buttonManager)
-	{
-		delete buttonManager;
-		buttonManager = NULL;
-	}
-	if (resumeButtonMesh)
-	{
-		delete resumeButtonMesh;
-		resumeButtonMesh = NULL;
-	}
-	if (lobbyButtonMesh)
-	{
-		delete lobbyButtonMesh;
-		lobbyButtonMesh = NULL;
-	}
-	if (retryButtonMesh)
-	{
-		delete retryButtonMesh;
-		retryButtonMesh = NULL;
-	}
-	if (menuBG)
-	{
-		delete menuBG;
-		menuBG = NULL;
-	}
 }

@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Input.h"
 #include "GameObjectManager.h"
+#include "Buttons/DialogueManager.h"
 #include "SceneManager.h"
 
 class SceneGraveyard : public SceneBase
@@ -44,6 +45,7 @@ protected:
 	Inventory* inventory;
 	Input* input;
 	GameObjectManager* goManager;
+	DialogueManager* dialogueManager;
 	Player* player;
 	
 	double gridLength, gridHeight;

@@ -11,6 +11,36 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
+	if (physics)
+	{
+		delete physics;
+		physics = NULL;
+	}
+	if (levelEditor)
+	{
+		delete levelEditor;
+		levelEditor = NULL;
+	}
+	if (jungle)
+	{
+		delete jungle;
+		jungle = NULL;
+	}
+	if (graveyard)
+	{
+		delete graveyard;
+		graveyard = NULL;
+	}
+	if (ocean)
+	{
+		delete ocean;
+		ocean = NULL;
+	}
+	if (robot)
+	{
+		delete robot;
+		robot = NULL;
+	}
 }
 
 void SceneManager::init()

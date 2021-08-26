@@ -56,7 +56,8 @@ void SceneGraveyard::Init()
 	// Inventory 
 	inventory = new Inventory();
 	inventory->Init(this);
-
+	// Dialogue Manager
+	dialogueManager = DialogueManager::GetInstance();
 	//Store keyboard instance
 	input = Input::GetInstance();
 
@@ -148,6 +149,10 @@ void SceneGraveyard::Init()
 	player->SetAbilities(ability, nullptr);
 
 	story_state = GY_INTRO;
+
+	//dialogueManager->AddDialogue(PLAYER, "Is this a graveyard?", LEFT ,1.0f);
+	//dialogueManager->AddDialogue(PLAYER, "Its so dark", LEFT, 1.0f);
+	//dialogueManager->AddDialogue(PLAYER, "Oh! There's a flashlight there!", LEFT, 1.0f);
 }
 
 void SceneGraveyard::Update(double dt)
@@ -178,7 +183,9 @@ void SceneGraveyard::Update(double dt)
 		story_state = CHURCH_INTRO;
 	}
 
+	
 	goManager->Update(dt);
+
 	inventory->Update(dt);
 
 	if (player->currentHP <= 0)
