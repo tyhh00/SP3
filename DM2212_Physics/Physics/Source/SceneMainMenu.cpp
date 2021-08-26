@@ -11,8 +11,12 @@
 #include "Buttons/ButtonFactory.h"
 
 SceneMainMenu::SceneMainMenu() : buttonManager(NULL)
-		, buttonMesh(NULL)
+	, PlayButtonMesh(NULL)
+	, CreditsButtonMesh(NULL)
+	, QuitButtonMesh(NULL)
+	, title(NULL)
 	, background(NULL)
+	, buttonHighlight(NULL)
 	
 {
 }
@@ -37,21 +41,33 @@ void SceneMainMenu::Init()
 
 	background = MeshBuilder::GenerateSpriteAnimation(5, 5, 1.0f, 1.0f);
 	background->AddAnimation("idle", 0, 24);
+	title = MeshBuilder::GenerateQuad("title", Color(1, 1, 1), 1.0f);
+	title->textureID = LoadTGA("Image/Title.tga");
 
 	background->PlayAnimation("idle", -1, 2.5f);
 	background->textureID = LoadTGA("Image/MainMenuBG.tga");
 
 	buttonManager = new ButtonManager(80, 60);
 
-	buttonMesh = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
-	buttonMesh->textureID = LoadTGA("Image/button.tga");
+	Mesh* highlight = MeshBuilder::GenerateQuad("Button Hover Highlight", Color(1, 1, 1), 1.0f);
+	highlight->textureID = LoadTGA("Image/ButtonHighlightB.tga");
 
-	Button* playButton = ButtonFactory::createNoTextButton("play", 40, 30, 10, 5, buttonMesh);
+	PlayButtonMesh = MeshBuilder::GenerateQuad("Play button", Color(1, 1, 1), 1.0f);
+	PlayButtonMesh->textureID = LoadTGA("Image/PlayButton.tga");
+	CreditsButtonMesh = MeshBuilder::GenerateQuad("Credits button", Color(1, 1, 1), 1.0f);
+	CreditsButtonMesh->textureID = LoadTGA("Image/CreditsButton.tga");
+	QuitButtonMesh = MeshBuilder::GenerateQuad("Quit button", Color(1, 1, 1), 1.0f);
+	QuitButtonMesh->textureID = LoadTGA("Image/QuitButton.tga");
+
+	Button* playButton = ButtonFactory::createNoTextButton("play", 40, 25, 12, 6, PlayButtonMesh);
 	buttonManager->addButton(playButton);
-	Button* creditsButton = ButtonFactory::createNoTextButton("credits", 40, 20, 10, 5, buttonMesh);
+	Button* creditsButton = ButtonFactory::createNoTextButton("credits", 40, 17, 12, 6, CreditsButtonMesh);
 	buttonManager->addButton(creditsButton);
-	Button* quitButton = ButtonFactory::createNoTextButton("quit", 40, 10, 10, 5, buttonMesh);
+	Button* quitButton = ButtonFactory::createNoTextButton("quit", 40, 9, 12, 6, QuitButtonMesh);
 	buttonManager->addButton(quitButton);
+	buttonHighlight = ButtonFactory::createNoTextButton("highlight", 40, 30,
+		13, 7, highlight);
+	buttonManager->addButton(buttonHighlight);
 
 	camera.Init(Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, 1), Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
@@ -63,11 +79,18 @@ void SceneMainMenu::Init()
 void SceneMainMenu::Update(double dt)
 {
 	SceneBase::Update(dt);
-	buttonManager->Update(this, dt);
 	background->Update(dt);
+	
+	buttonManager->Update(this, dt);
 
+	buttonManager->deactivateButton("highlight");
 	for (auto button : buttonManager->getButtonsInteracted())
 	{
+		if (button->hovering)
+		{
+			buttonManager->activateButton("highlight");
+			buttonHighlight->setOrigin(button->buttonClicked->getOriginX(), button->buttonClicked->getOriginY());
+		}
 		if (button->justClicked)
 		{
 			if (button->buttonClicked->getName() == "play")
@@ -183,9 +206,15 @@ void SceneMainMenu::Render()
 	modelStack.PushMatrix();
 	modelStack.Translate(m_worldWidth * 0.5, m_worldHeight * 0.5, 0);
 	modelStack.Scale(m_worldWidth, m_worldHeight, 1);
-	RenderMesh(background, true);
+	RenderMesh(background, false);
 	modelStack.PopMatrix();
 
+
+	modelStack.PushMatrix();
+	modelStack.Translate(m_worldWidth * 0.5, m_worldHeight * 0.7, 0.1);
+	modelStack.Scale(83.579, 30, 1);
+	RenderMesh(title, false);
+	modelStack.PopMatrix();
 
 	buttonManager->Render(this);
 
@@ -203,10 +232,20 @@ void SceneMainMenu::Render()
 void SceneMainMenu::Exit()
 {
 	SceneBase::Exit();
-	if (buttonMesh)
+	if (PlayButtonMesh)
 	{
-		delete buttonMesh;
-		buttonMesh = NULL;
+		delete PlayButtonMesh;
+		PlayButtonMesh = NULL;
+	}
+	if (CreditsButtonMesh)
+	{
+		delete CreditsButtonMesh;
+		CreditsButtonMesh = NULL;
+	}
+	if (QuitButtonMesh)
+	{
+		delete QuitButtonMesh;
+		QuitButtonMesh = NULL;
 	}
 	if (buttonManager)
 	{

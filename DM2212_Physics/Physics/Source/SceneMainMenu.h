@@ -22,8 +22,11 @@ public:
 	virtual void Exit();
 
 protected:
-	Mesh* buttonMesh;
-	//Mesh* title;
+	Mesh* PlayButtonMesh, *CreditsButtonMesh, *QuitButtonMesh;
+	Mesh* title;
+
+	Button* buttonHighlight;
+
 	SpriteAnimation* background;
 	ButtonManager* buttonManager;
 
