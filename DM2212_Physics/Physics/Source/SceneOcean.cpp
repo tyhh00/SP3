@@ -15,7 +15,6 @@
 
 SceneOcean::SceneOcean()
 {
-	goManager = new GameObjectManager();
 }
 
 SceneOcean::~SceneOcean()
@@ -26,7 +25,6 @@ SceneOcean::~SceneOcean()
 void SceneOcean::Init()
 {
 	SceneBase::Init();
-	goManager->Init();
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
@@ -37,6 +35,10 @@ void SceneOcean::Init()
 	//Inventory init
 	inventory = new Inventory();
 	inventory->Init(this);
+
+	// GO Manager
+	goManager = new GameObjectManager();
+	goManager->Init();
 
 	//Physics code here
 	m_speed = 1.f;
