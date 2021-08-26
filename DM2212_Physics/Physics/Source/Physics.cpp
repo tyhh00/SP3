@@ -505,6 +505,8 @@ void Physics::ApplyContactForce(Physics* go1, Physics* go2, double dt, bool appl
 	}
 }
 
+
+
 Physics* Physics::Clone()
 {
 	Physics* newPhy = new Physics(this->shapeType, this->pos, this->scale, this->vel,

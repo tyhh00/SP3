@@ -17,6 +17,9 @@ void Enemy::Init()
 	physics->SetMovable(true);
 	physics->SetIsBouncable(false);
 	physics->SetInelasticity(0.99f);
+
+	//DISABLE COLLISION RESPONSE WITH PLAYER ONLY
+	this->AddToResponseWhitelist(GO_PLAYER);
 }
 
 void Enemy::Update(double dt)

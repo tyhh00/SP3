@@ -11,8 +11,8 @@ PlasmaRobot::PlasmaRobot()
 	, attackTime(0.0)
 	, stateActive(0.f)
 	, walkingDir(RIGHT)
-	, jumpCD(5.5)
-	, jumpCD_timeleft(jumpCD)
+	, jumpCD(3)
+	, jumpCD_timeleft(1)
 {
 }
 
@@ -22,6 +22,7 @@ void PlasmaRobot::Init(GameObject* target, BulletSpawner* spawner)
 
 	//HEALTH
 	this->currentHP = 10;
+	this->maxHP = 10;
 	this->target = target;
 	this->spawner = spawner;
 

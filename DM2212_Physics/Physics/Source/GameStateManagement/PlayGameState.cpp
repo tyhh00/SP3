@@ -24,6 +24,7 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
 	, resumeButtonMesh(NULL)
 	, lobbyButtonMesh(NULL)
 	, retryButtonMesh(NULL)
+	, backButtonMesh(NULL)
 	, menuBG(NULL)
 	, buttonHighlight(NULL)
 {
@@ -43,6 +44,10 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
 	lobbyButtonMesh->textureID = LoadTGA("Image/LobbyButton.tga");
 	retryButtonMesh = MeshBuilder::GenerateQuad("retry button", Color(1, 1, 1), 1.0f);
 	retryButtonMesh->textureID = LoadTGA("Image/RetryButton.tga");
+	optionsButtonMesh = MeshBuilder::GenerateQuad("options button", Color(1, 1, 1), 1.0f);
+	optionsButtonMesh->textureID = LoadTGA("Image/OptionsButton.tga");
+	backButtonMesh = MeshBuilder::GenerateQuad("back button", Color(1, 1, 1), 1.0f);
+	backButtonMesh->textureID = LoadTGA("Image/BackButton.tga");
 	menuBG = MeshBuilder::GenerateQuad("menu bg", Color(1, 1, 1), 1.0f);
 	menuBG->textureID = LoadTGA("Image/MenuBG.tga");
 
@@ -51,12 +56,16 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
 
 	Button* menuBGButton = ButtonFactory::createNoTextButton("menuBG", 40, 30,
 		30, 40, menuBG);
-	Button* resumeButton = ButtonFactory::createNoTextButton("resume", 40, 30,
+	Button* resumeButton = ButtonFactory::createNoTextButton("resume", 40, 40,
 		15, 7, resumeButtonMesh);
+	Button* optionsButton = ButtonFactory::createNoTextButton("options", 40, 30,
+		15, 7, optionsButtonMesh);
 	Button* lobbyButton = ButtonFactory::createNoTextButton("lobby", 40, 20,
 		15, 7, lobbyButtonMesh);
 	Button* retryButton = ButtonFactory::createNoTextButton("retry", 40, 30,
 		15, 7, retryButtonMesh);
+	Button* backButton = ButtonFactory::createNoTextButton("back", 40, 20,
+		15, 7, backButtonMesh);
 	buttonHighlight = ButtonFactory::createNoTextButton("highlight", 40, 30,
 		16, 8, highlight);
 
@@ -64,12 +73,17 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
 	resumeButton->disable();
 	lobbyButton->disable();
 	retryButton->disable();
+	optionsButton->disable();
+	backButton->disable();
 	buttonHighlight->disable();
 	buttonManager->addButton(resumeButton);
 	buttonManager->addButton(lobbyButton);
 	buttonManager->addButton(retryButton);
-	buttonManager->addButton(buttonHighlight);
-	buttonManager->addButton(menuBGButton);
+	buttonManager->addButton(optionsButton);
+	buttonManager->addButton(backButton);
+
+	buttonManager->addButton(buttonHighlight); // second last
+	buttonManager->addButton(menuBGButton); // must be last
 }
 
 /**
@@ -120,6 +134,8 @@ bool CPlayGameState::Init(void)
 	buttonManager->deactivateButton("lobby");
 	buttonManager->deactivateButton("menuBG");
 	buttonManager->deactivateButton("resume");
+	buttonManager->deactivateButton("options");
+	buttonManager->deactivateButton("back");
 
 	return true;
 }
@@ -158,6 +174,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 			{
 				buttonManager->deactivateButton("resume");
 				buttonManager->deactivateButton("lobby");
+				buttonManager->deactivateButton("options");
 				buttonManager->deactivateButton("menuBG");
 				currentState = DEFAULT;
 			}
@@ -168,6 +185,21 @@ bool CPlayGameState::Update(const double dElapsedTime)
 				buttonManager->deactivateButton("menuBG");
 				sceneManager->resetScene();
 				currentState = DEFAULT;
+			}
+			else if (button->buttonClicked->getName() == "options")
+			{
+				buttonManager->deactivateButton("resume");
+				buttonManager->deactivateButton("lobby");
+				buttonManager->deactivateButton("options");
+				buttonManager->activateButton("back");
+
+			}
+			else if (button->buttonClicked->getName() == "back")
+			{
+				buttonManager->deactivateButton("back");
+				buttonManager->activateButton("lobby");
+				buttonManager->activateButton("options");
+				buttonManager->activateButton("resume");
 			}
 			else if (button->buttonClicked->getName() == "lobby")
 			{
@@ -186,6 +218,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 		currentState = PAUSED;
 		buttonManager->activateButton("resume");
 		buttonManager->activateButton("lobby");
+		buttonManager->activateButton("options");
 		buttonManager->activateButton("menuBG");
 	}
 	if (sceneManager->getScene()->gameLost)

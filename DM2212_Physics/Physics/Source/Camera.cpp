@@ -22,6 +22,8 @@ void Camera::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	view_locked = true;
 	auto_lock = true;
 
+	delay_timer = 0;
+
 	SLIDE_SPEED = 100.0f;
 	defaultMAXD_X = 50.0f;
 	defaultNEWD_X = 45.0f;
@@ -70,27 +72,6 @@ void Camera::Update(Vector3 focusTarget, double dt)
 	}
 
 	
-	// move camera using arrow keys
-	if (Application::IsKeyPressed(VK_LEFT) 
-		&& target.x - screenWidth * 0.5 > 0)
-	{
-		newTarget.x = target.x - 1;
-	}
-	else if (Application::IsKeyPressed(VK_RIGHT)
-		&& target.x + screenWidth * 0.5 < worldWidth)
-	{
-		newTarget.x = target.x + 1;
-	}
-	if (Application::IsKeyPressed(VK_UP)
-		&& target.y + screenHeight * 0.5 < worldHeight)
-	{
-		newTarget.y = target.y + 1;
-	}
-	else if (Application::IsKeyPressed(VK_DOWN)
-		&& target.y - screenHeight * 0.5 > 0)
-	{
-		newTarget.y = target.y - 1;
-	}
 	
 
 	// update target based on new/next target
@@ -118,9 +99,31 @@ void Camera::Update(Vector3 focusTarget, double dt)
 
 	Constraint();
 
+	if (target == newTarget)
+	{
+		delay_timer = 1;
+	}
+
 	if (target != newTarget)
 	{
-		UpdateTarget(dt);
+		if (mode == DELAYEDCENTER)
+		{
+			if (delay_timer <= 0)
+			{
+				UpdateTarget(dt);
+			}
+		}
+		else
+			UpdateTarget(dt);
+	}
+
+	if (delay_timer > 0)
+	{
+		delay_timer -= dt;
+		if (delay_timer < 0)
+		{
+			delay_timer = 0;
+		}
 	}
 	// update cam pos based on target
 	position.x = target.x;
@@ -199,6 +202,7 @@ void Camera::SetMode(MODE mode)
 	switch (mode)
 	{
 	case CENTER:
+	case DELAYEDCENTER:
 		MAXD_X = 0;
 		NEWD_X = 0;
 		MAXD_Y = 0;

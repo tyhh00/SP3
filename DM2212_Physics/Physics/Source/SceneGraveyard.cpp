@@ -123,7 +123,7 @@ void SceneGraveyard::Init()
 			weed->physics = go->physics->Clone();
 			weed->physics->SetInelasticity(0.99f);
 			weed->physics->SetIsBouncable(false);
-			weed->Init(this, inventory, player->pos);
+			weed->Init();
 
 			goManager->AddGO(weed);
 
@@ -165,6 +165,7 @@ void SceneGraveyard::Init()
 	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);
+	camera.SetMode(Camera::CENTER);
 
 	// ABILITIES
 	PortalAbility* ability = new PortalAbility;

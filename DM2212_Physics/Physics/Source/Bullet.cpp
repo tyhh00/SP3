@@ -14,6 +14,7 @@ Bullet::Bullet(Mesh* mesh, int geoTypeID, SHAPE_TYPE collisionShape, BULLET_TYPE
 	: GameObject(GameObject::GAMEOBJECT_TYPE::GO_BULLET, mesh, geoTypeID, collisionShape)
 	, bulletType(type)
 	, bulletSpeed(_bulletSpeed)
+	, bulletStatus(ALLY)
 {
 	this->physics->SetMovable(true);
 	this->physics->SetGravity(false);

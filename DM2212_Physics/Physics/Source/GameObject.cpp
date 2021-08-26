@@ -12,11 +12,13 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, SHAPE_TYPE shapeType)
 	bottomSprite(NULL), scene(NULL)
 	, explosive(false)
 	, explosiveRadius(1.0f)
+	, explodeNow(false)
 	, dead(false)
 	, damagableByExplosive(false)
 	, tempDisable_active(false)
 	, tempDisable_timeleft(0.0)
 	, appearLastFor(0.1)
+	, angle(0)
 	, reappearCD(appearLastFor+0.1)
 	, appearDurationLeft(appearLastFor)
 	, respawnableBlock(false)
@@ -39,9 +41,11 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHA
 	mesh(mesh),
 	enableCollision(true),
 	rangeCheckMulti(1.f),
+	angle(0),
 	bottomSprite(NULL), scene(NULL)
 	, explosive(false)
 	, explosiveRadius(1.0f)
+	, explodeNow(false)
 	, dead(false)
 	, damagableByExplosive(false)
 	, tempDisable_active(false)
@@ -129,7 +133,7 @@ void GameObject::Render(SceneBase* scene)
 		scene->modelStack.PopMatrix();
 	}
 
-	float angle = Math::RadianToDegree(atan2(physics->GetNormal().y, physics->GetNormal().x));
+	float angle = Math::RadianToDegree(this->angle + atan2(physics->GetNormal().y, physics->GetNormal().x));
 	scene->modelStack.PushMatrix();
 	scene->modelStack.Translate(pos.x, pos.y, pos.z);
 	scene->modelStack.Rotate(angle + physics->GetRotateZ(), 0, 0, 1);
@@ -275,5 +279,24 @@ float GameObject::GetRangeCheckMulti()
 void GameObject::ShowHealthBar(bool show)
 {
 	this->healthBar = show;
+}
+
+void GameObject::AddToResponseWhitelist(GAMEOBJECT_TYPE type)
+{
+	this->responseWhitelist.insert((int)type);
+}
+
+void GameObject::RemoveFromResponseWhitelist(GAMEOBJECT_TYPE type)
+{
+	this->responseWhitelist.erase((int)type);
+}
+
+bool GameObject::CanCollisionRespondTo(GAMEOBJECT_TYPE type)
+{
+	if (this->responseWhitelist.count((int)type) > 0)
+	{
+		return false;
+	}
+	return true;
 }
 

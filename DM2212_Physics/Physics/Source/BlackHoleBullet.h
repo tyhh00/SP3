@@ -7,6 +7,14 @@ enum BLACKHOLEBULLET_STATE
 	ROLLING,
 	ACTIVE,
 	SCALINGDOWN,
+	SUICIDE,
+};
+
+enum THROWN_DIRECTION
+{
+	LEFT,
+	RIGHT,
+	UNSET
 };
 
 class BlackHoleBullet : public Bullet
@@ -33,5 +41,11 @@ private:
 
 	//Custom GO Attachment for Position Updating
 	GameObject* attachedPlayer;
+
+	THROWN_DIRECTION thrownDirection;
+
+	float deltaTime; //For CollidedWith Function
+
+	int GetShotXDirection();
 };
 
