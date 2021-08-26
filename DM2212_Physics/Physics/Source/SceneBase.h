@@ -241,6 +241,11 @@ public:
 		//Tiles End
 		GEO_TILES_END,
 
+		GEO_BLACKHOLE,
+
+		GEO_HEALTHBAR_OUTER,
+		GEO_HEALTHBAR,
+
 
 		//UI
 		GEO_UI_APPLE,

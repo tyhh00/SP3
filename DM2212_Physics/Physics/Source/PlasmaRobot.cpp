@@ -11,6 +11,8 @@ PlasmaRobot::PlasmaRobot()
 	, attackTime(0.0)
 	, stateActive(0.f)
 	, walkingDir(RIGHT)
+	, jumpCD(5.5)
+	, jumpCD_timeleft(jumpCD)
 {
 }
 
@@ -29,6 +31,9 @@ void PlasmaRobot::Init(GameObject* target, BulletSpawner* spawner)
 	animatedSprite->AddAnimation("idle-right", 0, 3);
 	animatedSprite->AddAnimation("walking-right", 4, 11);
 	animatedSprite->AddAnimation("chargingattack-right", 12, 15);
+
+	this->physics->SetGravity(Vector3(0, -50, 0));
+	this->physics->SetMass(5);
 
 	animatedSprite->AddAnimation("idle-left", 25, 28);
 	animatedSprite->AddAnimation("walking-left", 29, 36);
@@ -51,6 +56,8 @@ void PlasmaRobot::Update(double dt)
 	animatedSprite->Update(dt);
 	attackCD -= dt;
 
+	jumpCD_timeleft -= dt;
+
 	if (this->physics->GetVelocity().LengthSquared() > 0.1)
 	{
 		Vector3 V = this->physics->GetVelocity();
@@ -65,7 +72,7 @@ void PlasmaRobot::Update(double dt)
 		}
 	}
 
-	if (state == IDLE && stateActive > 3.0)
+	if (state == IDLE && stateActive > 1.0)
 	{
 		state = WALKING;
 		stateActive = 0.0;
@@ -74,7 +81,18 @@ void PlasmaRobot::Update(double dt)
 	{
 		animatedSprite->PlayAnimation("walking-" + GetWalkingDirection(), -1, 3.3);
 		Vector3 dis = target->pos - this->pos;
-		this->physics->SetVelocity(dis.Normalized() * 6);
+		static float XSPEED = 10;
+		if (dis.x <= -XSPEED) dis.x = -XSPEED;
+		else if (dis.x >= XSPEED) dis.x = XSPEED;
+
+		if (this->physics->GetOnGround() && jumpCD_timeleft <= 0.0)
+		{
+			jumpCD_timeleft = jumpCD;
+			dis.y += 26;
+		}
+		else
+			dis.y = this->physics->GetVelocity().y;
+		this->physics->SetVelocity(dis);
 		if (dis.LengthSquared() <= targetRange * targetRange && attackCD <= 1)
 		{
 			state = AIMING;
@@ -102,7 +120,7 @@ void PlasmaRobot::Update(double dt)
 				attackCD = ATTACK_COOLDOWN;
 				animatedSprite->PlayAnimation("chargingattack-" + GetWalkingDirection(), 0, 2);
 				Vector3 dis = target->pos - this->pos;
-				spawner->SpawnBullet(this->pos, dis * BULLET_SPEED, dis);
+				spawner->SpawnBullet(this->pos, dis, dis);
 				DEBUG_MSG("Spawning bullet at " << this->pos);
 			}
 

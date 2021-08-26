@@ -38,6 +38,10 @@ private:
 	SpriteAnimation* animatedSprite;
 	float dyingAnim;
 
+	float jumpCD
+		, jumpCD_timeleft;
+
+
 	float attackCD;
 	float attackTime;
 

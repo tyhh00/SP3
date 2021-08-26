@@ -25,7 +25,6 @@ void LevelEditor::Init()
 
 	std::string mapToLoad ="ROBOT_1_1";
 
-
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
@@ -598,7 +597,13 @@ void LevelEditor::Render()
 	}
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0,1,0), 3, 0, 76);
 
-
+	if (heldOnTo != nullptr)
+	{
+		ss.str("");
+		ss.precision(3);
+		ss << "Selected Block Mesh: " << heldOnTo->mesh->name;
+		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 90, 2);
+	}
 
 	//int line = 88;
 

@@ -14,7 +14,7 @@ public:
 
 	BULLET_TYPE GetBulletType();
 	void SetBullet(Bullet*); //Set the bullet prototype, will not allow wrong value parsing
-
+	void SetBulletSpeed(float speed);
 	void SpawnBullet(Vector3 pos, Vector3 vel, Vector3 normal);
 
 private:
