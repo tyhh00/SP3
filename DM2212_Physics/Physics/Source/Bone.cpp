@@ -3,14 +3,15 @@
 #include "LoadTGA.h"
 #include "Bone.h"
 
-Bone::Bone(Mesh* _mesh, int _quantity) : Consumable(I_BONE, mesh)
+Bone::Bone(int _quantity) : Consumable(I_BONE, mesh)
 {
 	isStackable = true;
 	quantity = _quantity;
 
 	input = Input::GetInstance();
 
-	mesh = _mesh;
+	mesh = MeshBuilder::GenerateQuad("bone", Color(1, 1, 1), 2.0f);
+	mesh->textureID = LoadTGA("Image/Items/bone.tga");
 }
 
 void Bone::Init()

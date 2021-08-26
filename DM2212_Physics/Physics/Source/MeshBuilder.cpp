@@ -84,22 +84,22 @@ Mesh* MeshBuilder::GenerateQuad(const std::string &meshName, Color color, float 
 	v.pos.Set(-0.5f * length,-0.5f * length,0);
 	v.color = color;
 	v.normal.Set(0, 0, 1);
-	v.texCoord.Set(0, 0);
+	v.texCoord.Set(0.01, 0.01);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(0.5f * length,-0.5f * length,0);
 	v.color = color;
 	v.normal.Set(0, 0, 1);
-	v.texCoord.Set(1.0f, 0);
+	v.texCoord.Set(0.99f, 0.01);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(0.5f * length, 0.5f * length,0);
 	v.color = color;
 	v.normal.Set(0, 0, 1);
-	v.texCoord.Set(1.0f, 1.0f);
+	v.texCoord.Set(0.99f, 0.99f);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(-0.5f * length, 0.5f * length,0);
 	v.color = color;
 	v.normal.Set(0, 0, 1);
-	v.texCoord.Set(0, 1.0f);
+	v.texCoord.Set(0.01, 0.99f);
 	vertex_buffer_data.push_back(v);
 	
 	index_buffer_data.push_back(3);
@@ -511,7 +511,7 @@ SpriteAnimation* MeshBuilder::GenerateSpriteAnimation(unsigned numRow, unsigned 
 
 
 			float u1 = j * width;
-			float v1 = 1.f - height - i * height;
+			float v1 = 1.0f - height - i * height;
 			v.pos = Position(-0.5f * tile_width, -0.5f * tile_height, 0);
 			v.texCoord = TexCoord(u1, v1); //0
 			vertex_buffer_data.push_back(v);

@@ -156,7 +156,9 @@
   <ItemGroup>
     <ClCompile Include="Source\BlackHoleBullet.cpp" />
     <ClCompile Include="Source\BlackHole.cpp" />
+    <ClCompile Include="Source\Dragon.cpp" />
     <ClCompile Include="Source\Coin.cpp" />
+    <ClCompile Include="Source\Buttons\DialogueManager.cpp" />
     <ClCompile Include="Source\LightBullet.cpp" />
     <ClCompile Include="Source\Pistol.cpp" />
     <ClCompile Include="Source\Crab.cpp" />
@@ -237,7 +239,9 @@
   <ItemGroup>
     <ClInclude Include="Source\BlackHoleBullet.h" />
     <ClInclude Include="Source\BlackHole.h" />
+    <ClInclude Include="Source\Dragon.h" />
     <ClInclude Include="Source\Coin.h" />
+    <ClInclude Include="Source\Buttons\DialogueManager.h" />
     <ClInclude Include="Source\LightBullet.h" />
     <ClInclude Include="Source\Pistol.h" />
     <ClInclude Include="Source\Crab.h" />

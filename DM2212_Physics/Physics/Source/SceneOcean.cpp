@@ -101,6 +101,22 @@ void SceneOcean::Init()
 			delete go;
 			go = nullptr;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_OCEAN_DRAGONHEAD)
+		{
+			Dragon* dragon = new Dragon();
+			dragon->active = true;
+			dragon->scale = go->scale;
+			dragon->pos = go->pos;
+			dragon->physics = go->physics->Clone();
+			dragon->physics->SetInelasticity(0.99f);
+			dragon->physics->SetIsBouncable(false);
+			dragon->Init(this, player->pos, 8);
+			goManager->AddGO(dragon);
+
+			//Delete Grid Player
+			delete go;
+			go = nullptr;
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	

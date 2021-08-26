@@ -316,6 +316,12 @@
     </ClCompile>
     <ClCompile Include="Source\BlackHoleBullet.cpp">
       <Filter>Source Files\Bullets</Filter>
+	</ClCompile>
+    <ClCompile Include="Source\Dragon.cpp">
+      <Filter>Source Files\GameObjects\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buttons\DialogueManager.cpp">
+      <Filter>Source Files\Buttons</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -582,6 +588,12 @@
     </ClInclude>
     <ClInclude Include="Source\BlackHoleBullet.h">
       <Filter>Header Files\Bullets</Filter>
+	</ClInclude>
+    <ClInclude Include="Source\Dragon.h">
+      <Filter>Header Files\GameObjects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Buttons\DialogueManager.h">
+      <Filter>Header Files\Buttons</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

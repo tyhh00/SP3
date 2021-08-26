@@ -167,7 +167,6 @@ void Player::Update(double dt)
 		}
 	}
 
-
 	curr_max_vel = Math::Clamp(curr_max_vel, MAX_VEL, 100.f);
 	physics->SetVelocity(Vector3(Math::Clamp(physics->GetVelocity().x, -curr_max_vel, curr_max_vel), physics->GetVelocity().y, physics->GetVelocity().z));
 
@@ -177,7 +176,6 @@ void Player::Update(double dt)
 
 void Player::UpdateMovement(double dt)
 {
-
 	if (mode == WASD)
 	{
 		float speed = 20.f;
@@ -333,7 +331,7 @@ void Player::CollidedWith(GameObject* go)
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
-			inventory->AddItem(new Bone(go->mesh, 2));
+			inventory->AddItem(new Bone(2));
 		}
 		break;
 	case SceneBase::GEO_BONES_03:
@@ -341,7 +339,7 @@ void Player::CollidedWith(GameObject* go)
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
-			inventory->AddItem(new Bone(go->mesh, 3));
+			inventory->AddItem(new Bone(3));
 		}
 		break;
 	case SceneBase::GEO_BONES_10:
@@ -349,7 +347,7 @@ void Player::CollidedWith(GameObject* go)
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
-			inventory->AddItem(new Skull(go->mesh, 1));
+			inventory->AddItem(new Skull(1));
 		}
 		break;
 	case SceneBase::GEO_BONES_11:
@@ -357,8 +355,8 @@ void Player::CollidedWith(GameObject* go)
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
-			inventory->AddItem(new Skull(go->mesh, 1));
-			inventory->AddItem(new Bone(go->mesh, 1));
+			inventory->AddItem(new Skull(1));
+			inventory->AddItem(new Bone(1));
 		}
 		break;
 	case SceneBase::GEO_JUNGLE_FIRETORCH:
