@@ -14,10 +14,11 @@ class PlasmaBullet : public Bullet
 {
 	const bool explo = true;
 	const float rad = 3.0f;
+	const float max_damage = 10;
 
-	const float AOESpread = 2.0f; //How much power it loses as the explosion spreads
+	const float AOESpread = 20.0f; //How much power it loses as the explosion spreads
 public:
-	PlasmaBullet(Vector3 scale, GameObject* attachedPlayer, float bulletSpeed = 100);
+	PlasmaBullet(Vector3 scale, GameObject* attachedPlayer, float bulletSpeed = 35);
 	~PlasmaBullet();
 
 	//GO Virtual Functions

@@ -68,6 +68,7 @@ Player::~Player()
 
 void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* inventory)
 {
+	type = GO_PLAYER;
 	physics->SetMass(5);
 	physics->SetMovable(true);
 	currentHP = 100;
@@ -310,6 +311,7 @@ void Player::CollidedWith(GameObject* go)
 	{
 	case SceneBase::GEO_COIN:
 		GameManager::GetInstance()->addCoins(dynamic_cast<Coin*>(go)->getCoinVal());
+
 		goManager->RemoveGO(go);
 		break;
 	case SceneBase::GEO_FLASHLIGHT:

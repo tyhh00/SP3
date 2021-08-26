@@ -345,6 +345,15 @@ void SceneBase::Init()
 	
 	//Entities (Player, etc)
 
+	meshList[GEO_BLACKHOLE] = MeshBuilder::GenerateQuad("black_hole", Color(1, 1, 1), 2.0f);
+	meshList[GEO_BLACKHOLE]->textureID = LoadTGA("Image//black_hole.tga");
+
+	meshList[GEO_HEALTHBAR_OUTER] = MeshBuilder::GenerateQuad("healthbar_outer", Color(1, 1, 1), 5.0f);
+	meshList[GEO_HEALTHBAR_OUTER]->textureID = LoadTGA("Image//HealthBar.tga");
+
+	meshList[GEO_HEALTHBAR] = MeshBuilder::GenerateQuad("healthbar", Color(1, 1, 1), 5.0f);
+	meshList[GEO_HEALTHBAR]->textureID = LoadTGA("Image//HealthBarInner.tga");
+
 	//Shapes
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 	meshList[GEO_BALL] = MeshBuilder::GenerateSphere("ball", Color(1, 1, 1), 10, 10, 1.f);

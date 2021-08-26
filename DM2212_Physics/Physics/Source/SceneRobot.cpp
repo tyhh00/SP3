@@ -11,6 +11,7 @@
 //Entity Includes
 #include "Player.h"
 #include "PlasmaRobot.h"
+#include "BlackHoleBullet.h"
 
 #include "Coin.h"
 
@@ -99,7 +100,9 @@ void SceneRobot::Init()
 			robot->scale = go->scale;
 			robot->pos = go->pos;
 			robot->physics = go->physics->Clone();
-			robot->Init(player, new BulletSpawner(goManager, new PlasmaBullet(Vector3(2, 2, 2), robot)));
+			robot->Init(player, new BulletSpawner(goManager, new PlasmaBullet(Vector3(2, 2, 2), robot, 14)));
+			robot->AddBottomSprite();
+			robot->bottomSprite->mesh = meshList[GEO_WALL];
 
 			goManager->AddGO(robot);
 			delete go;
@@ -118,6 +121,16 @@ void SceneRobot::Init()
 			delete go;
 			go = nullptr;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ROBOT_SMALLCUBE_9_MISCDECOR)
+		{
+			go->SetDamagableByExplosive(true);
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ROBOT_SMALLCUBE_11_MISCDECOR)
+		{
+			go->SetDamagableByExplosive(true);
+			go->SetRespawnable(true);
+			
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	
@@ -133,6 +146,9 @@ void SceneRobot::Init()
 	camera.SetFocusTarget(player->pos);
 
 	player->SetAbilities(new RecallAbility(player, 3.0), nullptr);
+
+	spawner = new BulletSpawner(goManager, new BlackHoleBullet(meshList[GEO_BLACKHOLE], GEO_BLACKHOLE, Vector3(2, 2, 2), player));
+
 }
 
 void SceneRobot::Update(double dt)
@@ -164,7 +180,7 @@ void SceneRobot::Update(double dt)
 
 	if (input->IsKeyReleased('F'))
 	{
-		//spawner->SpawnBullet(player->pos, player->physics->GetNormal() * 3.0, player->physics->GetNormal());
+		spawner->SpawnBullet(player->pos, player->physics->GetNormal(), player->physics->GetNormal());
 		/*PlasmaBullet* bul = new PlasmaBullet(Vector3(2, 2, 2), player);
 		bul->physics->SetVelocity(player->physics->GetNormal() * 12);
 		bul->physics->SetNormal(player->physics->GetNormal());
