@@ -19,24 +19,23 @@ void Tumbleweed::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 	this->inventory = inventory;
 	playerPos = &target;
 
-	state = INACTIVE;
-
+	state = ROLL;
 
 	roll_speed = 25.0f;
-	activeRange = 30.0f;
+	roll_timer = 3.0f;
+
+	timeout = 0;
 
 	physics->SetMovable(true);
+	physics->SetGravity(Vector3(0, 0, 0));
+	animatedSprites = MeshBuilder::GenerateSpriteAnimation(1, 6, 2.0f, 2.0f);
 
-	animatedSprites = MeshBuilder::GenerateSpriteAnimation(2, 3, 2.0f, 2.0f);
-
-	animatedSprites->AddAnimation("right", 3, 5);
-	animatedSprites->AddAnimation("left", 1, 2);
+	animatedSprites->AddAnimation("roll", 0, 5);
+	animatedSprites->PlayAnimation("roll", -1, 1.0f);
 	
 
 	mesh = animatedSprites;
 	mesh->textureID = LoadTGA("Image/Tumbleweed_sprite.tga");
-
-	animatedSprites->PlayAnimation("left", -1, 1.0f);
 
 }
 
@@ -44,22 +43,41 @@ void Tumbleweed::Update(double dt)
 { 
 	switch (state)
 	{
-	case INACTIVE:
-		break;
 	case ROLL:
-		// SET VEL etc
+		if (roll_timer <= 0)
+		{
+			roll_timer = 3.0f;
+			roll_speed *= -1;
+		}
+		else
+		{
+			roll_timer -= dt;
+		}
 		break;
 	}
 
+	physics->SetVelocity(Vector3(roll_speed, 0, 0));
+	
 	animatedSprites->Update(dt);
 
-	/*if (physics->GetVelocity().x > 0)
+	if (timeout > 0)
 	{
-		animatedSprites->PlayAnimation("right", -1, 1.0f);
+		timeout -= dt;
+		if (timeout < 0)
+		{
+			timeout = 0;
+		}
 	}
-	else if (physics->GetVelocity().x < 0)
-	{
-		animatedSprites->PlayAnimation("left", -1, 1.0f);
-	}*/
+}
 
+void Tumbleweed::CollidedWith(GameObject* go)
+{
+	if (go->type == GO_PLAYER)
+	{
+		if (timeout <= 0)
+		{
+			go->currentHP -= 10;
+			timeout = 1.5f;
+		}
+	}
 }

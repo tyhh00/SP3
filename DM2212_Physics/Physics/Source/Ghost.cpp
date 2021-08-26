@@ -22,9 +22,9 @@ void Ghost::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 
 	state = INACTIVE;
 
-	haunting_speed = 2.0f;
-	hostile_speed = 20.0f;
-	rage_speed = 25.0f;
+	haunting_speed = 5.0f;
+	hostile_speed = 25.0f;
+	rage_speed = 30.0f;
 	activeRange = 40.0f;
 	hostileRange = 20.0f;
 	inactiveRange = 100.0f;

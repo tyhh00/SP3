@@ -16,18 +16,17 @@ public:
 
 	void Init(SceneBase* scene, Inventory* inventory, Vector3& target); // keep target only if you need to access player pos
 	void Update(double dt);
+	void CollidedWith(GameObject* go);
 
 private:
 	enum ENEMY_STATE {
-		INACTIVE, // default state, not moving
 		ROLL,
 
 		GSTATE_TOTAL
 	};
 
 	float roll_speed;
-
-	float activeRange;
+	double roll_timer;
 	
 	ENEMY_STATE state;
 

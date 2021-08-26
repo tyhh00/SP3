@@ -69,6 +69,8 @@ void SceneMainMenu::Init()
 		13, 7, highlight);
 	buttonManager->addButton(buttonHighlight);
 
+	buttonManager->deactivateButton("highlight");
+
 	camera.Init(Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, 1), Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	
