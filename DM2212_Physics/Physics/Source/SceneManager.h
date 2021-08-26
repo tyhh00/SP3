@@ -22,7 +22,7 @@ enum worlds
 	w_sceneTotal
 };
 
-class SceneManager : public SceneBase, public CSingletonTemplate<SceneManager>
+class SceneManager : public CSingletonTemplate<SceneManager>
 {
 	friend CSingletonTemplate<SceneManager>;
 public:

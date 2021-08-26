@@ -1,5 +1,6 @@
 #include "GameManager.h"
 #include "MyMath.h"
+#include "UIManager.h"
 
 GameManager::GameManager()
 {
@@ -54,6 +55,9 @@ void GameManager::addCoins(int coinsCollected)
 {
 	coinsCollected = abs(coinsCollected);
 	this->coinsCollected += coinsCollected;
+
+	//This UI is created in LobbyState
+	UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("coinvalue")->setText(std::to_string(this->coinsCollected));
 }
 
 void GameManager::removeCoins(int coinsCollected)
@@ -61,11 +65,16 @@ void GameManager::removeCoins(int coinsCollected)
 	if (this->coinsCollected -= coinsCollected < 0)
 		this->coinsCollected = 0;
 	this->coinsCollected -= coinsCollected;
+
+	//This UI is created in LobbyState
+	UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("coinvalue")->setText(std::to_string(this->coinsCollected));
 }
 
 void GameManager::setCoins(int coinsCollected)
 {
 	this->coinsCollected = Math::Clamp(this->coinsCollected, 0, abs(coinsCollected));
+	//This UI is created in LobbyState
+	UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("coinvalue")->setText(std::to_string(this->coinsCollected));
 }
 
 int GameManager::getCoins()

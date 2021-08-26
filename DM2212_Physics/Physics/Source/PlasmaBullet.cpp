@@ -40,8 +40,6 @@ void PlasmaBullet::Update(double dt)
 	aliveTimer += dt;
 	animatedSprite->Update(dt);
 
-	DEBUG_MSG(&animatedSprite << ": " << animatedSprite->currentFrame);
-
 	//Attach pos of bullet to player
 	if (attachedPlayer != nullptr)
 	{
@@ -49,12 +47,12 @@ void PlasmaBullet::Update(double dt)
 		this->pos.z += 1; //Set it infront of player
 	}
 
-	if (aliveTimer > 1.0 && state == CHARGINGUP_PHASE1)
+	if (aliveTimer > 0.7 && state == CHARGINGUP_PHASE1)
 	{
 		animatedSprite->PlayAnimation("fullycharged", -1, 3.0);
 		state = CHARGINGUP_PHASE2;
 	}
-	else if (aliveTimer > 2.0 && state == CHARGINGUP_PHASE2)
+	else if (aliveTimer > 1.0 && state == CHARGINGUP_PHASE2)
 	{
 		attachedPlayer = nullptr; //Disable attaching of pos to player
 
@@ -77,7 +75,30 @@ void PlasmaBullet::Update(double dt)
 
 void PlasmaBullet::CollidedWith(GameObject* go)
 {
-	go->dead = true;
+	if (go->type == GameObject::GO_TILE && go->IsDamagableByExplosive())
+	{
+		if (go->IsResponable())
+		{
+			go->SetTemporaryDisable(8.7);
+		}
+		else
+		{
+			go->dead = true;
+		}
+		this->dead = true;
+	}
+	else if (go->type == GameObject::GO_PLAYER)
+	{
+		Vector3 dist = go->pos - this->pos;
+		float distSquare = dist.LengthSquared();
+		if (distSquare <= AOESpread * AOESpread)
+		{
+			float multi = ((AOESpread * AOESpread) - distSquare) / (AOESpread * AOESpread);
+			if (multi < 0.15) multi = 0.15;
+			go->currentHP -= multi * max_damage;
+		}
+		this->dead = true;
+	}
 }
 
 GameObject* PlasmaBullet::Clone()

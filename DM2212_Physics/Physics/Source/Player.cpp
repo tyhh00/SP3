@@ -68,6 +68,7 @@ Player::~Player()
 
 void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* inventory)
 {
+	type = GO_PLAYER;
 	physics->SetMass(5);
 	physics->SetMovable(true);
 	currentHP = 100;
@@ -96,7 +97,7 @@ void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* invento
 	}
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(4, 3, 2.0f, 2.0f);
-	animatedSprites->AddAnimation("idle", 0, 1);
+	animatedSprites->AddAnimation("idle", 1, 2);
 	animatedSprites->AddAnimation("right", 6, 8);
 	animatedSprites->AddAnimation("left", 3, 5);
 	animatedSprites->AddAnimation("up", 9, 11);
@@ -310,6 +311,7 @@ void Player::CollidedWith(GameObject* go)
 	{
 	case SceneBase::GEO_COIN:
 		GameManager::GetInstance()->addCoins(dynamic_cast<Coin*>(go)->getCoinVal());
+
 		goManager->RemoveGO(go);
 		break;
 	case SceneBase::GEO_FLASHLIGHT:

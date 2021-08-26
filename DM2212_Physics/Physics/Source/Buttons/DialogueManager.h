@@ -42,6 +42,7 @@ public:
 	void Render(SceneBase* scene);
 
 	void AddDialogue(PERSONA who, std::string message, PERSONA_DISPLAY display_pos = LEFT, double lifetime = 2.0f);
+	bool isDialogue();
 
 private:
 

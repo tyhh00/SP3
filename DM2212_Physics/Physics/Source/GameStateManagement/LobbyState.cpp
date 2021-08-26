@@ -25,6 +25,11 @@ using namespace std;
  */
 CLobbyState::CLobbyState(void)
 {
+	sceneLobby = new SceneLobby();
+	sceneManager = SceneManager::GetInstance();
+
+	// Input
+	input = Input::GetInstance();
 
 }
 
@@ -33,12 +38,11 @@ CLobbyState::CLobbyState(void)
  */
 CLobbyState::~CLobbyState(void)
 {
-	for (auto& mesh : meshGenerated)
-{
-	delete mesh;
-	mesh = nullptr;
-}
-meshGenerated.clear();
+	if (sceneLobby)
+	{
+		delete sceneLobby;
+		sceneLobby = NULL;
+	}
 }
 
 /**
@@ -47,43 +51,7 @@ meshGenerated.clear();
 bool CLobbyState::Init(void)
 {
 	cout << "CLobbyState::Init()\n" << endl;
-
-	//Init of UIManagement
-	uiManager = UIManager::GetInstance();
-	ButtonManager* bm_gameplayStat = uiManager->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS);
-
-	if (meshGenerated.size() < 1)
-	{
-		//HealthBar
-		Mesh* playerHealth = MeshBuilder::GenerateQuad("health", Color(0.8, 0.2, 0.2), 1.0f);
-		meshGenerated.push_back(playerHealth);
-
-		Mesh* healthIcon = MeshBuilder::GenerateQuad("health", Color(0.9, 0.2, 0.2), 1.0f);
-		healthIcon->textureID = LoadTGA("Image/lives.tga");
-		meshGenerated.push_back(healthIcon);
-
-		Mesh* coinIcon = MeshBuilder::GenerateQuad("coin", Color(0.9, 0.2, 0.2), 1.0f);
-		coinIcon->textureID = LoadTGA("Image/tiles/coin_tile.tga");
-		meshGenerated.push_back(coinIcon);
-
-		//Health Bar
-		bm_gameplayStat->addButton(ButtonFactory::createProgressBar("playerhealth", 7, 59, 1, 7, HORIZONTAL, playerHealth));
-		//Health Icon
-		bm_gameplayStat->addButton(ButtonFactory::createNoTextButton("healthicon", 2.2, 59, 1.2, 1.2, healthIcon));
-
-		//Coin Icon
-		bm_gameplayStat->addButton(ButtonFactory::createNoTextButton("coinicon", 2.2, 57, 1.2, 1.2, coinIcon));
-		bm_gameplayStat->addButton(ButtonFactory::createTextButton("coinvalue", 4.6, 55.1, 2, 2, 0, 0, Color(0.9, 0.9, 0.9), std::to_string(GameManager::GetInstance()->getCoins()), 1.4, SUPERMARIO));
-	}
-
-	sceneLobby = new SceneLobby();
 	sceneLobby->Init();
-	sceneManager = SceneManager::GetInstance();
-	sceneManager->init();
-
-	// Input
-	input = Input::GetInstance();
-
 	return true;
 }
 
@@ -148,10 +116,6 @@ void CLobbyState::Render(void)
  */
 void CLobbyState::Destroy(void)
 {
+	sceneLobby->Exit();
 	cout << "CLobbyState::Destroy()\n" << endl;
-	if (sceneLobby)
-	{
-		delete sceneLobby;
-		sceneLobby = NULL;
-	}
 }

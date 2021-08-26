@@ -23,6 +23,8 @@ void Tombstone::Init(SceneBase* scene, Inventory* inventory)
 	this->scene = scene;
 	this->inventory = inventory;
 
+	type = GO_TOMBSTONE;
+
 	currentHP = 5;
 	maxHP = 5; // IN SECONDS
 

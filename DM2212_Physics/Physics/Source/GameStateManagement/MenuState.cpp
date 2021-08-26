@@ -32,7 +32,12 @@ using namespace std;
  */
 CMenuState::CMenuState(void)
 {
+	sceneManager = SceneManager::GetInstance();
 
+	menuScene = new SceneMainMenu();
+
+	// Input
+	input = Input::GetInstance();
 }
 
 /**
@@ -54,15 +59,7 @@ bool CMenuState::Init(void)
 {
 	cout << "CMenuState::Init()\n" << endl;
 
-	sceneManager = SceneManager::GetInstance();
-	//sceneManager->init();
-	
-	menuScene = new SceneMainMenu();
 	menuScene->Init();
-
-	// Input
-	input = Input::GetInstance();
-
 	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_MAINMENU);
 
 	return true;
@@ -104,6 +101,6 @@ void CMenuState::Render(void)
  */
 void CMenuState::Destroy(void)
 {
-
 	cout << "CMenuState::Destroy()\n" << endl;
+	menuScene->Exit();
 }

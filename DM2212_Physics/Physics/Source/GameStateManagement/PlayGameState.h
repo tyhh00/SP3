@@ -11,6 +11,7 @@
 #include "../SceneManager.h"
 #include "../Buttons/ButtonManager.h"
 #include "../UIManager.h"
+#include "../Buttons/DialogueManager.h"
 
 class CPlayGameState : public CGameStateBase
 {
@@ -51,5 +52,6 @@ protected:
 	Button* buttonHighlight;
 
 	ButtonManager* buttonManager;
+	DialogueManager* dialogueManager;
 
 };

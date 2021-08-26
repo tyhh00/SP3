@@ -117,19 +117,6 @@ void Application::Init()
 	m_height = 900;
 //	m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
 	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
-	
-	UIManager::GetInstance()->Init();
-	GameManager::GetInstance()->Init();
-
-	//create gamestates
-	CGameStateManager::GetInstance()->AddGameState("IntroState", new CIntroState());
-	CGameStateManager::GetInstance()->AddGameState("MenuState", new CMenuState());
-	CGameStateManager::GetInstance()->AddGameState("LobbyState", new CLobbyState());
-	CGameStateManager::GetInstance()->AddGameState("PlayGameState", new CPlayGameState());
-	
-
-	//set active scene
-	CGameStateManager::GetInstance()->SetActiveGameState("IntroState");
 
 	//If the window couldn't be created
 	if (!m_window)
@@ -142,6 +129,7 @@ void Application::Init()
 	//This function makes the context of the specified window current on the calling thread. 
 	glfwMakeContextCurrent(m_window);
 
+	
 	//Sets the key callback
 	//glfwSetKeyCallback(m_window, key_callback);
 	glfwSetWindowSizeCallback(m_window, resize_callback);
@@ -158,22 +146,26 @@ void Application::Init()
 		//return -1;
 	}
 
-
 }
 
 
 void Application::Run()
 {
-	//Main Loop
-	//sceneArray[S_COLLISION] = new SceneCollision();
-	//sceneArray[S_TEST] = new SceneTest();
-	
+	GameManager::GetInstance()->Init();
+	UIManager::GetInstance()->Init();
+	DialogueManager::GetInstance()->Init();
 	//double dElapsedTime = 0.0;
+	//SceneManager::GetInstance()->init();
 
-	/*for (int i = 0; i < SCENE_TOTAL; i++)
-	{
-		sceneArray[i]->Init();
-	}*/
+	//create gamestates
+	CGameStateManager::GetInstance()->AddGameState("IntroState", new CIntroState());
+	CGameStateManager::GetInstance()->AddGameState("MenuState", new CMenuState());
+	CGameStateManager::GetInstance()->AddGameState("LobbyState", new CLobbyState());
+	CGameStateManager::GetInstance()->AddGameState("PlayGameState", new CPlayGameState());
+
+	//set active scene
+	CGameStateManager::GetInstance()->SetActiveGameState("IntroState");
+	
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !quit)
 	{
@@ -214,7 +206,7 @@ void Application::Exit()
 	//Destroy CGameStateManager
 	CGameStateManager::GetInstance()->Destroy();
 
-	SceneManager::GetInstance()->destroy();
+	//SceneManager::GetInstance()->destroy();
 	SceneManager::GetInstance()->Destroy();
 
 	DialogueManager::GetInstance()->Destroy();

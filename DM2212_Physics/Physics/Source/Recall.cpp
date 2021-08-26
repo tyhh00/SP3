@@ -34,14 +34,12 @@ void RecallAbility::Update(double dt)
 		{
 			if (lastActive > recallTime)
 			{
-				DEBUG_MSG("Pushback pos");
 				pos_queue.push_back(std::pair<double, Vector3>(elapsed, Vector3(assigned->pos)));
 			}
 		}
 		else if (!(pos_queue.at(pos_queue.size() - 1).second - assigned->pos).LengthSquared() < 0.05
 			&& lastActive > recallTime)
 		{
-			DEBUG_MSG("Pushback pos");
 			pos_queue.push_back(std::pair<double, Vector3>(elapsed, Vector3(assigned->pos)));
 		}
 		

@@ -56,7 +56,8 @@ void SceneGraveyard::Init()
 	// Inventory 
 	inventory = new Inventory();
 	inventory->Init(this);
-
+	// Dialogue Manager
+	dialogueManager = DialogueManager::GetInstance();
 	//Store keyboard instance
 	input = Input::GetInstance();
 
@@ -130,9 +131,33 @@ void SceneGraveyard::Init()
 			delete go;
 			go = nullptr;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_GY_GATEKEEPER)
+		{
+			gatekeeper = new Gatekeeper();
+
+			gatekeeper->active = true;
+			gatekeeper->scale = go->scale;
+			gatekeeper->pos = go->pos;
+			gatekeeper->physics = go->physics->Clone();
+			gatekeeper->physics->SetInelasticity(0.99f);
+			gatekeeper->physics->SetIsBouncable(false);
+			gatekeeper->Init(inventory);
+
+			goManager->AddGO(gatekeeper);
+
+			//Delete Grid weed
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_PICKAXE)
+		{
+			pickaxe = go;
+			pickaxe->active = false;
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	
+
 	// Add all remaining tiles
 	goManager->AddAllGO(tiles);
 
@@ -191,14 +216,45 @@ void SceneGraveyard::Update(double dt)
 	switch (story_state)
 	{
 	case GY_INTRO:
+		if (player->physics->GetOnGround())
+		{
+			dialogueManager->AddDialogue(PLAYER, "Is this a graveyard?", LEFT, 1.0f);
+			dialogueManager->AddDialogue(PLAYER, "Its so dark", LEFT, 1.0f);
+			dialogueManager->AddDialogue(PLAYER, "Oh! There's a flashlight there!", LEFT, 1.0f);
+			story_state = GY_FINDGATEKEEPER;
+		}
 		break;
-	case GY_DEFAULT:
+	case GY_FINDGATEKEEPER:
+		if (abs(gatekeeper->pos.x - player->pos.x) < 20)
+		{
+			if (gatekeeper->Interact())
+			{
+				dialogueManager->AddDialogue(PLAYER, "??!! Who's there?", LEFT);
+				dialogueManager->AddDialogue(GATEKEEPER, "Oh. You must be the one who broke the space-time continuum and made boss angry", RIGHT, 3.0f);
+				dialogueManager->AddDialogue(GATEKEEPER, "That [inserts time machine part] inside the church belongs to you doesn't it", RIGHT, 3.0f);
+				dialogueManager->AddDialogue(PLAYER, "!!!", LEFT);
+				dialogueManager->AddDialogue(GATEKEEPER, "Here's a pickaxe. bring me 5 skulls and 20 bones and I'll let you into the church.", RIGHT, 3.0f);
+				story_state = GY_GATEKEEPER_DIALOGUE;
+			}
+		}
 		break;
-	case GY_GATEKEEPER1:
+	case GY_GATEKEEPER_DIALOGUE:
+		if (!dialogueManager->isDialogue())
+		{
+			pickaxe->active = true;
+			gatekeeper->TurnBack();
+			story_state = GY_GATEKEEPER2;
+		}
+		break;
+	case GY_GATEKEEPER2:
 		break;
 	case CHURCH_INTRO:
 		break;
 	case CHURCH_DEFAULT:
+		if (reaper->currentHP <= 0)
+		{
+			// game won true; play anim/any storyline;; get time amchine part etc
+		}
 		break;
 	case CHURCH_END:
 		break;
@@ -433,7 +489,7 @@ void SceneGraveyard::LoadBossScene()
 		}
 		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ENEMY_GRIMREAPER)
 		{
-			GrimReaper* reaper = new GrimReaper();
+			reaper = new GrimReaper();
 
 			reaper->active = true;
 			reaper->scale = go->scale;
@@ -442,7 +498,7 @@ void SceneGraveyard::LoadBossScene()
 			reaper->physics->SetInelasticity(0.99f);
 			reaper->physics->SetIsBouncable(false);
 			reaper->physics->SetGravity(Vector3(0, 0, 0));
-			reaper->Init(this, inventory, player->pos);
+			reaper->Init(this, goManager, player->pos);
 
 			goManager->AddGO(reaper);
 
@@ -463,7 +519,6 @@ void SceneGraveyard::LoadBossScene()
 			stone->Init(this, inventory);
 
 			goManager->AddGO(stone);
-
 			//Delete Grid stone
 			delete go;
 			go = nullptr;
@@ -473,6 +528,7 @@ void SceneGraveyard::LoadBossScene()
 
 	// Add all remaining tiles
 	goManager->AddAllGO(tiles);
+	
 
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);

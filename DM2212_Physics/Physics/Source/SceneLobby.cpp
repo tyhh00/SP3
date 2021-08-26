@@ -15,21 +15,15 @@
 
 SceneLobby::SceneLobby()
 {
+	dialogueManager = DialogueManager::GetInstance();
+	//Store keyboard instance
+	input = Input::GetInstance();
+	
 }
 
 SceneLobby::~SceneLobby()
 {
 	input = NULL;
-	if (goManager)
-	{
-		delete goManager;
-		goManager = NULL;
-	}
-	if (inventory)
-	{
-		delete inventory;
-		inventory = NULL;
-	}
 }
 
 void SceneLobby::Init()
@@ -50,23 +44,13 @@ void SceneLobby::Init()
 	m_speed = 1.f;
 	Math::InitRNG();
 
-	//Store keyboard instance
-	input = Input::GetInstance();
 	// GO Manager
 	goManager = new GameObjectManager();
 	goManager->Init();
 	// Inventory 
 	inventory = new Inventory();
 	inventory->Init(this);
-	// Dialogue Manager
-	dialogueManager = DialogueManager::GetInstance();
-	dialogueManager->Init();
-	dialogueManager->AddDialogue(PLAYER, "TEST AAAAAAAAAAA");
-	dialogueManager->AddDialogue(PLAYER, "DIALOGUE 2");
-	dialogueManager->AddDialogue(PLAYER, "where am i question mark?!");
-	dialogueManager->AddDialogue(PLAYER, "oooh vending machine hungy hungy very very ");
-
-
+	
 	// Unique Meshes
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BG]->textureID = LoadTGA("Image/bg_lobby.tga");
@@ -428,6 +412,15 @@ void SceneLobby::CursorToWorldPosition(double& theX, double& theY)
 void SceneLobby::Exit()
 {
 	SceneBase::Exit();
-	//Cleanup GameObjects
-	goManager->Exit();
+	if (goManager)
+	{
+		goManager->Exit();
+		delete goManager;
+		goManager = NULL;
+	}
+	if (inventory)
+	{
+		delete inventory;
+		inventory = NULL;
+	}
 }

@@ -41,6 +41,7 @@ struct GameObject
 
 		GO_PLAYER,
 		GO_ENEMY,
+		GO_TOMBSTONE,
 
 		GO_TILE, //Size 2.f Object representing all Grid Tiles
 		GO_TILE_DECORATIVE,
@@ -59,9 +60,11 @@ struct GameObject
 	GAMEOBJECT_TYPE type;
 
 	bool dead;
-
 	bool active;
+
 	bool enableCollision;
+	float rangeCheckMulti;
+
 	Vector3 pos;
 	Vector3 scale;
 
@@ -78,6 +81,19 @@ struct GameObject
 	//Accessible in GOManagement to enable CollidedWith(vector<GOs>)
 	bool explosive; //on impact, is this explosive?
 	float explosiveRadius;
+	bool damagableByExplosive;
+
+	//Temporarily disable GO (Made invisible, upon approaching timeleft 0, it will start blinking
+	bool respawnableBlock;
+	bool tempDisable_active;
+	float tempDisable_timeleft;
+	float appearLastFor; //How long this appeared shows for
+	float appearDurationLeft; //How much duration left in appear state
+	float reappearIn; //Respawning animation how long more till frame is showed
+	float reappearCD; //After reappeared, how long more till next one shows
+
+	//Heathbar
+	bool healthBar;
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_NONE, SHAPE_TYPE shapeType = RECTANGLE);
 	GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHAPE_TYPE shapeType = RECTANGLE);
@@ -96,6 +112,8 @@ struct GameObject
 
 	bool IsExplosive();
 	float GetExplosiveRadius();
+	bool IsDamagableByExplosive();
+	void SetDamagableByExplosive(bool damagableByExplosive);
 
 	bool IsDamagable(); //Check if object is a damagable object
 
@@ -107,6 +125,17 @@ struct GameObject
 
 	void AddCurrHealth(float _HP);
 	void MinusCurrHealth(float _HP);
+
+	void SetTemporaryDisable(float time);
+	bool IsTemporarilyDisabled();
+
+	void SetRespawnable(bool respawnable);
+	bool IsResponable();
+
+	void SetRangeCheckMulti(float multi);
+	float GetRangeCheckMulti();
+
+	void ShowHealthBar(bool show);
 };
 
 struct Attachment : public GameObject
