@@ -69,7 +69,7 @@ void PortalAbility::Update(double dt)
 		{
 			anim_timer += dt;
 		}
-		std::cout << startPortal.portalSprite->currentFrame << std::endl;
+		
 		if (Input::GetInstance()->IsKeyDown('Z'))
 		{
 			double mousePosX, mousePosY;

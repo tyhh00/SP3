@@ -37,8 +37,8 @@ void DialogueManager::Init()
 	dialogueBG_right->textureID = LoadTGA("Image/DialogueBoxLeft.tga");
 	personaMesh[PLAYER] = MeshBuilder::GenerateQuad("Player Icon", Color(1, 1, 1), 1.0f);
 	personaMesh[PLAYER]->textureID = LoadTGA("Image/PlayerIcon.tga");
-	personaMesh[GATEKEEPER] = MeshBuilder::GenerateQuad("Player Icon", Color(1, 1, 1), 1.0f);
-	personaMesh[GATEKEEPER]->textureID = LoadTGA("Image/Tiles/Gatekeeper.tga");
+	personaMesh[GATEKEEPER] = MeshBuilder::GenerateQuad("Gatekeeper Icon", Color(1, 1, 1), 1.0f);
+	personaMesh[GATEKEEPER]->textureID = LoadTGA("Image/GatekeeperIcon.tga");
 }
 
 bool DialogueManager::Update(double dt)
@@ -80,7 +80,7 @@ void DialogueManager::Render(SceneBase* scene)
 		{
 			// Dialogue Box BG
 			scene->RenderMeshOnScreen(dialogueBG_right, 40, 12, 60, 20);
-			scene->RenderMeshOnScreen(dialogue->personaIcon, 70, 15, 20, 30, 1.1f);
+			scene->RenderMeshOnScreen(dialogue->personaIcon, 70, 15, 20, 30, 0.9f);
 		}
 		// Text Dialogue
 		scene->RenderTextOnScreen(scene->GetMesh(SceneBase::GEO_TEXT), dialogue->text, Color(1.0f, 1.0f, 1.0f), 2, 25, 12, 30);
@@ -90,6 +90,15 @@ void DialogueManager::Render(SceneBase* scene)
 void DialogueManager::AddDialogue(PERSONA who, std::string message, PERSONA_DISPLAY display_pos, double lifetime)
 {
 	dialogueList.push_back(new Dialogue(personaMesh[who], message, display_pos, lifetime));
+}
+
+bool DialogueManager::isDialogue()
+{
+	if (dialogueList.size() > 0)
+	{
+		return true;
+	}
+	return false;
 }
 
 void DialogueManager::Next()
