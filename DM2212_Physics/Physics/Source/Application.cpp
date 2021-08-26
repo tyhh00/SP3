@@ -152,8 +152,8 @@ void Application::Init()
 
 void Application::Run()
 {
-	UIManager::GetInstance()->Init();
 	GameManager::GetInstance()->Init();
+	UIManager::GetInstance()->Init();
 
 	//double dElapsedTime = 0.0;
 	SceneManager::GetInstance()->init();
