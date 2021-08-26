@@ -344,12 +344,12 @@ void SceneBase::Init()
 	LoadTile(GEO_COIN, "coin_tile.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	
 	LoadTile(GEO_OCEAN_BEACHBALL, "OCEAN_beachBall.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_OCEAN_UMBRELLA, "OCEAN_beachUmbrella.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_OCEAN_TREE1, "OCEAN_coconutTree.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_OCEAN_TREE2, "OCEAN_coconutTree2.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_UMBRELLA, "OCEAN_beachUmbrella.tga", 2, 2, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_TREE1, "OCEAN_coconutTree.tga", 3, 3, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_TREE2, "OCEAN_coconutTree2.tga", 3, 3, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_SIGN, "OCEAN_dangerSign.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_OCEAN_SANDCASTLE, "OCEAN_sandCastle.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_OCEAN_SEASHELL1, "OCEAN_seashell1.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_SANDCASTLE, "OCEAN_sandCastle.tga", 2, 2, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_SEASHELL1, "OCEAN_seashell1.tga", 0.5, 0.5, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_SEASHELL2, "OCEAN_seashell2.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_STARFISH, "OCEAN_starfish.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_THUNDERBLOCK, "OCEAN_thunderBlock.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -359,9 +359,9 @@ void SceneBase::Init()
 	LoadTile(GEO_OCEAN_WATER4, "OCEAN_water4.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_WATER5, "OCEAN_water5.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_WATER6, "OCEAN_water6.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_OCEAN_CORAL, "OCEAN_coral.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_OCEAN_PILLAR, "OCEAN_pillar.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_OCEAN_RUIN, "OCEAN_ruin.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_CORAL, "OCEAN_coral.tga", 3, 3, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_PILLAR, "OCEAN_pillar.tga", 5, 5, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_RUIN, "OCEAN_ruin.tga", 8, 8, SHAPE_TYPE::RECTANGLE);
 
 	//Entities (Player, etc)
 
