@@ -23,7 +23,7 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
-	std::string mapToLoad ="OCEAN_1_1";
+	std::string mapToLoad ="GRAVEYARD_1_1";
 
 
 	// Calculating aspect ratio
@@ -653,7 +653,12 @@ void LevelEditor::Render()
 
 void LevelEditor::Exit()
 {
-
+	for (int i = 0; i < gridObjects.size(); i++)
+	{
+		if (gridObjects[i])
+			delete gridObjects[i];
+	}
+	gridObjects.clear();
 }
 
 //Utilities

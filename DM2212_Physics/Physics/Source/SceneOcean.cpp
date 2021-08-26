@@ -16,6 +16,7 @@
 SceneOcean::SceneOcean()
 {
 	goManager = new GameObjectManager();
+	inventory = new Inventory();
 }
 
 SceneOcean::~SceneOcean()
@@ -35,7 +36,6 @@ void SceneOcean::Init()
 	m_worldWidth = m_screenWidth * 5;
 
 	//Inventory init
-	inventory = new Inventory();
 	inventory->Init(this);
 
 	//Physics code here

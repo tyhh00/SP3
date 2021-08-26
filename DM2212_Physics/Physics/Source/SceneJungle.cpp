@@ -16,6 +16,7 @@
 SceneJungle::SceneJungle()
 {
 	goManager = new GameObjectManager();
+	inventory = new Inventory();
 }
 
 SceneJungle::~SceneJungle()
@@ -36,7 +37,6 @@ void SceneJungle::Init()
 
 
 	//Inventory init
-	inventory = new Inventory();
 	inventory->Init(this);
 
 	//Physics code here
