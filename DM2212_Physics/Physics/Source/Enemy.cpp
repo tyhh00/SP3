@@ -13,6 +13,7 @@ Enemy::Enemy(const ENEMY_TYPE type)
 
 void Enemy::Init()
 {
+	this->type = GO_ENEMY;
 	physics->SetMovable(true);
 	physics->SetIsBouncable(false);
 	physics->SetInelasticity(0.99f);

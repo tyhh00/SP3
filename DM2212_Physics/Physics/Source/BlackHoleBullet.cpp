@@ -23,11 +23,15 @@ BlackHoleBullet::BlackHoleBullet(Mesh* mesh, int geoTypeID, Vector3 scale, GameO
 
 	//PLASMA BULLET FUNCTIONALITY
 	state = BLACKHOLEBULLET_STATE::ROLLING;
+
 	enableCollision = true;
+	physics->SetMovable(true);
 	physics->SetEnableUpdate(true);
 	physics->SetIsBouncable(true);
 	physics->SetInelasticity(0.5f);
-	physics->SetGravity(Vector3(0, -120, 0));
+	physics->SetGravity(Vector3(0, -30, 0));
+	physics->SetGravityUpdate(true);
+	physics->SetEnableCollisionResponse(true);
 }
 
 BlackHoleBullet::~BlackHoleBullet()
@@ -45,11 +49,8 @@ void BlackHoleBullet::Update(double dt)
 	//Attach pos of bullet to player
 	if (attachedPlayer != nullptr)
 	{
-		this->pos.z += attachedPlayer->pos.z+1; //Set it infront of player
+		this->pos.z = attachedPlayer->pos.z+1; //Set it infront of player
 	}
-	DEBUG_MSG("SCale " << this->scale);
-	Vector3 add = normalisedScale * scaleSpeed * dt;
-	DEBUG_MSG("TOADD" << add);
 
 	if (aliveTimer < 0.5)
 	{
@@ -58,6 +59,7 @@ void BlackHoleBullet::Update(double dt)
 	else if (aliveTimer >= 0.5 && state == ROLLING
 		&& physics->GetVelocity().x < 1)
 	{
+		DEBUG_MSG("Rolling");
 		physics->SetInelasticity(0.99f);
 		physics->SetIsBouncable(false);
 		physics->SetGravity(Vector3(0, 0, 0));
@@ -69,15 +71,17 @@ void BlackHoleBullet::Update(double dt)
 	{
 		state = SCALINGDOWN;
 		scale -= normalisedScale * scaleSpeed * dt;
-		if (scale.x < 0.1 || scale.y < 0.1) {
+		if (scale.x < 0.1 || scale.y < 0.1)
+		{
 			scale.x = 0.1;
 			scale.y = 0.1;
 			dead = true;
+			DEBUG_MSG("DEactivating blackhole");
 		}
 	}
-	float angle = Math::RadianToDegree(atan2(physics->GetNormal().y, physics->GetNormal().x));
+	/*float angle = Math::RadianToDegree(atan2(physics->GetNormal().y, physics->GetNormal().x));
 	angle += spriteRotationSpeed * dt;
-	physics->SetNormal(Vector3(cosf(angle), sinf(angle)));
+	physics->SetNormal(Vector3(cosf(angle), sinf(angle)));*/
 }
 
 void BlackHoleBullet::CollidedWith(GameObject* go)

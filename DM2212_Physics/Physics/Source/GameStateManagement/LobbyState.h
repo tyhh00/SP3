@@ -21,8 +21,6 @@ public:
 	SceneLobby* sceneLobby;
 	UIManager* uiManager;
 
-	std::vector<Mesh*> meshGenerated;
-
 	// Constructor
 	CLobbyState(void);
 	// Destructor

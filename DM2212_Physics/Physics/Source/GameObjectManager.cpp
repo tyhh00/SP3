@@ -55,12 +55,43 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 		break;
 		case RECTANGLE:
 			Vector3 dis = go2->pos - go1->pos;
-			float disSquared = dis.LengthSquared();
-			if (disSquared <= (go1_fScale.x + go2_fScale.x) * (go1_fScale.x + go2_fScale.x))
+
+			Vector3 N = go2->physics->GetNormal();
+			if (dis.Dot(N) < 0)
 			{
+				N = -1 * N;
+			}
+			Vector3 NP(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1_fScale.x + go2_fScale.x
+				&& abs(dis.Dot(NP)) < go2_fScale.y
+				&& go1->physics->GetVelocity().Dot(N) > 0
+				)
+			{
+				go2->physics->SetCollisionNormal(N);
 				return true;
 			}
+
+			N = NP;
+			if (dis.Dot(N) < 0)
+			{
+				N = -1 * N;
+			}
+			NP.Set(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1_fScale.y + go2_fScale.y
+				&& abs(dis.Dot(NP)) < go2_fScale.x
+				&& go1->physics->GetVelocity().Dot(N) > 0
+				)
+	
+			{
+				go2->physics->SetCollisionNormal(N);
+				return true;
+			}
+
+			break;
 		}
+		
 		return false;
 	}
 	else
@@ -69,10 +100,41 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 		{
 		case CIRCLE:
 		{
+
+
 			Vector3 dis = go2->pos - go1->pos;
-			float disSquared = dis.LengthSquared();
-			if (disSquared <= (go1_fScale.x + go2_fScale.x) * (go1_fScale.x + go2_fScale.x))
+			Vector3 N = go2->physics->GetNormal();
+			if (dis.Dot(N) < 0)
 			{
+				N = -1 * N;
+			}
+			Vector3 NP(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1_fScale.x + go2_fScale.x
+				&& abs(dis.Dot(NP)) < go2_fScale.y
+				&& go1->physics->GetVelocity().Dot(N) > 0
+				)
+			{
+				go2->physics->SetCollisionNormal(N);
+				return true;
+			}
+
+			N = NP;
+			if (dis.Dot(N) < 0)
+			{
+				N = -1 * N;
+			}
+			NP.Set(N.y, -1 * N.x, 0);
+
+			if (dis.Dot(N) < go1_fScale.y + go2_fScale.y
+				&& abs(dis.Dot(NP)) < go2_fScale.x
+				&& go1->physics->GetVelocity().Dot(N) > 0 
+				)
+			{
+				go2->physics->SetCollisionNormal(N);
+				/*
+				go1->physics->scale = Vector3(go1_fScale.y, go1_fScale.x, go1_fScale.z);
+				go2->physics->scale = Vector3(go2_fScale.y, go2_fScale.x, go2_fScale.z);*/
 				return true;
 			}
 		}
@@ -194,13 +256,17 @@ void GameObjectManager::Update(double dt)
 
 			if (CheckCollision(go, go2, dt, false))
 			{
+				if (go->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET)
+				{
+					int a = -5;
+				}
 				if (go->IsExplosive())
 				{
 					for (auto& go3 : m_movableGOList)
 					{
 						if (go3 == nullptr || !go3->active)
 							continue;
-						if (go != go3 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
+						if (go != go3 && go != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
 						{
 							go->CollidedWith(go3);
 							go3->CollidedWith(go);
@@ -208,21 +274,20 @@ void GameObjectManager::Update(double dt)
 					}
 					for (auto& go3 : m_stationaryGOList)
 					{
-						if (go3 == nullptr || !go3->active)
+						if (go3 == nullptr)
 							continue;
-						if (go != go3 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
+						if (go != go3 && go != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
 						{
 							go->CollidedWith(go3);
 							go3->CollidedWith(go);
 						}
 					}
 				}
-				else
-				{
-					go->CollidedWith(go2);
-					go2->CollidedWith(go);
-					go->physics->CollisionResponse(go2->physics, dt);
-				}
+
+				go->CollidedWith(go2);
+				go2->CollidedWith(go);
+				go->physics->CollisionResponse(go2->physics, dt);
+				
 				go->pos = go->physics->pos;
 				go2->pos = go2->physics->pos;
 				continue; //remove if stays at the end
@@ -257,13 +322,19 @@ void GameObjectManager::Update(double dt)
 
 			if (CheckCollision(go, go2, dt, false))
 			{
+				if (go->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET)
+				{
+					int a = -5;
+				}
 				go2->physics->pos = go2->pos;
 				go2->physics->scale = go2->scale;
 				if (go->IsExplosive())
 				{
 					for (auto& go3 : m_movableGOList)
 					{
-						if (CheckCollision(go, go3, dt, true))
+						if (go3 == nullptr || !go3->active)
+							continue;
+						if (go != go3 && go != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
 						{
 							go->CollidedWith(go3);
 							go3->CollidedWith(go);
@@ -271,18 +342,18 @@ void GameObjectManager::Update(double dt)
 					}
 					for (auto& go3 : m_stationaryGOList)
 					{
-						if (CheckCollision(go, go3, dt, true))
+						if (go3 == nullptr)
+							continue;
+						if (go != go3 && go != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
 						{
 							go->CollidedWith(go3);
 							go3->CollidedWith(go);
 						}
 					}
 				}
-				else
-				{
-					go->CollidedWith(go2);
-					go->physics->CollisionResponse(go2->physics, dt);
-				}
+				go->CollidedWith(go2);
+				go2->CollidedWith(go);
+				go->physics->CollisionResponse(go2->physics, dt);
 				go->pos = go->physics->pos;
 				go2->pos = go2->physics->pos;
 				continue; //remove if stays at the end

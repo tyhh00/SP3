@@ -28,6 +28,8 @@ protected:
 	UIManager();
 	~UIManager();
 
+	std::vector<Mesh*> meshGenerated;
+
 	ButtonManager* bm_array[UI_COUNT];
 	bool active_array[UI_COUNT];
 };
