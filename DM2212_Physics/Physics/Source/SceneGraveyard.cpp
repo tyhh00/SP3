@@ -20,6 +20,7 @@
 SceneGraveyard::SceneGraveyard()
 {
 	goManager = new GameObjectManager();
+	inventory = new Inventory();
 }
 
 SceneGraveyard::~SceneGraveyard()
@@ -54,7 +55,6 @@ void SceneGraveyard::Init()
 	// GO Manager
 	goManager->Init();
 	// Inventory 
-	inventory = new Inventory();
 	inventory->Init(this);
 	// Dialogue Manager
 	dialogueManager = DialogueManager::GetInstance();

@@ -18,12 +18,24 @@ SceneLobby::SceneLobby()
 	dialogueManager = DialogueManager::GetInstance();
 	//Store keyboard instance
 	input = Input::GetInstance();
+	goManager = new GameObjectManager();
+	inventory = new Inventory();
 	
 }
 
 SceneLobby::~SceneLobby()
 {
 	input = NULL;
+	if (goManager)
+	{
+		delete goManager;
+		goManager = NULL;
+	}
+	if (inventory)
+	{
+		delete inventory;
+		inventory = NULL;
+	}
 }
 
 void SceneLobby::Init()
@@ -45,10 +57,8 @@ void SceneLobby::Init()
 	Math::InitRNG();
 
 	// GO Manager
-	goManager = new GameObjectManager();
 	goManager->Init();
 	// Inventory 
-	inventory = new Inventory();
 	inventory->Init(this);
 	
 	// Unique Meshes
@@ -412,15 +422,5 @@ void SceneLobby::CursorToWorldPosition(double& theX, double& theY)
 void SceneLobby::Exit()
 {
 	SceneBase::Exit();
-	if (goManager)
-	{
-		goManager->Exit();
-		delete goManager;
-		goManager = NULL;
-	}
-	if (inventory)
-	{
-		delete inventory;
-		inventory = NULL;
-	}
+	goManager->Exit();
 }
