@@ -66,6 +66,16 @@ bool Trident::IsEqual(Item* item1)
 	return false;
 }
 
+void Trident::CollidedWith(GameObject* go)
+{
+	switch (go->geoTypeID)
+	{
+	case SceneBase::GEO_OCEAN_CRAB:
+		GOmanager->RemoveGO(go);
+		break;
+	}
+}
+
 void Trident::CursorToWorldPosition(double& theX, double& theY)
 {
 	double x, y;

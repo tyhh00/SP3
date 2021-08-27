@@ -22,6 +22,7 @@ public:
 	void Init(Camera* cam, GameObjectManager* goManager, Vector3& pos);
 	void Update(double dt);
 	bool IsEqual(Item* item1);
+	void CollidedWith(GameObject* go);
 	
 private:
 	Input* input;
