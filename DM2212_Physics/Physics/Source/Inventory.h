@@ -20,6 +20,8 @@ public:
 		INVEN_TOTAL
 	};
 
+	Inventory();
+	~Inventory();
 	void Init(SceneBase* scene);
 	void Update(double dt);
 	void Render();
