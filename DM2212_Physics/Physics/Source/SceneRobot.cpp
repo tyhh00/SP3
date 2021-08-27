@@ -18,6 +18,7 @@
 //Ability Includes
 #include "Recall.h"
 #include "BlackHole.h"
+#include "PlasmaEngine.h"
 
 SceneRobot::SceneRobot()
 {
@@ -134,6 +135,24 @@ void SceneRobot::Init()
 			go->SetRespawnable(true);
 			
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ROBOT_SMALLCUBE_16_MISCDECOR)
+		{
+			PlasmaEngine* engine = new PlasmaEngine();
+			engine->active = true;
+			GameObject::CloneValues(go, engine);
+			engine->type = GameObject::GO_PLASMAENGINE;
+			engine->AddToGOCollisionWhitelist(GameObject::GO_BULLET);
+
+			PlasmaBullet* bullet = new PlasmaBullet(Vector3(2, 2, 2), engine, 40);
+			bullet->AddToGOCollisionWhitelist(GameObject::GO_PLASMAENGINE);
+			engine->Init(
+				new BulletSpawner(goManager, bullet),
+				player, 10.0f);
+			goManager->AddGO(engine);
+
+			delete go;
+			go = nullptr;
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	
@@ -148,10 +167,11 @@ void SceneRobot::Init()
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);
 
-	player->SetAbilities(
-		new RecallAbility(player, 3.0, meshList[GEO_ABILITYICON_RECALL]),
-		new BlackHoleAbility(player, new BulletSpawner(goManager, new BlackHoleBullet(meshList[GEO_BLACKHOLE], GEO_BLACKHOLE, Vector3(3, 3, 3), player, 40)), &camera, m_screenWidth, m_screenHeight, meshList[GEO_ABILITYICON_BLACKHOLE]));
-	
+	// ABILITIES
+	gameManager->initAbilities(this, &camera, goManager, player);
+	gameManager->setAbility(1, ABILITY_BLACKHOLE);
+	gameManager->setAbility(2, ABILITY_RECALL);
+	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 
 }
 

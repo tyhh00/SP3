@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\PlasmaEngine.cpp" />
     <ClCompile Include="Source\BananaBullet.cpp" />
     <ClCompile Include="Source\BlackHoleBullet.cpp" />
     <ClCompile Include="Source\BlackHole.cpp" />
@@ -240,6 +241,7 @@
     <ClCompile Include="Source\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\PlasmaEngine.h" />
     <ClInclude Include="Source\BananaBullet.h" />
     <ClInclude Include="Source\BlackHoleBullet.h" />
     <ClInclude Include="Source\BlackHole.h" />

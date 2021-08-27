@@ -9,10 +9,12 @@ class BulletSpawner
 {
 
 public:
+	BulletSpawner();
 	BulletSpawner(GameObjectManager* , Bullet*);
 	~BulletSpawner();
 
 	BULLET_TYPE GetBulletType();
+	void SetGOMRef(GameObjectManager* gom);
 	void SetBullet(Bullet*); //Set the bullet prototype, will not allow wrong value parsing
 	void SetBulletSpeed(float speed);
 	void SetBulletStatus(BULLET_STATUS status);

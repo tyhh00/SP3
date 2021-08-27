@@ -4,7 +4,7 @@
 #include "MeshBuilder.h"
 
 
-SlowTimeAbility::SlowTimeAbility() : Ability('Q', ABILITY_SLOWTIME, 3.f)
+SlowTimeAbility::SlowTimeAbility(Mesh* mesh) : Ability('Q', ABILITY_SLOWTIME, 3.f, mesh)
 {
 	input = Input::GetInstance();
 	abilityTimer = 0;
@@ -12,6 +12,10 @@ SlowTimeAbility::SlowTimeAbility() : Ability('Q', ABILITY_SLOWTIME, 3.f)
 
 SlowTimeAbility::~SlowTimeAbility()
 {}
+
+void SlowTimeAbility::Init()
+{
+}
 
 void SlowTimeAbility::Update(double dt)
 {
@@ -45,11 +49,6 @@ void SlowTimeAbility::Render()
 ABILITY_TYPE SlowTimeAbility::GetAbilityType()
 {
 	return type;
-}
-
-void SlowTimeAbility::setGOM(GameObjectManager* goM)
-{
-	goManager = goM;
 }
 
 void SlowTimeAbility::CursorToWorldPosition(double& theX, double& theY)

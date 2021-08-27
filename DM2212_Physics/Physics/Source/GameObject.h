@@ -46,6 +46,7 @@ struct GameObject
 		GO_ENEMY,
 		GO_TOMBSTONE,
 		GO_MACHINEPART,
+		GO_PLASMAENGINE,
 
 		GO_TILE, //Size 2.f Object representing all Grid Tiles
 		GO_TILE_DECORATIVE,
@@ -103,6 +104,7 @@ struct GameObject
 
 	//Reponse Collision whitelisted GAMEOBJECT_TYPES
 	std::set<int> responseWhitelist;
+	std::set<int> goCollisionWhitelist;
 
 	//Heathbar
 	bool healthBar;
@@ -155,6 +157,10 @@ struct GameObject
 	void AddToResponseWhitelist(GAMEOBJECT_TYPE type);
 	void RemoveFromResponseWhitelist(GAMEOBJECT_TYPE type);
 	bool CanCollisionRespondTo(GAMEOBJECT_TYPE type);
+
+	void AddToGOCollisionWhitelist(GAMEOBJECT_TYPE type);
+	void RemoveFromGOCollisionWhitelist(GAMEOBJECT_TYPE type);
+	bool CanCollideWith(GAMEOBJECT_TYPE type);
 };
 
 struct Attachment : public GameObject

@@ -154,16 +154,19 @@ void SceneJungle::Init()
 	camera.SetMode(Camera::CENTER);
 
 	// ABILITIES
-	DashAbility* ability = new DashAbility(meshList[GEO_ABILITYICON_DASH]);
+	/*DashAbility* ability = new DashAbility(meshList[GEO_ABILITYICON_DASH]);
 	ability->SetCamera(&camera);
 	ability->SetScenePointer(this);
 
 	GrapplingAbility* ability2 = new GrapplingAbility(inventory, meshList[GEO_ABILITYICON_GRAPPLINGHOOK]);
 	ability2->SetCamera(&camera);
 	ability2->SetScenePointer(this);
-	ability2->SetGOManager(this->goManager);
+	ability2->SetGOManager(this->goManager);*/
 
-	player->SetAbilities(ability, ability2); 
+	gameManager->initAbilities(this, &camera, goManager, player);
+	gameManager->setAbility(1, ABILITY_DASH);
+	gameManager->setAbility(2, ABILITY_GRAPPLER);
+	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 }
 
 void SceneJungle::Update(double dt)
