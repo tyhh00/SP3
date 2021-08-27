@@ -184,7 +184,7 @@ void SceneRobot::Update(double dt)
 
 	if (input->IsKeyReleased('F'))
 	{
-		spawner->SpawnBullet(player->pos, player->physics->GetNormal(), player->physics->GetNormal());
+		//spawner->SpawnBullet(player->pos, player->physics->GetNormal(), player->physics->GetNormal());
 		/*PlasmaBullet* bul = new PlasmaBullet(Vector3(2, 2, 2), player);
 		bul->physics->SetVelocity(player->physics->GetNormal() * 12);
 		bul->physics->SetNormal(player->physics->GetNormal());
