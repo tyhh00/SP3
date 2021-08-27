@@ -13,12 +13,12 @@ Prowler::~Prowler()
 {
 }
 
-void Prowler::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, GameObjectManager* _goManager)
+void Prowler::Init(SceneBase* scene, Inventory* inventory, Player* _player, GameObjectManager* _goManager)
 {
 	this->scene = scene;
 	this->inventory = inventory;
 	this->goManager = _goManager;
-	playerPos = &target;
+	player = _player;
 
 	state = IDLE;
 
@@ -37,6 +37,7 @@ void Prowler::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, Game
 	spawnAnimationTimer = 0;
 
 	readyToSpawnMonkey = true;
+	readyToAttack = true;
 
 	physics->SetMovable(true);
 	physics->SetEnableCollisionResponse(true);
@@ -81,7 +82,7 @@ void Prowler::Update(double dt)
 	{
 	case IDLE:
 		std::cout << "IDLE" << std::endl;
-		if ((*playerPos - pos).Length() < activeRange)
+		if ((player->pos - pos).Length() < activeRange)
 		{
 			state = CHASE;
 			break;
@@ -97,8 +98,8 @@ void Prowler::Update(double dt)
 		break;
 	case CHASE:
 		std::cout << "CHASE" << std::endl;
-		physics->SetVelocity(Vector3((*playerPos - pos).Normalized().x * movement_speed, physics->GetVelocity().y, physics->GetVelocity().z));
-		if ((*playerPos - pos).Length() < attackRange)
+		physics->SetVelocity(Vector3((player->pos - pos).Normalized().x * movement_speed, physics->GetVelocity().y, physics->GetVelocity().z));
+		if ((player->pos - pos).Length() < attackRange)
 		{
 			state = ATTACK;
 			animatedSprites->Reset();
@@ -116,11 +117,19 @@ void Prowler::Update(double dt)
 	case ATTACK:
 	{
 		std::cout << "ATTACK" << std::endl;
+
+		if ((player->pos - pos).Length() < attackRange * 0.5f && readyToAttack)
+		{
+			player->currentHP -= ATTACK_DAMAGE;
+			readyToAttack = false;
+		}
+
 		attackAnimationTimer += dt;
 		if (attackAnimationTimer > 1.f)
 		{
 			attackAnimationTimer = 0;
 			state = DEFEND;
+			readyToAttack = true;
 			physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
 			break;
 		}
@@ -137,9 +146,9 @@ void Prowler::Update(double dt)
 	case DEFEND:
 	{
 		std::cout << "DEFEND" << std::endl;
-		if ((*playerPos - pos).Length() < defendRange)
+		if ((player->pos - pos).Length() < defendRange)
 		{
-			physics->SetVelocity(Vector3(-(*playerPos - pos).Normalized().x * movement_speed * 1.5f, physics->GetVelocity().y, physics->GetVelocity().z));
+			physics->SetVelocity(Vector3(-(player->pos - pos).Normalized().x * movement_speed * 1.5f, physics->GetVelocity().y, physics->GetVelocity().z));
 		}
 		else
 		{
@@ -166,9 +175,9 @@ void Prowler::Update(double dt)
 		if (spawnAnimationTimer > 1)
 		{
 			//get the offset of the monkey to be spawned towards the player
-			if ((*playerPos - pos).IsZero())
+			if ((player->pos - pos).IsZero())
 				break;
-			float x = (*playerPos - pos).Normalized().x;
+			float x = (player->pos - pos).Normalized().x;
 			float offset = 0;
 
 			if (x > 0)
@@ -189,7 +198,7 @@ void Prowler::Update(double dt)
 			monkey->physics->SetInelasticity(0.99f);
 			monkey->physics->SetIsBouncable(false);
 			monkey->physics->SetGravity(Vector3(0, 0, 0));
-			monkey->Init(this->scene, inventory, *playerPos, new Pistol(goManager, new LightBullet(Vector3(2, 2, 2), monkey, 100), this->scene->GetMeshList(SceneBase::GEO_WALL)));
+			monkey->Init(this->scene, inventory, player->pos, new Pistol(goManager, new LightBullet(Vector3(2, 2, 2), monkey, 100), this->scene->GetMeshList(SceneBase::GEO_WALL)));
 
 			monkey->AddBottomSprite();
 			monkey->bottomSprite->mesh = this->scene->GetMeshList(SceneBase::GEO_WALL);
@@ -212,9 +221,9 @@ void Prowler::Update(double dt)
 		}
 		else
 		{
-			if ((*playerPos - pos).IsZero())
+			if ((player->pos - pos).IsZero())
 				break;
-			float x = (*playerPos - pos).Normalized().x;
+			float x = (player->pos - pos).Normalized().x;
 			if (x > 0)
 			{
 				animatedSprites->PlayAnimation("idleRight", -1, 1.0f);

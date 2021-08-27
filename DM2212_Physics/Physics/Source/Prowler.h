@@ -9,6 +9,7 @@
 #include "Inventory.h"
 #include "Monkey.h"
 #include "Pistol.h"
+#include "Player.h"
 #include "Weapon.h"
 
 
@@ -17,7 +18,7 @@ public:
 	Prowler();
 	~Prowler();
 
-	void Init(SceneBase* scene, Inventory* inventory, Vector3& target, GameObjectManager* goManager);
+	void Init(SceneBase* scene, Inventory* inventory, Player* player, GameObjectManager* goManager);
 	void Update(double dt);
 	bool isBeingAttacked();
 
@@ -33,6 +34,8 @@ private:
 		MSTATE_TOTAL
 	};
 
+	const float ATTACK_DAMAGE = 10.f;
+
 	float movement_speed;
 	float activeRange;
 	float attackRange;
@@ -46,8 +49,9 @@ private:
 	float spawnCooldownTimer;
 
 	bool readyToSpawnMonkey;
+	bool readyToAttack;
 
-	Vector3 *playerPos;
+	Player* player;
 	
 	SpriteAnimation* animatedSprites;
 	Inventory* inventory;
