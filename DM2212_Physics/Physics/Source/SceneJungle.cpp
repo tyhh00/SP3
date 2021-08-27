@@ -46,6 +46,13 @@ void SceneJungle::Init()
 	//Store keyboard instance
 	input = Input::GetInstance();
 
+	// Game Manager
+	gameManager = GameManager::GetInstance();
+
+	// Unique Meshes
+	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	meshList[GEO_BG]->textureID = LoadTGA("Image/bg_jungle2.tga");
+
 	//Level Loading
 	std::vector<GameObject*> tiles;
 	if(LevelLoader::GetInstance()->LoadTiles("JUNGLE_1_1", this->meshList, this->tileSize, tiles, gridLength, gridHeight))
@@ -181,10 +188,10 @@ void SceneJungle::Update(double dt)
 	{
 		gameLost = true;
 	}
-	if (gameManager->getMachineStatus(2))
+	/*if (gameManager->getMachineStatus(2))
 	{
 		gameWin = true;
-	}
+	}*/
 }
 
 void SceneJungle::Render()
@@ -216,8 +223,14 @@ void SceneJungle::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1.0f, 1.0f, 1.0f), 4, 10, 10);
 	}
 
-	inventory->Render();
+	// BG
+	modelStack.PushMatrix();
+	modelStack.Translate(camera.position.x, camera.position.y, -0.01);
+	modelStack.Scale(m_screenWidth, m_screenHeight, 1);
+	RenderMesh(meshList[GEO_BG], true);
+	modelStack.PopMatrix();
 
+	inventory->Render();
 	goManager->Render(this);
 }
 

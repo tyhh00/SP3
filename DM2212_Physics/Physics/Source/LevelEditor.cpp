@@ -23,7 +23,7 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
-	std::string mapToLoad ="OCEAN_1_1";
+	std::string mapToLoad ="JUNGLE_1_1";
 
 
 	// Calculating aspect ratio
