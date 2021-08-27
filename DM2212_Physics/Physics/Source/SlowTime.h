@@ -18,18 +18,15 @@ public:
 
 	void Update(double dt);
 	void Render();
-	void UpdatePlayer(Physics* physics);
 	ABILITY_TYPE GetAbilityType();
+
+	void setGOM(GameObjectManager* goM);
 
 private:
 
 	Input* input;
-
-	Physics* playerPhysics;
-	GameObjectManager* goManager;
-	float maxVel;
-
 	void CursorToWorldPosition(double& theX, double& theY);
+	double abilityTimer;
 
 };
 

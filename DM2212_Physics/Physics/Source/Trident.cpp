@@ -37,7 +37,7 @@ void Trident::Update(double dt)
 	if (input->IsMousePressed(0) && tridentGO == nullptr)
 	{
 		mouseDownPos.Set(mouseposx, mouseposy, 0);
-		camera->SetMode(Camera::CENTER);
+		//camera->SetMode(Camera::CENTER);
 	}
 	if (input->IsMouseReleased(0) && tridentGO == nullptr)
 	{
@@ -48,7 +48,7 @@ void Trident::Update(double dt)
 		Vector3 vel = mouseDownPos - mousePos;
 		tridentGO->physics->SetVelocity(vel);
 		GOmanager->AddGO(tridentGO);
-		camera->SetMode(Camera::EDGE);
+		//camera->SetMode(Camera::EDGE);
 	}
 	if (tridentGO)
 	{
@@ -79,7 +79,10 @@ void TridentGO::CollidedWith(GameObject* go)
 	switch (go->type)
 	{
 	case GameObject::GO_CRAB:
-		std::cout << "DD" << std::endl;
+		go->currentHP -= 1;
+		break;
+	case GameObject::GO_DRAGON:
+		std::cout << "AAAAAAA" << std::endl;
 		go->currentHP -= 1;
 		break;
 	}
@@ -121,6 +124,7 @@ TridentGO::TridentGO()
 	physics->SetMovable(true);
 	physics->SetEnableCollisionResponse(false);
 	physics->SetGravity(Vector3(0, -10.f, 0));
+	slowedObj = false;
 }
 
 TridentGO::~TridentGO()

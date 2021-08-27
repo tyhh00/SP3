@@ -31,6 +31,9 @@ public:
 	void DeleteAllGOs();
 	bool CheckCollision(GameObject* go1, GameObject* go2, float dt, bool rangeCheck);
 	bool EfficientRangeCheck(Vector3 pos1, Vector3 pos2, float withinBoxRadius);
+
+	void SetmSpeed(float mspeed);
+	
 	void Exit();
 
 	std::vector<GameObject*> GetStationaryList();

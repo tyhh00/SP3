@@ -363,6 +363,8 @@ public:
 	void RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey, float z = 1);
 	Mesh* GetMeshList(GEOMETRY_TYPE geoType);
 
+	void setBLightEnabled(bool on);
+
 	Camera* GetCamera();
 protected:
 	unsigned m_vertexArrayID;

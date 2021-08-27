@@ -26,6 +26,7 @@ public:
 
 	virtual void Init();
 	virtual void Update(double dt);
+	virtual void InitLights();
 	virtual void Render();
 	virtual void Exit();
 
