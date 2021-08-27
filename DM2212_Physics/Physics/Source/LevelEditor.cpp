@@ -39,12 +39,12 @@ void LevelEditor::Init()
 	snapPosToGrid = true;
 	snapRotToGrid = true;
 
-	ctrlToggle = false;
+	//ctrlToggle = false;
 
 	canScrollIn = scrollingSpeed;
 	scrolledGeo = static_cast<GEOMETRY_TYPE>(GEOMETRY_TYPE::GEO_TILES_START + 1);
 
-	decorativeMode = false;
+	decorativeMode = true;
 	renderMode = RENDER_ALL;
 
 	camera.Init(Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 1), Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 0), Vector3(0, 1, 0));
@@ -136,13 +136,14 @@ void LevelEditor::Update(double dt)
 	bool CTRLKeyRelease = false;
 	if (!bCTRLState && Application::IsKeyPressed(VK_CONTROL))
 		bCTRLState = true; //Down
-	else if (bCTRLState && !Application::IsKeyPressed(VK_CONTROL) && !ctrlToggle)
+	else if (bCTRLState && !Application::IsKeyPressed(VK_CONTROL) //&& !ctrlToggle
+		)
 	{
 		bCTRLState = false; //Up
 		CTRLKeyRelease = true;
 	}
-	else if (bCTRLState && ctrlToggle && Input::GetInstance()->IsKeyReleased(VK_CONTROL))
-		bCTRLState = false;
+	//else if (bCTRLState && ctrlToggle && Input::GetInstance()->IsKeyReleased(VK_CONTROL))
+	//	bCTRLState = false;
 
 	scrollState = SCROLLER_GEOSWITCHER;
 	if (Application::IsKeyPressed('S'))
@@ -175,10 +176,10 @@ void LevelEditor::Update(double dt)
 		renderMode = static_cast<RENDERMODE_STATE>(v);
 	}
 
-	else if (Input::GetInstance()->IsKeyReleased('9'))
+	/*else if (Input::GetInstance()->IsKeyReleased('9'))
 	{
 		ctrlToggle = !ctrlToggle;
-	}
+	}*/
 
 	static bool cannotPasteYet = true; //after pressing Left-Click, you must let go of left click once before u can start placing blocks
 	static bool pastedOnce = false;

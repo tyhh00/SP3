@@ -7,6 +7,9 @@
 #include "Input.h"
 #include "Enemy.h"
 #include "Inventory.h"
+#include "Monkey.h"
+#include "Pistol.h"
+#include "Player.h"
 #include "Weapon.h"
 
 
@@ -15,33 +18,44 @@ public:
 	Prowler();
 	~Prowler();
 
-	void Init(SceneBase* scene, Inventory* inventory, Vector3& target, Weapon* _weapon);
+	void Init(SceneBase* scene, Inventory* inventory, Player* player, GameObjectManager* goManager);
 	void Update(double dt);
-	void StartAttackCooldown();
 	bool isBeingAttacked();
 
 private:
-	enum MONKEY_STATE {
-		IDLE , // default state, facing back and does not move
-		JUMP,
+	enum PROWLER_STATE {
+		IDLE, // default state, facing back and does not move
+		CHASE,
+		STUNNED,
+		DEFEND,
 		ATTACK, // haunting state, moves towards player (speed slower than player)
+		SPAWN,
 
 		MSTATE_TOTAL
 	};
 
+	const float ATTACK_DAMAGE = 10.f;
+
 	float movement_speed;
 	float activeRange;
+	float attackRange;
+	float defendRange;
 	float shootTimer;
 
-	MONKEY_STATE state;
-	double state_timer;
-	double state_interval;
+	PROWLER_STATE state;
+	float attackAnimationTimer;
+	float spawnAnimationTimer;
+	float stunnedTimer;
+	float spawnCooldownTimer;
 
-	Vector3 *playerPos;
+	bool readyToSpawnMonkey;
+	bool readyToAttack;
+
+	Player* player;
 	
 	SpriteAnimation* animatedSprites;
 	Inventory* inventory;
-	Weapon* weapon;
+	GameObjectManager* goManager;
 };
 
 

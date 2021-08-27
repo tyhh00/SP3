@@ -11,6 +11,7 @@
 #include "Campfire.h"
 #include "Monkey.h"
 #include "Player.h"
+#include "Prowler.h"
 #include "LightBullet.h"
 #include "Pistol.h"
 #include "Input.h"

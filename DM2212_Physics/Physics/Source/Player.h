@@ -58,6 +58,7 @@ private:
 
 	float stamina;
 	float max_stamina;
+	float staminaCD;
 
 	float stamina_rate_multiplier;
 

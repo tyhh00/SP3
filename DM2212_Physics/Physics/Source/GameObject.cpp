@@ -23,6 +23,7 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, SHAPE_TYPE shapeType)
 	, appearDurationLeft(appearLastFor)
 	, respawnableBlock(false)
 	, reappearIn(0.1)
+	, slowedObj(true)
 {
 	physics = new Physics(shapeType, pos, scale);
 }
@@ -55,6 +56,7 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHA
 	, appearDurationLeft(appearLastFor)
 	, respawnableBlock(false)
 	, reappearIn(0.4)
+	, slowedObj(true)
 {}
 
 bool GameObject::IsDamagable()
@@ -264,6 +266,16 @@ void GameObject::SetRespawnable(bool respawnable)
 bool GameObject::IsResponable()
 {
 	return this->respawnableBlock;
+}
+
+void GameObject::SetIsSlowed(bool slowed)
+{
+	this->slowedObj = slowed;
+}
+
+bool GameObject::isSlowed()
+{
+	return this->slowedObj;
 }
 
 void GameObject::SetRangeCheckMulti(float multi)
