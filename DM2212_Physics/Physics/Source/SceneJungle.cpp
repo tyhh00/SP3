@@ -176,9 +176,14 @@ void SceneJungle::Update(double dt)
 	}
 
 	goManager->Update(dt);
+
 	if (player->currentHP <= 0)
 	{
 		gameLost = true;
+	}
+	if (gameManager->getMachineStatus(2))
+	{
+		gameWin = true;
 	}
 }
 

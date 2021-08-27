@@ -15,6 +15,7 @@
 #include "Pistol.h"
 #include "Input.h"
 #include "GameObjectManager.h"
+#include "GameManager.h"
 #include "Grappling.h"
 
 class SceneJungle : public SceneBase
@@ -42,6 +43,7 @@ protected:
 
 	Input* input;
 	GameObjectManager* goManager;
+	GameManager* gameManager;
 
 	double gridLength, gridHeight;
 };

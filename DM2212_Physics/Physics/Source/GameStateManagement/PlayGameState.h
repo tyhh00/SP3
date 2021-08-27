@@ -12,6 +12,7 @@
 #include "../Buttons/ButtonManager.h"
 #include "../UIManager.h"
 #include "../Buttons/DialogueManager.h"
+#include "../GameManager.h"
 
 class CPlayGameState : public CGameStateBase
 {
@@ -40,6 +41,8 @@ protected:
 		DEFAULT,
 		PAUSED,
 		GAMEOVER,
+		LEVELWON,
+
 		GS_TOTAL
 	};
 
@@ -53,5 +56,6 @@ protected:
 
 	ButtonManager* buttonManager;
 	DialogueManager* dialogueManager;
+	GameManager* gameManager;
 
 };

@@ -158,6 +158,10 @@ void SceneOcean::Update(double dt)
 	{
 		gameLost = true;
 	}
+	if (gameManager->getMachineStatus(3))
+	{
+		gameWin = true;
+	}
 }
 
 void SceneOcean::Render()

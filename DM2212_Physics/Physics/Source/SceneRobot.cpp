@@ -61,6 +61,8 @@ void SceneRobot::Init()
 
 	//Store keyboard instance
 	input = Input::GetInstance();
+	// Game Manager
+	gameManager = GameManager::GetInstance();
 
 	// Unique Meshes
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
@@ -197,6 +199,12 @@ void SceneRobot::Update(double dt)
 	{
 		gameLost = true;
 	}
+
+	if (gameManager->getMachineStatus(1))
+	{
+		gameWin = true;
+	}
+	
 
 }
 

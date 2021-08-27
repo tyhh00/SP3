@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "Input.h"
 #include "GameObjectManager.h"
+#include "GameManager.h"
 #include "Trident.h"
 #include "Crab.h"
 #include "Dragon.h"
@@ -37,6 +38,7 @@ protected:
 
 	Input* input;
 	GameObjectManager* goManager;
+	GameManager* gameManager;
 
 	double gridLength, gridHeight;
 };

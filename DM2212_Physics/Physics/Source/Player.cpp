@@ -244,9 +244,9 @@ void Player::UpdateMovement(double dt)
 		}
 
 		// ANIMATIONS SECTION
-		if (physics->GetVelocity().x > 1)
+		if (physics->GetVelocity().x > 2)
 			animatedSprites->PlayAnimation("right", -1, 1.0f);
-		else if (physics->GetVelocity().x < -1)
+		else if (physics->GetVelocity().x < -2)
 			animatedSprites->PlayAnimation("left", -1, 1.0f);
 		else
 			animatedSprites->PlayAnimation("idle", -1, 1.0f);

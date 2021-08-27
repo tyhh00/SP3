@@ -47,7 +47,7 @@ void PortalAbility::Update(double dt)
 				startPortal.pos = newPlayerPos;
 				anim_timer = 0;
 				ghost_portal = true;
-				camera->SetMode(Camera::CENTER);
+				//camera->SetMode(Camera::CENTER);
 
 				state = OPENING_ANIM;
 				std::cout << "PORTAL ABILITY: Opening a Portal" << std::endl;
@@ -127,7 +127,7 @@ void PortalAbility::Update(double dt)
 		{
 			// START CLOSING START PORTAL
 			newPlayerPos = endPortal.pos;
-			camera->SetMode(Camera::EDGE);
+			//camera->SetMode(Camera::EDGE);
 			startPortal.SetAnimation("closing", 0, 0.3f);
 			anim_timer = 0;
 			playerActiveState = true;
