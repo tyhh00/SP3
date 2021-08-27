@@ -255,4 +255,5 @@ void CPlayGameState::Destroy(void)
 	cout << "CPlayGameState::Destroy()\n" << endl;
 	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, false);
 	sceneManager->destroy();
+	dialogueManager->Exit();
 }
