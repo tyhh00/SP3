@@ -423,4 +423,5 @@ void SceneLobby::Exit()
 {
 	SceneBase::Exit();
 	goManager->Exit();
+	inventory->Clear();
 }

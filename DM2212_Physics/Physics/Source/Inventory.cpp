@@ -21,17 +21,21 @@ Inventory::~Inventory()
 	}
 	itemVector.clear();
 
-	for (Weapon* item : weaponVector)
-	{
-		delete item;
-	}
 	weaponVector.clear();
-
-	for (Consumable* item : consumableVector)
-	{
-		delete item;
-	}
 	consumableVector.clear();
+
+	if (emptyMesh)
+	{
+		delete emptyMesh;
+	}
+	if (selectedMesh)
+	{
+		delete selectedMesh;
+	}
+	if (buttonManager)
+	{
+		delete buttonManager;
+	}
 }
 
 /**
@@ -202,17 +206,25 @@ void Inventory::Clear()
 	}
 	itemVector.clear();
 
-	for (Weapon* item : weaponVector)
-	{
-		delete item;
-	}
-	weaponVector.clear();
 
-	for (Consumable* item : consumableVector)
-	{
-		delete item;
-	}
+	weaponVector.clear();
 	consumableVector.clear();
+	currentItem = nullptr;
+	if (emptyMesh)
+	{
+		delete emptyMesh;
+		emptyMesh = NULL;
+	}
+	if (selectedMesh)
+	{
+		delete selectedMesh;
+		selectedMesh = NULL;
+	}
+	if (buttonManager)
+	{
+		delete buttonManager;
+		buttonManager = NULL;
+	}
 }
 
 /**

@@ -581,4 +581,5 @@ void SceneGraveyard::Exit()
 	SceneBase::Exit();
 	//Cleanup GameObjects
 	goManager->Exit();
+	inventory->Clear();
 }
