@@ -29,6 +29,7 @@ Player::Player() : input(NULL)
 , curr_max_vel(MAX_VEL)
 , stamina_rate_multiplier(0.0f)
 , invisibility(false)
+, staminaCD(0.0)
 {
 	type = GO_PLAYER;
 }
@@ -242,6 +243,7 @@ void Player::UpdateMovement(double dt)
 			curr_max_vel = MAX_SPRINTVEL;
 			speed_multiplier = 2.0f;
 			stamina_rate_multiplier = 1.0f;
+			staminaCD = 0.65;
 		}
 
 		if (input->IsKeyDown('A'))
@@ -268,9 +270,16 @@ void Player::UpdateMovement(double dt)
 			physics->AddVelocity(Vector3(0, accel_amt, 0));
 		}
 
-		if (stamina < max_stamina)
+		staminaCD -= dt;
+
+		if (stamina < max_stamina && staminaCD <= 0.0)
 		{
-			stamina += 5.f * dt;
+			float amt = 10.f * dt * (1 + stamina * 0.1);
+			if (amt > 53 * dt)
+				amt = 53 * dt;
+			stamina += amt;
+			if (stamina > max_stamina)
+				stamina = max_stamina;
 		}
 
 		// ANIMATIONS SECTION
@@ -307,12 +316,18 @@ void Player::Render(SceneBase* scene)
 	/*ProgressBar stamina_bar(staminaBar, 40, 5, 15.f, 1.f);
 	stamina_bar.RenderHorizontal(scene, stamina, max_stamina);*/
 
-	//This is initialised in PlayGameState
+
+
+	//This is initialised in UIManager
 	ProgressBar* pHealthBar = dynamic_cast<ProgressBar*>(
 		UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("playerhealth")
 		);
 	pHealthBar->SetProgress(currentHP / maxHP);
 
+	ProgressBar* pStaminaBar = dynamic_cast<ProgressBar*>(
+		UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("staminabar")
+		);
+	pStaminaBar->SetProgress(stamina / max_stamina);
 
 	//// hp
 	//float HPscale = 2;
