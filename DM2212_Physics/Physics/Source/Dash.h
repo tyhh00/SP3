@@ -15,6 +15,7 @@ public:
 	DashAbility(Mesh* mesh = nullptr);
 	~DashAbility();
 
+	void Init();
 	void Update(double dt);
 	void Render();
 	void UpdatePlayer(int& dashDir, Physics* physics, float& maxVel, bool& enableCollision);

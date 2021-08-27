@@ -19,6 +19,10 @@ GrapplingAbility::~GrapplingAbility()
 {
 }
 
+void GrapplingAbility::Init()
+{
+}
+
 void GrapplingAbility::Update(double dt)
 {
 	//attach grappling hook

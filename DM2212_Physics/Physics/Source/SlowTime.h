@@ -16,6 +16,7 @@ public:
 	SlowTimeAbility();
 	~SlowTimeAbility();
 
+	void Init();
 	void Update(double dt);
 	void Render();
 	void UpdatePlayer(Physics* physics);

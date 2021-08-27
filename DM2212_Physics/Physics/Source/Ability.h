@@ -25,6 +25,7 @@ public:
 	Ability(char buttonChar, ABILITY_TYPE type, double abilityDurationCooldown, Mesh* mesh = nullptr);
 	~Ability();
 
+	virtual void Init() = 0;
 	virtual void Update(double dt) = 0;
 	virtual void Render() = 0;
 	virtual ABILITY_TYPE GetAbilityType() = 0;

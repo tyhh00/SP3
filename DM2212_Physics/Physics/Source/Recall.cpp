@@ -12,6 +12,10 @@ RecallAbility::RecallAbility(GameObject* assigned, double recallTime, Mesh* mesh
 
 RecallAbility::~RecallAbility() {}
 
+void RecallAbility::Init()
+{
+}
+
 void RecallAbility::Update(double dt)
 {
 	abilityCD_timeleft -= dt;

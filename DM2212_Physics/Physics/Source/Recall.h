@@ -10,6 +10,7 @@ public:
 	RecallAbility(GameObject*, double recallTime, Mesh* mesh);
 	~RecallAbility();
 
+	void Init();
 	void Update(double dt);
 	void Render();
 	ABILITY_TYPE GetAbilityType();

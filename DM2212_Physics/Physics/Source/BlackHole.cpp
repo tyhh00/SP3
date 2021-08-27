@@ -1,13 +1,12 @@
 #include "BlackHole.h"
 
-BlackHoleAbility::BlackHoleAbility(GameObject* player, BulletSpawner* spawner, Camera* cam, float screen_w, float screen_h, Mesh* icon)
+BlackHoleAbility::BlackHoleAbility(GameObject* player, BulletSpawner* spawner, float screen_w, float screen_h, Mesh* icon)
 	: Ability('Q', ABILITY_TYPE::ABILITY_BLACKHOLE, 4.0, icon)
 {
 	this->player = player;
 	this->spawner = spawner;
 	this->screen_h = screen_h;
 	this->screen_w = screen_w;
-	this->camera = cam;
 }
 
 BlackHoleAbility::~BlackHoleAbility()

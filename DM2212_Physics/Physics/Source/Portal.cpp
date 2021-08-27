@@ -31,6 +31,10 @@ PortalAbility::~PortalAbility()
 	}
 }
 
+void PortalAbility::Init()
+{
+}
+
 void PortalAbility::Update(double dt)
 {
 	switch (state)

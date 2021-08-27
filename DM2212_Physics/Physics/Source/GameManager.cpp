@@ -53,12 +53,15 @@ void GameManager::Init()
 	Mesh* slowtimeIcon = MeshBuilder::GenerateQuad("ability_slowtime", Color(1, 1, 1), 2.0f);
 	slowtimeIcon->textureID = LoadTGA("Image//slow_time.tga");
 
-	abilityArray[ABILITY_PORTAL] = new PortalAbility(portalIcon);
+	/*bilityArray[ABILITY_PORTAL] = new PortalAbility(portalIcon);
 	abilityArray[ABILITY_DASH] = new DashAbility(dashIcon);
 	abilityArray[ABILITY_BLACKHOLE] = new BlackHoleAbility(blackholeIcon);
 	abilityArray[ABILITY_GRAPPLER] = new GrapplingAbility(grappleIcon);
 	abilityArray[ABILITY_SLOWTIME] = new SlowTimeAbility(slowtimeIcon);
-	abilityArray[ABILITY_RECALL] = new RecallAbility(recallIcon);
+	abilityArray[ABILITY_RECALL] = new RecallAbility(recallIcon);*/
+
+	// in scenes
+	// call set scene pointers and then init
 }
 
 bool GameManager::getMachineStatus(int partNum)

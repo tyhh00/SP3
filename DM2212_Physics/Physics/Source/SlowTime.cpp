@@ -14,6 +14,10 @@ SlowTimeAbility::~SlowTimeAbility()
 {
 }
 
+void SlowTimeAbility::Init()
+{
+}
+
 void SlowTimeAbility::Update(double dt)
 {
 	abilityCD_timeleft -= dt;

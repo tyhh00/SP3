@@ -7,7 +7,7 @@ class BlackHoleAbility : public Ability
 {
 
 public:
-	BlackHoleAbility(GameObject* player, BulletSpawner* spawner, Camera* cam, float screen_w, float screen_h, Mesh* mesh = nullptr);
+	BlackHoleAbility(GameObject* player, BulletSpawner* spawner, float screen_w, float screen_h, Mesh* mesh = nullptr);
 	~BlackHoleAbility();
 
 	void Init();

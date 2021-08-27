@@ -18,6 +18,10 @@ DashAbility::~DashAbility()
 {
 }
 
+void DashAbility::Init()
+{
+}
+
 void DashAbility::Update(double dt)
 {
 	abilityCD_timeleft -= dt;
