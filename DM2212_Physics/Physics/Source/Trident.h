@@ -4,9 +4,11 @@
 #include "Input.h"
 #include "Camera.h"
 #include "GameObjectManager.h"
+#include "SpriteAnimation.h"
 
 class TridentGO : public GameObject {
 public:
+	void CollidedWith(GameObject* go);
 	TridentGO();
 	~TridentGO();
 
@@ -33,6 +35,7 @@ private:
 	TridentGO* tridentGO;
 	Vector3* playerPos;
 	Vector3 mouseDownPos;
+	SpriteAnimation* animatedSprites;
 };
 
 

@@ -17,6 +17,10 @@ void Crab::Init(Vector3 &target, MOVEMENT_TYPE type)
 {
 	playerPos = &target;
 
+	this->currentHP = 10;
+	this->maxHP = 10;
+	this->type = GO_CRAB;
+
 	state = IDLE;
 	mType = type;
 	activeRange = 80.0f;
@@ -24,6 +28,7 @@ void Crab::Init(Vector3 &target, MOVEMENT_TYPE type)
 	attackRange = 3.0f;
 	crabTimer = 6;
 	WLARTimer = 6;
+	tempVel = 0;
 
 	physics->SetMovable(true);
 
@@ -38,7 +43,6 @@ void Crab::Init(Vector3 &target, MOVEMENT_TYPE type)
 	animatedSprites->AddAnimation("idleLeft", 44, 48);
 	animatedSprites->AddAnimation("walkLeft", 48, 56);
 	
-	tempVel = 0;
 	mesh = animatedSprites;
 	mesh->textureID = LoadTGA("Image/enemy_crabSprite.tga");
 
@@ -47,6 +51,7 @@ void Crab::Init(Vector3 &target, MOVEMENT_TYPE type)
 
 void Crab::Update(double dt)
 { 
+
 	if (timeout > 0)
 	{
 		timeout -= dt;
@@ -154,14 +159,20 @@ void Crab::Update(double dt)
 		if (tempVel <= 0)
 		{
 			animatedSprites->PlayAnimation("deathLeft", 0, 1.0f);
+			dead = true;
 		}
 		else
 		{
 			animatedSprites->PlayAnimation("deathRight", 0, 1.0f);
+			dead = true;
 		}
 		break;
 	}
 
+	if (currentHP <= 0)
+	{
+		state = DIE;
+	}
 
 	animatedSprites->Update(dt);
 

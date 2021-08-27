@@ -23,7 +23,7 @@ void Dragon::Init(SceneBase* scene,Vector3 &target, int numParts)
 	playerPos = &target;
 
 	angle = 0;
-	curve = 10;
+	curve = 5;
 	curveTimer = 0.1f;
 
 	GameObject* go = new GameObject;
@@ -178,13 +178,13 @@ void Dragon::Render(SceneBase* scene)
 
 float Dragon::convertidk(float pain)
 {
-	std::cout << "before: " << pain << std::endl;
+	//std::cout << "before: " << pain << std::endl;
 	pain += 90;
 	if (pain > 360)
 	{
 		pain -= 360;
 	}
 	pain = 360 - pain;
-	std::cout << "after: " << pain << std::endl;
+	//std::cout << "after: " << pain << std::endl;
 	return pain;
 }

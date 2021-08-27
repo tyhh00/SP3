@@ -323,6 +323,9 @@
     <ClCompile Include="Source\Buttons\DialogueManager.cpp">
       <Filter>Source Files\Buttons</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SlowTime.cpp">
+      <Filter>Source Files\Abilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -597,6 +600,9 @@
     </ClInclude>
     <ClInclude Include="Source\Gatekeeper.h">
       <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SlowTime.h">
+      <Filter>Header Files\Abilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

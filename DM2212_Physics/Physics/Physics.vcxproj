@@ -223,6 +223,7 @@
     <ClCompile Include="Source\SceneSplashScreen.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Skull.cpp" />
+    <ClCompile Include="Source\SlowTime.cpp" />
     <ClCompile Include="Source\SpriteAnimation.cpp" />
     <ClCompile Include="Source\Inventory.cpp" />
     <ClCompile Include="Source\Item.cpp" />
@@ -313,6 +314,7 @@
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Shape.h" />
     <ClInclude Include="Source\Skull.h" />
+    <ClInclude Include="Source\SlowTime.h" />
     <ClInclude Include="Source\SpriteAnimation.h" />
     <ClInclude Include="Source\Inventory.h" />
     <ClInclude Include="Source\Item.h" />

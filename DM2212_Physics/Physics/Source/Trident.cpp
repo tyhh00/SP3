@@ -22,6 +22,11 @@ void Trident::Init(Camera* cam, GameObjectManager* goManager, Vector3& pos)
 	tridentGO = nullptr;
 	playerPos = &pos;
 
+	animatedSprites = MeshBuilder::GenerateSpriteAnimation(3, 4, 2.0f, 2.0f);
+	animatedSprites->AddAnimation("thunder", 0, 11);
+	mesh = animatedSprites;
+	mesh->textureID = LoadTGA("Image/thunder_spriteSheet.tga");
+	animatedSprites->PlayAnimation("thunder", -1, 1.f);
 }
 
 void Trident::Update(double dt)
@@ -56,7 +61,6 @@ void Trident::Update(double dt)
 			GOmanager->RemoveGO(tridentGO);
 			tridentGO = nullptr;
 		}
-			
 	}
  }
 
@@ -68,10 +72,15 @@ bool Trident::IsEqual(Item* item1)
 
 void Trident::CollidedWith(GameObject* go)
 {
-	switch (go->geoTypeID)
+}
+
+void TridentGO::CollidedWith(GameObject* go)
+{
+	switch (go->type)
 	{
-	case SceneBase::GEO_OCEAN_CRAB:
-		GOmanager->RemoveGO(go);
+	case GameObject::GO_CRAB:
+		std::cout << "DD" << std::endl;
+		go->currentHP -= 1;
 		break;
 	}
 }
