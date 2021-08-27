@@ -14,7 +14,7 @@ void Coin::Init()
 	geoTypeID = SceneBase::GEO_COIN;
 	spriteAnimation = MeshBuilder::GenerateSpriteAnimation(1, 6, 2.0f, 2.0f);
 	spriteAnimation->AddAnimation("idle", 0, 5);
-	spriteAnimation->PlayAnimation("idle", -1, 1.6f);
+	spriteAnimation->PlayAnimation("idle", -1, 0.8f);
 	mesh = spriteAnimation;
 	mesh->textureID = LoadTGA("Image/coin_animation.tga");
 

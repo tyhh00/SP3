@@ -17,7 +17,7 @@ void PlasmaEngine::Init(BulletSpawner* spawner, GameObject* player, float bullet
 	this->bulletSpawnCD = bulletSpawnCD;
 	this->lastSpawnBullet = this->bulletSpawnCD;
 
-	this->rangeToAttack = 175;
+	this->rangeToAttack = 300;
 
 
 }

@@ -51,11 +51,11 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHA
 	, damagableByExplosive(false)
 	, tempDisable_active(false)
 	, tempDisable_timeleft(0.0)
-	, appearLastFor(0.4)
-	, reappearCD(appearLastFor + 0.4)
+	, appearLastFor(0.16)
+	, reappearCD(appearLastFor + 0.16)
 	, appearDurationLeft(appearLastFor)
 	, respawnableBlock(false)
-	, reappearIn(0.4)
+	, reappearIn(0.16)
 	, slowedObj(true)
 {}
 
@@ -100,7 +100,7 @@ void GameObject::Render(SceneBase* scene)
 {
 	if (tempDisable_active) //Temp disable active
 	{
-		if (tempDisable_timeleft <= 3.0) //Whether time left is < 1
+		if (tempDisable_timeleft <= 1) //Whether time left is < 1
 		{
 			if (reappearIn <= 0.0)
 			{
