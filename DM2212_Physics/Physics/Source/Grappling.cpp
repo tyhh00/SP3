@@ -24,14 +24,7 @@ void GrapplingAbility::Update(double dt)
 	if (input->IsMousePressed(0))
 	{
 		double x, y;
-		Application::GetCursorPos(&x, &y);
-		int w = Application::GetWindowWidth();
-		int h = Application::GetWindowHeight();
-		// convert to world space
-		x /= (w / camera->screenWidth);
-		y = h - y;
-		y /= (h / camera->screenHeight);
-		std::cout << x << " " << y << std::endl;
+		CursorToWorldPosition(x, y);
 
 		temp = Vector3(x, y, 0);
 		isGrappling = true;

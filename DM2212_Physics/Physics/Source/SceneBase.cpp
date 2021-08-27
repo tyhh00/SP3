@@ -722,6 +722,11 @@ void SceneBase::RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, fl
 	glEnable(GL_DEPTH_TEST);
 }
 
+Mesh* SceneBase::GetMeshList(GEOMETRY_TYPE geoType)
+{
+	return meshList[geoType];
+}
+
 void SceneBase::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
