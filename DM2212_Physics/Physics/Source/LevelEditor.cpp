@@ -421,16 +421,18 @@ void LevelEditor::Update(double dt)
 		}
 		if (bRButtonState)
 		{
-			for(auto& go : gridObjects)
+			if (heldOnTo != nullptr)
 			{
-				if (go != heldOnTo && PosCollidedWithGO(heldOnTo->pos.x, heldOnTo->pos.y, go))
+				for (auto& go : gridObjects)
 				{
-					delete go;
-					go = nullptr;
+					if (go != heldOnTo && PosCollidedWithGO(heldOnTo->pos.x, heldOnTo->pos.y, go))
+					{
+						delete go;
+						go = nullptr;
+					}
 				}
+				gridObjects.erase(std::remove(gridObjects.begin(), gridObjects.end(), nullptr), gridObjects.end());
 			}
-			gridObjects.erase(std::remove(gridObjects.begin(), gridObjects.end(), nullptr), gridObjects.end());
-			
 		}
 	}
 	else
