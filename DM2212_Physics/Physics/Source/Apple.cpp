@@ -8,6 +8,7 @@ Apple::Apple(Mesh* _mesh, int _quantity, int stemLength) : Consumable(I_APPLE, m
 {
 	isStackable = true;
 	quantity = _quantity;
+	
 
 	input = Input::GetInstance();
 

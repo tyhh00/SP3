@@ -32,7 +32,7 @@ void SceneJungle::Init()
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = m_screenHeight * 3;
+	m_worldHeight = m_screenHeight * 2;
 	m_worldWidth = m_screenWidth * 10;
 
 
@@ -188,10 +188,10 @@ void SceneJungle::Update(double dt)
 	{
 		gameLost = true;
 	}
-	/*if (gameManager->getMachineStatus(2))
+	if (gameManager->getMachineStatus(2))
 	{
 		gameWin = true;
-	}*/
+	}
 }
 
 void SceneJungle::Render()

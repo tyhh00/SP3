@@ -14,6 +14,7 @@
 #include "Skull.h"
 #include "Pickaxe.h"
 #include "UIManager.h"
+#include "Campfire.h"
 #include "Coin.h"
 #include "GameManager.h"
 
@@ -409,6 +410,13 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_MACHINEPART_4:
 		gameManager->setMachineStatus(4, true);
+		break;
+	case SceneBase::GEO_JUNGLE_CAMPFIRE:
+	{
+		Campfire* campfire = dynamic_cast<Campfire*>(go);
+		if (campfire->GetIsLit())
+			currentHP += 1.f; //heal player if stand beside campfire
+	}
 		break;
 	default:
 		break;

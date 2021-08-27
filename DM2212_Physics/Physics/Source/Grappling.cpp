@@ -22,7 +22,7 @@ GrapplingAbility::~GrapplingAbility()
 void GrapplingAbility::Update(double dt)
 {
 	//attach grappling hook
-	if (input->IsMousePressed(0))
+	if (input->IsKeyPressed(buttonChar))
 	{
 		double x, y;
 		CursorToWorldPosition(x, y);
@@ -41,7 +41,7 @@ void GrapplingAbility::Update(double dt)
 
 
 	}
-	else if (input->IsMouseReleased(0))	//detach grappling hook
+	else if (input->IsKeyReleased(buttonChar))	//detach grappling hook
 	{
 		isGrappling = false;
 		grapplingHook.active = false;
