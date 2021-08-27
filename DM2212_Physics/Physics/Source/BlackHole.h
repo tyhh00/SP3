@@ -7,10 +7,10 @@ class BlackHoleAbility : public Ability
 {
 
 public:
-	BlackHoleAbility();
+	BlackHoleAbility(GameObject* player, BulletSpawner* spawner, Camera* cam, float screen_w, float screen_h);
 	~BlackHoleAbility();
 
-	void Init(GameObject* player, BulletSpawner* spawner);
+	void Init();
 
 	void Update(double dt);
 	void Render();
@@ -19,6 +19,10 @@ public:
 private:
 	BulletSpawner* spawner;
 	GameObject* player;
+	float screen_w, screen_h;
 
+	float heldDownFor;
+
+	void CursorToWorldPosition(double& theX, double& theY);
 };
 

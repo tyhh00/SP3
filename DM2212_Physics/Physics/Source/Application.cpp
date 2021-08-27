@@ -118,6 +118,11 @@ void Application::Init()
 //	m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
 	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
 
+	//GLFWimage icon[1];
+	//icon[0].pixels = stbi_load("../App/Image/fasticon.png", &icon[0].width, &icon[0].height, 0, 4);
+	//glfwSetWindowIcon(window, 1, icon);
+	//stbi_image_free(icon[0].pixels);
+
 	//If the window couldn't be created
 	if (!m_window)
 	{
