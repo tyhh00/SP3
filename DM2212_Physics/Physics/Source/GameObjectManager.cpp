@@ -535,3 +535,8 @@ void GameObjectManager::Exit()
 {
 	DeleteAllGOs();
 }
+
+std::vector<GameObject*> GameObjectManager::GetStationaryList()
+{
+	return this->m_stationaryGOList;
+}
