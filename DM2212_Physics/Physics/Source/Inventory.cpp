@@ -165,6 +165,9 @@ void Inventory::Render()
 		scene->RenderMeshOnScreen(selectedMesh, selectedPos.x, selectedPos.y, 2.2f, 2.2f, 2);
 }
 
+/**
+ @brief Clear all inventory items
+ */
 void Inventory::Clear()
 {
 	itemVector.clear();
