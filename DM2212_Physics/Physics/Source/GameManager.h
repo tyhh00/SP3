@@ -9,8 +9,8 @@ public:
 
 	void Init();
 
-	bool getGameOverStatus();
-	void setGameOver(bool);
+	bool getMachineStatus(int partNum);
+	void setMachineStatus(int partNum, bool obtained);
 
 	void addScore(float score);
 	void removeScore(float score);
@@ -29,16 +29,20 @@ protected:
 	GameManager();
 	~GameManager();
 
-	bool gameOver;
-	double gameElapsed; //From load of lobby scene till end of game
+	bool timeMachineStatus[4];
 
 	float score;
 	int coinsCollected;
 
-	//Todo
+
+	// ABILITIES
+	// creat ablity* for each
+
+	// TBC
 	int abilitiesUsed;
 	int collectedItems;
 	float damageDealt;
 	float damageReceived;
+	double gameElapsed; //From load of lobby scene till end of game
 };
 

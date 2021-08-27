@@ -13,6 +13,7 @@
 #include "SceneManager.h"
 #include "Gatekeeper.h"
 #include "GrimReaper.h"
+#include "GameManager.h"
 
 class SceneGraveyard : public SceneBase
 {
@@ -56,6 +57,7 @@ protected:
 	Input* input;
 	GameObjectManager* goManager;
 	DialogueManager* dialogueManager;
+	GameManager* gameManager;
 	
 	double gridLength, gridHeight;
 	void CursorToWorldPosition(double& theX, double& theY);

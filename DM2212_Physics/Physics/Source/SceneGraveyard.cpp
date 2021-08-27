@@ -60,7 +60,8 @@ void SceneGraveyard::Init()
 	dialogueManager = DialogueManager::GetInstance();
 	//Store keyboard instance
 	input = Input::GetInstance();
-
+	// Game Manager
+	gameManager = GameManager::GetInstance();
 	// Unique Meshes
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BG]->textureID = LoadTGA("Image/GraveyardBG.tga");
@@ -189,11 +190,11 @@ void SceneGraveyard::Update(double dt)
 	lights[1].position.Set(mouseposx, mouseposy, 10);
 
 
-	if(input->IsKeyPressed('9'))
+	if (input->IsKeyPressed('9'))
 	{
 		m_speed = Math::Max(0.f, m_speed - 0.1f);
 	}
-	if(input->IsKeyPressed('0'))
+	if (input->IsKeyPressed('0'))
 	{
 		m_speed += 0.1f;
 	}
@@ -213,7 +214,7 @@ void SceneGraveyard::Update(double dt)
 		return;
 	}
 
-	// TBC
+	// STORY UPDATES
 	switch (story_state)
 	{
 	case GY_INTRO:
@@ -234,7 +235,7 @@ void SceneGraveyard::Update(double dt)
 				dialogueManager->AddDialogue(GATEKEEPER, "Oh. You must be the one who broke the space-time continuum and made boss angry", RIGHT, 3.0f);
 				dialogueManager->AddDialogue(GATEKEEPER, "That [inserts time machine part] inside the church belongs to you doesn't it", RIGHT, 3.0f);
 				dialogueManager->AddDialogue(PLAYER, "!!!", LEFT);
-				dialogueManager->AddDialogue(GATEKEEPER, "Here's a pickaxe. bring me 5 skulls and 20 bones and I'll let you into the church.", RIGHT, 3.0f);
+				dialogueManager->AddDialogue(GATEKEEPER, "Here's a pickaxe. bring me 5 skulls and 10 bones and I'll let you into the church.", RIGHT, 3.0f);
 				story_state = GY_GATEKEEPER_DIALOGUE;
 			}
 		}
@@ -248,9 +249,9 @@ void SceneGraveyard::Update(double dt)
 		}
 		break;
 	case GY_GATEKEEPER2:
-		if (abs(gatekeeper->pos.x - player->pos.x) < 10 && input->IsKeyPressed('E'))
+		if (abs(gatekeeper->pos.x - player->pos.x) < 20)
 		{
-			if (gatekeeper->Interact())
+			if (gatekeeper->Interact() && input->IsKeyPressed('E'))
 			{
 				if (gatekeeper->CheckEntry())
 				{
@@ -284,14 +285,27 @@ void SceneGraveyard::Update(double dt)
 		}
 		break;
 	case CHURCH_DIALOGUE:
+		if (!dialogueManager->isDialogue())
+		{
+			story_state = CHURCH_DEFAULT;
+		}
 		break;
 	case CHURCH_DEFAULT:
 		if (reaper->currentHP <= 0)
 		{
-			// game won true; play anim/any storyline;; get time amchine part etc
+			GameObject* machinepart = new GameObject(GameObject::GO_MACHINEPART, meshList[GEO_MACHINEPART_4], GEO_MACHINEPART_4, RECTANGLE);
+			machinepart->active = true;
+			machinepart->pos.Set(reaper->pos.x, reaper->pos.y, reaper->pos.z);
+			machinepart->scale.Set(5, 5, 5);
+			goManager->AddGO(machinepart);
+			story_state = CHURCH_END;
 		}
 		break;
 	case CHURCH_END:
+		if (gameManager->getMachineStatus(4))
+		{
+			gameWin = true;
+		}
 		break;
 	}
 }

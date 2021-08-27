@@ -62,7 +62,7 @@ void Flashlight::Update(double dt)
 			scene->ToggleLightRadius(1, 30, 45);
 		}
 	
-		currBatt -= rate_multiplier * batt_usage_rate * dt;
+		//currBatt -= rate_multiplier * batt_usage_rate * dt;
 		durability = currBatt / maxBatt;
 
 	}

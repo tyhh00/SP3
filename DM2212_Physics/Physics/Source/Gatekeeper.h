@@ -69,9 +69,11 @@ public:
 
 	bool CheckEntry()
 	{
-		if (inventory->GetItem(Item::I_SKULL) != nullptr && inventory->GetItem(Item::I_BONE) != nullptr)
+		Item* skull = inventory->GetItem(Item::I_SKULL);
+		Item* bone = inventory->GetItem(Item::I_BONE);
+		if (skull != nullptr && bone != nullptr)
 		{
-			if (inventory->GetItem(Item::I_SKULL)->GetQuantity() >= 5 && inventory->GetItem(Item::I_BONE)->GetQuantity() >= 10)
+			if (skull->GetQuantity() >= 5 && bone->GetQuantity() >= 10)
 			{
 				return true;
 			}

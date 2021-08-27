@@ -231,6 +231,11 @@ bool CPlayGameState::Update(const double dElapsedTime)
 		buttonManager->activateButton("lobby");
 		buttonManager->activateButton("menuBG");
 	}
+	if (sceneManager->getScene()->gameWin)
+	{
+		cout << "Loading LobbyState" << endl;
+		CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
+	}
 	return true;
 }
 
