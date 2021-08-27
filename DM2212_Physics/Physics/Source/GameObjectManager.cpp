@@ -199,6 +199,11 @@ bool GameObjectManager::EfficientRangeCheck(Vector3 pos1, Vector3 pos2, float wi
 	return false;
 }
 
+void GameObjectManager::SetmSpeed(float mspeed)
+{
+	mspeed = m_speed;
+}
+
 void GameObjectManager::Update(double dt)
 {
 	// Add GOs that need to be added
@@ -235,7 +240,14 @@ void GameObjectManager::Update(double dt)
 		go->Update(dt);
 		go->physics->Update(dt);
 		if(go->physics->GetUpdateEnabled())
-			go->pos += go->physics->GetVelocity() * m_speed * dt;
+			if (go->type == GameObject::GO_PLAYER)
+			{
+				go->pos += go->physics->GetVelocity() * dt;
+			}
+			else
+			{
+				go->pos += go->physics->GetVelocity() * m_speed * dt;
+			}
 		go->physics->pos = go->pos;
 		go->physics->scale = go->scale;
 		if (go->bottomSprite != nullptr)

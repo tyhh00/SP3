@@ -40,6 +40,7 @@ struct GameObject
 		GO_50, // ELASTIC + SCORE
 		GO_10, // ELASTIC + SCORE
 		GO_CRAB,
+		GO_DRAGON,
 
 		GO_PLAYER,
 		GO_ENEMY,

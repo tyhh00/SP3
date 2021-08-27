@@ -11,6 +11,8 @@
 //Entity Includes
 #include "Player.h"
 
+#include "SlowTime.h"
+
 //...
 
 SceneOcean::SceneOcean()
@@ -129,7 +131,7 @@ void SceneOcean::Init()
 	camera.SetMode(Camera::CENTER);
 
 	// ABILITIES
-
+	SlowTimeAbility* slowtime = new SlowTimeAbility();
 	player->SetAbilities(nullptr, nullptr); 
 	Trident* trident = new Trident;
 	trident->Init(&camera, goManager, player->pos);

@@ -149,9 +149,7 @@ void Player::Update(double dt)
 			break;
 			case ABILITY_SLOWTIME:
 			{
-				//abilityArray[i]->Update(dt);
-				//SlowTimeAbility* ability = dynamic_cast<SlowTimeAbility*>(abilityArray[i]);
-				//ability->UpdatePlayer(dashDir, physics, curr_max_vel, enableCollision);
+				abilityArray[i]->Update(dt);
 			}
 			break;
 

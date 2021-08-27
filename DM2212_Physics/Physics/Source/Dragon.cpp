@@ -22,8 +22,12 @@ void Dragon::Init(SceneBase* scene,Vector3 &target, int numParts)
 	this->inventory = inventory;
 	playerPos = &target;
 
+	this->maxHP = 200;
+	this->currentHP = 200;
+	this->type = GO_DRAGON;
+
 	angle = 0;
-	curve = 5;
+	curve = 10;
 	curveTimer = 0.1f;
 
 	GameObject* go = new GameObject;
@@ -97,10 +101,8 @@ void Dragon::Update(double dt)
 	case SINCURVE:
 		for (int i = 0; i < dragon.size(); i++)
 		{
-
 			float angleZ = (360.f / dragon.size()) * i - angle;
-			//dragon.at(i)->pos.y = pos.y + sin(Math::DegreeToRadian(angleZ)) * curve;
-			//float angleZ = asinf(sin((360.f / dragon.size()) * i - angle));
+			dragon.at(0)->pos.y = pos.y + sin(Math::DegreeToRadian(angleZ)) * 5;
 			dragon.at(i)->physics->SetRotateZ(angleZ);
 			if (dragon.at(i)->physics->GetRotateZ() < 0)
 			{
@@ -110,18 +112,11 @@ void Dragon::Update(double dt)
 			{
 				dragon.at(i)->physics->SetRotateZ(dragon.at(i)->physics->GetRotateZ() - 360);
 			}
-
 			if (dragon.at(i)->physics->GetRotateZ() > 180) //+ angleZ + angle)
 			{
 				dragon.at(i)->physics->SetRotateZ(360 - dragon.at(i)->physics->GetRotateZ()); //+ angleZ + angle);
 			}
-		
-			if (i == 2)
-			{
-				//std::cout << "whynowork: "<< (360.f / dragon.size()) * i - angle << std::endl;
-				//std::cout << dragon.at(i)->physics->GetRotateZ() << std::endl;
-				
-			}
+		//5	dragon.at(i)->physics->SetVelocity(Vector3(-dt, dragon.at(i)->physics->GetVelocity().y, dragon.at(i)->physics->GetVelocity().z));
 		}
 		break;
 	case ATTACK:
@@ -132,9 +127,9 @@ void Dragon::Update(double dt)
 
 	animatedSprites->Update(dt);
 
-	dragon.at(1)->pos = dragon.at(0)->pos + Vector3(dragon.at(0)->scale.x * -1 * cos(Math::DegreeToRadian(convertidk(dragon.at(0)->physics->GetRotateZ()))),
-		dragon.at(0)->scale.x * -1 * sin(Math::DegreeToRadian(convertidk(dragon.at(0)->physics->GetRotateZ()))), 0);
-	for (int i = 2; i < dragon.size(); i++)
+
+
+	for (int i = 1; i < dragon.size(); i++)
 	{
 		dragon.at(i)->pos = dragon.at(i - 1)->pos + Vector3(dragon.at(i - 1)->scale.x * -2 * cos(Math::DegreeToRadian(convertidk(dragon.at(i - 1)->physics->GetRotateZ()))),
 			dragon.at(i - 1)->scale.x * -2 * sin(Math::DegreeToRadian(convertidk(dragon.at(i - 1)->physics->GetRotateZ()))), 0);
