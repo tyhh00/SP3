@@ -31,7 +31,7 @@ public:
 class GrapplingAbility : public Ability {
 	
 public:
-	GrapplingAbility(Inventory* inventory, Mesh* mesh = nullptr);
+	GrapplingAbility(Mesh* mesh = nullptr);
 	~GrapplingAbility();
 
 	void Init();
@@ -46,8 +46,6 @@ private:
 	Vector3 temp;
 	Vector3 initialDisplacement;
 	
-	Inventory* playerInv;
-
 	bool isGrappling;
 	float maxVel;
 	float gradualVelTimer;
