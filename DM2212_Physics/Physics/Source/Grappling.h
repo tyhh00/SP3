@@ -7,6 +7,8 @@
 #include "Input.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
+#include "Inventory.h"
+#include "Apple.h"
 #include "Ability.h"
 
 class GrapplingHook : public GameObject {
@@ -29,7 +31,7 @@ public:
 class GrapplingAbility : public Ability {
 	
 public:
-	GrapplingAbility(Mesh* mesh = nullptr);
+	GrapplingAbility(Inventory* inventory, Mesh* mesh = nullptr);
 	~GrapplingAbility();
 
 	void Update(double dt);
@@ -44,6 +46,7 @@ private:
 	Vector3 initialDisplacement;
 	Vector3 playerPos;
 	Physics* playerPhysics;
+	Inventory* playerInv;
 
 	bool isGrappling;
 	float maxVel;

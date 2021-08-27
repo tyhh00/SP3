@@ -329,6 +329,9 @@
     <ClCompile Include="Source\Prowler.cpp">
       <Filter>Source Files\GameObjects\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Source\BananaBullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -609,6 +612,9 @@
     </ClInclude>
     <ClInclude Include="Source\Prowler.h">
       <Filter>Header Files\GameObjects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BananaBullet.h">
+      <Filter>Header Files\Bullets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

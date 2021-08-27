@@ -14,6 +14,7 @@
 #include "Skull.h"
 #include "Pickaxe.h"
 #include "UIManager.h"
+#include "Pistol.h"
 #include "Campfire.h"
 #include "Coin.h"
 #include "GameManager.h"
@@ -60,12 +61,13 @@ Player::~Player()
 	
 }
 
-void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* inventory)
+void Player::Init(Camera* _cam, MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* inventory)
 {
 	type = GO_PLAYER;
 	physics->SetMass(5);
 	physics->SetMovable(true);
 	currentHP = 100;
+	cam = _cam;
 
 	if (mode == WASD)
 	{
@@ -101,7 +103,6 @@ void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* invento
 	goManager = GOM;
 	this->inventory = inventory;
 	this->mode = mode;
-
 }
 
 void Player::Update(double dt)
@@ -406,6 +407,10 @@ void Player::CollidedWith(GameObject* go)
 	case SceneBase::GEO_JUNGLE_APPLE:
 		goManager->RemoveGO(go);
 		inventory->AddItem(new Apple(go->mesh));
+		break;
+	case SceneBase::GEO_JUNGLE_PISTOL:
+		goManager->RemoveGO(go);
+		inventory->AddItem(new Pistol(cam, goManager, pos, new LightBullet(Vector3(2,2,2), this, 30), go->mesh));
 		break;
 	case SceneBase::GEO_JUNGLE_BANANA:
 		goManager->RemoveGO(go);

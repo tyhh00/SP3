@@ -15,7 +15,7 @@ public:
 	Monkey();
 	~Monkey();
 
-	void Init(SceneBase* scene, Inventory* inventory, Vector3& target, Weapon* _weapon);
+	void Init(SceneBase* scene, Inventory* inventory, Vector3& target, BulletSpawner* _bulletSpawner);
 	void Update(double dt);
 	void StartAttackCooldown();
 	bool isBeingAttacked();
@@ -41,7 +41,7 @@ private:
 	
 	SpriteAnimation* animatedSprites;
 	Inventory* inventory;
-	Weapon* weapon;
+	BulletSpawner* bulletSpawner;
 };
 
 
