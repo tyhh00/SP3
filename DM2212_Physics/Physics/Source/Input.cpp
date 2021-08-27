@@ -43,10 +43,22 @@ void Input::Update(double dt)
 		{
 			currKeyboardStatus[i] = false;
 		}
-		if (IsKeyPressed(i) && i > 48 && i <= 125 )
+
+		//Input Setting (Allowing 0-9, A-Z, _) Using bit 0x0001 for fluid typing
+		if (IsKeyPressed(i))
 		{
-			typedEntry += i;
+			if(i > 48 && i <= 125)
+				typedEntry += i;
 		}
+		else if ((GetAsyncKeyState(0x00BD) & 0x0001))
+			typedEntry += '_';
+		else if ((GetAsyncKeyState(VK_BACK) & 0x0001))
+		{
+			if (!typedEntry.empty())
+				typedEntry.pop_back();
+
+		}
+
 	}
 
 	//update all mouse keys

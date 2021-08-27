@@ -76,7 +76,7 @@ void PlasmaBullet::Update(double dt)
 
 void PlasmaBullet::CollidedWith(GameObject* go)
 {
-	if (go->type == GameObject::GO_TILE)
+	if (go->type == GameObject::GO_TILE && CanCollideWith(go->type) && go->CanCollideWith(this->type))
 	{
 		if (go->IsResponable())
 		{
@@ -88,7 +88,7 @@ void PlasmaBullet::CollidedWith(GameObject* go)
 		}
 		this->dead = true;
 	}
-	else if (go->type == GameObject::GO_PLAYER)
+	else if (go->type == GameObject::GO_PLAYER && CanCollideWith(go->type) && go->CanCollideWith(this->type))
 	{
 		Vector3 dist = go->pos - this->pos;
 		float distSquare = dist.LengthSquared();

@@ -18,6 +18,7 @@
 //Ability Includes
 #include "Recall.h"
 #include "BlackHole.h"
+#include "PlasmaEngine.h"
 
 SceneRobot::SceneRobot()
 {
@@ -133,6 +134,24 @@ void SceneRobot::Init()
 			go->SetDamagableByExplosive(true);
 			go->SetRespawnable(true);
 			
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_ROBOT_SMALLCUBE_16_MISCDECOR)
+		{
+			PlasmaEngine* engine = new PlasmaEngine();
+			engine->active = true;
+			GameObject::CloneValues(go, engine);
+			engine->type = GameObject::GO_PLASMAENGINE;
+			engine->AddToGOCollisionWhitelist(GameObject::GO_BULLET);
+
+			PlasmaBullet* bullet = new PlasmaBullet(Vector3(2, 2, 2), engine, 40);
+			bullet->AddToGOCollisionWhitelist(GameObject::GO_PLASMAENGINE);
+			engine->Init(
+				new BulletSpawner(goManager, bullet),
+				player, 10.0f);
+			goManager->AddGO(engine);
+
+			delete go;
+			go = nullptr;
 		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
