@@ -41,13 +41,12 @@ void GrapplingAbility::Update(double dt)
 
 
 	}
-
-	//detach grappling hook
-	if (input->IsMousePressed(1))
+	else if (input->IsMouseReleased(0))	//detach grappling hook
 	{
 		isGrappling = false;
 		grapplingHook.active = false;
 	}
+
 
 	if (isGrappling)
 	{
@@ -64,31 +63,31 @@ void GrapplingAbility::Update(double dt)
 		//playerPhysics->AddVelocity(Vector3(initialDisplacement.x, 0, 0));
 		maxVel = 100;
 
-		if (playerPhysics->GetVelocity().x > 0)
-		{
-			if (playerPos.x >= temp.x - displacement3.x)
-			{
-				//playerPhysics->AddVelocity(Vector3(0, initialDisplacement.Length(), 0));
-				std::cout << "Stopped grappling" << std::endl;
-				std::cout << displacement3 << std::endl;
-				std::cout << playerPos.x << std::endl;
-				isGrappling = false;
-				grapplingHook.active = false;
-			}
-		}
-		else
-		{
-			if (playerPos.x <= temp.x - displacement3.x)
-			{
-				//playerPhysics->AddVelocity(Vector3(0, initialDisplacement.Length(), 0));
-				std::cout << "Stopped grappling" << std::endl;
-				std::cout << displacement3 << std::endl;
-				std::cout << playerPos.x << std::endl;
-				isGrappling = false;
-				grapplingHook.active = false;
-			}
-		}
-		std::cout << maxVel << std::endl;
+		//if (playerPhysics->GetVelocity().x > 0)
+		//{
+		//	if (playerPos.x >= temp.x - displacement3.x)
+		//	{
+		//		//playerPhysics->AddVelocity(Vector3(0, initialDisplacement.Length(), 0));
+		//		std::cout << "Stopped grappling" << std::endl;
+		//		std::cout << displacement3 << std::endl;
+		//		std::cout << playerPos.x << std::endl;
+		//		isGrappling = false;
+		//		grapplingHook.active = false;
+		//	}
+		//}
+		//else
+		//{
+		//	if (playerPos.x <= temp.x - displacement3.x)
+		//	{
+		//		//playerPhysics->AddVelocity(Vector3(0, initialDisplacement.Length(), 0));
+		//		std::cout << "Stopped grappling" << std::endl;
+		//		std::cout << displacement3 << std::endl;
+		//		std::cout << playerPos.x << std::endl;
+		//		isGrappling = false;
+		//		grapplingHook.active = false;
+		//	}
+		//}
+		//std::cout << maxVel << std::endl;
 	}
 	else if (playerPhysics != nullptr)
 	{

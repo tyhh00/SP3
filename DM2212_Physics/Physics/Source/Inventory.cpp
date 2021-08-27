@@ -43,19 +43,30 @@ void Inventory::Init(SceneBase* scene)
 	emptyMesh->textureID = LoadTGA("Image/blackUI.tga");
 	selectedMesh = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 2.0f);
 	selectedMesh->textureID = LoadTGA("Image/blueUI.tga");
+	barMesh = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 2.0f);
 
 	buttonManager = new ButtonManager(80, 60);
 
 	for (int i = 0; i < TOTAL_WEAPON_SLOTS; i++)
 	{
 		Button* button = ButtonFactory::createButton("WeaponItem" + std::to_string(i + 1), 80 * 0.9 + i * 5, (60 / 6), 2, 2, emptyMesh, 1.5, 3, Color(1, 1, 1), "", 2);
+		Button* bar = ButtonFactory::createProgressBar("WeaponBar" + std::to_string(i + 1), 80 * 0.9 + i * 5, (60 / 6) - 2, 0.25f, 2, PROGRESSBAR_TYPE::HORIZONTAL, barMesh);
 		buttonManager->addButton(button);
+		buttonManager->addButton(bar);
+
+		ProgressBar* pBar = dynamic_cast<ProgressBar*>(bar);
+		pBar->SetProgress(0);
 	}
 
 	for (int i = 0; i < TOTAL_CONSUMABLE_SLOTS; i++)
 	{
 		Button* button = ButtonFactory::createButton("ConsumableItem" + std::to_string(i + 1), 80 * 0.9 + 5, (60 / 3) + i * 5, 2, 2, emptyMesh, 1.5, 3, Color(1, 1, 1), "", 2);
+		Button* bar = ButtonFactory::createProgressBar("ConsumableBar" + std::to_string(i + 1), 80 * 0.9 + 5, (60 / 3) + (i * 5) - 2, 0.25f, 2, PROGRESSBAR_TYPE::HORIZONTAL, barMesh);
 		buttonManager->addButton(button);
+		buttonManager->addButton(bar);
+
+		ProgressBar* pBar = dynamic_cast<ProgressBar*>(bar);
+		pBar->SetProgress(0);
 	}
 
 
@@ -80,6 +91,12 @@ void Inventory::Update(double dt)
 		currentItem->Update(dt);
 		if (currentItem->GetQuantity() <= 0)
 			DeleteItem(currentItem);
+		else if (currentItem->GetDurability() <= 0)
+		{
+			currentItem->RemoveQuantity(1);
+			if (currentItem->GetQuantity() > 0)
+				currentItem->SetDurability(1);
+		}
 	}
 	
 	//update weapon slots
@@ -172,6 +189,8 @@ void Inventory::Render()
 			if (i < weaponSize)
 			{
 				buttonManager->getButtonByName("WeaponItem" + std::to_string(i + 1))->setText(std::to_string(weaponVector[i]->GetQuantity()));
+				ProgressBar* bar = dynamic_cast<ProgressBar*>(buttonManager->getButtonByName("WeaponBar" + std::to_string(i + 1)));
+				bar->SetProgress(weaponVector[i]->GetDurability());
 			}
 		}
 
@@ -182,6 +201,8 @@ void Inventory::Render()
 			if (i < consumableSize)
 			{
 				buttonManager->getButtonByName("ConsumableItem" + std::to_string(i + 1))->setText(std::to_string(consumableVector[i]->GetQuantity()));
+				ProgressBar* bar = dynamic_cast<ProgressBar*>(buttonManager->getButtonByName("ConsumableBar" + std::to_string(i + 1)));
+				bar->SetProgress(consumableVector[i]->GetDurability());
 			}
 		}		
 		buttonManager->Render(scene);

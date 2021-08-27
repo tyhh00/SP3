@@ -8,22 +8,24 @@ Item::Item()
 {
 }
 
-Item::Item(GROUP_TYPE _groupType, ITEM_TYPE _itemType, int _quantity, bool _isStackable, Mesh* _mesh)
+Item::Item(GROUP_TYPE _groupType, ITEM_TYPE _itemType, int _quantity, bool _isStackable, Mesh* _mesh, float _durability)
 	: groupType(_groupType)
 	, itemType(_itemType)
 	, quantity(_quantity)
 	, isStackable(_isStackable)
 	, scene(NULL)
 	, mesh(_mesh)
+	, durability(_durability)
 {
 }
 
-Item::Item(GROUP_TYPE _groupType, ITEM_TYPE _itemType, int _quantity, bool _isStackable)
+Item::Item(GROUP_TYPE _groupType, ITEM_TYPE _itemType, int _quantity, bool _isStackable, float _durability)
 	: groupType(_groupType)
 	, itemType(_itemType)
 	, quantity(_quantity)
 	, isStackable(_isStackable)
 	, scene(NULL)
+	, durability(_durability)
 {
 }
 
@@ -90,12 +92,23 @@ int Item::RemoveQuantity(int _quantity)
 }
 
 /**
- @brief Returns item's isStackable bool
+ @brief Returns item's durability
  */
 float Item::GetDurability()
 {
 	return durability;
 }
+
+void Item::SetDurability(float amt)
+{
+	durability = amt;
+}
+
+void Item::ReduceDurability(float amt)
+{
+	durability -= amt;
+}
+
 bool Item::GetIsStackable()
 {
 	return isStackable;

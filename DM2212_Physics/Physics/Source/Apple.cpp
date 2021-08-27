@@ -25,6 +25,11 @@ void Apple::Update(double dt)
 		std::cout << quantity << std::endl;
 		RemoveQuantity(1);
 	}
+	
+	if (input->IsKeyPressed('H'))
+	{
+		this->durability -= 0.1f;
+	}
 }
 
 bool Apple::IsEqual(Item* item1)
