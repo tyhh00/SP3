@@ -7,6 +7,7 @@
 #include "SlowTime.h"
 #include "BlackHole.h"
 
+
 class GameManager : public CSingletonTemplate<GameManager>
 {
 	friend CSingletonTemplate<GameManager>;
@@ -18,7 +19,7 @@ public:
 	bool getMachineStatus(int partNum);
 	void setMachineStatus(int partNum, bool obtained);
 
-	void setScenePointers(SceneBase* scene, Camera* camera, GameObjectManager* GOM);
+	void initAbilities(SceneBase* scene, Camera* camera, GameObjectManager* GOM, GameObject* player);
 	Ability* getAbility(int abilityNum);
 	void setAbility(int abilityNum, Ability* ability);
 
@@ -47,9 +48,11 @@ protected:
 
 
 	// ABILITIES
+	char ABILITY_KEYBIND_1;
+	char ABILITY_KEYBIND_2;
 	Ability* abilityArray[ABILITY_COUNT];
-
 	Ability* currAbility[2];
+	
 
 	// TBC
 	int abilitiesUsed;

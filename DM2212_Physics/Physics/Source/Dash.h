@@ -18,7 +18,7 @@ public:
 	void Init();
 	void Update(double dt);
 	void Render();
-	void UpdatePlayer(int& dashDir, Physics* physics, float& maxVel, bool& enableCollision);
+//	void UpdatePlayer(int& dashDir, Physics* physics, float& maxVel, bool& enableCollision);
 	ABILITY_TYPE GetAbilityType();
 
 private:
@@ -28,8 +28,8 @@ private:
 
 	Input* input;
 
-	Physics* playerPhysics;
-	bool enableCollision;
+	//Physics* playerPhysics;
+	//bool enableCollision;
 	float maxVel;
 	int dashDir;
 

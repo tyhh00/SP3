@@ -51,8 +51,6 @@ public:
 
 	void Init();
 	void Update(double dt);
-	void CustomUpdate(bool playeronGround, Vector3 playerPos);
-	void CustomUpdate(Vector3& playerPos, bool& playerInvisibility);
 	void Render();
 	ABILITY_TYPE GetAbilityType();
 

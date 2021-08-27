@@ -170,10 +170,8 @@ void SceneGraveyard::Init()
 	camera.SetMode(Camera::CENTER);
 
 	// ABILITIES
-	PortalAbility* ability = new PortalAbility(meshList[GEO_ABILITYICON_PORTAL]);
-	ability->SetCamera(&camera);
-	ability->SetScenePointer(this);
-	player->SetAbilities(ability, nullptr);
+	gameManager->initAbilities(this, &camera, goManager, player);
+	player->SetAbilities(gameManager->getAbility(1), gameManager->getAbility(2));
 
 	story_state = GY_INTRO;
 }

@@ -1,6 +1,8 @@
 #include "GameManager.h"
 #include "MyMath.h"
 #include "UIManager.h"
+#include "BulletSpawner.h"
+#include "BlackHoleBullet.h"
 
 GameManager::GameManager()
 {
@@ -53,12 +55,12 @@ void GameManager::Init()
 	Mesh* slowtimeIcon = MeshBuilder::GenerateQuad("ability_slowtime", Color(1, 1, 1), 2.0f);
 	slowtimeIcon->textureID = LoadTGA("Image//slow_time.tga");
 
-	/*bilityArray[ABILITY_PORTAL] = new PortalAbility(portalIcon);
+	abilityArray[ABILITY_PORTAL] = new PortalAbility(portalIcon);
 	abilityArray[ABILITY_DASH] = new DashAbility(dashIcon);
-	abilityArray[ABILITY_BLACKHOLE] = new BlackHoleAbility(blackholeIcon);
+	abilityArray[ABILITY_BLACKHOLE] = new BlackHoleAbility(new BulletSpawner(), blackholeIcon);
 	abilityArray[ABILITY_GRAPPLER] = new GrapplingAbility(grappleIcon);
 	abilityArray[ABILITY_SLOWTIME] = new SlowTimeAbility(slowtimeIcon);
-	abilityArray[ABILITY_RECALL] = new RecallAbility(recallIcon);*/
+	abilityArray[ABILITY_RECALL] = new RecallAbility(recallIcon);
 
 	// in scenes
 	// call set scene pointers and then init
@@ -74,14 +76,20 @@ void GameManager::setMachineStatus(int partNum, bool obtained)
 	timeMachineStatus[partNum - 1] = obtained;
 }
 
-void GameManager::setScenePointers(SceneBase* scene, Camera* camera, GameObjectManager* GOM)
+void GameManager::initAbilities(SceneBase* scene, Camera* camera, GameObjectManager* GOM, GameObject* player)
 {
+	// General Inits
 	for (int i = 0; i < ABILITY_COUNT; i++)
 	{
 		abilityArray[i]->SetCamera(camera);
 		abilityArray[i]->SetScenePointer(scene);
 		abilityArray[i]->SetGOManager(GOM);
+		abilityArray[i]->SetPlayer(player);
+		abilityArray[i]->Init();
 	}
+	// Unique Inits
+	BlackHoleAbility* blackholeAbility = dynamic_cast<BlackHoleAbility*>(abilityArray[ABILITY_BLACKHOLE]);
+	blackholeAbility->InitSpawner(GOM, new BlackHoleBullet(scene->GetMesh(SceneBase::GEO_BLACKHOLE), SceneBase::GEO_BLACKHOLE, Vector3(3, 3, 3), player, 40));
 }
 
 Ability* GameManager::getAbility(int abilityNum)

@@ -13,15 +13,13 @@
 class SlowTimeAbility : public Ability {
 	
 public:
-	SlowTimeAbility();
+	SlowTimeAbility(Mesh* mesh);
 	~SlowTimeAbility();
 
 	void Init();
 	void Update(double dt);
 	void Render();
 	ABILITY_TYPE GetAbilityType();
-
-	void setGOM(GameObjectManager* goM);
 
 private:
 

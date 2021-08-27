@@ -36,6 +36,11 @@ void Ability::SetScenePointer(SceneBase* scene)
 	this->scene = scene;
 }
 
+void Ability::SetPlayer(GameObject* player)
+{
+	this->player = player;
+}
+
 void Ability::SetAbilityCooldownDuration(double cooldown)
 {
 	this->abilityCooldownDuration = cooldown;

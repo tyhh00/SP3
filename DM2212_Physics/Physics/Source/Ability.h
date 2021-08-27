@@ -33,6 +33,7 @@ public:
 	void SetCamera(Camera* camera);
 	void SetGOManager(GameObjectManager* GOManager);
 	void SetScenePointer(SceneBase* scene);
+	void SetPlayer(GameObject* player);
 
 	void SetAbilityCooldownDuration(double cooldown);
 	void ResetAbilityCooldown();
@@ -57,6 +58,7 @@ protected:
 	Camera* camera;
 	GameObjectManager* goManager;
 	SceneBase* scene; //Used for custom rendering of abilities
+	GameObject* player;
 	ABILITY_TYPE type;
 	const char buttonChar;
 };
