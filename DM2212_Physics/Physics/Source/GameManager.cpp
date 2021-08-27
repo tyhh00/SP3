@@ -6,7 +6,12 @@
 
 GameManager::GameManager()
 {
-
+	for (int i = 0; i < 2; i++)
+	{
+		
+		currAbility[i] = nullptr;
+		
+	}
 }
 
 GameManager::~GameManager()

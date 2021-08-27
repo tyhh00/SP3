@@ -34,7 +34,7 @@ public:
 
 	void Init();
 	void Update(double dt);
-	void UpdatePlayer(Vector3& pos, Physics* playerPhysics, float& _maxVel);
+//	void UpdatePlayer(Vector3& pos, Physics* playerPhysics, float& _maxVel);
 	void Render();
 	ABILITY_TYPE GetAbilityType();
 
@@ -43,8 +43,8 @@ private:
 
 	Vector3 temp;
 	Vector3 initialDisplacement;
-	Vector3 playerPos;
-	Physics* playerPhysics;
+//	Vector3 playerPos;
+//	Physics* playerPhysics;
 
 	bool isGrappling;
 	float maxVel;
