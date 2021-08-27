@@ -13,8 +13,7 @@ class Crab : public Enemy {
 public:
 	enum MOVEMENT_TYPE {
 		LAR,
-		EDGE,
-		JUMP,
+		CHASE,
 		MTYPE_TOTAL
 	};
 
@@ -34,7 +33,10 @@ private:
 	};
 
 
-	float activeRange;
+	float activeRange; //if player is within range, walk left and right
+	float hostileRange; //if player is within range, chase player
+	float attackRange; //if player within range, attack player
+
 	double crabTimer;
 	double WLARTimer; //walk left and right timer
 	ENEMY_STATE state;
