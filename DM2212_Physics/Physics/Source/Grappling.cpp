@@ -21,36 +21,33 @@ GrapplingAbility::~GrapplingAbility()
 
 void GrapplingAbility::Update(double dt)
 {
+	//attach grappling hook
 	if (input->IsMousePressed(0))
 	{
 		double x, y;
 		CursorToWorldPosition(x, y);
 
+		//check if mouse clicked pos is on any tile block
 		for (GameObject* go : goManager->GetStationaryList())
 		{
 			if ((x > go->pos.x - go->scale.x && x < go->pos.x + go->scale.x) && (y > go->pos.y - go->scale.y && y < go->pos.y + go->scale.y))
 			{
 				temp = Vector3(x, y, 0);
-				isGrappling = true;
 				initialDisplacement = temp - playerPos;
-				std::cout << "initial pos" << playerPos << std::endl;
-
+				isGrappling = true;
 				grapplingHook.active = true;
 			}
 		}
 
 
 	}
+
+	//detach grappling hook
 	if (input->IsMousePressed(1))
 	{
 		isGrappling = false;
 		grapplingHook.active = false;
 	}
-	//else
-	//{
-	//	isGrappling = false;
-	//	grapplingHook.active = false;
-	//}
 
 	if (isGrappling)
 	{
