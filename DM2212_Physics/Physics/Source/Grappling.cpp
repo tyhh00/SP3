@@ -53,7 +53,7 @@ void GrapplingAbility::Update(double dt)
 		Vector3 displacement = temp - playerPos;
 		Vector3 displacement3 = playerPos - temp;
 
-		grapplingHook.scale = Vector3(displacement.Length() / 2, 0.25f, 1);
+		grapplingHook.scale = Vector3(displacement.Length() / 2, 1, 1);
 		grapplingHook.pos = playerPos + Vector3(displacement.x / 2, displacement.y / 2, 0);
 		grapplingHook.physics->SetNormal(displacement.Normalized());
 

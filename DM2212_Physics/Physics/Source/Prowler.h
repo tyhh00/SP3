@@ -1,0 +1,48 @@
+#ifndef PROWLER_H
+#define PROWLER_H
+
+#include "GameObject.h"
+#include "SpriteAnimation.h"
+#include "Physics.h"
+#include "Input.h"
+#include "Enemy.h"
+#include "Inventory.h"
+#include "Weapon.h"
+
+
+class Prowler : public Enemy {
+public:
+	Prowler();
+	~Prowler();
+
+	void Init(SceneBase* scene, Inventory* inventory, Vector3& target, Weapon* _weapon);
+	void Update(double dt);
+	void StartAttackCooldown();
+	bool isBeingAttacked();
+
+private:
+	enum MONKEY_STATE {
+		IDLE , // default state, facing back and does not move
+		JUMP,
+		ATTACK, // haunting state, moves towards player (speed slower than player)
+
+		MSTATE_TOTAL
+	};
+
+	float movement_speed;
+	float activeRange;
+	float shootTimer;
+
+	MONKEY_STATE state;
+	double state_timer;
+	double state_interval;
+
+	Vector3 *playerPos;
+	
+	SpriteAnimation* animatedSprites;
+	Inventory* inventory;
+	Weapon* weapon;
+};
+
+
+#endif
