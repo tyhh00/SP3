@@ -100,9 +100,9 @@ void UIManager::Init()
 		meshGenerated.push_back(staminaIcon);
 
 		//StaminaBar
-		bm_gameplayStat->addButton(ButtonFactory::createProgressBar("staminabar", 7, 13, 1, 7, HORIZONTAL, playerStaminaBar));
+		bm_gameplayStat->addButton(ButtonFactory::createProgressBar("staminabar", 8.4, 13, 1.3, 7, HORIZONTAL, playerStaminaBar));
 		//StaminaIcon
-		bm_gameplayStat->addButton(ButtonFactory::createNoTextButton("staminaicon", 2.2, 13, 1.2, 1.2, staminaIcon));
+		bm_gameplayStat->addButton(ButtonFactory::createNoTextButton("staminaicon", 3.7, 13, 2, 2, staminaIcon));
 
 
 	}
