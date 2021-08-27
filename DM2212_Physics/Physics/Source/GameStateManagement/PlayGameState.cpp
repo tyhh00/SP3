@@ -127,6 +127,8 @@ bool CPlayGameState::Init(void)
 
 	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, true);
 
+	gameManager = GameManager::GetInstance();
+
 	currentState = DEFAULT;
 
 	buttonManager->deactivateButton("highlight");
@@ -150,15 +152,44 @@ bool CPlayGameState::Update(const double dElapsedTime)
 	case DEFAULT:
 		if (!dialogueManager->Update(dElapsedTime))
 			sceneManager->update(dElapsedTime);
+		// state change conditions
+		if (currentState == DEFAULT && Input::GetInstance()->IsKeyPressed(VK_ESCAPE))
+		{
+			currentState = PAUSED;
+			buttonManager->activateButton("resume");
+			buttonManager->activateButton("lobby");
+			buttonManager->activateButton("options");
+			buttonManager->activateButton("menuBG");
+		}
+		if (sceneManager->getScene()->gameLost)
+		{
+			currentState = GAMEOVER;
+			buttonManager->activateButton("retry");
+			buttonManager->activateButton("lobby");
+			buttonManager->activateButton("menuBG");
+		}
+
+		if (sceneManager->getScene()->gameWin)
+		{
+			dialogueManager->AddDialogue(PLAYER, "I have the time machine part now, let's go back.");
+			currentState = LEVELWON;
+		}
 		break;
 	case PAUSED:
 		break;
 	case GAMEOVER:
 		break;
+	case LEVELWON:
+		if (!dialogueManager->isDialogue())
+		{
+			cout << "Loading LobbyState" << endl;
+			CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
+		}
+		break;
 	}
 
 	UIManager::GetInstance()->Update(dElapsedTime);
-
+	dialogueManager->Update(dElapsedTime);
 	buttonManager->deactivateButton("highlight");
 	buttonManager->Update(sceneManager->getScene(), dElapsedTime);
 	for (auto button : buttonManager->getButtonsInteracted())
@@ -215,27 +246,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 		}
 	}
 	
-	// state change conditions
-	if (currentState == DEFAULT && Input::GetInstance()->IsKeyPressed(VK_ESCAPE))
-	{
-		currentState = PAUSED;
-		buttonManager->activateButton("resume");
-		buttonManager->activateButton("lobby");
-		buttonManager->activateButton("options");
-		buttonManager->activateButton("menuBG");
-	}
-	if (sceneManager->getScene()->gameLost)
-	{
-		currentState = GAMEOVER;
-		buttonManager->activateButton("retry");
-		buttonManager->activateButton("lobby");
-		buttonManager->activateButton("menuBG");
-	}
-	if (sceneManager->getScene()->gameWin)
-	{
-		cout << "Loading LobbyState" << endl;
-		CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
-	}
+	
 	return true;
 }
 

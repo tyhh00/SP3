@@ -206,257 +206,260 @@ void GameObjectManager::SetmSpeed(float mspeed)
 
 void GameObjectManager::Update(double dt)
 {
-	// Add GOs that need to be added
-	for (std::vector<GameObject*>::iterator it = toAddList.begin(); it != toAddList.end(); ++it)
+	int loops = 1;
+	if (dt > 0.1)
+		loops = dt / 0.08;
+
+	double splitDt = dt / loops;
+	for (int i = 0; i < loops; ++i)
 	{
-		GameObject* go = (GameObject*)*it;
-		if (go->physics->GetMovable())
+		// Add GOs that need to be added
+		for (std::vector<GameObject*>::iterator it = toAddList.begin(); it != toAddList.end(); ++it)
 		{
-			m_movableGOList.push_back(go);
-		}
-		else
-		{
-			m_stationaryGOList.push_back(go);
-		}
-	}
-	toAddList.clear();
-
-
-	// Game Objects
-	// Update Moveable GOs
-	for (std::vector<GameObject*>::iterator it = m_movableGOList.begin(); it != m_movableGOList.end(); ++it)
-	{
-		GameObject* go = (GameObject*)*it;
-
-		if (go == nullptr || !go->active)
-			continue;
-
-		if (go->dead)
-		{
-			toRemoveList.push_back(go);
-			continue;
-		}
-
-		go->Update(dt);
-		go->physics->Update(dt);
-		if(go->physics->GetUpdateEnabled())
-			if (go->type == GameObject::GO_PLAYER)
+			GameObject* go = (GameObject*)*it;
+			if (go->physics->GetMovable())
 			{
-				go->pos += go->physics->GetVelocity() * dt;
+				m_movableGOList.push_back(go);
 			}
 			else
 			{
-				go->pos += go->physics->GetVelocity() * m_speed * dt;
+				m_stationaryGOList.push_back(go);
 			}
-		go->physics->pos = go->pos;
-		go->physics->scale = go->scale;
-		if (go->bottomSprite != nullptr)
-		{
-			go->physics->SetOnGround(false);
-			go->bottomSprite->pos = go->pos + go->bottomSprite->relativePos;
-			go->bottomSprite->physics->pos = go->bottomSprite->pos;
-			go->bottomSprite->physics->scale = go->bottomSprite->scale;
-			go->bottomSprite->physics->SetVelocity(go->physics->GetVelocity());
 		}
+		toAddList.clear();
 
-		// Collision with moving and moving
-		for (std::vector<GameObject*>::iterator it2 = it + 1; it2 != m_movableGOList.end(); ++it2)
+
+		// Game Objects
+		// Update Moveable GOs
+		for (std::vector<GameObject*>::iterator it = m_movableGOList.begin(); it != m_movableGOList.end(); ++it)
 		{
-			GameObject* go2 = (GameObject*)*it2;
+			GameObject* go = (GameObject*)*it;
 
-			if (go2 == nullptr || !go2->active)
+			if (go == nullptr || !go->active)
 				continue;
 
 			if (go->dead)
-				break;
+			{
+				toRemoveList.push_back(go);
+				continue;
+			}
 
+			go->Update(splitDt);
+			go->physics->Update(splitDt);
+			if (go->physics->GetUpdateEnabled())
+				go->pos += go->physics->GetVelocity() * m_speed * splitDt;
+			go->physics->pos = go->pos;
+			go->physics->scale = go->scale;
 			if (go->bottomSprite != nullptr)
 			{
-				if (CheckCollision(go->bottomSprite, go2, dt, false))
-				{
-					go->physics->SetOnGround(true);
-				}
-			}
-			if (go->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET
-				|| go2->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET)
-			{
-				int a = -5;
+				go->physics->SetOnGround(false);
+				go->bottomSprite->pos = go->pos + go->bottomSprite->relativePos;
+				go->bottomSprite->physics->pos = go->bottomSprite->pos;
+				go->bottomSprite->physics->scale = go->bottomSprite->scale;
+				go->bottomSprite->physics->SetVelocity(go->physics->GetVelocity());
 			}
 
-			if (CheckCollision(go, go2, dt, false))
+			// Collision with moving and moving
+			for (std::vector<GameObject*>::iterator it2 = it + 1; it2 != m_movableGOList.end(); ++it2)
 			{
+				GameObject* go2 = (GameObject*)*it2;
+
+				if (go2 == nullptr || !go2->active)
+					continue;
+
+				if (go->dead)
+					break;
+
+				if (go->bottomSprite != nullptr)
+				{
+					if (CheckCollision(go->bottomSprite, go2, splitDt, false))
+					{
+						go->physics->SetOnGround(true);
+					}
+				}
 				if (go->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET
 					|| go2->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET)
 				{
-					DEBUG_MSG("SOME BULLET COLLISION");
-				}
-				if (go->IsExplosive())
-				{
-					for (auto& go3 : m_movableGOList)
-					{
-						if (go3 == nullptr || !go3->active)
-							continue;
-						if (go != go3 && go3 != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
-						{
-							go->CollidedWith(go3);
-							go3->CollidedWith(go);
-						}
-					}
-					for (auto& go3 : m_stationaryGOList)
-					{
-						if (go3 == nullptr)
-							continue;
-						if (go != go3 && go3 != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
-						{
-							go->CollidedWith(go3);
-							go3->CollidedWith(go);
-						}
-					}
-				}
-
-				go->CollidedWith(go2);
-				go2->CollidedWith(go);
-				if (go->CanCollisionRespondTo(go2->type) &&
-					go2->CanCollisionRespondTo(go->type))
-				{
-					go->physics->CollisionResponse(go2->physics, dt);
-				}
-				
-				go->pos = go->physics->pos;
-				go2->pos = go2->physics->pos;
-				continue; //remove if stays at the end
-			}
-		}
-		// Collision with moving and stationary
-		for (std::vector<GameObject*>::iterator it2 = m_stationaryGOList.begin(); it2 != m_stationaryGOList.end(); ++it2)
-		{
-			GameObject* go2 = (GameObject*)*it2;
-
-			if (go2 == nullptr)
-				continue;
-
-			if (go2->dead)
-			{
-				toRemoveList.push_back(go2);
-				continue;
-			}
-
-			go2->Update(dt);
-			// attachment for checking if onGround
-			if (go->bottomSprite != nullptr)
-			{
-				if (CheckCollision(go->bottomSprite, go2, dt, false))
-				{
-					go->physics->SetOnGround(true);
-				}
-			}
-
-			if (CheckCollision(go, go2, dt, false))
-			{
-				if (go->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET)
-				{
 					int a = -5;
 				}
-				go2->physics->pos = go2->pos;
-				go2->physics->scale = go2->scale;
-				if (go->IsExplosive())
+
+				if (CheckCollision(go, go2, splitDt, false))
 				{
-					for (auto& go3 : m_movableGOList)
+					if (go->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET
+						|| go2->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET)
 					{
-						if (go3 == nullptr || !go3->active)
-							continue;
-						if (go != go3 && go3 != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
+						DEBUG_MSG("SOME BULLET COLLISION");
+					}
+					if (go->IsExplosive())
+					{
+						for (auto& go3 : m_movableGOList)
 						{
-							go->CollidedWith(go3);
-							go3->CollidedWith(go);
+							if (go3 == nullptr || !go3->active)
+								continue;
+							if (go != go3 && go3 != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, splitDt, true))
+							{
+								go->CollidedWith(go3);
+								go3->CollidedWith(go);
+							}
+						}
+						for (auto& go3 : m_stationaryGOList)
+						{
+							if (go3 == nullptr)
+								continue;
+							if (go != go3 && go3 != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, splitDt, true))
+							{
+								go->CollidedWith(go3);
+								go3->CollidedWith(go);
+							}
 						}
 					}
-					for (auto& go3 : m_stationaryGOList)
+
+					go->CollidedWith(go2);
+					go2->CollidedWith(go);
+					if (go->CanCollisionRespondTo(go2->type) &&
+						go2->CanCollisionRespondTo(go->type))
 					{
-						if (go3 == nullptr)
-							continue;
-						if (go != go3 && go3 != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, dt, true))
-						{
-							go->CollidedWith(go3);
-							go3->CollidedWith(go);
-						}
+						go->physics->CollisionResponse(go2->physics, splitDt);
+					}
+
+					go->pos = go->physics->pos;
+					go2->pos = go2->physics->pos;
+					continue; //remove if stays at the end
+				}
+			}
+			// Collision with moving and stationary
+			for (std::vector<GameObject*>::iterator it2 = m_stationaryGOList.begin(); it2 != m_stationaryGOList.end(); ++it2)
+			{
+				GameObject* go2 = (GameObject*)*it2;
+
+				if (go2 == nullptr)
+					continue;
+
+				if (go2->dead)
+				{
+					toRemoveList.push_back(go2);
+					continue;
+				}
+
+				go2->Update(splitDt);
+				// attachment for checking if onGround
+				if (go->bottomSprite != nullptr)
+				{
+					if (CheckCollision(go->bottomSprite, go2, splitDt, false))
+					{
+						go->physics->SetOnGround(true);
 					}
 				}
-				go->CollidedWith(go2);
-				go2->CollidedWith(go);
-				if (go->CanCollisionRespondTo(go2->type) &&
-					go2->CanCollisionRespondTo(go->type))
+
+				if (CheckCollision(go, go2, splitDt, false))
 				{
-					go->physics->CollisionResponse(go2->physics, dt);
+					if (go->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET)
+					{
+						int a = -5;
+					}
+					go2->physics->pos = go2->pos;
+					go2->physics->scale = go2->scale;
+					if (go->IsExplosive())
+					{
+						for (auto& go3 : m_movableGOList)
+						{
+							if (go3 == nullptr || !go3->active)
+								continue;
+							if (go != go3 && go3 != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, splitDt, true))
+							{
+								go->CollidedWith(go3);
+								go3->CollidedWith(go);
+							}
+						}
+						for (auto& go3 : m_stationaryGOList)
+						{
+							if (go3 == nullptr)
+								continue;
+							if (go != go3 && go3 != go2 && EfficientRangeCheck(go->pos, go3->pos, go->explosiveRadius * 1.5) && CheckCollision(go, go3, splitDt, true))
+							{
+								go->CollidedWith(go3);
+								go3->CollidedWith(go);
+							}
+						}
+					}
+					go->CollidedWith(go2);
+					go2->CollidedWith(go);
+					if (go->CanCollisionRespondTo(go2->type) &&
+						go2->CanCollisionRespondTo(go->type))
+					{
+						go->physics->CollisionResponse(go2->physics, splitDt);
+					}
+					go->pos = go->physics->pos;
+					go2->pos = go2->physics->pos;
+					continue; //remove if stays at the end
 				}
-				go->pos = go->physics->pos;
-				go2->pos = go2->physics->pos;
-				continue; //remove if stays at the end
+
 			}
 
 		}
-
-	}
-	// Update Stationary GOs
-	for (std::vector<GameObject*>::iterator it = m_stationaryGOList.begin(); it != m_stationaryGOList.end(); ++it)
-	{
-		GameObject* go = (GameObject*)*it;
-		if (go == nullptr || !go->active)
-			continue;
-
-		if (go->dead)
+		// Update Stationary GOs
+		for (std::vector<GameObject*>::iterator it = m_stationaryGOList.begin(); it != m_stationaryGOList.end(); ++it)
 		{
-			toRemoveList.push_back(go);
-			continue;
+			GameObject* go = (GameObject*)*it;
+			if (go == nullptr || !go->active)
+				continue;
+
+			if (go->dead)
+			{
+				toRemoveList.push_back(go);
+				continue;
+			}
+
+			go->Update(splitDt);
 		}
 
-		go->Update(dt);
-	}
+		// Remove GOs that need to be deleted
+		std::sort(toRemoveList.begin(), toRemoveList.end());
+		toRemoveList.erase(std::unique(toRemoveList.begin(), toRemoveList.end()), toRemoveList.end());
 
-	// Remove GOs that need to be deleted
-	std::sort(toRemoveList.begin(), toRemoveList.end());
-	toRemoveList.erase(std::unique(toRemoveList.begin(), toRemoveList.end()), toRemoveList.end());
-
-	for (std::vector<GameObject*>::iterator it = toRemoveList.begin(); it != toRemoveList.end(); ++it)
-	{
-		GameObject* go = (GameObject*)*it;
-		if (go == nullptr || go == NULL)
-			continue;
-		if (go->physics->GetMovable())
+		for (std::vector<GameObject*>::iterator it = toRemoveList.begin(); it != toRemoveList.end(); ++it)
 		{
-			if (go->geoTypeID == 150)
+			GameObject* go = (GameObject*)*it;
+			if (go == nullptr || go == NULL)
+				continue;
+			if (go->physics->GetMovable())
 			{
-				DEBUG_MSG("Deleted robot?");
-			}
-			for (int i = 0; i < m_movableGOList.size(); i++)
-			{
-				if (m_movableGOList.at(i) == go)
+				if (go->geoTypeID == 150)
 				{
-					DEBUG_MSG("Deleted: " << m_movableGOList.at(i));
-					delete m_movableGOList.at(i);
-					m_movableGOList.at(i) = nullptr;
-					go = nullptr;
+					DEBUG_MSG("Deleted robot?");
 				}
-			}
-		}
-		else
-		{
-			for (int i = 0; i < m_stationaryGOList.size(); i++)
-			{
-				if (m_stationaryGOList.at(i) == go)
+				for (int i = 0; i < m_movableGOList.size(); i++)
 				{
-					delete m_stationaryGOList.at(i);
-					m_stationaryGOList.at(i) = nullptr;
-					go = nullptr;
+					if (m_movableGOList.at(i) == go)
+					{
+						DEBUG_MSG("Deleted: " << m_movableGOList.at(i));
+						delete m_movableGOList.at(i);
+						m_movableGOList.at(i) = nullptr;
+						go = nullptr;
+					}
+				}
+			}
+			else
+			{
+				for (int i = 0; i < m_stationaryGOList.size(); i++)
+				{
+					if (m_stationaryGOList.at(i) == go)
+					{
+						delete m_stationaryGOList.at(i);
+						m_stationaryGOList.at(i) = nullptr;
+						go = nullptr;
+					}
 				}
 			}
 		}
+		toRemoveList.clear();
+		m_movableGOList.erase(std::remove(m_movableGOList.begin(), m_movableGOList.end(), nullptr),
+			m_movableGOList.end());
+		m_stationaryGOList.erase(std::remove(m_stationaryGOList.begin(), m_stationaryGOList.end(), nullptr),
+			m_stationaryGOList.end());
 	}
-	toRemoveList.clear();
-	m_movableGOList.erase(std::remove(m_movableGOList.begin(), m_movableGOList.end(), nullptr),
-		m_movableGOList.end());
-	m_stationaryGOList.erase(std::remove(m_stationaryGOList.begin(), m_stationaryGOList.end(), nullptr),
-		m_stationaryGOList.end());
+
+	
 }
 
 void GameObjectManager::Render(SceneBase* scene)

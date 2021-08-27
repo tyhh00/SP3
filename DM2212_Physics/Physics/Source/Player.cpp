@@ -14,8 +14,10 @@
 #include "Skull.h"
 #include "Pickaxe.h"
 #include "UIManager.h"
+#include "Campfire.h"
 #include "Coin.h"
 #include "GameManager.h"
+
 
 Player::Player() : input(NULL)
 , goManager(NULL)
@@ -27,6 +29,7 @@ Player::Player() : input(NULL)
 , curr_max_vel(MAX_VEL)
 , stamina_rate_multiplier(0.0f)
 , invisibility(false)
+, staminaCD(0.0)
 {
 	type = GO_PLAYER;
 }
@@ -39,6 +42,8 @@ Player::~Player()
 		{
 			delete abilityArray[i];
 			abilityArray[i] = nullptr;
+			//Set mesh to nullptr cause its already deleted in SceneBase, Player is only deleted when scenebase is deleted hence this code is valid
+			UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("ability_" + std::to_string(i + 1) + "_icon")->setQuadImage(nullptr);
 		}
 	}
 
@@ -111,6 +116,32 @@ void Player::Update(double dt)
 	{
 		if (abilityArray[i] != nullptr)
 		{
+			ButtonManager* bm = UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS);
+			Button* ready = bm->getButtonByName("ability_" + std::to_string(i+1) + "_ready");
+			Button* cooldown = bm->getButtonByName("ability_" + std::to_string(i+1) + "_bg");
+			Button* activatingKey = bm->getButtonByName("ability_" + std::to_string(i + 1) + "_key");
+			Button* icon = bm->getButtonByName("ability_" + std::to_string(i + 1) + "_icon");
+
+			icon->setQuadImage(abilityArray[i]->GetMeshIcon());
+			
+			std::string key;
+			key.append(1, abilityArray[i]->GetActivatingKey());
+			activatingKey->setText(key);
+			if (abilityArray[i]->GetCooldownLeft() > 0)
+			{
+				ready->disable();
+				cooldown->enable();
+				float number = abilityArray[i]->GetCooldownLeft();
+				std::string num_text = std::to_string(number);
+				std::string rounded = num_text.substr(0, num_text.find(".") + 2);
+				cooldown->setText(rounded + "s");
+			}
+			else {
+				ready->enable();
+				cooldown->disable();
+			}
+			//ready->disable();
+			//cooldown->disable();
 			switch (abilityArray[i]->GetAbilityType())
 			{
 			case ABILITY_DASH:
@@ -210,6 +241,7 @@ void Player::UpdateMovement(double dt)
 			curr_max_vel = MAX_SPRINTVEL;
 			speed_multiplier = 2.0f;
 			stamina_rate_multiplier = 1.0f;
+			staminaCD = 0.65;
 		}
 
 		if (input->IsKeyDown('A'))
@@ -236,15 +268,22 @@ void Player::UpdateMovement(double dt)
 			physics->AddVelocity(Vector3(0, accel_amt, 0));
 		}
 
-		if (stamina < max_stamina)
+		staminaCD -= dt;
+
+		if (stamina < max_stamina && staminaCD <= 0.0)
 		{
-			stamina += 5.f * dt;
+			float amt = 10.f * dt * (1 + stamina * 0.1);
+			if (amt > 53 * dt)
+				amt = 53 * dt;
+			stamina += amt;
+			if (stamina > max_stamina)
+				stamina = max_stamina;
 		}
 
 		// ANIMATIONS SECTION
-		if (physics->GetVelocity().x > 1)
+		if (physics->GetVelocity().x > 2)
 			animatedSprites->PlayAnimation("right", -1, 1.0f);
-		else if (physics->GetVelocity().x < -1)
+		else if (physics->GetVelocity().x < -2)
 			animatedSprites->PlayAnimation("left", -1, 1.0f);
 		else
 			animatedSprites->PlayAnimation("idle", -1, 1.0f);
@@ -275,12 +314,18 @@ void Player::Render(SceneBase* scene)
 	/*ProgressBar stamina_bar(staminaBar, 40, 5, 15.f, 1.f);
 	stamina_bar.RenderHorizontal(scene, stamina, max_stamina);*/
 
-	//This is initialised in PlayGameState
+
+
+	//This is initialised in UIManager
 	ProgressBar* pHealthBar = dynamic_cast<ProgressBar*>(
 		UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("playerhealth")
 		);
 	pHealthBar->SetProgress(currentHP / maxHP);
 
+	ProgressBar* pStaminaBar = dynamic_cast<ProgressBar*>(
+		UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("staminabar")
+		);
+	pStaminaBar->SetProgress(stamina / max_stamina);
 
 	//// hp
 	//float HPscale = 2;
@@ -378,6 +423,13 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_MACHINEPART_4:
 		gameManager->setMachineStatus(4, true);
+		break;
+	case SceneBase::GEO_JUNGLE_CAMPFIRE:
+	{
+		Campfire* campfire = dynamic_cast<Campfire*>(go);
+		if (campfire->GetIsLit())
+			currentHP += 1.f; //heal player if stand beside campfire
+	}
 		break;
 	default:
 		break;

@@ -33,7 +33,7 @@ void ProgressBar::Render(SceneBase* scene)
 		float scalex = progress * barWidth;
 		float offsetx = (barWidth - scalex) * 0.5;
 		scene->modelStack.PushMatrix();
-		scene->RenderMeshOnScreen(quadTexture, UIInfo.originX - offsetx, UIInfo.originY, scalex, thickness);
+		scene->RenderMeshOnScreen(quadTexture, UIInfo.originX - offsetx, UIInfo.originY, scalex, thickness, 2.0f);
 		scene->modelStack.PopMatrix();
 	}
 	else
@@ -41,7 +41,7 @@ void ProgressBar::Render(SceneBase* scene)
 		float scaley = progress * barWidth;
 		float offsety = (barWidth - scaley) * 0.5;
 		scene->modelStack.PushMatrix();
-		scene->RenderMeshOnScreen(quadTexture, UIInfo.originX, UIInfo.originY - offsety, thickness, scaley);
+		scene->RenderMeshOnScreen(quadTexture, UIInfo.originX, UIInfo.originY - offsety, thickness, scaley, 2.0f);
 		scene->modelStack.PopMatrix();
 	}
 }

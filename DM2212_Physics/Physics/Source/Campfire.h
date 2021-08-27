@@ -14,6 +14,13 @@ class Campfire : public GameObject{
 
 private:
 	SpriteAnimation * campfireSprite;
+
+	SceneBase* scene;
+	Inventory* inv;
+	Vector3* playerPos;
+
+	bool isLit;
+	float litTimer;
 public:
 	Campfire();
 	~Campfire();
@@ -22,9 +29,7 @@ public:
 	void Update(double dt);
 	void SetAnimation(std::string anim_name, int repeat, double anim_time);
 
-	SceneBase* scene;
-	Inventory* inv;
-	Vector3* playerPos;
+	bool GetIsLit();
 };
 
 #endif

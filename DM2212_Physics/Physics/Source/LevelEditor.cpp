@@ -23,14 +23,14 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
-	std::string mapToLoad ="OCEAN_1_1";
+	std::string mapToLoad ="JUNGLE_1_1";
 
 
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = 143;//144
-	m_worldWidth = 1000;
+	m_worldHeight = 200;//144
+	m_worldWidth = 2500;
 
 	mapLoaded = false;
 
@@ -39,7 +39,7 @@ void LevelEditor::Init()
 	snapPosToGrid = true;
 	snapRotToGrid = true;
 
-	ctrlToggle = false;
+	//ctrlToggle = false;
 
 	canScrollIn = scrollingSpeed;
 	scrolledGeo = static_cast<GEOMETRY_TYPE>(GEOMETRY_TYPE::GEO_TILES_START + 1);
@@ -136,13 +136,14 @@ void LevelEditor::Update(double dt)
 	bool CTRLKeyRelease = false;
 	if (!bCTRLState && Application::IsKeyPressed(VK_CONTROL))
 		bCTRLState = true; //Down
-	else if (bCTRLState && !Application::IsKeyPressed(VK_CONTROL) && !ctrlToggle)
+	else if (bCTRLState && !Application::IsKeyPressed(VK_CONTROL) //&& !ctrlToggle
+		)
 	{
 		bCTRLState = false; //Up
 		CTRLKeyRelease = true;
 	}
-	else if (bCTRLState && ctrlToggle && Input::GetInstance()->IsKeyReleased(VK_CONTROL))
-		bCTRLState = false;
+	//else if (bCTRLState && ctrlToggle && Input::GetInstance()->IsKeyReleased(VK_CONTROL))
+	//	bCTRLState = false;
 
 	scrollState = SCROLLER_GEOSWITCHER;
 	if (Application::IsKeyPressed('S'))
@@ -175,10 +176,10 @@ void LevelEditor::Update(double dt)
 		renderMode = static_cast<RENDERMODE_STATE>(v);
 	}
 
-	else if (Input::GetInstance()->IsKeyReleased('9'))
+	/*else if (Input::GetInstance()->IsKeyReleased('9'))
 	{
 		ctrlToggle = !ctrlToggle;
-	}
+	}*/
 
 	static bool cannotPasteYet = true; //after pressing Left-Click, you must let go of left click once before u can start placing blocks
 	static bool pastedOnce = false;

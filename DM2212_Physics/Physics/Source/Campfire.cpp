@@ -7,6 +7,13 @@
 Campfire::Campfire()
 {
 	campfireSprite = nullptr;
+	isLit = false;
+	litTimer = 0;
+}
+
+bool Campfire::GetIsLit()
+{
+	return isLit;
 }
 
 Campfire::~Campfire()
@@ -34,16 +41,30 @@ void Campfire::Init(SceneBase* _scene, Inventory* _inv, Vector3& _playerPos)
 void Campfire::Update(double dt)
 {
 	campfireSprite->Update(dt);
+
+	if (isLit)
+	{
+		if (litTimer > 30)
+		{
+			isLit = false;
+			litTimer = 0;
+		}
+		campfireSprite->PlayAnimation("burning", -1, 1);
+		litTimer += dt;
+	}
+	else
+	{
+		campfireSprite->PlayAnimation("idle", -1, 1);
+	}
 	
 	if (inv->GetCurrentItem() == nullptr)
 		return;
 
 	if (inv->GetCurrentItemType() == Item::I_FIRETORCH)
 	{
-		std::cout << (*playerPos - pos).Length() << std::endl;
-		if ((*playerPos - pos).Length() < 10)
+		if ((*playerPos - pos).Length() < 10 && !isLit)
 		{
-			campfireSprite->PlayAnimation("burning", -1, 1);
+			isLit = true;
 		}
 	}
 }

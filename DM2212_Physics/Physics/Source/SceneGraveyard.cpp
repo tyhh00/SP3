@@ -155,11 +155,7 @@ void SceneGraveyard::Init()
 			pickaxe = go;
 			pickaxe->active = false;
 		}
-		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_MACHINEPART_4)
-		{
-			machinepart = go;
-			machinepart->active = false;
-		}
+		
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	
@@ -174,7 +170,7 @@ void SceneGraveyard::Init()
 	camera.SetMode(Camera::CENTER);
 
 	// ABILITIES
-	PortalAbility* ability = new PortalAbility;
+	PortalAbility* ability = new PortalAbility(meshList[GEO_ABILITYICON_PORTAL]);
 	ability->SetCamera(&camera);
 	ability->SetScenePointer(this);
 	player->SetAbilities(ability, nullptr);
@@ -305,15 +301,10 @@ void SceneGraveyard::Update(double dt)
 	case CHURCH_END:
 		if (gameManager->getMachineStatus(4))
 		{
-			dialogueManager->AddDialogue(PLAYER, "Got the time machine part! Let's go back.");
-		}
-		break;
-	case CHURCH_END_DIALOGUE:
-		if (!dialogueManager->isDialogue())
-		{
 			gameWin = true;
 		}
 		break;
+
 	}
 }
 
@@ -578,6 +569,11 @@ void SceneGraveyard::LoadBossScene()
 			//Delete Grid stone
 			delete go;
 			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_MACHINEPART_4)
+		{
+			machinepart = go;
+			machinepart->active = false;
 		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());

@@ -8,6 +8,7 @@ Apple::Apple(Mesh* _mesh, int _quantity, int stemLength) : Consumable(I_APPLE, m
 {
 	isStackable = true;
 	quantity = _quantity;
+	
 
 	input = Input::GetInstance();
 
@@ -24,6 +25,11 @@ void Apple::Update(double dt)
 	{
 		std::cout << quantity << std::endl;
 		RemoveQuantity(1);
+	}
+	
+	if (input->IsKeyPressed('H'))
+	{
+		this->durability -= 0.1f;
 	}
 }
 

@@ -9,7 +9,7 @@
 #include "Player.h"
 #include "Input.h"
 #include "GameObjectManager.h"
-
+#include "GameManager.h"
 
 #include "BulletSpawner.h"
 #include "PlasmaBullet.h"
@@ -34,6 +34,7 @@ protected:
 	Inventory* inventory;
 	Input* input;
 	GameObjectManager* goManager;
+	GameManager* gameManager;
 	Player* player;
 	BulletSpawner* spawner;
 

@@ -61,6 +61,8 @@ void SceneRobot::Init()
 
 	//Store keyboard instance
 	input = Input::GetInstance();
+	// Game Manager
+	gameManager = GameManager::GetInstance();
 
 	// Unique Meshes
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
@@ -147,8 +149,8 @@ void SceneRobot::Init()
 	camera.SetFocusTarget(player->pos);
 
 	player->SetAbilities(
-		new RecallAbility(player, 3.0),
-		new BlackHoleAbility(player, new BulletSpawner(goManager, new BlackHoleBullet(meshList[GEO_BLACKHOLE], GEO_BLACKHOLE, Vector3(3, 3, 3), player, 40)), &camera, m_screenWidth, m_screenHeight));
+		new RecallAbility(player, 3.0, meshList[GEO_ABILITYICON_RECALL]),
+		new BlackHoleAbility(player, new BulletSpawner(goManager, new BlackHoleBullet(meshList[GEO_BLACKHOLE], GEO_BLACKHOLE, Vector3(3, 3, 3), player, 40)), &camera, m_screenWidth, m_screenHeight, meshList[GEO_ABILITYICON_BLACKHOLE]));
 	
 
 }
@@ -182,7 +184,7 @@ void SceneRobot::Update(double dt)
 
 	if (input->IsKeyReleased('F'))
 	{
-		spawner->SpawnBullet(player->pos, player->physics->GetNormal(), player->physics->GetNormal());
+		//spawner->SpawnBullet(player->pos, player->physics->GetNormal(), player->physics->GetNormal());
 		/*PlasmaBullet* bul = new PlasmaBullet(Vector3(2, 2, 2), player);
 		bul->physics->SetVelocity(player->physics->GetNormal() * 12);
 		bul->physics->SetNormal(player->physics->GetNormal());
@@ -197,6 +199,12 @@ void SceneRobot::Update(double dt)
 	{
 		gameLost = true;
 	}
+
+	if (gameManager->getMachineStatus(1))
+	{
+		gameWin = true;
+	}
+	
 
 }
 

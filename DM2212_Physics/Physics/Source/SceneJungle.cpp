@@ -32,8 +32,8 @@ void SceneJungle::Init()
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = m_screenHeight * 3;
-	m_worldWidth = m_screenWidth * 10;
+	m_worldHeight = m_screenHeight * 2;
+	m_worldWidth = m_screenWidth * 15;
 
 
 	//Inventory init
@@ -45,6 +45,13 @@ void SceneJungle::Init()
 
 	//Store keyboard instance
 	input = Input::GetInstance();
+
+	// Game Manager
+	gameManager = GameManager::GetInstance();
+
+	// Unique Meshes
+	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	meshList[GEO_BG]->textureID = LoadTGA("Image/bg_jungle2.tga");
 
 	//Level Loading
 	std::vector<GameObject*> tiles;
@@ -128,11 +135,11 @@ void SceneJungle::Init()
 	camera.SetMode(Camera::CENTER);
 
 	// ABILITIES
-	DashAbility* ability = new DashAbility;
+	DashAbility* ability = new DashAbility(meshList[GEO_ABILITYICON_DASH]);
 	ability->SetCamera(&camera);
 	ability->SetScenePointer(this);
 
-	GrapplingAbility* ability2 = new GrapplingAbility;
+	GrapplingAbility* ability2 = new GrapplingAbility(meshList[GEO_ABILITYICON_GRAPPLINGHOOK]);
 	ability2->SetCamera(&camera);
 	ability2->SetScenePointer(this);
 	ability2->SetGOManager(this->goManager);
@@ -176,9 +183,14 @@ void SceneJungle::Update(double dt)
 	}
 
 	goManager->Update(dt);
+
 	if (player->currentHP <= 0)
 	{
 		gameLost = true;
+	}
+	if (gameManager->getMachineStatus(2))
+	{
+		gameWin = true;
 	}
 }
 
@@ -211,8 +223,14 @@ void SceneJungle::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1.0f, 1.0f, 1.0f), 4, 10, 10);
 	}
 
-	inventory->Render();
+	// BG
+	modelStack.PushMatrix();
+	modelStack.Translate(camera.position.x, camera.position.y, -0.01);
+	modelStack.Scale(m_screenWidth, m_screenHeight, 1);
+	RenderMesh(meshList[GEO_BG], true);
+	modelStack.PopMatrix();
 
+	inventory->Render();
 	goManager->Render(this);
 }
 

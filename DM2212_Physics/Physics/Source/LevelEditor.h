@@ -74,7 +74,7 @@ protected:
 
 	bool stackOnGrid;
 
-	bool ctrlToggle;
+	//bool ctrlToggle;
 
 	SCROLLER_STATE scrollState;
 
