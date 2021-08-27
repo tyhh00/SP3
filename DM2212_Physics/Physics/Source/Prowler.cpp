@@ -36,7 +36,7 @@ void Prowler::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, Weap
 	physics->SetEnableCollisionResponse(true);
 	physics->SetGravity(Vector3(0,-98.f,0));
 
-	animatedSprites = MeshBuilder::GenerateSpriteAnimation(1, 18, 2.0f, 2.0f);
+	animatedSprites = MeshBuilder::GenerateSpriteAnimation(20, 9, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("jumpRight", 0, 2);
 	animatedSprites->AddAnimation("jumpLeft", 3, 5);
 	animatedSprites->AddAnimation("runRight", 6, 10);

@@ -21,7 +21,7 @@ public:
 	bool isBeingAttacked();
 
 private:
-	enum MONKEY_STATE {
+	enum PROWLER_STATE {
 		IDLE , // default state, facing back and does not move
 		JUMP,
 		ATTACK, // haunting state, moves towards player (speed slower than player)
@@ -33,7 +33,7 @@ private:
 	float activeRange;
 	float shootTimer;
 
-	MONKEY_STATE state;
+	PROWLER_STATE state;
 	double state_timer;
 	double state_interval;
 

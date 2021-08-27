@@ -122,6 +122,25 @@ void SceneJungle::Init()
 			delete go;
 			go = nullptr;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_JUNGLE_PROWLER)
+		{
+			Prowler* prowler = new Prowler();
+
+			prowler->active = true;
+			prowler->scale = go->scale;
+			prowler->pos = go->pos;
+			prowler->physics = go->physics->Clone();
+			prowler->physics->SetInelasticity(0.99f);
+			prowler->physics->SetIsBouncable(false);
+			prowler->physics->SetGravity(Vector3(0, 0, 0));
+			prowler->Init(this, inventory, player->pos);
+
+			goManager->AddGO(prowler);
+
+			//Delete Grid campfire
+			delete go;
+			go = nullptr;
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	
