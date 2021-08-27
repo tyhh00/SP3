@@ -16,6 +16,7 @@ public:
 	{
 		active = false;
 		mesh = MeshBuilder::GenerateQuad("Wall", Color(1, 1, 1), 2.0f);
+		mesh->textureID = LoadTGA("Image/Items/Weapons/Grappler.tga");
 		enableCollision = false;
 	}
 	~GrapplingHook()

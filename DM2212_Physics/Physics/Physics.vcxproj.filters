@@ -326,6 +326,9 @@
     <ClCompile Include="Source\SlowTime.cpp">
       <Filter>Source Files\Abilities</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Prowler.cpp">
+      <Filter>Source Files\GameObjects\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -603,6 +606,9 @@
     </ClInclude>
     <ClInclude Include="Source\SlowTime.h">
       <Filter>Header Files\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Prowler.h">
+      <Filter>Header Files\GameObjects\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

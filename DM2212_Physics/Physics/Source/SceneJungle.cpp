@@ -33,7 +33,7 @@ void SceneJungle::Init()
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	m_worldHeight = m_screenHeight * 2;
-	m_worldWidth = m_screenWidth * 10;
+	m_worldWidth = m_screenWidth * 15;
 
 
 	//Inventory init
