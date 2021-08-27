@@ -14,7 +14,11 @@ Ability::Ability(char buttonChar, ABILITY_TYPE type, double abilityCooldownDurat
 
 Ability::~Ability()
 {
-
+	if (icon)
+	{
+		delete icon;
+		icon = NULL;
+	}
 }
 
 void Ability::SetCamera(Camera* camera)
