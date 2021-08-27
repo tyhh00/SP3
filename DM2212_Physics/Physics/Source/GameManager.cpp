@@ -12,20 +12,24 @@ GameManager::~GameManager()
 
 void GameManager::Init()
 {
-	gameOver = false;
 	gameElapsed = 0.f;
 	score = 0;
 	coinsCollected = 0;
+
+	for (int i = 0; i < 4; i++)
+	{
+		timeMachineStatus[i] = false;
+	}
 }
 
-bool GameManager::getGameOverStatus()
+bool GameManager::getMachineStatus(int partNum)
 {
-	return gameOver;
+	return timeMachineStatus[partNum - 1];
 }
 
-void GameManager::setGameOver(bool gameOver)
+void GameManager::setMachineStatus(int partNum, bool obtained)
 {
-	this->gameOver = gameOver;
+	timeMachineStatus[partNum - 1] = obtained;
 }
 
 void GameManager::addScore(float score)

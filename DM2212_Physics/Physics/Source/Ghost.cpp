@@ -29,8 +29,8 @@ void Ghost::Init(SceneBase* scene, Inventory* inventory, Vector3 &target)
 	hostileRange = 20.0f;
 	inactiveRange = 100.0f;
 
-	currentHP = 7;
-	maxHP = 7; // IN SECONDS
+	currentHP = 5;
+	maxHP = 5; // IN SECONDS
 
 	state_timer = 0;
 	state_interval;
@@ -188,7 +188,7 @@ void Ghost::CollidedWith(GameObject* go)
 	{
 		if (timeout <= 0)
 		{
-			go->currentHP -= 20;
+			go->currentHP -= 10;
 			timeout = 2.0f;
 		}
 	}

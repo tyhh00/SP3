@@ -157,9 +157,9 @@ void SceneLobby::Init()
 	goManager->AddAllGO(tiles);
 
 	// Camera 
-	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 1), Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
-	camera.SetFocusTarget(player->pos);
+	//camera.SetFocusTarget(player->pos);
 
 	sceneManager = SceneManager::GetInstance();
 }

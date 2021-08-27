@@ -322,7 +322,7 @@ void SceneBase::Init()
 	LoadTile(GEO_TOMBSTONE_CROSS, "CrossTombstonE.tga", 0.697, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_GRAVEYARD_ARROWSIGN, "GY_ARROWSIGN.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_ENEMY_GHOST, "ghost.tga", 1.9, 2.2, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_ENEMY_TUMBLEWEED, "tumbleweed.tga", 1, 1, SHAPE_TYPE::CIRCLE);
+	LoadTile(GEO_ENEMY_TUMBLEWEED, "tumbleweed.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_GY_GATEKEEPER, "Gatekeeper.tga", 0.714, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_GY_CHURCH, "church.tga", 2.37, 1.98, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_CHURCH_CENTER, "CHURCH_CENTER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -373,6 +373,15 @@ void SceneBase::Init()
 
 	meshList[GEO_HEALTHBAR] = MeshBuilder::GenerateQuad("healthbar", Color(1, 1, 1), 5.0f);
 	meshList[GEO_HEALTHBAR]->textureID = LoadTGA("Image//HealthBarInner.tga");
+
+	meshList[GEO_MACHINEPART_1] = MeshBuilder::GenerateQuad("Machine Parts", Color(1, 1, 1), 2.0f);
+	meshList[GEO_MACHINEPART_1]->textureID = LoadTGA("Image//MachinePart_1.tga");
+	meshList[GEO_MACHINEPART_2] = MeshBuilder::GenerateQuad("Machine Parts", Color(1, 1, 1), 2.0f);
+	meshList[GEO_MACHINEPART_2]->textureID = LoadTGA("Image//MachinePart_2.tga");
+	meshList[GEO_MACHINEPART_3] = MeshBuilder::GenerateQuad("Machine Parts", Color(1, 1, 1), 2.0f);
+	meshList[GEO_MACHINEPART_3]->textureID = LoadTGA("Image//MachinePart_3.tga");
+	meshList[GEO_MACHINEPART_4] = MeshBuilder::GenerateQuad("Machine Parts", Color(1, 1, 1), 2.0f);
+	meshList[GEO_MACHINEPART_4]->textureID = LoadTGA("Image//MachinePart_4.tga");
 
 	meshList[GEO_ABILITY_BG] = MeshBuilder::GenerateQuad("ability_bg", Color(1, 1, 1), 5.0f);
 	meshList[GEO_ABILITY_BG]->textureID = LoadTGA("Image//ability_border.tga");

@@ -69,6 +69,8 @@ void Inventory::Init(SceneBase* scene)
 	{
 		maxQuantity[i] = 5;
 	}
+	maxQuantity[Item::I_BONE] = 15;
+	maxQuantity[Item::I_SKULL] = 10;
 
 	this->scene = scene;
 }
@@ -446,7 +448,7 @@ Item* Inventory::GetItem(Item::ITEM_TYPE itemType)
 {
 	for (auto item : itemVector)
 	{
-		if (item->GetType() == Item::I_FLASHLIGHT)
+		if (item->GetType() == itemType)
 		{
 			return item;
 		}
