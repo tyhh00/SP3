@@ -16,14 +16,6 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
-	for (int i = 0; i < 2; i++)
-	{
-		if (currAbility[i])
-		{
-			delete currAbility[i];
-			currAbility[i] = NULL;
-		}
-	}
 	for (int i = 0; i < ABILITY_COUNT; i++)
 	{
 		if (abilityArray[i])
