@@ -20,7 +20,7 @@ class Ability
 {
 
 public:
-	Ability(char buttonChar, ABILITY_TYPE type, double abilityDurationCooldown);
+	Ability(char buttonChar, ABILITY_TYPE type, double abilityDurationCooldown, Mesh* mesh = nullptr);
 	~Ability();
 
 	virtual void Update(double dt) = 0;
@@ -38,6 +38,10 @@ public:
 	double GetCooldownDuration();
 	double GetCooldownTillReadyPercentage();
 
+	Mesh* GetMeshIcon();
+
+	char GetActivatingKey();
+
 protected:
 
 	double abilityCD_timeleft;
@@ -46,6 +50,7 @@ protected:
 	int usesLeft;
 	int maxUses;
 
+	Mesh* icon;
 	Camera* camera;
 	GameObjectManager* goManager;
 	SceneBase* scene; //Used for custom rendering of abilities

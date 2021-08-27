@@ -67,6 +67,7 @@ void UIManager::Init()
 		ability_bgCooldown->textureID = LoadTGA("Image//ability_border_cooldown.tga");
 		meshGenerated.push_back(ability_bgCooldown);
 
+		bm_gameplayStat->addButton(ButtonFactory::createNoTextButton("ability_1_icon", 5, 7, 1, 1, nullptr));
 		Button* ready = ButtonFactory::createNoTextButton("ability_1_ready", 5, 7, 1, 1, ability_bg);
 		bm_gameplayStat->addButton(ready);
 		Button* onCD = ButtonFactory::createButton("ability_1_bg", 5, 7, 1, 1, ability_bgCooldown, -0.8, 1.3, Color(0.9f, 0.9f, 0.9f), "0.00s", 1.7);
@@ -74,7 +75,8 @@ void UIManager::Init()
 		bm_gameplayStat->addButton(onCD);
 		bm_gameplayStat->addButton(ButtonFactory::createTextButton("ability_1_key", 7, 3, 2, 2, 0, 0, Color(0.7, 0.7, 0.55), "Q", 1.4, SUPERMARIO));
 	
-	
+		
+		bm_gameplayStat->addButton(ButtonFactory::createNoTextButton("ability_2_icon", 11, 7, 1, 1, nullptr));
 		Button* ready2 = ButtonFactory::createNoTextButton("ability_2_ready", 11, 7, 1, 1, ability_bg);
 		bm_gameplayStat->addButton(ready2);
 		//ready2->disable();
@@ -82,8 +84,8 @@ void UIManager::Init()
 		onCD2->disable();
 		bm_gameplayStat->addButton(onCD2);
 		bm_gameplayStat->addButton(ButtonFactory::createTextButton("ability_2_key", 13, 3, 2, 2, 0, 0, Color(0.7, 0.7, 0.55), "Z", 1.4, SUPERMARIO));
+		
 	}
-
 }
 
 

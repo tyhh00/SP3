@@ -12,7 +12,7 @@
 class DashAbility : public Ability {
 	
 public:
-	DashAbility();
+	DashAbility(Mesh* mesh = nullptr);
 	~DashAbility();
 
 	void Update(double dt);

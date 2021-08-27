@@ -4,7 +4,7 @@
 #include "MeshBuilder.h"
 
 
-PortalAbility::PortalAbility() : Ability('Z', ABILITY_PORTAL, 10.0f)
+PortalAbility::PortalAbility(Mesh* mesh) : Ability('Z', ABILITY_PORTAL, 10.0f, mesh)
 {
 	ghost_portal = false;
 	ghost_player = false;

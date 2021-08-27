@@ -169,7 +169,7 @@ void SceneGraveyard::Init()
 	camera.SetMode(Camera::CENTER);
 
 	// ABILITIES
-	PortalAbility* ability = new PortalAbility;
+	PortalAbility* ability = new PortalAbility(meshList[GEO_ABILITYICON_PORTAL]);
 	ability->SetCamera(&camera);
 	ability->SetScenePointer(this);
 	player->SetAbilities(ability, nullptr);
