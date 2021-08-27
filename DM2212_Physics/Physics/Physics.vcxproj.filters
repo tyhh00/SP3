@@ -293,9 +293,6 @@
     <ClCompile Include="Source\Grappling.cpp">
       <Filter>Source Files\Abilities</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Recall.cpp">
-      <Filter>Source Files\Abilities</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Pistol.cpp">
       <Filter>Source Files\Items\Weapons</Filter>
     </ClCompile>
@@ -322,6 +319,12 @@
     </ClCompile>
     <ClCompile Include="Source\Buttons\DialogueManager.cpp">
       <Filter>Source Files\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Recall.cpp">
+      <Filter>Source Files\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SlowTime.cpp">
+      <Filter>Source Files\Abilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -565,9 +568,6 @@
     <ClInclude Include="Source\Grappling.h">
       <Filter>Header Files\Abilities</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Recall.h">
-      <Filter>Header Files\Abilities</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Pistol.h">
       <Filter>Header Files\Items\Weapons</Filter>
     </ClInclude>
@@ -597,6 +597,12 @@
     </ClInclude>
     <ClInclude Include="Source\Gatekeeper.h">
       <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Recall.h">
+      <Filter>Header Files\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SlowTime.h">
+      <Filter>Header Files\Abilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

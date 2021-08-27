@@ -23,7 +23,7 @@ void Dragon::Init(SceneBase* scene,Vector3 &target, int numParts)
 	playerPos = &target;
 
 	angle = 0;
-	curve = 10;
+	curve = 5;
 	curveTimer = 0.1f;
 
 	GameObject* go = new GameObject;
@@ -132,59 +132,39 @@ void Dragon::Update(double dt)
 
 	animatedSprites->Update(dt);
 
-	/*if (physics->GetVelocity().x > 0)
+	dragon.at(1)->pos = dragon.at(0)->pos + Vector3(dragon.at(0)->scale.x * -1 * cos(Math::DegreeToRadian(convertidk(dragon.at(0)->physics->GetRotateZ()))),
+		dragon.at(0)->scale.x * -1 * sin(Math::DegreeToRadian(convertidk(dragon.at(0)->physics->GetRotateZ()))), 0);
+	for (int i = 2; i < dragon.size(); i++)
 	{
-		animatedSprites->PlayAnimation("right", -1, 1.0f);
+		dragon.at(i)->pos = dragon.at(i - 1)->pos + Vector3(dragon.at(i - 1)->scale.x * -2 * cos(Math::DegreeToRadian(convertidk(dragon.at(i - 1)->physics->GetRotateZ()))),
+			dragon.at(i - 1)->scale.x * -2 * sin(Math::DegreeToRadian(convertidk(dragon.at(i - 1)->physics->GetRotateZ()))), 0);
 	}
-	else if (physics->GetVelocity().x < 0)
-	{
-		animatedSprites->PlayAnimation("left", -1, 1.0f);
-	}*/
 
 }
 
 void Dragon::Render(SceneBase* scene)
 {
-	scene->modelStack.PushMatrix();
-	scene->modelStack.Translate(pos.x, pos.y, pos.z);
-		scene->modelStack.PushMatrix();
-		scene->modelStack.Rotate(dragon.at(0)->physics->GetRotateZ() - 90, 0, 0, -1);
-		scene->modelStack.Scale(dragon.at(0)->scale.x, dragon.at(0)->scale.y, dragon.at(0)->scale.z);
-		scene->RenderMesh(dragon.at(0)->mesh, false);
-		scene->modelStack.PopMatrix();
-	
-	scene->modelStack.Translate(dragon.at(0)->scale.x * -1 * cos(Math::DegreeToRadian(convertidk(dragon.at(0)->physics->GetRotateZ()))),
-	dragon.at(0)->scale.x * -1 * sin(Math::DegreeToRadian(convertidk(dragon.at(0)->physics->GetRotateZ()))), 0);//// translate to head scale * rotateZ vector
-		scene->modelStack.PushMatrix();
-		scene->modelStack.Rotate(dragon.at(1)->physics->GetRotateZ() - 90, 0, 0, -1);
-		scene->modelStack.Translate(dragon.at(1)->scale.x, 0, 0);
-		scene->modelStack.Scale(dragon.at(1)->scale.x, dragon.at(1)->scale.y, dragon.at(1)->scale.z);
-		scene->RenderMesh(dragon.at(1)->mesh, false);
-		scene->modelStack.PopMatrix();
 
-	for (int i = 2; i < dragon.size(); i++)
-		{
-			scene->modelStack.Translate(dragon.at(i - 1)->scale.x * -2 * cos(Math::DegreeToRadian(convertidk(dragon.at(i - 1)->physics->GetRotateZ()))),
-			dragon.at(i - 1)->scale.x * -2 * sin(Math::DegreeToRadian(convertidk(dragon.at(i - 1)->physics->GetRotateZ()))), 0);//// translate to head scale * rotateZ vector
-			scene->modelStack.PushMatrix();
-			scene->modelStack.Rotate(dragon.at(i)->physics->GetRotateZ() - 90, 0, 0, -1);
-			scene->modelStack.Translate(dragon.at(i)->scale.x, 0, 0);
-			scene->modelStack.Scale(dragon.at(i)->scale.x, dragon.at(i)->scale.y, dragon.at(i)->scale.z);
-			scene->RenderMesh(dragon.at(i)->mesh, false);
-			scene->modelStack.PopMatrix();
-		}
-	scene->modelStack.PopMatrix();
+	for (int i = 0; i < dragon.size(); i++)
+	{
+		scene->modelStack.PushMatrix();
+		scene->modelStack.Translate(dragon.at(i)->pos.x, dragon.at(i)->pos.y, dragon.at(i)->pos.z);
+		scene->modelStack.Rotate(dragon.at(i)->physics->GetRotateZ() - 90, 0, 0, -1);
+		scene->modelStack.Scale(dragon.at(i)->scale.x, dragon.at(i)->scale.y, dragon.at(i)->scale.z);
+		scene->RenderMesh(dragon.at(i)->mesh, false);
+		scene->modelStack.PopMatrix();
+	}
 }
 
 float Dragon::convertidk(float pain)
 {
-	std::cout << "before: " << pain << std::endl;
+	//std::cout << "before: " << pain << std::endl;
 	pain += 90;
 	if (pain > 360)
 	{
 		pain -= 360;
 	}
 	pain = 360 - pain;
-	std::cout << "after: " << pain << std::endl;
+	//std::cout << "after: " << pain << std::endl;
 	return pain;
 }

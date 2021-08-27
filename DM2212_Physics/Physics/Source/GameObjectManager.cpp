@@ -38,6 +38,10 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 	{
 		return false;
 	}
+	if (!EfficientRangeCheck(go1->pos, go2->pos, (go1_fScale.x + go2_fScale.y) * 1.5))
+	{
+		//DEBUG_MSG("RANGECHECKEDDENY");
+	}
 
 	if (go1->physics->shapeType == CIRCLE)
 	{
@@ -70,7 +74,7 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 
 			if (dis.Dot(N) < go1_fScale.x + go2_fScale.x
 				&& abs(dis.Dot(NP)) < go2_fScale.y
-				&& go1->physics->GetVelocity().Dot(N) > 0
+				//&& go1->physics->GetVelocity().Dot(N) > 0
 				)
 			{
 				go2->physics->SetCollisionNormal(N);
@@ -86,7 +90,7 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 
 			if (dis.Dot(N) < go1_fScale.y + go2_fScale.y
 				&& abs(dis.Dot(NP)) < go2_fScale.x
-				&& go1->physics->GetVelocity().Dot(N) > 0
+				//&& go1->physics->GetVelocity().Dot(N) > 0
 				)
 	
 			{
@@ -119,7 +123,7 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 
 			if (dis.Dot(N) < go1_fScale.x + go2_fScale.x
 				&& abs(dis.Dot(NP)) < go2_fScale.y
-				&& go1->physics->GetVelocity().Dot(N) > 0
+				//&& go1->physics->GetVelocity().Dot(N) > 0
 				)
 			{
 				go2->physics->SetCollisionNormal(N);
@@ -135,7 +139,7 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 
 			if (dis.Dot(N) < go1_fScale.y + go2_fScale.y
 				&& abs(dis.Dot(NP)) < go2_fScale.x
-				&& go1->physics->GetVelocity().Dot(N) > 0 
+			//	&& go1->physics->GetVelocity().Dot(N) > 0 
 				)
 			{
 				go2->physics->SetCollisionNormal(N);

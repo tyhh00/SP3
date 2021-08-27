@@ -53,7 +53,7 @@ class Text
 
 	Color color;
 	UIItem UIInfo;
-	Font textFont;
+	Font* textFont;
 	std::ostringstream text; //accepts \n
 	float size;
 	bool visible;

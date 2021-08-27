@@ -28,7 +28,7 @@ public:
 class GrapplingAbility : public Ability {
 	
 public:
-	GrapplingAbility();
+	GrapplingAbility(Mesh* mesh = nullptr);
 	~GrapplingAbility();
 
 	void Update(double dt);

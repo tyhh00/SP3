@@ -21,17 +21,21 @@ Inventory::~Inventory()
 	}
 	itemVector.clear();
 
-	for (Weapon* item : weaponVector)
-	{
-		delete item;
-	}
 	weaponVector.clear();
-
-	for (Consumable* item : consumableVector)
-	{
-		delete item;
-	}
 	consumableVector.clear();
+
+	if (emptyMesh)
+	{
+		delete emptyMesh;
+	}
+	if (selectedMesh)
+	{
+		delete selectedMesh;
+	}
+	if (buttonManager)
+	{
+		delete buttonManager;
+	}
 }
 
 /**
@@ -76,6 +80,8 @@ void Inventory::Init(SceneBase* scene)
 	{
 		maxQuantity[i] = 5;
 	}
+	maxQuantity[Item::I_BONE] = 15;
+	maxQuantity[Item::I_SKULL] = 10;
 
 	this->scene = scene;
 }
@@ -223,17 +229,25 @@ void Inventory::Clear()
 	}
 	itemVector.clear();
 
-	for (Weapon* item : weaponVector)
-	{
-		delete item;
-	}
-	weaponVector.clear();
 
-	for (Consumable* item : consumableVector)
-	{
-		delete item;
-	}
+	weaponVector.clear();
 	consumableVector.clear();
+	currentItem = nullptr;
+	if (emptyMesh)
+	{
+		delete emptyMesh;
+		emptyMesh = NULL;
+	}
+	if (selectedMesh)
+	{
+		delete selectedMesh;
+		selectedMesh = NULL;
+	}
+	if (buttonManager)
+	{
+		delete buttonManager;
+		buttonManager = NULL;
+	}
 }
 
 /**
@@ -455,7 +469,7 @@ Item* Inventory::GetItem(Item::ITEM_TYPE itemType)
 {
 	for (auto item : itemVector)
 	{
-		if (item->GetType() == Item::I_FLASHLIGHT)
+		if (item->GetType() == itemType)
 		{
 			return item;
 		}

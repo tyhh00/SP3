@@ -17,6 +17,7 @@
 #include "Coin.h"
 #include "GameManager.h"
 
+
 Player::Player() : input(NULL)
 , goManager(NULL)
 , inventory(NULL)
@@ -25,8 +26,6 @@ Player::Player() : input(NULL)
 , max_stamina(100.f)
 , stamina(100.f)
 , curr_max_vel(MAX_VEL)
-//, lives(3)
-//, max_lives(3)
 , stamina_rate_multiplier(0.0f)
 , invisibility(false)
 {
@@ -41,6 +40,8 @@ Player::~Player()
 		{
 			delete abilityArray[i];
 			abilityArray[i] = nullptr;
+			//Set mesh to nullptr cause its already deleted in SceneBase, Player is only deleted when scenebase is deleted hence this code is valid
+			UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("ability_" + std::to_string(i + 1) + "_icon")->setQuadImage(nullptr);
 		}
 	}
 
@@ -54,16 +55,7 @@ Player::~Player()
 		delete animatedSprites;
 		animatedSprites = NULL;
 	}
-	/*if (livesIcon)
-	{
-		delete livesIcon;
-		livesIcon = NULL;
-	}*/
-	if (staminaBar)
-	{
-		delete staminaBar;
-		staminaBar = NULL;
-	}
+	
 }
 
 void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* inventory)
@@ -79,11 +71,9 @@ void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* invento
 	}
 	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 1.0f);
 	portalSprite->textureID = LoadTGA("Image/PortalTravelSprite.tga");
-//	livesIcon = MeshBuilder::GenerateQuad("hp icon", Color(1, 1, 1), 1.0f);
-//	livesIcon->textureID = LoadTGA("Image/lives.tga");
-	staminaBar = MeshBuilder::GenerateQuad("stamina bar", Color(1.0f, 1.0f, 0.4f), 1.0f);
 
 	input = Input::GetInstance();
+	gameManager = GameManager::GetInstance();
 
 	//This is initialised in PlayGameState
 	ProgressBar* pHealthBar = dynamic_cast<ProgressBar*>(
@@ -124,6 +114,32 @@ void Player::Update(double dt)
 	{
 		if (abilityArray[i] != nullptr)
 		{
+			ButtonManager* bm = UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS);
+			Button* ready = bm->getButtonByName("ability_" + std::to_string(i+1) + "_ready");
+			Button* cooldown = bm->getButtonByName("ability_" + std::to_string(i+1) + "_bg");
+			Button* activatingKey = bm->getButtonByName("ability_" + std::to_string(i + 1) + "_key");
+			Button* icon = bm->getButtonByName("ability_" + std::to_string(i + 1) + "_icon");
+
+			icon->setQuadImage(abilityArray[i]->GetMeshIcon());
+			
+			std::string key;
+			key.append(1, abilityArray[i]->GetActivatingKey());
+			activatingKey->setText(key);
+			if (abilityArray[i]->GetCooldownLeft() > 0)
+			{
+				ready->disable();
+				cooldown->enable();
+				float number = abilityArray[i]->GetCooldownLeft();
+				std::string num_text = std::to_string(number);
+				std::string rounded = num_text.substr(0, num_text.find(".") + 2);
+				cooldown->setText(rounded + "s");
+			}
+			else {
+				ready->enable();
+				cooldown->disable();
+			}
+			//ready->disable();
+			//cooldown->disable();
 			switch (abilityArray[i]->GetAbilityType())
 			{
 			case ABILITY_DASH:
@@ -160,6 +176,14 @@ void Player::Update(double dt)
 				ability->UpdatePlayer(pos, physics, curr_max_vel);
 			}
 			break;
+			case ABILITY_SLOWTIME:
+			{
+				//abilityArray[i]->Update(dt);
+				//SlowTimeAbility* ability = dynamic_cast<SlowTimeAbility*>(abilityArray[i]);
+				//ability->UpdatePlayer(dashDir, physics, curr_max_vel, enableCollision);
+			}
+			break;
+
 			default:
 				abilityArray[i]->Update(dt);
 				break;
@@ -374,7 +398,17 @@ void Player::CollidedWith(GameObject* go)
 	case SceneBase::GEO_LOBBY_PORTAL_GRAVEYARD:
 		std::cout << "AAAAAAAAAAA" << std::endl;
 		break;
-	case SceneBase::GEO_GY_GATEKEEPER:
+	case SceneBase::GEO_MACHINEPART_1:
+		gameManager->setMachineStatus(1, true);
+		break;
+	case SceneBase::GEO_MACHINEPART_2:
+		gameManager->setMachineStatus(2, true);
+		break;
+	case SceneBase::GEO_MACHINEPART_3:
+		gameManager->setMachineStatus(3, true);
+		break;
+	case SceneBase::GEO_MACHINEPART_4:
+		gameManager->setMachineStatus(4, true);
 		break;
 	default:
 		break;

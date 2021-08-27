@@ -258,6 +258,13 @@ public:
 		GEO_OCEAN_PILLAR = 176,
 		GEO_OCEAN_RUIN = 177,
 
+		GEO_ROBOT_SMALLCUBE_16_MISCDECOR = 178,
+
+		GEO_MACHINEPART_1 = 179,
+		GEO_MACHINEPART_2 = 180,
+		GEO_MACHINEPART_3 = 181,
+		GEO_MACHINEPART_4 = 182,
+
 		//Tiles End
 		GEO_TILES_END,
 
@@ -266,6 +273,15 @@ public:
 		GEO_HEALTHBAR_OUTER,
 		GEO_HEALTHBAR,
 
+		GEO_ABILITY_BG,
+		GEO_ABILITY_BGCOOLDOWN,
+
+GEO_ABILITYICON_PORTAL,
+GEO_ABILITYICON_BLACKHOLE,
+GEO_ABILITYICON_DASH,
+GEO_ABILITYICON_RECALL,
+GEO_ABILITYICON_GRAPPLINGHOOK,
+GEO_ABILITYICON_SLOWDOWNTIME,
 
 		//UI
 		GEO_UI_APPLE,
@@ -305,6 +321,7 @@ public:
 	virtual void InitLights();
 	void ToggleLightOnOff(int index, bool on); // turns a light on or off
 	void ToggleLightPower(int index, int power); // turns a light power
+	void ToggleLightRadius(int index, float innerR, float outerR); // adjusts a light inner and outer cos
 	
 	bool gameLost;
 	bool gameWin;

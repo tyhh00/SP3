@@ -60,7 +60,8 @@ void SceneGraveyard::Init()
 	dialogueManager = DialogueManager::GetInstance();
 	//Store keyboard instance
 	input = Input::GetInstance();
-
+	// Game Manager
+	gameManager = GameManager::GetInstance();
 	// Unique Meshes
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BG]->textureID = LoadTGA("Image/GraveyardBG.tga");
@@ -154,6 +155,11 @@ void SceneGraveyard::Init()
 			pickaxe = go;
 			pickaxe->active = false;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_MACHINEPART_4)
+		{
+			machinepart = go;
+			machinepart->active = false;
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	
@@ -168,7 +174,7 @@ void SceneGraveyard::Init()
 	camera.SetMode(Camera::CENTER);
 
 	// ABILITIES
-	PortalAbility* ability = new PortalAbility;
+	PortalAbility* ability = new PortalAbility(meshList[GEO_ABILITYICON_PORTAL]);
 	ability->SetCamera(&camera);
 	ability->SetScenePointer(this);
 	player->SetAbilities(ability, nullptr);
@@ -189,11 +195,11 @@ void SceneGraveyard::Update(double dt)
 	lights[1].position.Set(mouseposx, mouseposy, 10);
 
 
-	if(input->IsKeyPressed('9'))
+	if (input->IsKeyPressed('9'))
 	{
 		m_speed = Math::Max(0.f, m_speed - 0.1f);
 	}
-	if(input->IsKeyPressed('0'))
+	if (input->IsKeyPressed('0'))
 	{
 		m_speed += 0.1f;
 	}
@@ -213,7 +219,7 @@ void SceneGraveyard::Update(double dt)
 		return;
 	}
 
-	// TBC
+	// STORY UPDATES
 	switch (story_state)
 	{
 	case GY_INTRO:
@@ -234,7 +240,7 @@ void SceneGraveyard::Update(double dt)
 				dialogueManager->AddDialogue(GATEKEEPER, "Oh. You must be the one who broke the space-time continuum and made boss angry", RIGHT, 3.0f);
 				dialogueManager->AddDialogue(GATEKEEPER, "That [inserts time machine part] inside the church belongs to you doesn't it", RIGHT, 3.0f);
 				dialogueManager->AddDialogue(PLAYER, "!!!", LEFT);
-				dialogueManager->AddDialogue(GATEKEEPER, "Here's a pickaxe. bring me 5 skulls and 20 bones and I'll let you into the church.", RIGHT, 3.0f);
+				dialogueManager->AddDialogue(GATEKEEPER, "Here's a pickaxe. bring me 5 skulls and 10 bones and I'll let you into the church.", RIGHT, 3.0f);
 				story_state = GY_GATEKEEPER_DIALOGUE;
 			}
 		}
@@ -248,16 +254,65 @@ void SceneGraveyard::Update(double dt)
 		}
 		break;
 	case GY_GATEKEEPER2:
+		if (abs(gatekeeper->pos.x - player->pos.x) < 20)
+		{
+			if (gatekeeper->Interact() && input->IsKeyPressed('E'))
+			{
+				if (gatekeeper->CheckEntry())
+				{
+					dialogueManager->AddDialogue(GATEKEEPER, "You have been granted entry to the church.", RIGHT, 2.0f);
+					story_state = GY_GATEKEEPER2_DIALOGUE;
+				}
+				else
+				{
+					dialogueManager->AddDialogue(GATEKEEPER, "Didn't I say to bring me 5 skulls and 20 bones?", RIGHT, 2.0f);
+				}
+			}
+		}
+		break;
+	case GY_GATEKEEPER2_DIALOGUE:
+		if (!dialogueManager->isDialogue())
+		{
+			LoadBossScene();
+			story_state = CHURCH_INTRO;
+		}
 		break;
 	case CHURCH_INTRO:
+		if (reaper->Interact())
+		{
+			story_state = CHURCH_DIALOGUE;
+			dialogueManager->AddDialogue(GRIMREAPER, "YOU! You're the cause of all this mess aren't you?", RIGHT);
+			dialogueManager->AddDialogue(PLAYER, "(He's holding onto a part of the time machine!)");
+			dialogueManager->AddDialogue(GRIMREAPER, "You need this don't you?", RIGHT);
+			dialogueManager->AddDialogue(GRIMREAPER, "There's no way im just going to give it to you after the chaos you've brought to this world. Not until my death!", RIGHT);
+			dialogueManager->AddDialogue(GRIMREAPER, "My lifesource comes from all these tombstones all over the church. Just try and see if you can destroy all of them.", RIGHT);
+			dialogueManager->AddDialogue(GRIMREAPER, "Not before I kill you first!", RIGHT);
+		}
+		break;
+	case CHURCH_DIALOGUE:
+		if (!dialogueManager->isDialogue())
+		{
+			story_state = CHURCH_DEFAULT;
+		}
 		break;
 	case CHURCH_DEFAULT:
 		if (reaper->currentHP <= 0)
 		{
-			// game won true; play anim/any storyline;; get time amchine part etc
+			machinepart->active = true;
+			story_state = CHURCH_END;
 		}
 		break;
 	case CHURCH_END:
+		if (gameManager->getMachineStatus(4))
+		{
+			dialogueManager->AddDialogue(PLAYER, "Got the time machine part! Let's go back.");
+		}
+		break;
+	case CHURCH_END_DIALOGUE:
+		if (!dialogueManager->isDialogue())
+		{
+			gameWin = true;
+		}
 		break;
 	}
 }
@@ -547,4 +602,5 @@ void SceneGraveyard::Exit()
 	SceneBase::Exit();
 	//Cleanup GameObjects
 	goManager->Exit();
+	inventory->Clear();
 }

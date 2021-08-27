@@ -128,11 +128,11 @@ void SceneJungle::Init()
 	camera.SetMode(Camera::CENTER);
 
 	// ABILITIES
-	DashAbility* ability = new DashAbility;
+	DashAbility* ability = new DashAbility(meshList[GEO_ABILITYICON_DASH]);
 	ability->SetCamera(&camera);
 	ability->SetScenePointer(this);
 
-	GrapplingAbility* ability2 = new GrapplingAbility;
+	GrapplingAbility* ability2 = new GrapplingAbility(meshList[GEO_ABILITYICON_GRAPPLINGHOOK]);
 	ability2->SetCamera(&camera);
 	ability2->SetScenePointer(this);
 	ability2->SetGOManager(this->goManager);
@@ -221,5 +221,6 @@ void SceneJungle::Exit()
 	SceneBase::Exit();
 	//Cleanup GameObjects
 	goManager->Exit();
+	inventory->Clear();
 
 }

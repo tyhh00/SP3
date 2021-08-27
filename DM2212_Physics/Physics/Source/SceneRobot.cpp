@@ -17,6 +17,7 @@
 
 //Ability Includes
 #include "Recall.h"
+#include "BlackHole.h"
 
 SceneRobot::SceneRobot()
 {
@@ -112,7 +113,7 @@ void SceneRobot::Init()
 		{
 			Coin* coin = new Coin(1);
 			coin->active = true;
-			coin->scale = go->scale;
+			coin->scale = go->scale * 0.9;
 			coin->pos = go->pos;
 			coin->physics = go->physics->Clone();
 			coin->Init();
@@ -145,9 +146,10 @@ void SceneRobot::Init()
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);
 
-	player->SetAbilities(new RecallAbility(player, 3.0), nullptr);
-
-	spawner = new BulletSpawner(goManager, new BlackHoleBullet(meshList[GEO_BLACKHOLE], GEO_BLACKHOLE, Vector3(3, 3, 3), player));
+	player->SetAbilities(
+		new RecallAbility(player, 3.0, meshList[GEO_ABILITYICON_RECALL]),
+		new BlackHoleAbility(player, new BulletSpawner(goManager, new BlackHoleBullet(meshList[GEO_BLACKHOLE], GEO_BLACKHOLE, Vector3(3, 3, 3), player, 40)), &camera, m_screenWidth, m_screenHeight, meshList[GEO_ABILITYICON_BLACKHOLE]));
+	
 
 }
 
@@ -323,4 +325,5 @@ void SceneRobot::Exit()
 	SceneBase::Exit();
 	//Cleanup GameObjects
 	goManager->Exit();
+	inventory->Clear();
 }

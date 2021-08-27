@@ -9,9 +9,11 @@
 #include "Portal.h"
 #include "Dash.h"
 #include "Grappling.h"
+#include "SlowTime.h"
 #include "SceneBase.h"
 #include "GameObjectManager.h"
 #include "Inventory.h"
+#include "GameManager.h"
 
 class Player : public GameObject {
 public:
@@ -42,8 +44,7 @@ private:
 	MOVEMENT_MODE mode;
 	SpriteAnimation* animatedSprites;
 	Mesh* portalSprite;
-//	Mesh* livesIcon;
-	Mesh* staminaBar;
+
 
 	int dashDir = 0;
 	bool isDashing = false;
@@ -63,6 +64,7 @@ private:
 	Ability* abilityArray[3];
 	Input* input;
 	GameObjectManager* goManager;
+	GameManager* gameManager;
 	Inventory* inventory;
 };
 

@@ -10,7 +10,7 @@ Skull::Skull(int _quantity) : Consumable(I_SKULL, mesh)
 
 	input = Input::GetInstance();
 
-	mesh = MeshBuilder::GenerateQuad("bone", Color(1,1,1), 2.0f);
+	mesh = MeshBuilder::GenerateQuad("bone", Color(1, 1, 1), 2.0f);
 	mesh->textureID = LoadTGA("Image//Items/skull.tga");
 }
 
@@ -25,7 +25,5 @@ void Skull::Update(double dt)
 
 bool Skull::IsEqual(Item* item1)
 {
-	Skull* checkSkull = static_cast<Skull*>(item1);
-	
-	return false;
+	return true;
 }

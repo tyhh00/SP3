@@ -23,6 +23,8 @@ void Tumbleweed::Init()
 
 	timeout = 0;
 
+	physics->shapeType = CIRCLE;
+
 	physics->SetMovable(true);
 	physics->SetGravity(Vector3(0, 0, 0));
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(1, 6, 2.0f, 2.0f);
@@ -73,7 +75,7 @@ void Tumbleweed::CollidedWith(GameObject* go)
 	{
 		if (timeout <= 0)
 		{
-			go->currentHP -= 10;
+			go->currentHP -= 5;
 			timeout = 1.5f;
 		}
 	}

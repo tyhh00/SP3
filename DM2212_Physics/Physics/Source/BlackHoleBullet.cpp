@@ -26,6 +26,8 @@ BlackHoleBullet::BlackHoleBullet(Mesh* mesh, int geoTypeID, Vector3 scale, GameO
 	//PLASMA BULLET FUNCTIONALITY
 	state = BLACKHOLEBULLET_STATE::ROLLING;
 
+	this->AddToResponseWhitelist(GO_PLAYER);
+
 	enableCollision = true;
 	physics->SetMovable(true);
 	physics->SetEnableUpdate(true);

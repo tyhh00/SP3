@@ -1,12 +1,15 @@
 #include "Ability.h"
 
-Ability::Ability(char buttonChar, ABILITY_TYPE type, double abilityCooldownDuration)
+Ability::Ability(char buttonChar, ABILITY_TYPE type, double abilityCooldownDuration, Mesh* mesh)
 	: buttonChar(buttonChar)
 	, type(type)
 	, camera(nullptr)
 	, goManager(nullptr)
 	, abilityCooldownDuration(abilityCooldownDuration)
 	, abilityCD_timeleft(0.0)
+	, usesLeft(1)
+	, maxUses(1)
+	, icon(mesh)
 {}
 
 Ability::~Ability()
@@ -54,5 +57,15 @@ double Ability::GetCooldownTillReadyPercentage()
 	if (this->abilityCD_timeleft < 0)
 		this->abilityCD_timeleft = 0.0;
 	return (this->abilityCooldownDuration-this->abilityCD_timeleft) / this->abilityCooldownDuration * 100;
+}
+
+Mesh* Ability::GetMeshIcon()
+{
+	return icon;
+}
+
+char Ability::GetActivatingKey()
+{
+	return this->buttonChar;
 }
 
