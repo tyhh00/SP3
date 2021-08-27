@@ -115,7 +115,7 @@ Text::Text(Color color, float originX, float originY, float quadSize, FONTTYPE f
     UIInfo.originY = originY;
     UIInfo.sizeX = quadSize;
     UIInfo.sizeY = quadSize;
-    textFont = loadedFonts[font];
+    textFont = &loadedFonts[font];
     this->xOffset = 0.f;
     this->yOffset = 0.f;
     this->size = size;
@@ -133,7 +133,7 @@ Text::Text(Color color, float originX, float originY, float quadSize, FONTTYPE f
 Text::Text(Color color, UIItem UIInfo, FONTTYPE font, float size) {
     this->color = color;
     this->UIInfo = UIItem(UIInfo);
-    textFont = loadedFonts[font];
+    textFont = &loadedFonts[font];
     this->size = size;
     this->visible = true;
 }
@@ -215,7 +215,7 @@ void Text::setSize(float size) {
  */
 void Text::changeFont(FONTTYPE type) {
     if (loadedFonts[type].type != FONTTYPE::FONT_COUNT && type != FONT_COUNT) {
-        this->textFont = *getFont(type);
+        this->textFont = getFont(type);
     }
 }
 
@@ -237,7 +237,7 @@ void Text::Render(SceneBase* scene) {
         ss.str("");
         ss.clear();
         ss << entry;
-        scene->RenderTextOnScreen(scene->GetMesh(this->textFont.geoType), ss.str(), color, size, startX, startY - this->textFont.verticalOffset * size * i, textFont.textWidth, 256);
+        scene->RenderTextOnScreen(scene->GetMesh(this->textFont->geoType), ss.str(), color, size, startX, startY - this->textFont->verticalOffset * size * i, textFont->textWidth, 256);
         i++;
     }
 

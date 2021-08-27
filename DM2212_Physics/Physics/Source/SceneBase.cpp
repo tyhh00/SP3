@@ -374,6 +374,12 @@ void SceneBase::Init()
 	meshList[GEO_HEALTHBAR] = MeshBuilder::GenerateQuad("healthbar", Color(1, 1, 1), 5.0f);
 	meshList[GEO_HEALTHBAR]->textureID = LoadTGA("Image//HealthBarInner.tga");
 
+	meshList[GEO_ABILITY_BG] = MeshBuilder::GenerateQuad("ability_bg", Color(1, 1, 1), 5.0f);
+	meshList[GEO_ABILITY_BG]->textureID = LoadTGA("Image//ability_border.tga");
+
+	meshList[GEO_ABILITY_BGCOOLDOWN] = MeshBuilder::GenerateQuad("ability_bg_cooldown", Color(1, 1, 1), 5.0f);
+	meshList[GEO_ABILITY_BGCOOLDOWN]->textureID = LoadTGA("Image//ability_border_cooldown.tga");
+
 	//Shapes
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 	meshList[GEO_BALL] = MeshBuilder::GenerateSphere("ball", Color(1, 1, 1), 10, 10, 1.f);
