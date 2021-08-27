@@ -118,6 +118,20 @@ void GrimReaper::Update(double dt)
 
 }
 
+bool GrimReaper::Interact()
+{
+	if (animatedSprites->GetCurrentAnimation() != "WieldWeapon")
+	{
+		animatedSprites->PlayAnimation("WieldWeapon", 0, 1.0f);
+		animatedSprites->Reset();
+		return false;
+	}
+	else if (animatedSprites->currentFrame == 29)
+	{
+		return true;
+	}
+}
+
 void GrimReaper::CollidedWith(GameObject* go)
 {
 	if (go->type == GO_PLAYER && 

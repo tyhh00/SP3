@@ -20,9 +20,12 @@ public:
 		INVEN_TOTAL
 	};
 
+	Inventory();
+	~Inventory();
 	void Init(SceneBase* scene);
 	void Update(double dt);
 	void Render();
+	void Clear();
 
 	void UpdateItemVector();
 	void CycleItem(bool forward = true);
@@ -33,6 +36,7 @@ public:
 	Item::ITEM_TYPE GetCurrentItemType();
 	Item* GetCurrentItem();
 	Item* GetItem(Item::ITEM_TYPE itemType);
+
 private:
 
 	INVENTORY_TYPE type;

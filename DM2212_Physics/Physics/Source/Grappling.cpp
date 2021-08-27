@@ -24,21 +24,27 @@ void GrapplingAbility::Update(double dt)
 	if (input->IsMousePressed(0))
 	{
 		double x, y;
-		Application::GetCursorPos(&x, &y);
-		int w = Application::GetWindowWidth();
-		int h = Application::GetWindowHeight();
-		// convert to world space
-		x /= (w / camera->screenWidth);
-		y = h - y;
-		y /= (h / camera->screenHeight);
-		std::cout << x << " " << y << std::endl;
+		CursorToWorldPosition(x, y);
 
-		temp = Vector3(x, y, 0);
-		isGrappling = true;
-		initialDisplacement = temp - playerPos;
-		std::cout << "initial pos" << playerPos << std::endl;
+		for (GameObject* go : goManager->GetStationaryList())
+		{
+			if ((x > go->pos.x - go->scale.x && x < go->pos.x + go->scale.x) && (y > go->pos.y - go->scale.y && y < go->pos.y + go->scale.y))
+			{
+				temp = Vector3(x, y, 0);
+				isGrappling = true;
+				initialDisplacement = temp - playerPos;
+				std::cout << "initial pos" << playerPos << std::endl;
 
-		grapplingHook.active = true;
+				grapplingHook.active = true;
+			}
+		}
+
+
+	}
+	if (input->IsMousePressed(1))
+	{
+		isGrappling = false;
+		grapplingHook.active = false;
 	}
 	//else
 	//{
@@ -56,9 +62,9 @@ void GrapplingAbility::Update(double dt)
 		grapplingHook.physics->SetNormal(displacement.Normalized());
 
 		//Vector3 halfDisplacement = Vector3(displacement.x / 2, displacement.y / 2, displacement.z);
-		//playerPhysics->AddVelocity(halfDisplacement);
+		playerPhysics->AddVelocity(displacement);
 
-		playerPhysics->AddVelocity(Vector3(initialDisplacement.x, 0, 0));
+		//playerPhysics->AddVelocity(Vector3(initialDisplacement.x, 0, 0));
 		maxVel = 100;
 
 		if (playerPhysics->GetVelocity().x > 0)

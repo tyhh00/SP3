@@ -248,8 +248,42 @@ void SceneGraveyard::Update(double dt)
 		}
 		break;
 	case GY_GATEKEEPER2:
+		if (abs(gatekeeper->pos.x - player->pos.x) < 10 && input->IsKeyPressed('E'))
+		{
+			if (gatekeeper->Interact())
+			{
+				if (gatekeeper->CheckEntry())
+				{
+					dialogueManager->AddDialogue(GATEKEEPER, "You have been granted entry to the church.", RIGHT, 2.0f);
+					story_state = GY_GATEKEEPER2_DIALOGUE;
+				}
+				else
+				{
+					dialogueManager->AddDialogue(GATEKEEPER, "Didn't I say to bring me 5 skulls and 20 bones?", RIGHT, 2.0f);
+				}
+			}
+		}
+		break;
+	case GY_GATEKEEPER2_DIALOGUE:
+		if (!dialogueManager->isDialogue())
+		{
+			LoadBossScene();
+			story_state = CHURCH_INTRO;
+		}
 		break;
 	case CHURCH_INTRO:
+		if (reaper->Interact())
+		{
+			story_state = CHURCH_DIALOGUE;
+			dialogueManager->AddDialogue(GRIMREAPER, "YOU! You're the cause of all this mess aren't you?", RIGHT);
+			dialogueManager->AddDialogue(PLAYER, "(He's holding onto a part of the time machine!)");
+			dialogueManager->AddDialogue(GRIMREAPER, "You need this don't you?", RIGHT);
+			dialogueManager->AddDialogue(GRIMREAPER, "There's no way im just going to give it to you after the chaos you've brought to this world. Not until my death!", RIGHT);
+			dialogueManager->AddDialogue(GRIMREAPER, "My lifesource comes from all these tombstones all over the church. Just try and see if you can destroy all of them.", RIGHT);
+			dialogueManager->AddDialogue(GRIMREAPER, "Not before I kill you first!", RIGHT);
+		}
+		break;
+	case CHURCH_DIALOGUE:
 		break;
 	case CHURCH_DEFAULT:
 		if (reaper->currentHP <= 0)
@@ -547,4 +581,5 @@ void SceneGraveyard::Exit()
 	SceneBase::Exit();
 	//Cleanup GameObjects
 	goManager->Exit();
+	inventory->Clear();
 }

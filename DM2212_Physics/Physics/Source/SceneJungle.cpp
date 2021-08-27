@@ -135,6 +135,7 @@ void SceneJungle::Init()
 	GrapplingAbility* ability2 = new GrapplingAbility;
 	ability2->SetCamera(&camera);
 	ability2->SetScenePointer(this);
+	ability2->SetGOManager(this->goManager);
 
 	player->SetAbilities(ability, ability2); 
 }
@@ -220,5 +221,6 @@ void SceneJungle::Exit()
 	SceneBase::Exit();
 	//Cleanup GameObjects
 	goManager->Exit();
+	inventory->Clear();
 
 }

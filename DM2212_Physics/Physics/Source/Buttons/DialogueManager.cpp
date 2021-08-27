@@ -39,6 +39,8 @@ void DialogueManager::Init()
 	personaMesh[PLAYER]->textureID = LoadTGA("Image/PlayerIcon.tga");
 	personaMesh[GATEKEEPER] = MeshBuilder::GenerateQuad("Gatekeeper Icon", Color(1, 1, 1), 1.0f);
 	personaMesh[GATEKEEPER]->textureID = LoadTGA("Image/GatekeeperIcon.tga");
+	personaMesh[GRIMREAPER] = MeshBuilder::GenerateQuad("Grim Reaper Icon", Color(1, 1, 1), 1.0f);
+	personaMesh[GRIMREAPER]->textureID = LoadTGA("Image/GrimReaperIcon.tga");
 }
 
 bool DialogueManager::Update(double dt)
