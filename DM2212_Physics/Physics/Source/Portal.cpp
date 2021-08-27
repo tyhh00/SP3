@@ -16,9 +16,6 @@ PortalAbility::PortalAbility(Mesh* mesh) : Ability('Z', ABILITY_PORTAL, 10.0f, m
 	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 2.0f);
 	portalSprite->textureID = LoadTGA("Image/PortalTravelSprite.tga");
 
-	playerActiveState = true;
-	conditionsMet = false;
-
 	state = DEFAULT;
 }
 
@@ -48,7 +45,7 @@ void PortalAbility::Update(double dt)
 				// START OPENING START PORTAL
 				startPortal.active = true;
 				startPortal.SetAnimation("opening", 0, 0.3f);
-				startPortal.pos = newPlayerPos;
+				startPortal.pos = player->pos;
 				anim_timer = 0;
 				ghost_portal = true;
 				//camera->SetMode(Camera::CENTER);
@@ -111,7 +108,9 @@ void PortalAbility::Update(double dt)
 			endPortal.SetAnimation("idle", -1, 1.0f);
 			anim_timer = 0;
 
-			player->active = false;
+			player->enableCollision = false;
+			player->physics->SetEnableUpdate(false);
+			player->pos.z = -10;
 			ghost_player = true;
 
 			state = TELEPORTING;
@@ -134,7 +133,9 @@ void PortalAbility::Update(double dt)
 			//camera->SetMode(Camera::EDGE);
 			startPortal.SetAnimation("closing", 0, 0.3f);
 			anim_timer = 0;
-			player->active = true;
+			player->enableCollision = true;
+			player->physics->SetEnableUpdate(true);
+			player->pos.z = 0;
 			ghost_player = false;
 			state = CLOSINGSTART_ANIM;
 			std::cout << "PORTAL ABILITY: Teleportation End." << std::endl;
@@ -216,9 +217,9 @@ void PortalAbility::Render()
 	if (ghost_player)
 	{
 		scene->modelStack.PushMatrix();
-		scene->modelStack.Translate(newPlayerPos.x, newPlayerPos.y, newPlayerPos.z);
+		scene->modelStack.Translate(player->pos.x, player->pos.y, player->pos.z);
 		scene->modelStack.Scale(3, 3, 3);
-		scene->RenderMesh(portalSprite, true);
+		scene->RenderMesh(portalSprite, false);
 		scene->modelStack.PopMatrix();
 	}
 	

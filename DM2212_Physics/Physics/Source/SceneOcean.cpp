@@ -134,7 +134,11 @@ void SceneOcean::Init()
 
 	// ABILITIES
 	gameManager->initAbilities(this, &camera, goManager, player);
-	player->SetAbilities(gameManager->getAbility(1), gameManager->getAbility(2));
+	gameManager->setAbility(1, ABILITY_SLOWTIME);
+	//gameManager->setAbility(2, ABILITY_DASH);
+	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
+
+	// TRIDENT
 	Trident* trident = new Trident;
 	trident->Init(&camera, goManager, player->pos);
 	inventory->AddItem(trident);

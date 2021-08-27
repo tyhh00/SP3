@@ -20,8 +20,8 @@ public:
 	void setMachineStatus(int partNum, bool obtained);
 
 	void initAbilities(SceneBase* scene, Camera* camera, GameObjectManager* GOM, GameObject* player);
-	Ability* getAbility(int abilityNum);
-	void setAbility(int abilityNum, Ability* ability);
+	Ability* getCurrAbility(int abilityNum);
+	void setAbility(int abilityNum, ABILITY_TYPE type);
 
 	void addScore(float score);
 	void removeScore(float score);

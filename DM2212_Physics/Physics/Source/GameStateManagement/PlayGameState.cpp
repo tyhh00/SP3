@@ -180,6 +180,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 	case GAMEOVER:
 		break;
 	case LEVELWON:
+		dialogueManager->Update(dElapsedTime);
 		if (!dialogueManager->isDialogue())
 		{
 			cout << "Loading LobbyState" << endl;
@@ -189,7 +190,6 @@ bool CPlayGameState::Update(const double dElapsedTime)
 	}
 
 	UIManager::GetInstance()->Update(dElapsedTime);
-	dialogueManager->Update(dElapsedTime);
 	buttonManager->deactivateButton("highlight");
 	buttonManager->Update(sceneManager->getScene(), dElapsedTime);
 	for (auto button : buttonManager->getButtonsInteracted())

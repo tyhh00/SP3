@@ -65,7 +65,7 @@ void GameManager::Init()
 	abilityArray[ABILITY_BLACKHOLE] = new BlackHoleAbility(new BulletSpawner(), blackholeIcon);
 	abilityArray[ABILITY_GRAPPLER] = new GrapplingAbility(grappleIcon);
 	abilityArray[ABILITY_SLOWTIME] = new SlowTimeAbility(slowtimeIcon);
-	abilityArray[ABILITY_RECALL] = new RecallAbility(recallIcon);
+	abilityArray[ABILITY_RECALL] = new RecallAbility(3.0f, recallIcon);
 
 	// in scenes
 	// call set scene pointers and then init
@@ -97,14 +97,14 @@ void GameManager::initAbilities(SceneBase* scene, Camera* camera, GameObjectMana
 	blackholeAbility->InitSpawner(GOM, new BlackHoleBullet(scene->GetMesh(SceneBase::GEO_BLACKHOLE), SceneBase::GEO_BLACKHOLE, Vector3(3, 3, 3), player, 40));
 }
 
-Ability* GameManager::getAbility(int abilityNum)
+Ability* GameManager::getCurrAbility(int abilityNum)
 {
 	return currAbility[abilityNum - 1];
 }
 
-void GameManager::setAbility(int abilityNum, Ability* ability)
+void GameManager::setAbility(int abilityNum, ABILITY_TYPE type)
 {
-	currAbility[abilityNum - 1] = ability;
+	currAbility[abilityNum - 1] = abilityArray[type];
 }
 
 void GameManager::addScore(float score)

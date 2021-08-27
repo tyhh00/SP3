@@ -36,16 +36,16 @@ Player::Player() : input(NULL)
 
 Player::~Player()
 {
-	for (int i = 0; i < 2; i++)
-	{
-		if (abilityArray[i] != nullptr)
-		{
-			delete abilityArray[i];
-			abilityArray[i] = nullptr;
-			//Set mesh to nullptr cause its already deleted in SceneBase, Player is only deleted when scenebase is deleted hence this code is valid
-			UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("ability_" + std::to_string(i + 1) + "_icon")->setQuadImage(nullptr);
-		}
-	}
+	//for (int i = 0; i < 2; i++)
+	//{
+	//	if (abilityArray[i] != nullptr)
+	//	{
+	//		delete abilityArray[i];
+	//		abilityArray[i] = nullptr;
+	//		//Set mesh to nullptr cause its already deleted in SceneBase, Player is only deleted when scenebase is deleted hence this code is valid
+	//		UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("ability_" + std::to_string(i + 1) + "_icon")->setQuadImage(nullptr);
+	//	}
+	//}
 
 	
 	if (animatedSprites)

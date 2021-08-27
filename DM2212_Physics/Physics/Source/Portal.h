@@ -77,10 +77,6 @@ private:
 	bool ghost_portal;
 	bool ghost_player;
 	double anim_timer;
-	
-	Vector3 newPlayerPos;
-	bool conditionsMet;
-	bool playerActiveState;
 
 	Portal startPortal;
 	Portal endPortal;

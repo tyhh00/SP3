@@ -171,7 +171,9 @@ void SceneGraveyard::Init()
 
 	// ABILITIES
 	gameManager->initAbilities(this, &camera, goManager, player);
-	player->SetAbilities(gameManager->getAbility(1), gameManager->getAbility(2));
+	gameManager->setAbility(1, ABILITY_PORTAL);
+	gameManager->setAbility(2, ABILITY_DASH);
+	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 
 	story_state = GY_INTRO;
 }

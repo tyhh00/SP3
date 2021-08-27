@@ -1,6 +1,8 @@
 #include "BulletSpawner.h"
 #include "Debug.h"
 BulletSpawner::BulletSpawner()
+	: gom_ref(NULL)
+	, bulletPrototype(NULL)
 {
 }
 BulletSpawner::BulletSpawner(GameObjectManager* sceneGOM, Bullet* bulletPrototype)
