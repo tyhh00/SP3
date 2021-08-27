@@ -38,6 +38,10 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 	{
 		return false;
 	}
+	if (!EfficientRangeCheck(go1->pos, go2->pos, (go1_fScale.x + go2_fScale.y) * 1.5))
+	{
+		//DEBUG_MSG("RANGECHECKEDDENY");
+	}
 
 	if (go1->physics->shapeType == CIRCLE)
 	{

@@ -7,6 +7,8 @@ Ability::Ability(char buttonChar, ABILITY_TYPE type, double abilityCooldownDurat
 	, goManager(nullptr)
 	, abilityCooldownDuration(abilityCooldownDuration)
 	, abilityCD_timeleft(0.0)
+	, usesLeft(1)
+	, maxUses(1)
 {}
 
 Ability::~Ability()

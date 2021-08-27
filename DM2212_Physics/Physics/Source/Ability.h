@@ -43,6 +43,9 @@ protected:
 	double abilityCD_timeleft;
 	double abilityCooldownDuration;
 
+	int usesLeft;
+	int maxUses;
+
 	Camera* camera;
 	GameObjectManager* goManager;
 	SceneBase* scene; //Used for custom rendering of abilities
