@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "Dash.h"
 #include "Grappling.h"
+#include "SlowTime.h"
 #include "SceneBase.h"
 #include "GameObjectManager.h"
 #include "Inventory.h"

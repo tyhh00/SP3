@@ -363,6 +363,13 @@ void SceneBase::Init()
 	LoadTile(GEO_OCEAN_PILLAR, "OCEAN_pillar.tga", 5, 5, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_RUIN, "OCEAN_ruin.tga", 8, 8, SHAPE_TYPE::RECTANGLE);
 
+	LoadTile(GEO_ROBOT_SMALLCUBE_16_MISCDECOR, "10.tga", 8, 8, SHAPE_TYPE::RECTANGLE);
+
+	LoadTile(GEO_MACHINEPART_1, "MachinePart_1.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_MACHINEPART_2, "MachinePart_2.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_MACHINEPART_3, "MachinePart_3.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_MACHINEPART_4, "MachinePart_4.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+
 	//Entities (Player, etc)
 
 	meshList[GEO_BLACKHOLE] = MeshBuilder::GenerateQuad("black_hole", Color(1, 1, 1), 2.0f);
@@ -373,15 +380,6 @@ void SceneBase::Init()
 
 	meshList[GEO_HEALTHBAR] = MeshBuilder::GenerateQuad("healthbar", Color(1, 1, 1), 5.0f);
 	meshList[GEO_HEALTHBAR]->textureID = LoadTGA("Image//HealthBarInner.tga");
-
-	meshList[GEO_MACHINEPART_1] = MeshBuilder::GenerateQuad("Machine Parts", Color(1, 1, 1), 2.0f);
-	meshList[GEO_MACHINEPART_1]->textureID = LoadTGA("Image//MachinePart_1.tga");
-	meshList[GEO_MACHINEPART_2] = MeshBuilder::GenerateQuad("Machine Parts", Color(1, 1, 1), 2.0f);
-	meshList[GEO_MACHINEPART_2]->textureID = LoadTGA("Image//MachinePart_2.tga");
-	meshList[GEO_MACHINEPART_3] = MeshBuilder::GenerateQuad("Machine Parts", Color(1, 1, 1), 2.0f);
-	meshList[GEO_MACHINEPART_3]->textureID = LoadTGA("Image//MachinePart_3.tga");
-	meshList[GEO_MACHINEPART_4] = MeshBuilder::GenerateQuad("Machine Parts", Color(1, 1, 1), 2.0f);
-	meshList[GEO_MACHINEPART_4]->textureID = LoadTGA("Image//MachinePart_4.tga");
 
 	meshList[GEO_ABILITY_BG] = MeshBuilder::GenerateQuad("ability_bg", Color(1, 1, 1), 5.0f);
 	meshList[GEO_ABILITY_BG]->textureID = LoadTGA("Image//ability_border.tga");

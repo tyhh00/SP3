@@ -40,6 +40,7 @@ protected:
 		CHURCH_DIALOGUE,
 		CHURCH_DEFAULT, // main boss fight gameplay
 		CHURCH_END, // after defeating boss storyline/dialogue or anyth rlly
+		CHURCH_END_DIALOGUE,
 
 		SS_TOTAL,
 	};
@@ -50,6 +51,7 @@ protected:
 
 	Player* player;
 	GameObject* pickaxe;
+	GameObject* machinepart;
 	Gatekeeper* gatekeeper;
 	GrimReaper* reaper;
 

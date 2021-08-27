@@ -4,9 +4,11 @@
 #include "Input.h"
 #include "Camera.h"
 #include "GameObjectManager.h"
+#include "SpriteAnimation.h"
 
 class TridentGO : public GameObject {
 public:
+	void CollidedWith(GameObject* go);
 	TridentGO();
 	~TridentGO();
 
@@ -22,6 +24,7 @@ public:
 	void Init(Camera* cam, GameObjectManager* goManager, Vector3& pos);
 	void Update(double dt);
 	bool IsEqual(Item* item1);
+	void CollidedWith(GameObject* go);
 	
 private:
 	Input* input;
@@ -32,6 +35,7 @@ private:
 	TridentGO* tridentGO;
 	Vector3* playerPos;
 	Vector3 mouseDownPos;
+	SpriteAnimation* animatedSprites;
 };
 
 

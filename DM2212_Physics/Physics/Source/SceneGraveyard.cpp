@@ -155,6 +155,11 @@ void SceneGraveyard::Init()
 			pickaxe = go;
 			pickaxe->active = false;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_MACHINEPART_4)
+		{
+			machinepart = go;
+			machinepart->active = false;
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	
@@ -293,16 +298,18 @@ void SceneGraveyard::Update(double dt)
 	case CHURCH_DEFAULT:
 		if (reaper->currentHP <= 0)
 		{
-			GameObject* machinepart = new GameObject(GameObject::GO_MACHINEPART, meshList[GEO_MACHINEPART_4], GEO_MACHINEPART_4, RECTANGLE);
 			machinepart->active = true;
-			machinepart->pos.Set(reaper->pos.x, reaper->pos.y, reaper->pos.z);
-			machinepart->scale.Set(5, 5, 5);
-			goManager->AddGO(machinepart);
 			story_state = CHURCH_END;
 		}
 		break;
 	case CHURCH_END:
 		if (gameManager->getMachineStatus(4))
+		{
+			dialogueManager->AddDialogue(PLAYER, "Got the time machine part! Let's go back.");
+		}
+		break;
+	case CHURCH_END_DIALOGUE:
+		if (!dialogueManager->isDialogue())
 		{
 			gameWin = true;
 		}
