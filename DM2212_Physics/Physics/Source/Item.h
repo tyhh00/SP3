@@ -29,8 +29,8 @@ public:
 	};
 
 	Item();
-	Item(GROUP_TYPE, ITEM_TYPE, int _quantity, bool _isStackable, Mesh* mesh);
-	Item(GROUP_TYPE, ITEM_TYPE, int _quantity, bool _isStackable);
+	Item(GROUP_TYPE, ITEM_TYPE, int _quantity, bool _isStackable, Mesh* mesh, float _durability = 1);
+	Item(GROUP_TYPE, ITEM_TYPE, int _quantity, bool _isStackable, float _durability = 1);
 	~Item();
 	virtual void Init() = 0;
 	virtual void Update(double dt) = 0;
@@ -44,6 +44,9 @@ public:
 	int RemoveQuantity(int _quantity);
 
 	float GetDurability();
+	void SetDurability(float amt);
+	void ReduceDurability(float amt);
+
 	bool GetIsStackable();
 
 	void SetScene(SceneBase* scene);

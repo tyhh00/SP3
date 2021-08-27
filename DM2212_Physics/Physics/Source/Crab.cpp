@@ -17,8 +17,8 @@ void Crab::Init(Vector3 &target, MOVEMENT_TYPE type)
 {
 	playerPos = &target;
 
-	this->currentHP = 10;
-	this->maxHP = 10;
+	this->currentHP = 50;
+	this->maxHP = 50;
 	this->type = GO_CRAB;
 
 	state = IDLE;
@@ -28,6 +28,7 @@ void Crab::Init(Vector3 &target, MOVEMENT_TYPE type)
 	attackRange = 3.0f;
 	crabTimer = 6;
 	WLARTimer = 6;
+	deathTimer = 2;
 	tempVel = 0;
 
 	physics->SetMovable(true);
@@ -159,19 +160,36 @@ void Crab::Update(double dt)
 		if (tempVel <= 0)
 		{
 			animatedSprites->PlayAnimation("deathLeft", 0, 1.0f);
-			dead = true;
+			if (deathTimer <= 0)
+			{
+				dead = true;
+				deathTimer = 0;
+				return;
+			}
+			else {
+				deathTimer -= dt;
+			}
 		}
 		else
 		{
 			animatedSprites->PlayAnimation("deathRight", 0, 1.0f);
-			dead = true;
+			if (deathTimer <= 0)
+			{
+				dead = true;
+				deathTimer = 0;
+				return;
+			}
+			else {
+				deathTimer -= dt;
+			}
 		}
 		break;
 	}
 
-	if (currentHP <= 0)
+	if (currentHP <= 0 && state != DIE)
 	{
 		state = DIE;
+		deathTimer = 2;
 	}
 
 	animatedSprites->Update(dt);

@@ -17,6 +17,7 @@
 #include "Coin.h"
 #include "GameManager.h"
 
+
 Player::Player() : input(NULL)
 , goManager(NULL)
 , inventory(NULL)
@@ -39,6 +40,8 @@ Player::~Player()
 		{
 			delete abilityArray[i];
 			abilityArray[i] = nullptr;
+			//Set mesh to nullptr cause its already deleted in SceneBase, Player is only deleted when scenebase is deleted hence this code is valid
+			UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("ability_" + std::to_string(i + 1) + "_icon")->setQuadImage(nullptr);
 		}
 	}
 
@@ -111,6 +114,32 @@ void Player::Update(double dt)
 	{
 		if (abilityArray[i] != nullptr)
 		{
+			ButtonManager* bm = UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS);
+			Button* ready = bm->getButtonByName("ability_" + std::to_string(i+1) + "_ready");
+			Button* cooldown = bm->getButtonByName("ability_" + std::to_string(i+1) + "_bg");
+			Button* activatingKey = bm->getButtonByName("ability_" + std::to_string(i + 1) + "_key");
+			Button* icon = bm->getButtonByName("ability_" + std::to_string(i + 1) + "_icon");
+
+			icon->setQuadImage(abilityArray[i]->GetMeshIcon());
+			
+			std::string key;
+			key.append(1, abilityArray[i]->GetActivatingKey());
+			activatingKey->setText(key);
+			if (abilityArray[i]->GetCooldownLeft() > 0)
+			{
+				ready->disable();
+				cooldown->enable();
+				float number = abilityArray[i]->GetCooldownLeft();
+				std::string num_text = std::to_string(number);
+				std::string rounded = num_text.substr(0, num_text.find(".") + 2);
+				cooldown->setText(rounded + "s");
+			}
+			else {
+				ready->enable();
+				cooldown->disable();
+			}
+			//ready->disable();
+			//cooldown->disable();
 			switch (abilityArray[i]->GetAbilityType())
 			{
 			case ABILITY_DASH:

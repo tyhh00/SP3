@@ -1,8 +1,8 @@
 #include "Recall.h"
 #include "Debug.h"
 
-RecallAbility::RecallAbility(GameObject* assigned, double recallTime)
-	: Ability('Z', ABILITY_RECALL, 10.0)
+RecallAbility::RecallAbility(GameObject* assigned, double recallTime, Mesh* mesh)
+	: Ability('Z', ABILITY_RECALL, 10.0, mesh)
 	, assigned(assigned)
 	, recallTime(recallTime)
 	, recallActive(false)

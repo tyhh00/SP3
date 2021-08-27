@@ -46,7 +46,7 @@ public:
 class PortalAbility : public Ability {
 	
 public:
-	PortalAbility();
+	PortalAbility(Mesh* mesh = nullptr);
 	~PortalAbility();
 
 	void Update(double dt);

@@ -58,6 +58,7 @@ private:
 
 	Mesh* emptyMesh;
 	Mesh* selectedMesh;
+	Mesh* barMesh;
 	Vector3 selectedPos;
 };
 
