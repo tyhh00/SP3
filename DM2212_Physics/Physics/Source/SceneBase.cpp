@@ -310,6 +310,7 @@ void SceneBase::Init()
 	LoadTile(GEO_JUNGLE_APPLE, "GEO_JUNGLE_APPLE.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_BANANA, "GEO_JUNGLE_BANANA.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_PROWLER, "GEO_JUNGLE_PROWLER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_PISTOL, "GEO_JUNGLE_PISTOL.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 
 	//jungle trees
 	LoadTile(GEO_JUNGLE_TREE_BOTTOM, "JUNGLE_TREE_BOTTOM.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -780,6 +781,11 @@ void SceneBase::RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, fl
 Mesh* SceneBase::GetMeshList(GEOMETRY_TYPE geoType)
 {
 	return meshList[geoType];
+}
+
+Camera* SceneBase::GetCamera()
+{
+	return &camera;
 }
 
 void SceneBase::Render()

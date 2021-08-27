@@ -81,7 +81,6 @@ void Prowler::Update(double dt)
 	switch (state)
 	{
 	case IDLE:
-		std::cout << "IDLE" << std::endl;
 		if ((player->pos - pos).Length() < activeRange)
 		{
 			state = CHASE;
@@ -97,7 +96,6 @@ void Prowler::Update(double dt)
 		}
 		break;
 	case CHASE:
-		std::cout << "CHASE" << std::endl;
 		physics->SetVelocity(Vector3((player->pos - pos).Normalized().x * movement_speed, physics->GetVelocity().y, physics->GetVelocity().z));
 		if ((player->pos - pos).Length() < attackRange)
 		{
@@ -116,8 +114,6 @@ void Prowler::Update(double dt)
 		break;
 	case ATTACK:
 	{
-		std::cout << "ATTACK" << std::endl;
-
 		if ((player->pos - pos).Length() < attackRange * 0.5f && readyToAttack)
 		{
 			player->currentHP -= ATTACK_DAMAGE;
@@ -145,7 +141,6 @@ void Prowler::Update(double dt)
 	}
 	case DEFEND:
 	{
-		std::cout << "DEFEND" << std::endl;
 		if ((player->pos - pos).Length() < defendRange)
 		{
 			physics->SetVelocity(Vector3(-(player->pos - pos).Normalized().x * movement_speed * 1.5f, physics->GetVelocity().y, physics->GetVelocity().z));
@@ -170,7 +165,6 @@ void Prowler::Update(double dt)
 	}
 	case SPAWN:
 	{
-		std::cout << "SPAWN" << std::endl;
 		physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
 		if (spawnAnimationTimer > 1)
 		{
@@ -198,7 +192,7 @@ void Prowler::Update(double dt)
 			monkey->physics->SetInelasticity(0.99f);
 			monkey->physics->SetIsBouncable(false);
 			monkey->physics->SetGravity(Vector3(0, 0, 0));
-			monkey->Init(this->scene, inventory, player->pos, new Pistol(goManager, new LightBullet(Vector3(2, 2, 2), monkey, 100), this->scene->GetMeshList(SceneBase::GEO_WALL)));
+			monkey->Init(this->scene, inventory, player->pos, new BulletSpawner(goManager, new BananaBullet(Vector3(2, 2, 2), monkey, 30)));
 
 			monkey->AddBottomSprite();
 			monkey->bottomSprite->mesh = this->scene->GetMeshList(SceneBase::GEO_WALL);
@@ -236,7 +230,6 @@ void Prowler::Update(double dt)
 	}
 	break;
 	case STUNNED:
-		std::cout << "STUNNED" << std::endl;
 		stunnedTimer += dt;
 		if (stunnedTimer > 3)
 		{
