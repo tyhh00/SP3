@@ -32,6 +32,7 @@ Player::Player() : input(NULL)
 , staminaCD(0.0)
 {
 	type = GO_PLAYER;
+	slowedObj = false;
 }
 
 Player::~Player()

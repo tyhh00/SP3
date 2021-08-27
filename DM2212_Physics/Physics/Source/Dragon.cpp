@@ -146,7 +146,7 @@ void Dragon::Render(SceneBase* scene)
 		scene->modelStack.Translate(dragon.at(i)->pos.x, dragon.at(i)->pos.y, dragon.at(i)->pos.z);
 		scene->modelStack.Rotate(dragon.at(i)->physics->GetRotateZ() - 90, 0, 0, -1);
 		scene->modelStack.Scale(dragon.at(i)->scale.x, dragon.at(i)->scale.y, dragon.at(i)->scale.z);
-		scene->RenderMesh(dragon.at(i)->mesh, false);
+		scene->RenderMesh(dragon.at(i)->mesh, true);
 		scene->modelStack.PopMatrix();
 	}
 }

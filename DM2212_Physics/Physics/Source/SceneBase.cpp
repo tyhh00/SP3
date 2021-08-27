@@ -11,6 +11,11 @@
 #include <sstream>
 #include "Buttons/Text.h"
 
+void SceneBase::setBLightEnabled(bool on)
+{
+	bLightEnabled = on;
+}
+
 SceneBase::SceneBase()
 {
 }

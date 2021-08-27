@@ -201,7 +201,7 @@ bool GameObjectManager::EfficientRangeCheck(Vector3 pos1, Vector3 pos2, float wi
 
 void GameObjectManager::SetmSpeed(float mspeed)
 {
-	mspeed = m_speed;
+	m_speed = mspeed;
 }
 
 void GameObjectManager::Update(double dt)
@@ -247,7 +247,15 @@ void GameObjectManager::Update(double dt)
 			go->Update(splitDt);
 			go->physics->Update(splitDt);
 			if (go->physics->GetUpdateEnabled())
-				go->pos += go->physics->GetVelocity() * m_speed * splitDt;
+				if (!go->isSlowed())
+				{
+					go->pos += go->physics->GetVelocity() * splitDt;
+				}
+				else
+				{
+					go->pos += go->physics->GetVelocity() * m_speed * splitDt;
+				}
+				//go->pos += go->physics->GetVelocity() * m_speed * splitDt;
 			go->physics->pos = go->pos;
 			go->physics->scale = go->scale;
 			if (go->bottomSprite != nullptr)

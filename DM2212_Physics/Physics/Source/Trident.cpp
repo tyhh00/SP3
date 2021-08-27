@@ -124,6 +124,7 @@ TridentGO::TridentGO()
 	physics->SetMovable(true);
 	physics->SetEnableCollisionResponse(false);
 	physics->SetGravity(Vector3(0, -10.f, 0));
+	slowedObj = false;
 }
 
 TridentGO::~TridentGO()
