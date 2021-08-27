@@ -18,12 +18,24 @@ SceneLobby::SceneLobby()
 	dialogueManager = DialogueManager::GetInstance();
 	//Store keyboard instance
 	input = Input::GetInstance();
+	goManager = new GameObjectManager();
+	inventory = new Inventory();
 	
 }
 
 SceneLobby::~SceneLobby()
 {
 	input = NULL;
+	if (goManager)
+	{
+		delete goManager;
+		goManager = NULL;
+	}
+	if (inventory)
+	{
+		delete inventory;
+		inventory = NULL;
+	}
 }
 
 void SceneLobby::Init()
@@ -45,10 +57,8 @@ void SceneLobby::Init()
 	Math::InitRNG();
 
 	// GO Manager
-	goManager = new GameObjectManager();
 	goManager->Init();
 	// Inventory 
-	inventory = new Inventory();
 	inventory->Init(this);
 	
 	// Unique Meshes
@@ -147,9 +157,9 @@ void SceneLobby::Init()
 	goManager->AddAllGO(tiles);
 
 	// Camera 
-	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 1), Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
-	camera.SetFocusTarget(player->pos);
+	//camera.SetFocusTarget(player->pos);
 
 	sceneManager = SceneManager::GetInstance();
 }
@@ -412,15 +422,6 @@ void SceneLobby::CursorToWorldPosition(double& theX, double& theY)
 void SceneLobby::Exit()
 {
 	SceneBase::Exit();
-	if (goManager)
-	{
-		goManager->Exit();
-		delete goManager;
-		goManager = NULL;
-	}
-	if (inventory)
-	{
-		delete inventory;
-		inventory = NULL;
-	}
+	goManager->Exit();
+	inventory->Clear();
 }

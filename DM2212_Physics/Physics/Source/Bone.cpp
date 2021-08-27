@@ -25,7 +25,5 @@ void Bone::Update(double dt)
 
 bool Bone::IsEqual(Item* item1)
 {
-	Bone* checkBone = static_cast<Bone*>(item1);
-	
-	return false;
+	return true;
 }

@@ -374,6 +374,21 @@ void SceneBase::Init()
 	meshList[GEO_HEALTHBAR] = MeshBuilder::GenerateQuad("healthbar", Color(1, 1, 1), 5.0f);
 	meshList[GEO_HEALTHBAR]->textureID = LoadTGA("Image//HealthBarInner.tga");
 
+	meshList[GEO_MACHINEPART_1] = MeshBuilder::GenerateQuad("Machine Parts", Color(1, 1, 1), 2.0f);
+	meshList[GEO_MACHINEPART_1]->textureID = LoadTGA("Image//MachinePart_1.tga");
+	meshList[GEO_MACHINEPART_2] = MeshBuilder::GenerateQuad("Machine Parts", Color(1, 1, 1), 2.0f);
+	meshList[GEO_MACHINEPART_2]->textureID = LoadTGA("Image//MachinePart_2.tga");
+	meshList[GEO_MACHINEPART_3] = MeshBuilder::GenerateQuad("Machine Parts", Color(1, 1, 1), 2.0f);
+	meshList[GEO_MACHINEPART_3]->textureID = LoadTGA("Image//MachinePart_3.tga");
+	meshList[GEO_MACHINEPART_4] = MeshBuilder::GenerateQuad("Machine Parts", Color(1, 1, 1), 2.0f);
+	meshList[GEO_MACHINEPART_4]->textureID = LoadTGA("Image//MachinePart_4.tga");
+
+	meshList[GEO_ABILITY_BG] = MeshBuilder::GenerateQuad("ability_bg", Color(1, 1, 1), 5.0f);
+	meshList[GEO_ABILITY_BG]->textureID = LoadTGA("Image//ability_border.tga");
+
+	meshList[GEO_ABILITY_BGCOOLDOWN] = MeshBuilder::GenerateQuad("ability_bg_cooldown", Color(1, 1, 1), 5.0f);
+	meshList[GEO_ABILITY_BGCOOLDOWN]->textureID = LoadTGA("Image//ability_border_cooldown.tga");
+
 	//Shapes
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 	meshList[GEO_BALL] = MeshBuilder::GenerateSphere("ball", Color(1, 1, 1), 10, 10, 1.f);
@@ -722,6 +737,11 @@ void SceneBase::RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, fl
 	glEnable(GL_DEPTH_TEST);
 }
 
+Mesh* SceneBase::GetMeshList(GEOMETRY_TYPE geoType)
+{
+	return meshList[geoType];
+}
+
 void SceneBase::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -767,7 +787,16 @@ void SceneBase::ToggleLightPower(int index, int power)
 	
 	lights[index].power = power;
 	
-
 	glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
 	glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
+}
+
+void SceneBase::ToggleLightRadius(int index, float innerR, float outerR)
+{
+	lights[index].cosInner = cos(Math::DegreeToRadian(innerR));
+	lights[index].cosCutoff = cos(Math::DegreeToRadian(outerR));
+	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], lights[0].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT0_COSINNER], lights[0].cosInner);
+	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], lights[1].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT1_COSINNER], lights[1].cosInner);
 }

@@ -25,8 +25,6 @@ Player::Player() : input(NULL)
 , max_stamina(100.f)
 , stamina(100.f)
 , curr_max_vel(MAX_VEL)
-//, lives(3)
-//, max_lives(3)
 , stamina_rate_multiplier(0.0f)
 , invisibility(false)
 {
@@ -54,16 +52,7 @@ Player::~Player()
 		delete animatedSprites;
 		animatedSprites = NULL;
 	}
-	/*if (livesIcon)
-	{
-		delete livesIcon;
-		livesIcon = NULL;
-	}*/
-	if (staminaBar)
-	{
-		delete staminaBar;
-		staminaBar = NULL;
-	}
+	
 }
 
 void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* inventory)
@@ -79,11 +68,9 @@ void Player::Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* invento
 	}
 	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 1.0f);
 	portalSprite->textureID = LoadTGA("Image/PortalTravelSprite.tga");
-//	livesIcon = MeshBuilder::GenerateQuad("hp icon", Color(1, 1, 1), 1.0f);
-//	livesIcon->textureID = LoadTGA("Image/lives.tga");
-	staminaBar = MeshBuilder::GenerateQuad("stamina bar", Color(1.0f, 1.0f, 0.4f), 1.0f);
 
 	input = Input::GetInstance();
+	gameManager = GameManager::GetInstance();
 
 	//This is initialised in PlayGameState
 	ProgressBar* pHealthBar = dynamic_cast<ProgressBar*>(
@@ -382,7 +369,17 @@ void Player::CollidedWith(GameObject* go)
 	case SceneBase::GEO_LOBBY_PORTAL_GRAVEYARD:
 		std::cout << "AAAAAAAAAAA" << std::endl;
 		break;
-	case SceneBase::GEO_GY_GATEKEEPER:
+	case SceneBase::GEO_MACHINEPART_1:
+		gameManager->setMachineStatus(1, true);
+		break;
+	case SceneBase::GEO_MACHINEPART_2:
+		gameManager->setMachineStatus(2, true);
+		break;
+	case SceneBase::GEO_MACHINEPART_3:
+		gameManager->setMachineStatus(3, true);
+		break;
+	case SceneBase::GEO_MACHINEPART_4:
+		gameManager->setMachineStatus(4, true);
 		break;
 	default:
 		break;

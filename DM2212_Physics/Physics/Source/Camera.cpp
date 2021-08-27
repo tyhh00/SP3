@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "Mtx44.h"
 
-Camera::Camera() : mode(EDGE)
+Camera::Camera() : mode(CENTER)
 {
 	Reset();
 }
@@ -22,13 +22,11 @@ void Camera::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	view_locked = true;
 	auto_lock = true;
 
-	delay_timer = 0;
-
 	SLIDE_SPEED = 100.0f;
-	defaultMAXD_X = 50.0f;
-	defaultNEWD_X = 45.0f;
-	defaultMAXD_Y = 30.0f;
-	defaultNEWD_Y = 25.0f;
+	defaultMAXD_X = 35.0f;
+	defaultNEWD_X = 30.0f;
+	defaultMAXD_Y = 20.0f;
+	defaultNEWD_Y = 15.0f;
 	MAXD_X = defaultMAXD_X;
 	NEWD_X = defaultNEWD_X;
 	MAXD_Y = defaultMAXD_Y;
@@ -99,32 +97,13 @@ void Camera::Update(Vector3 focusTarget, double dt)
 
 	Constraint();
 
-	if (target == newTarget)
-	{
-		delay_timer = 1;
-	}
-
+	
 	if (target != newTarget)
 	{
-		if (mode == DELAYEDCENTER)
-		{
-			if (delay_timer <= 0)
-			{
-				UpdateTarget(dt);
-			}
-		}
-		else
-			UpdateTarget(dt);
+
+		UpdateTarget(dt);
 	}
 
-	if (delay_timer > 0)
-	{
-		delay_timer -= dt;
-		if (delay_timer < 0)
-		{
-			delay_timer = 0;
-		}
-	}
 	// update cam pos based on target
 	position.x = target.x;
 	position.y = target.y;
@@ -202,7 +181,6 @@ void Camera::SetMode(MODE mode)
 	switch (mode)
 	{
 	case CENTER:
-	case DELAYEDCENTER:
 		MAXD_X = 0;
 		NEWD_X = 0;
 		MAXD_Y = 0;
@@ -302,5 +280,7 @@ void Camera::UpdateTarget(double dt)
 		return;
 	}
 	
-	target += (newTarget - target).Normalized() * SLIDE_SPEED * dt;
+	//target += (newTarget - target).Normalized() * SLIDE_SPEED * dt;
+	target.x = Math::Lerp(target.x, newTarget.x, 0.02);
+	target.y = Math::Lerp(target.y, newTarget.y, 0.02);
 }

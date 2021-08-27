@@ -258,14 +258,22 @@ public:
 		GEO_OCEAN_PILLAR = 176,
 		GEO_OCEAN_RUIN = 177,
 
-		//Tiles End
-		GEO_TILES_END,
+GEO_ROBOT_SMALLCUBE_16_MISCDECOR = 178,
 
-		GEO_BLACKHOLE,
+//Tiles End
+GEO_TILES_END,
 
-		GEO_HEALTHBAR_OUTER,
-		GEO_HEALTHBAR,
+GEO_BLACKHOLE,
 
+GEO_HEALTHBAR_OUTER,
+GEO_HEALTHBAR,
+
+		GEO_MACHINEPART_1,
+		GEO_MACHINEPART_2,
+		GEO_MACHINEPART_3,
+		GEO_MACHINEPART_4,
+GEO_ABILITY_BG,
+GEO_ABILITY_BGCOOLDOWN,
 
 		//UI
 		GEO_UI_APPLE,
@@ -305,6 +313,7 @@ public:
 	virtual void InitLights();
 	void ToggleLightOnOff(int index, bool on); // turns a light on or off
 	void ToggleLightPower(int index, int power); // turns a light power
+	void ToggleLightRadius(int index, float innerR, float outerR); // adjusts a light inner and outer cos
 	
 	bool gameLost;
 	bool gameWin;
@@ -325,7 +334,8 @@ public:
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int(&charWidth)[256], int arrSize);
 	void RenderMesh(Mesh *mesh, bool enableLight);
 	void RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey, float z = 1);
-	
+	Mesh* GetMeshList(GEOMETRY_TYPE geoType);
+
 protected:
 	unsigned m_vertexArrayID;
 	Mesh* meshList[NUM_GEOMETRY];

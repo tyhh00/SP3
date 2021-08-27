@@ -8,6 +8,36 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 
+Inventory::Inventory()
+{
+	currentItem = nullptr;
+}
+
+Inventory::~Inventory()
+{
+	for (Item* item : itemVector)
+	{
+		delete item;
+	}
+	itemVector.clear();
+
+	weaponVector.clear();
+	consumableVector.clear();
+
+	if (emptyMesh)
+	{
+		delete emptyMesh;
+	}
+	if (selectedMesh)
+	{
+		delete selectedMesh;
+	}
+	if (buttonManager)
+	{
+		delete buttonManager;
+	}
+}
+
 /**
  @brief Init Inventory
  */
@@ -22,13 +52,13 @@ void Inventory::Init(SceneBase* scene)
 
 	for (int i = 0; i < TOTAL_WEAPON_SLOTS; i++)
 	{
-		Button* button = ButtonFactory::createNoTextButton("WeaponItem" + std::to_string(i + 1), 80 * 0.9 + i * 5, (60 / 6), 2, 2, emptyMesh);
+		Button* button = ButtonFactory::createButton("WeaponItem" + std::to_string(i + 1), 80 * 0.9 + i * 5, (60 / 6), 2, 2, emptyMesh, 1.5, 3, Color(1, 1, 1), "", 2);
 		buttonManager->addButton(button);
 	}
 
 	for (int i = 0; i < TOTAL_CONSUMABLE_SLOTS; i++)
 	{
-		Button* button = ButtonFactory::createNoTextButton("ConsumableItem" + std::to_string(i + 1), 80 * 0.9 + 5, (60 / 3) + i * 5, 2, 2, emptyMesh);
+		Button* button = ButtonFactory::createButton("ConsumableItem" + std::to_string(i + 1), 80 * 0.9 + 5, (60 / 3) + i * 5, 2, 2, emptyMesh, 1.5, 3, Color(1, 1, 1), "", 2);
 		buttonManager->addButton(button);
 	}
 
@@ -39,6 +69,8 @@ void Inventory::Init(SceneBase* scene)
 	{
 		maxQuantity[i] = 5;
 	}
+	maxQuantity[Item::I_BONE] = 15;
+	maxQuantity[Item::I_SKULL] = 10;
 
 	this->scene = scene;
 }
@@ -138,10 +170,63 @@ void Inventory::Update(double dt)
 void Inventory::Render()
 {
 	if (enableInv)
+	{
+		//update weapon slots
+		int weaponSize = weaponVector.size();
+		for (int i = 0; i < TOTAL_WEAPON_SLOTS; i++)
+		{
+			if (i < weaponSize)
+			{
+				buttonManager->getButtonByName("WeaponItem" + std::to_string(i + 1))->setText(std::to_string(weaponVector[i]->GetQuantity()));
+			}
+		}
+
+		//update consumable slots
+		int consumableSize = consumableVector.size();
+		for (int i = 0; i < TOTAL_CONSUMABLE_SLOTS; i++)
+		{
+			if (i < consumableSize)
+			{
+				buttonManager->getButtonByName("ConsumableItem" + std::to_string(i + 1))->setText(std::to_string(consumableVector[i]->GetQuantity()));
+			}
+		}		
 		buttonManager->Render(scene);
+	}
 
 	if (!selectedPos.IsZero())
 		scene->RenderMeshOnScreen(selectedMesh, selectedPos.x, selectedPos.y, 2.2f, 2.2f, 2);
+}
+
+/**
+ @brief Clear all inventory items
+ */
+void Inventory::Clear()
+{
+	for (Item* item : itemVector)
+	{
+		delete item;
+	}
+	itemVector.clear();
+
+
+	weaponVector.clear();
+	consumableVector.clear();
+	currentItem = nullptr;
+	if (emptyMesh)
+	{
+		delete emptyMesh;
+		emptyMesh = NULL;
+	}
+	if (selectedMesh)
+	{
+		delete selectedMesh;
+		selectedMesh = NULL;
+	}
+	if (buttonManager)
+	{
+		delete buttonManager;
+		buttonManager = NULL;
+	}
 }
 
 /**
@@ -363,7 +448,7 @@ Item* Inventory::GetItem(Item::ITEM_TYPE itemType)
 {
 	for (auto item : itemVector)
 	{
-		if (item->GetType() == Item::I_FLASHLIGHT)
+		if (item->GetType() == itemType)
 		{
 			return item;
 		}

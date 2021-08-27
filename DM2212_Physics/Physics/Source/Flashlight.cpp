@@ -52,15 +52,17 @@ void Flashlight::Update(double dt)
 			intensified = true;
 			rate_multiplier = 2.0f;
 			scene->ToggleLightPower(1, scene->lights[1].defaultPower + 2);
+			scene->ToggleLightRadius(1, 15, 30);
 		}
 		else if (input->IsMouseReleased(0))
 		{
 			intensified = false;
 			rate_multiplier = 1.0f;
 			scene->ToggleLightPower(1, scene->lights[1].defaultPower);
+			scene->ToggleLightRadius(1, 30, 45);
 		}
 	
-		currBatt -= rate_multiplier * batt_usage_rate * dt;
+		//currBatt -= rate_multiplier * batt_usage_rate * dt;
 		durability = currBatt / maxBatt;
 
 	}

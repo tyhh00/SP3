@@ -250,6 +250,11 @@ Return a random float between min and max
 		return (num + min);
 	}//end of RandFloatMinMax function
 
+	inline float Lerp(float a, float b, double t)
+	{
+		return a + t * (b - a);
+	}
+
 }//end namespace Math
 
 /******************************************************************************/

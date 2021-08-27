@@ -57,6 +57,31 @@ void UIManager::Init()
 		//Coin Icon
 		bm_gameplayStat->addButton(ButtonFactory::createNoTextButton("coinicon", 2.2, 57, 1.2, 1.2, coinIcon));
 		bm_gameplayStat->addButton(ButtonFactory::createTextButton("coinvalue", 4.6, 55.1, 2, 2, 0, 0, Color(0.9, 0.9, 0.9), std::to_string(GameManager::GetInstance()->getCoins()), 1.4, SUPERMARIO));
+	
+		//Ability Backgrounds
+		Mesh* ability_bg = MeshBuilder::GenerateQuad("ability_bg", Color(1, 1, 1), 5.0f);
+		ability_bg->textureID = LoadTGA("Image//ability_border.tga");
+		meshGenerated.push_back(ability_bg);
+
+		Mesh* ability_bgCooldown = MeshBuilder::GenerateQuad("ability_bg_cooldown", Color(1, 1, 1), 5.0f);
+		ability_bgCooldown->textureID = LoadTGA("Image//ability_border_cooldown.tga");
+		meshGenerated.push_back(ability_bgCooldown);
+
+		Button* ready = ButtonFactory::createNoTextButton("ability_1_ready", 5, 7, 1, 1, ability_bg);
+		bm_gameplayStat->addButton(ready);
+		Button* onCD = ButtonFactory::createButton("ability_1_bg", 5, 7, 1, 1, ability_bgCooldown, -0.8, 1.3, Color(0.9f, 0.9f, 0.9f), "0.00s", 1.7);
+		onCD->disable();
+		bm_gameplayStat->addButton(onCD);
+		bm_gameplayStat->addButton(ButtonFactory::createTextButton("ability_1_key", 7, 3, 2, 2, 0, 0, Color(0.7, 0.7, 0.55), "Q", 1.4, SUPERMARIO));
+	
+	
+		Button* ready2 = ButtonFactory::createNoTextButton("ability_2_ready", 11, 7, 1, 1, ability_bg);
+		bm_gameplayStat->addButton(ready2);
+		//ready2->disable();
+		Button* onCD2 = ButtonFactory::createButton("ability_2_bg", 11, 7, 1, 1, ability_bgCooldown, -0.8, 1.3, Color(0.9f, 0.9f, 0.9f), "0.00s", 1.7);
+		onCD2->disable();
+		bm_gameplayStat->addButton(onCD2);
+		bm_gameplayStat->addButton(ButtonFactory::createTextButton("ability_2_key", 13, 3, 2, 2, 0, 0, Color(0.7, 0.7, 0.55), "Z", 1.4, SUPERMARIO));
 	}
 
 }
