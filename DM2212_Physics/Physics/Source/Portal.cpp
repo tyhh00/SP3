@@ -16,9 +16,6 @@ PortalAbility::PortalAbility(Mesh* mesh) : Ability('Z', ABILITY_PORTAL, 10.0f, m
 	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 2.0f);
 	portalSprite->textureID = LoadTGA("Image/PortalTravelSprite.tga");
 
-	playerActiveState = true;
-	conditionsMet = false;
-
 	state = DEFAULT;
 }
 
@@ -31,6 +28,10 @@ PortalAbility::~PortalAbility()
 	}
 }
 
+void PortalAbility::Init()
+{
+}
+
 void PortalAbility::Update(double dt)
 {
 	switch (state)
@@ -39,12 +40,12 @@ void PortalAbility::Update(double dt)
 		// CHECK FOR ABILITY USE CONDITIONS
 		if (Input::GetInstance()->IsKeyPressed('Z'))
 		{
-			if (conditionsMet && !endPortal.active)
+			if (player->physics->GetOnGround() && !endPortal.active)
 			{
 				// START OPENING START PORTAL
 				startPortal.active = true;
 				startPortal.SetAnimation("opening", 0, 0.3f);
-				startPortal.pos = newPlayerPos;
+				startPortal.pos = player->pos;
 				anim_timer = 0;
 				ghost_portal = true;
 				//camera->SetMode(Camera::CENTER);
@@ -107,7 +108,9 @@ void PortalAbility::Update(double dt)
 			endPortal.SetAnimation("idle", -1, 1.0f);
 			anim_timer = 0;
 
-			playerActiveState = false;
+			player->enableCollision = false;
+			player->physics->SetEnableUpdate(false);
+			player->pos.z = -10;
 			ghost_player = true;
 
 			state = TELEPORTING;
@@ -123,21 +126,23 @@ void PortalAbility::Update(double dt)
 		// MOVE PLAYER
 		// CHECK IF PLAYER DONE MOVING
 		float offset = 3.0f;
-		if ((endPortal.pos - newPlayerPos).Length() < offset)
+		if ((endPortal.pos - player->pos).Length() < offset)
 		{
 			// START CLOSING START PORTAL
-			newPlayerPos = endPortal.pos;
+			player->pos = endPortal.pos;
 			//camera->SetMode(Camera::EDGE);
 			startPortal.SetAnimation("closing", 0, 0.3f);
 			anim_timer = 0;
-			playerActiveState = true;
+			player->enableCollision = true;
+			player->physics->SetEnableUpdate(true);
+			player->pos.z = 0;
 			ghost_player = false;
 			state = CLOSINGSTART_ANIM;
 			std::cout << "PORTAL ABILITY: Teleportation End." << std::endl;
 			break;
 		}
 
-		newPlayerPos += (endPortal.pos - newPlayerPos).Normalized() * 150.0f * dt;
+		player->pos += (endPortal.pos - player->pos).Normalized() * 150.0f * dt;
 	}
 		break;
 	case CLOSINGSTART_ANIM:
@@ -181,18 +186,6 @@ void PortalAbility::Update(double dt)
 
 }
 
-void PortalAbility::CustomUpdate(bool playeronGround, Vector3 playerPos)
-{
-	conditionsMet = playeronGround;
-	newPlayerPos = playerPos;
-}
-
-void PortalAbility::CustomUpdate(Vector3& playerPos, bool& playerInvisibility)
-{
-	playerPos = newPlayerPos;
-	playerInvisibility = !playerActiveState;
-}
-
 void PortalAbility::Render()
 {
 	if (startPortal.active)
@@ -224,9 +217,9 @@ void PortalAbility::Render()
 	if (ghost_player)
 	{
 		scene->modelStack.PushMatrix();
-		scene->modelStack.Translate(newPlayerPos.x, newPlayerPos.y, newPlayerPos.z);
-		scene->modelStack.Scale(5, 5, 5);
-		scene->RenderMesh(portalSprite, true);
+		scene->modelStack.Translate(player->pos.x, player->pos.y, player->pos.z);
+		scene->modelStack.Scale(3, 3, 3);
+		scene->RenderMesh(portalSprite, false);
 		scene->modelStack.PopMatrix();
 	}
 	

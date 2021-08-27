@@ -133,10 +133,12 @@ void SceneOcean::Init()
 	camera.SetMode(Camera::CENTER);
 
 	// ABILITIES
-	SlowTimeAbility* slowtime = new SlowTimeAbility();
-	slowtime->setGOM(goManager);
-	slowtime->SetScenePointer(this);
-	player->SetAbilities(slowtime, nullptr); 
+	gameManager->initAbilities(this, &camera, goManager, player);
+	gameManager->setAbility(1, ABILITY_SLOWTIME);
+	//gameManager->setAbility(2, ABILITY_DASH);
+	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
+
+	// TRIDENT
 	Trident* trident = new Trident;
 	trident->Init(&camera, goManager, player->pos);
 	inventory->AddItem(trident);

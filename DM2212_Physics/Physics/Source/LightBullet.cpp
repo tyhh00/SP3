@@ -29,19 +29,13 @@ void LightBullet::Update(double dt)
 {
 	aliveTimer += dt;
 
-	DEBUG_MSG("D");
-
-	////Attach pos of bullet to player
-	//if (attachedPlayer != nullptr)
-	//{
-	//	this->pos = attachedPlayer->pos;
-	//	this->pos.z += 1; //Set it infront of player
-	//}
+	if (aliveTimer > 10)
+		this->dead = true;
 }
 
 void LightBullet::CollidedWith(GameObject* go)
 {
-	if (go->type != GO_ENEMY)
+	if (go->type != GO_PLAYER)
 	{
 		this->dead = true;
 		go->MinusCurrHealth(5);

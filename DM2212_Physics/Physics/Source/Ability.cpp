@@ -14,7 +14,11 @@ Ability::Ability(char buttonChar, ABILITY_TYPE type, double abilityCooldownDurat
 
 Ability::~Ability()
 {
-
+	if (icon)
+	{
+		delete icon;
+		icon = NULL;
+	}
 }
 
 void Ability::SetCamera(Camera* camera)
@@ -30,6 +34,11 @@ void Ability::SetGOManager(GameObjectManager* goManager)
 void Ability::SetScenePointer(SceneBase* scene)
 {
 	this->scene = scene;
+}
+
+void Ability::SetPlayer(GameObject* player)
+{
+	this->player = player;
 }
 
 void Ability::SetAbilityCooldownDuration(double cooldown)

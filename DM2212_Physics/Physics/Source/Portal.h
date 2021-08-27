@@ -49,9 +49,8 @@ public:
 	PortalAbility(Mesh* mesh = nullptr);
 	~PortalAbility();
 
+	void Init();
 	void Update(double dt);
-	void CustomUpdate(bool playeronGround, Vector3 playerPos);
-	void CustomUpdate(Vector3& playerPos, bool& playerInvisibility);
 	void Render();
 	ABILITY_TYPE GetAbilityType();
 
@@ -78,10 +77,6 @@ private:
 	bool ghost_portal;
 	bool ghost_player;
 	double anim_timer;
-	
-	Vector3 newPlayerPos;
-	bool conditionsMet;
-	bool playerActiveState;
 
 	Portal startPortal;
 	Portal endPortal;

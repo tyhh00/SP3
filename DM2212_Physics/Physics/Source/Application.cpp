@@ -211,6 +211,8 @@ void Application::Exit()
 	//Destroy CGameStateManager
 	CGameStateManager::GetInstance()->Destroy();
 
+	GameManager::GetInstance()->Destroy();
+
 	//SceneManager::GetInstance()->destroy();
 	SceneManager::GetInstance()->Destroy();
 
