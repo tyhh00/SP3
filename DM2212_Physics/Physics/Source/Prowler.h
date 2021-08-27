@@ -40,7 +40,8 @@ private:
 	float shootTimer;
 
 	PROWLER_STATE state;
-	float attackTimer;
+	float attackAnimationTimer;
+	float spawnAnimationTimer;
 	float stunnedTimer;
 	float spawnCooldownTimer;
 

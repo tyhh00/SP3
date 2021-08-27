@@ -23,7 +23,7 @@ void Monkey::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, Weapo
 	state = IDLE;
 
 	movement_speed = 20.0f;
-	activeRange = 40.0f;
+	activeRange = 50.0f;
 	shootTimer = 2;
 
 	currentHP = 7;

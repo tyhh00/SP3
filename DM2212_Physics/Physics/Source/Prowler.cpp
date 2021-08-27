@@ -31,9 +31,10 @@ void Prowler::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, Game
 	currentHP = 7;
 	maxHP = 7; // IN SECONDS
 	
-	attackTimer = 0;
+	attackAnimationTimer = 0;
 	stunnedTimer = 0;
 	spawnCooldownTimer = 0;
+	spawnAnimationTimer = 0;
 
 	readyToSpawnMonkey = true;
 
@@ -48,8 +49,10 @@ void Prowler::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, Game
 	animatedSprites->AddAnimation("runLeft", 99, 106);
 	animatedSprites->AddAnimation("attackRight", 27, 35);
 	animatedSprites->AddAnimation("attackLeft", 117, 126);
-	animatedSprites->AddAnimation("stunnedRight", 45, 50);
-	animatedSprites->AddAnimation("stunnedLeft", 136, 141);
+	animatedSprites->AddAnimation("spawnRight", 45, 50);
+	animatedSprites->AddAnimation("spawnLeft", 136, 141);
+	animatedSprites->AddAnimation("stunnedRight", 81, 86);
+	animatedSprites->AddAnimation("stunnedLeft", 171, 176);
 
 	mesh = animatedSprites;
 	mesh->textureID = LoadTGA("Image/prowler.tga");
@@ -113,10 +116,10 @@ void Prowler::Update(double dt)
 	case ATTACK:
 	{
 		std::cout << "ATTACK" << std::endl;
-		attackTimer += dt;
-		if (attackTimer > 1.f)
+		attackAnimationTimer += dt;
+		if (attackAnimationTimer > 1.f)
 		{
-			attackTimer = 0;
+			attackAnimationTimer = 0;
 			state = DEFEND;
 			physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
 			break;
@@ -145,6 +148,7 @@ void Prowler::Update(double dt)
 			else
 				state = IDLE;
 		}
+
 		if (physics->GetVelocity().x > 0)
 		{
 			animatedSprites->PlayAnimation("runRight", -1, 1.0f);
@@ -158,22 +162,68 @@ void Prowler::Update(double dt)
 	case SPAWN:
 	{
 		std::cout << "SPAWN" << std::endl;
-		Monkey* monkey = new Monkey();
+		physics->SetVelocity(Vector3(0, physics->GetVelocity().y, physics->GetVelocity().z));
+		if (spawnAnimationTimer > 1)
+		{
+			//get the offset of the monkey to be spawned towards the player
+			if ((*playerPos - pos).IsZero())
+				break;
+			float x = (*playerPos - pos).Normalized().x;
+			float offset = 0;
 
-		monkey->active = true;
-		monkey->scale = Vector3(3, 3, 3);
-		monkey->pos = pos;
-		monkey->physics = physics->Clone();
-		monkey->physics->SetInelasticity(0.99f);
-		monkey->physics->SetIsBouncable(false);
-		monkey->physics->SetGravity(Vector3(0, 0, 0));
-		monkey->Init(this->scene, inventory, *playerPos, new Pistol(goManager, new LightBullet(Vector3(2, 2, 2), monkey, 100), this->scene->GetMeshList(SceneBase::GEO_WALL)));
+			if (x > 0)
+			{
+				offset = 10;
+			}
+			else if (x < 0)
+			{
+				offset = -10;
+			}
 
-		monkey->AddBottomSprite();
-		monkey->bottomSprite->mesh = this->scene->GetMeshList(SceneBase::GEO_WALL);
-		goManager->AddGO(monkey);
-		state = DEFEND;
-		readyToSpawnMonkey = false;
+			Monkey* monkey = new Monkey();
+
+			monkey->active = true;
+			monkey->scale = Vector3(3, 3, 3);
+			monkey->pos = Vector3(pos.x + offset, pos.y, pos.z);
+			monkey->physics = physics->Clone();
+			monkey->physics->SetInelasticity(0.99f);
+			monkey->physics->SetIsBouncable(false);
+			monkey->physics->SetGravity(Vector3(0, 0, 0));
+			monkey->Init(this->scene, inventory, *playerPos, new Pistol(goManager, new LightBullet(Vector3(2, 2, 2), monkey, 100), this->scene->GetMeshList(SceneBase::GEO_WALL)));
+
+			monkey->AddBottomSprite();
+			monkey->bottomSprite->mesh = this->scene->GetMeshList(SceneBase::GEO_WALL);
+			goManager->AddGO(monkey);
+
+			state = DEFEND;
+			readyToSpawnMonkey = false;
+			spawnAnimationTimer = 0;
+		}
+		else
+			spawnAnimationTimer += dt;
+
+		if (physics->GetVelocity().x > 0)
+		{
+			animatedSprites->PlayAnimation("spawnRight", 0, 1.0f);
+		}
+		else if (physics->GetVelocity().x < 0)
+		{
+			animatedSprites->PlayAnimation("spawnLeft", 0, 1.0f);
+		}
+		else
+		{
+			if ((*playerPos - pos).IsZero())
+				break;
+			float x = (*playerPos - pos).Normalized().x;
+			if (x > 0)
+			{
+				animatedSprites->PlayAnimation("idleRight", -1, 1.0f);
+			}
+			else if (x < 0)
+			{
+				animatedSprites->PlayAnimation("idleLeft", -1, 1.0f);
+			}
+		}
 	}
 	break;
 	case STUNNED:
