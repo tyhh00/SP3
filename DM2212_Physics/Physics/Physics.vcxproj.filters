@@ -281,9 +281,6 @@
     <ClCompile Include="Source\Ability.cpp">
       <Filter>Source Files\Abilities</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Trident.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SceneOcean.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
@@ -331,6 +328,9 @@
     </ClCompile>
     <ClCompile Include="Source\PlasmaEngine.cpp">
       <Filter>Source Files\GameObjects</Filter>
+	  </ClCompile>
+    <ClCompile Include="Source\Trident.cpp">
+      <Filter>Source Files\Items\Weapons</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -565,9 +565,6 @@
     <ClInclude Include="Source\Ability.h">
       <Filter>Header Files\Abilities</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Trident.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\SceneOcean.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
@@ -615,6 +612,9 @@
     </ClInclude>
     <ClInclude Include="Source\PlasmaEngine.h">
       <Filter>Header Files\GameObjects</Filter>
+	   </ClInclude>
+    <ClInclude Include="Source\Trident.h">
+      <Filter>Header Files\Items\Weapons</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -40,6 +40,7 @@ struct GameObject
 		GO_50, // ELASTIC + SCORE
 		GO_10, // ELASTIC + SCORE
 		GO_CRAB,
+		GO_DRAGON,
 
 		GO_PLAYER,
 		GO_ENEMY,
@@ -99,6 +100,8 @@ struct GameObject
 	float reappearIn; //Respawning animation how long more till frame is showed
 	float reappearCD; //After reappeared, how long more till next one shows
 
+	bool slowedObj; //if GO is slowed down 
+
 	//Reponse Collision whitelisted GAMEOBJECT_TYPES
 	std::set<int> responseWhitelist;
 	std::set<int> goCollisionWhitelist;
@@ -142,6 +145,9 @@ struct GameObject
 
 	void SetRespawnable(bool respawnable);
 	bool IsResponable();
+
+	void SetIsSlowed(bool slowed);
+	bool isSlowed();
 
 	void SetRangeCheckMulti(float multi);
 	float GetRangeCheckMulti();

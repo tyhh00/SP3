@@ -7,35 +7,50 @@
 SlowTimeAbility::SlowTimeAbility() : Ability('Q', ABILITY_SLOWTIME, 3.f)
 {
 	input = Input::GetInstance();
-	maxVel = 0;
+	abilityTimer = 0;
 }
 
 SlowTimeAbility::~SlowTimeAbility()
-{
-}
+{}
 
 void SlowTimeAbility::Update(double dt)
 {
 	abilityCD_timeleft -= dt;
 	if (abilityCD_timeleft < 0)
 		abilityCD_timeleft = 0.0f;
-	
 
+	if (input->IsKeyPressed('Q') && abilityTimer <= 0)
+	{
+		abilityTimer = 8;
+		goManager->SetmSpeed(0.1f);
+		scene->setBLightEnabled(true);
+	}
+
+	if (abilityTimer <= 0)
+	{ 
+		goManager->SetmSpeed(1.f);
+		scene->setBLightEnabled(false);
+	}
+	else
+	{
+		abilityTimer -= dt;
+	}
+
+	std::cout << "time: " << abilityTimer << std::endl;
 }
 
 void SlowTimeAbility::Render()
-{
-}
-
-void SlowTimeAbility::UpdatePlayer(Physics* physics)
-{
-}
+{}
 
 ABILITY_TYPE SlowTimeAbility::GetAbilityType()
 {
 	return type;
 }
 
+void SlowTimeAbility::setGOM(GameObjectManager* goM)
+{
+	goManager = goM;
+}
 
 void SlowTimeAbility::CursorToWorldPosition(double& theX, double& theY)
 {
