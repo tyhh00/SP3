@@ -282,6 +282,7 @@ public:
 		GEO_JUNGLE_TREE_TOP_LEFT = 197,
 		GEO_JUNGLE_TREE_TOP_RIGHT = 198,
 		GEO_JUNGLE_PROWLER = 199,
+		GEO_JUNGLE_PISTOL = 200,
 
 		//Tiles End
 		GEO_TILES_END,
@@ -357,6 +358,7 @@ public:
 
 	void setBLightEnabled(bool on);
 
+	Camera* GetCamera();
 protected:
 	unsigned m_vertexArrayID;
 	Mesh* meshList[NUM_GEOMETRY];

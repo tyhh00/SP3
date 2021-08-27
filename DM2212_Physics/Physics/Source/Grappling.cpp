@@ -5,7 +5,7 @@
 #include "MeshBuilder.h"
 
 
-GrapplingAbility::GrapplingAbility(Mesh* mesh) : Ability('Z', ABILITY_GRAPPLER, 5.0f, mesh)
+GrapplingAbility::GrapplingAbility(Inventory* inventory, Mesh* mesh) : Ability('Z', ABILITY_GRAPPLER, 5.0f, mesh)
 {
 	//Store keyboard instance
 	input = Input::GetInstance();
@@ -13,6 +13,8 @@ GrapplingAbility::GrapplingAbility(Mesh* mesh) : Ability('Z', ABILITY_GRAPPLER, 
 	isGrappling = false;
 	maxVel = 0;
 	gradualVelTimer = 0;
+
+	playerInv = inventory;
 }
 
 GrapplingAbility::~GrapplingAbility()
@@ -40,12 +42,19 @@ void GrapplingAbility::Update(double dt)
 				initialDisplacement = temp - player->pos;
 				isGrappling = true;
 				grapplingHook.active = true;
+
+				if (go->geoTypeID == SceneBase::GEO_JUNGLE_APPLE)
+				{
+					int randomAppleDropChance = Math::RandIntMinMax(1, 10);
+					if (randomAppleDropChance <= 3)
+						playerInv->AddItem(new Apple(go->mesh));
+				}
 			}
 		}
 
 
 	}
-	else if (input->IsKeyReleased(buttonChar))	//detach grappling hook
+	else if (input->IsKeyReleased(buttonChar)) //detach grappling hook
 	{
 		isGrappling = false;
 		grapplingHook.active = false;

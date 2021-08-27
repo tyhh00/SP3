@@ -16,6 +16,7 @@ Bullet::Bullet(Mesh* mesh, int geoTypeID, SHAPE_TYPE collisionShape, BULLET_TYPE
 	, bulletSpeed(_bulletSpeed)
 	, bulletStatus(ALLY)
 {
+	this->AddToGOCollisionWhitelist(GO_BULLET);
 	this->physics->SetMovable(true);
 	this->physics->SetGravity(false);
 	this->physics->SetEnableCollisionResponse(false);

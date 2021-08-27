@@ -172,6 +172,8 @@ void GameObject::CloneValues(GameObject* ref, GameObject* into)
 	into->explosive = ref->explosive;
 	into->explosiveRadius = ref->explosiveRadius;
 	into->dead = ref->dead;
+	into->responseWhitelist = ref->responseWhitelist;
+	into->goCollisionWhitelist = ref->goCollisionWhitelist;
 }
 
 void GameObject::CollidedWith(GameObject* go)
@@ -306,6 +308,25 @@ void GameObject::RemoveFromResponseWhitelist(GAMEOBJECT_TYPE type)
 bool GameObject::CanCollisionRespondTo(GAMEOBJECT_TYPE type)
 {
 	if (this->responseWhitelist.count((int)type) > 0)
+	{
+		return false;
+	}
+	return true;
+}
+
+void GameObject::AddToGOCollisionWhitelist(GAMEOBJECT_TYPE type)
+{
+	this->goCollisionWhitelist.insert((int)type);
+}
+
+void GameObject::RemoveFromGOCollisionWhitelist(GAMEOBJECT_TYPE type)
+{
+	this->goCollisionWhitelist.erase((int)type);
+}
+
+bool GameObject::CanCollideWith(GAMEOBJECT_TYPE type)
+{
+	if (this->goCollisionWhitelist.count((int)type) > 0)
 	{
 		return false;
 	}

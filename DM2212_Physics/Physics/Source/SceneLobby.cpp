@@ -81,7 +81,7 @@ void SceneLobby::Init()
 			player->physics->SetInelasticity(0.99f);
 			player->physics->SetIsBouncable(false);
 
-			player->Init(Player::WASD, goManager, inventory);
+			player->Init(&camera, Player::WASD, goManager, inventory);
 
 			player->AddBottomSprite();
 			player->bottomSprite->mesh = meshList[GEO_WALL];

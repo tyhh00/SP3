@@ -4,10 +4,11 @@
 #include "Input.h"
 #include "GameObjectManager.h"
 #include "LightBullet.h"
+#include "Camera.h"
 
 class Pistol : public Weapon {
 public:
-	Pistol(GameObjectManager* goManager, LightBullet* _lightBullet, Mesh* mesh);
+	Pistol(Camera* _cam, GameObjectManager* goManager, Vector3& _playerPos, LightBullet* _lightBullet, Mesh* mesh);
 	~Pistol();
 
 	void Init();
@@ -17,6 +18,10 @@ public:
 private:
 	Input* input;
 	LightBullet* lightBullet;
+	void CursorToWorldPosition(double& theX, double& theY);
+	Camera* cam;
+
+	Vector3* playerPos;
 };
 
 

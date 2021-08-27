@@ -68,7 +68,7 @@ void SceneJungle::Init()
 			player->physics = go->physics->Clone();
 			player->physics->SetInelasticity(0.99f);
 			player->physics->SetIsBouncable(false);
-			player->Init(Player::PLATFORMER, goManager, inventory);
+			player->Init(&camera, Player::PLATFORMER, goManager, inventory);
 
 			player->AddBottomSprite();
 			player->bottomSprite->mesh = meshList[GEO_WALL];
@@ -93,7 +93,7 @@ void SceneJungle::Init()
 			monkey->physics->SetInelasticity(0.99f);
 			monkey->physics->SetIsBouncable(false);
 			monkey->physics->SetGravity(Vector3(0, 0, 0));
-			monkey->Init(this, inventory, player->pos, new Pistol(goManager, new LightBullet(Vector3(2, 2, 2), monkey, 100), meshList[GEO_WALL]));
+			monkey->Init(this, inventory, player->pos, new BulletSpawner(goManager, new BananaBullet(Vector3(2, 2, 2), monkey, 30)));
 
 			monkey->AddBottomSprite();
 			monkey->bottomSprite->mesh = meshList[GEO_WALL];
@@ -158,7 +158,7 @@ void SceneJungle::Init()
 	ability->SetCamera(&camera);
 	ability->SetScenePointer(this);
 
-	GrapplingAbility* ability2 = new GrapplingAbility(meshList[GEO_ABILITYICON_GRAPPLINGHOOK]);
+	GrapplingAbility* ability2 = new GrapplingAbility(inventory, meshList[GEO_ABILITYICON_GRAPPLINGHOOK]);
 	ability2->SetCamera(&camera);
 	ability2->SetScenePointer(this);
 	ability2->SetGOManager(this->goManager);*/

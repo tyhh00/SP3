@@ -310,6 +310,7 @@ void SceneBase::Init()
 	LoadTile(GEO_JUNGLE_APPLE, "GEO_JUNGLE_APPLE.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_BANANA, "GEO_JUNGLE_BANANA.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_PROWLER, "GEO_JUNGLE_PROWLER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_PISTOL, "GEO_JUNGLE_PISTOL.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 
 	//jungle trees
 	LoadTile(GEO_JUNGLE_TREE_BOTTOM, "JUNGLE_TREE_BOTTOM.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -387,7 +388,7 @@ void SceneBase::Init()
 	LoadTile(GEO_OCEAN_PILLAR, "OCEAN_pillar.tga", 5, 5, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_RUIN, "OCEAN_ruin.tga", 8, 8, SHAPE_TYPE::RECTANGLE);
 
-	LoadTile(GEO_ROBOT_SMALLCUBE_16_MISCDECOR, "10.tga", 8, 8, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_ROBOT_SMALLCUBE_16_MISCDECOR, "ROBOT_SMALLCUBE_16_MISCDECOR.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 
 	LoadTile(GEO_MACHINEPART_1, "MachinePart_1.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_MACHINEPART_2, "MachinePart_2.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -764,6 +765,11 @@ void SceneBase::RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, fl
 Mesh* SceneBase::GetMeshList(GEOMETRY_TYPE geoType)
 {
 	return meshList[geoType];
+}
+
+Camera* SceneBase::GetCamera()
+{
+	return &camera;
 }
 
 void SceneBase::Render()

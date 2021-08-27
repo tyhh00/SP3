@@ -326,6 +326,12 @@
     <ClCompile Include="Source\Prowler.cpp">
       <Filter>Source Files\GameObjects\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PlasmaEngine.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+	  </ClCompile>
+    <ClCompile Include="Source\BananaBullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Trident.cpp">
       <Filter>Source Files\Items\Weapons</Filter>
     </ClCompile>
@@ -607,8 +613,14 @@
     <ClInclude Include="Source\Prowler.h">
       <Filter>Header Files\GameObjects\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="Source\PlasmaEngine.h">
+      <Filter>Header Files\GameObjects</Filter>
+	   </ClInclude>
     <ClInclude Include="Source\Trident.h">
       <Filter>Header Files\Items\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BananaBullet.h">
+      <Filter>Header Files\Bullets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

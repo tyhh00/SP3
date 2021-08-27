@@ -13,7 +13,7 @@
 #include "Player.h"
 #include "Prowler.h"
 #include "LightBullet.h"
-#include "Pistol.h"
+#include "BananaBullet.h"
 #include "Input.h"
 #include "GameObjectManager.h"
 #include "GameManager.h"

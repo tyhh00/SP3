@@ -15,6 +15,12 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 		return false;
 	if (!go1->enableCollision || !go2->enableCollision)
 		return false;
+
+	if (!( go1->CanCollideWith(go2->type) && go2->CanCollideWith(go1->type)))
+	{
+		return false;
+	}
+
 	// in case of self collision
 	/*if (go1 == go2)
 	{
@@ -349,7 +355,7 @@ void GameObjectManager::Update(double dt)
 					continue;
 				}
 
-				go2->Update(splitDt);
+				//go2->Update(splitDt);
 				// attachment for checking if onGround
 				if (go->bottomSprite != nullptr)
 				{

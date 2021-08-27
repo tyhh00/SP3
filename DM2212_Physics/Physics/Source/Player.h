@@ -7,6 +7,7 @@
 #include "Input.h"
 #include "Ability.h"
 #include "SceneBase.h"
+#include "Camera.h"
 #include "GameObjectManager.h"
 #include "Inventory.h"
 #include "GameManager.h"
@@ -24,7 +25,7 @@ public:
 	Player();
 	~Player();
 
-	void Init(MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* inventory);
+	void Init(Camera* cam, MOVEMENT_MODE mode, GameObjectManager* GOM, Inventory* inventory);
 	void Update(double dt);
 	void Render(SceneBase* scene);
 	void CollidedWith(GameObject* go);
@@ -41,6 +42,8 @@ private:
 
 	MOVEMENT_MODE mode;
 	SpriteAnimation* animatedSprites;
+
+	Camera* cam;
 
 
 	bool isDashing = false;

@@ -13,11 +13,11 @@ Monkey::~Monkey()
 {
 }
 
-void Monkey::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, Weapon* _weapon)
+void Monkey::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, BulletSpawner* _bulletSpawner)
 {
 	this->scene = scene;
 	this->inventory = inventory;
-	this->weapon = _weapon;
+	this->bulletSpawner = _bulletSpawner;
 	playerPos = &target;
 
 	state = IDLE;
@@ -34,7 +34,7 @@ void Monkey::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, Weapo
 
 	physics->SetMovable(true);
 	physics->SetEnableCollisionResponse(true);
-	physics->SetGravity(Vector3(0,-98.f,0));
+	physics->SetGravity(Vector3(0, -98.f, 0));
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(1, 18, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("jumpRight", 0, 2);
@@ -51,15 +51,6 @@ void Monkey::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, Weapo
 
 void Monkey::Update(double dt)
 { 
-	mesh->material.kDiffuse.Set(1.0f, 1.0f, 1.0f);
-	if (isBeingAttacked())
-	{
-		mesh->material.kDiffuse.Set(1.0f, 0.5f, 0.5f);
-		state_interval = 0;
-		state = ATTACK;
-		currentHP -= dt;
-	}
-
 	if (currentHP <= 0)
 	{
 		dead = true;
@@ -91,10 +82,11 @@ void Monkey::Update(double dt)
 			shootTimer += dt;
 			if (!(*playerPos - pos).IsZero())
 			{
-				physics->SetVelocity(Vector3((*playerPos - pos).Normalized().x * movement_speed, physics->GetVelocity().y, physics->GetVelocity().z));
-				if (shootTimer >= 2)
+				physics->SetVelocity(Vector3((*playerPos - this->pos).Normalized().x * movement_speed, physics->GetVelocity().y, physics->GetVelocity().z));
+				if (shootTimer >= 1)
 				{
-					weapon->GetBulletSpawner()->SpawnBullet(pos, Vector3((*playerPos - pos).Normalized().x, 0, 0), Vector3(0, 1, 0));
+					std::cout << "FIRED BULLET" << std::endl;
+					bulletSpawner->SpawnBullet(this->pos, Vector3((*playerPos - pos).Normalized().x, 0, 0), (*playerPos - this->pos));
 					shootTimer = 0;
 				}
 			}
