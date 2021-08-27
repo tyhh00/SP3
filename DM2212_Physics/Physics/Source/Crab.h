@@ -39,6 +39,7 @@ private:
 
 	double crabTimer;
 	double WLARTimer; //walk left and right timer
+	double deathTimer;
 	ENEMY_STATE state;
 	float tempVel;
 	MOVEMENT_TYPE mType;
