@@ -23,7 +23,7 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
-	std::string mapToLoad ="ROBOT_1_1";
+	std::string mapToLoad ="JUNGLE_1_1";
 
 
 	// Calculating aspect ratio
@@ -44,7 +44,7 @@ void LevelEditor::Init()
 	canScrollIn = scrollingSpeed;
 	scrolledGeo = static_cast<GEOMETRY_TYPE>(GEOMETRY_TYPE::GEO_TILES_START + 1);
 
-	decorativeMode = false;
+	decorativeMode = true;
 	renderMode = RENDER_ALL;
 
 	camera.Init(Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 1), Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 0), Vector3(0, 1, 0));

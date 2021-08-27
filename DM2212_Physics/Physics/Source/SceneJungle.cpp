@@ -133,7 +133,7 @@ void SceneJungle::Init()
 			prowler->physics->SetInelasticity(0.99f);
 			prowler->physics->SetIsBouncable(false);
 			prowler->physics->SetGravity(Vector3(0, 0, 0));
-			prowler->Init(this, inventory, player->pos);
+			//prowler->Init(this, inventory, player->pos);
 
 			goManager->AddGO(prowler);
 

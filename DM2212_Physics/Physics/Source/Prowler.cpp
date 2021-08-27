@@ -37,11 +37,10 @@ void Prowler::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, Weap
 	physics->SetGravity(Vector3(0,-98.f,0));
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(20, 9, 2.0f, 2.0f);
-	animatedSprites->AddAnimation("jumpRight", 0, 2);
-	animatedSprites->AddAnimation("jumpLeft", 3, 5);
-	animatedSprites->AddAnimation("runRight", 6, 10);
-	animatedSprites->AddAnimation("runLeft", 11, 15);
-	animatedSprites->AddAnimation("idle", 16, 18);
+	animatedSprites->AddAnimation("idleRight", 0, 4);
+	animatedSprites->AddAnimation("idleLeft", 90, 94);
+	animatedSprites->AddAnimation("runRight", 9, 16);
+	animatedSprites->AddAnimation("runLeft", 99, 106);
 
 	mesh = animatedSprites;
 	mesh->textureID = LoadTGA("Image/prowler.tga");
