@@ -177,6 +177,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 				buttonManager->deactivateButton("options");
 				buttonManager->deactivateButton("menuBG");
 				currentState = DEFAULT;
+				break;
 			}
 			else if (button->buttonClicked->getName() == "retry")
 			{
@@ -185,6 +186,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 				buttonManager->deactivateButton("menuBG");
 				sceneManager->resetScene();
 				currentState = DEFAULT;
+				break;
 			}
 			else if (button->buttonClicked->getName() == "options")
 			{
@@ -192,7 +194,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 				buttonManager->deactivateButton("lobby");
 				buttonManager->deactivateButton("options");
 				buttonManager->activateButton("back");
-
+				break;
 			}
 			else if (button->buttonClicked->getName() == "back")
 			{
@@ -200,6 +202,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 				buttonManager->activateButton("lobby");
 				buttonManager->activateButton("options");
 				buttonManager->activateButton("resume");
+				break;
 			}
 			else if (button->buttonClicked->getName() == "lobby")
 			{

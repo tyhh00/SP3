@@ -34,7 +34,9 @@ protected:
 		GY_FINDGATEKEEPER, // wait for initial meeting w gatekeeper, add dialogue + give pickaxe
 		GY_GATEKEEPER_DIALOGUE,
 		GY_GATEKEEPER2, // wait for church entry requirements
+		GY_GATEKEEPER2_DIALOGUE,
 		CHURCH_INTRO, // after meeting requirements, enter church, play any intro dialogue/storyline
+		CHURCH_DIALOGUE,
 		CHURCH_DEFAULT, // main boss fight gameplay
 		CHURCH_END, // after defeating boss storyline/dialogue or anyth rlly
 

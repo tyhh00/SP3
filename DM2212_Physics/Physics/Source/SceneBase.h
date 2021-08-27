@@ -305,6 +305,7 @@ public:
 	virtual void InitLights();
 	void ToggleLightOnOff(int index, bool on); // turns a light on or off
 	void ToggleLightPower(int index, int power); // turns a light power
+	void ToggleLightRadius(int index, float innerR, float outerR); // adjusts a light inner and outer cos
 	
 	bool gameLost;
 	bool gameWin;

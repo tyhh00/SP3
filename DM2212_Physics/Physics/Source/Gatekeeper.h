@@ -69,6 +69,13 @@ public:
 
 	bool CheckEntry()
 	{
+		if (inventory->GetItem(Item::I_SKULL) != nullptr && inventory->GetItem(Item::I_BONE) != nullptr)
+		{
+			if (inventory->GetItem(Item::I_SKULL)->GetQuantity() >= 5 && inventory->GetItem(Item::I_BONE)->GetQuantity() >= 10)
+			{
+				return true;
+			}
+		}
 		std::cout << "Gatekeeper.h : CHECKING FOR CHURCH ENTRY REQUIREMENTS" << std::endl;
 		return false;
 	}

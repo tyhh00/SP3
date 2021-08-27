@@ -322,7 +322,7 @@ void SceneBase::Init()
 	LoadTile(GEO_TOMBSTONE_CROSS, "CrossTombstonE.tga", 0.697, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_GRAVEYARD_ARROWSIGN, "GY_ARROWSIGN.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_ENEMY_GHOST, "ghost.tga", 1.9, 2.2, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_ENEMY_TUMBLEWEED, "tumbleweed.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_ENEMY_TUMBLEWEED, "tumbleweed.tga", 1, 1, SHAPE_TYPE::CIRCLE);
 	LoadTile(GEO_GY_GATEKEEPER, "Gatekeeper.tga", 0.714, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_GY_CHURCH, "church.tga", 2.37, 1.98, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_CHURCH_CENTER, "CHURCH_CENTER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -767,7 +767,16 @@ void SceneBase::ToggleLightPower(int index, int power)
 	
 	lights[index].power = power;
 	
-
 	glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
 	glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
+}
+
+void SceneBase::ToggleLightRadius(int index, float innerR, float outerR)
+{
+	lights[index].cosInner = cos(Math::DegreeToRadian(innerR));
+	lights[index].cosCutoff = cos(Math::DegreeToRadian(outerR));
+	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], lights[0].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT0_COSINNER], lights[0].cosInner);
+	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], lights[1].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT1_COSINNER], lights[1].cosInner);
 }

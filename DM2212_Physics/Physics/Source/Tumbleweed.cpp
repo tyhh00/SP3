@@ -71,6 +71,7 @@ void Tumbleweed::CollidedWith(GameObject* go)
 {
 	if (go->type == GO_PLAYER)
 	{
+		std::cout << "TUMBLEWEED COLLIDED W PLAYER" << std::endl;
 		if (timeout <= 0)
 		{
 			go->currentHP -= 10;

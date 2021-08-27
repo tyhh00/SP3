@@ -15,6 +15,7 @@ public:
 
 	void Init(SceneBase* scene, GameObjectManager* GOM, Vector3& target); // keep target only if you need to access player pos
 	void Update(double dt);
+	bool Interact();
 	void CollidedWith(GameObject* go);
 	
 private:
