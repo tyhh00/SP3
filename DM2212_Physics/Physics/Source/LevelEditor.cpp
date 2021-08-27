@@ -23,7 +23,7 @@ void LevelEditor::Init()
 {
 	SceneBase::Init();
 
-	std::string mapToLoad ="JUNGLE_1_1";
+	std::string mapToLoad ="ROBOT_1_1";
 
 
 	// Calculating aspect ratio
@@ -141,8 +141,8 @@ void LevelEditor::Update(double dt)
 		bCTRLState = false; //Up
 		CTRLKeyRelease = true;
 	}
-	else if (bCTRLState && ctrlToggle && Input::GetInstance()->IsKeyReleased(VK_CONTROL))
-		bCTRLState = false;
+	//else if (bCTRLState && ctrlToggle && Input::GetInstance()->IsKeyReleased(VK_CONTROL))
+	//	bCTRLState = false;
 
 	scrollState = SCROLLER_GEOSWITCHER;
 	if (Application::IsKeyPressed('S'))
