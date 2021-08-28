@@ -326,11 +326,6 @@ void GameObjectManager::Update(double dt, Camera* camera)
 
 				if (CheckCollision(go, go2, splitDt, false))
 				{
-					if (go->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET
-						|| go2->type == GameObject::GAMEOBJECT_TYPE::GO_BULLET)
-					{
-						DEBUG_MSG("SOME BULLET COLLISION");
-					}
 					if (go->IsExplosive())
 					{
 						for (auto& go3 : moveableIteration)
@@ -465,15 +460,11 @@ void GameObjectManager::Update(double dt, Camera* camera)
 				continue;
 			if (go->physics->GetMovable())
 			{
-				if (go->geoTypeID == 150)
-				{
-					DEBUG_MSG("Deleted robot?");
-				}
 				for (int i = 0; i < m_movableGOList.size(); i++)
 				{
 					if (m_movableGOList.at(i) == go)
 					{
-						DEBUG_MSG("Deleted: " << m_movableGOList.at(i));
+						//DEBUG_MSG("Deleted: " << m_movableGOList.at(i));
 						delete m_movableGOList.at(i);
 						m_movableGOList.at(i) = nullptr;
 						go = nullptr;

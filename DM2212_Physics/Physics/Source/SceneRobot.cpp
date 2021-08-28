@@ -48,8 +48,8 @@ void SceneRobot::Init()
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = 193;
-	m_worldWidth = 1600;
+	m_worldHeight = 198;
+	m_worldWidth = 1594;
 
 	//Physics code here
 	m_speed = 1.f;
@@ -116,7 +116,7 @@ void SceneRobot::Init()
 		{
 			Coin* coin = new Coin(1);
 			coin->active = true;
-			coin->scale = go->scale * 0.9;
+			coin->scale = go->scale * 0.85;
 			coin->pos = go->pos;
 			coin->physics = go->physics->Clone();
 			coin->Init();

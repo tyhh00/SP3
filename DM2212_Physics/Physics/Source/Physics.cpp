@@ -23,11 +23,12 @@ Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale)
 	, onGround(true)
 	, enableUpdate(true)
 	, collisionResponse(true)
+	, enableGravity(true)
 {
 }
 
 Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale, Vector3 vel, Vector3 normal, Vector3 dir, Vector3 gravity,
-	Vector3 collisionNormal, float mass, float momentOfIntertia, float angularVelocity, float rotateZ, float inelasticity,
+	Vector3 collisionNormal, float mass, float momentOfInertia, float angularVelocity, float rotateZ, float inelasticity,
 	bool isMoveable, bool isBouncable)
 	: pos(_pos)
 	, scale(_scale)
@@ -46,6 +47,7 @@ Physics::Physics(SHAPE_TYPE _shapeType, Vector3 _pos, Vector3 _scale, Vector3 ve
 	, onGround(true)
 	, enableUpdate(true)
 	, collisionResponse(true)
+	, enableGravity(true)
 {}
 
 Physics::~Physics()

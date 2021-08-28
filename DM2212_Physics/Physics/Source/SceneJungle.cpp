@@ -11,6 +11,8 @@
 //Entity Includes
 #include "Player.h"
 
+#include "Coin.h"
+
 //...
 
 SceneJungle::SceneJungle()
@@ -100,6 +102,19 @@ void SceneJungle::Init()
 			goManager->AddGO(monkey);
 
 			//Delete Grid monkey
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_COIN)
+		{
+			Coin* coin = new Coin(1);
+			coin->active = true;
+			coin->scale = go->scale * 0.85;
+			coin->pos = go->pos;
+			coin->physics = go->physics->Clone();
+			coin->Init();
+			goManager->AddGO(coin);
+
 			delete go;
 			go = nullptr;
 		}
