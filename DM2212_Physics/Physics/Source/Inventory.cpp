@@ -82,6 +82,7 @@ void Inventory::Init(SceneBase* scene)
 	}
 	maxQuantity[Item::I_BONE] = 15;
 	maxQuantity[Item::I_SKULL] = 10;
+	maxQuantity[Item::I_BATTERY] = 10;
 
 	this->scene = scene;
 }

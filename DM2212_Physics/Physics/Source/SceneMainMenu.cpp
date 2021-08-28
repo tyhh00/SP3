@@ -9,6 +9,7 @@
 #include "Debug.h"
 #include "SoundController/SoundController.h"
 #include "Buttons/ButtonFactory.h"
+#include "GameManager.h"
 
 SceneMainMenu::SceneMainMenu() : buttonManager(NULL)
 	, PlayButtonMesh(NULL)
@@ -38,6 +39,7 @@ void SceneMainMenu::Init()
 
 	Math::InitRNG();
 
+	GameManager::GetInstance()->resetAll();
 
 	background = MeshBuilder::GenerateSpriteAnimation(5, 5, 1.0f, 1.0f);
 	background->AddAnimation("idle", 0, 24);
@@ -84,7 +86,7 @@ void SceneMainMenu::Update(double dt)
 	background->Update(dt);
 	
 	buttonManager->Update(this, dt);
-
+	
 	buttonManager->deactivateButton("highlight");
 	for (auto button : buttonManager->getButtonsInteracted())
 	{

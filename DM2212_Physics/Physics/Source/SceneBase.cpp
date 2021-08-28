@@ -778,7 +778,7 @@ void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 		for (unsigned i = 0; i < line.length(); ++i)
 		{
 			Mtx44 characterSpacing;
-			characterSpacing.SetToTranslation(0.5f + accumulator, 0.5f - step * size, 1);
+			characterSpacing.SetToTranslation(0.5f + accumulator, 0.5f - step * size * 0.5, 1);
 			Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 			glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 			mesh->Render((unsigned)line[i] * 6, 6);

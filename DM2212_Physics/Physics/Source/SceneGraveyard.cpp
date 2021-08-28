@@ -235,7 +235,7 @@ void SceneGraveyard::Update(double dt)
 			{
 				dialogueManager->AddDialogue(PLAYER, "??!! Who's there?", LEFT);
 				dialogueManager->AddDialogue(GATEKEEPER, "Oh. You must be the one who broke the space-time continuum and made boss angry", RIGHT, 3.0f);
-				dialogueManager->AddDialogue(GATEKEEPER, "That [inserts time machine part] inside the church belongs to you doesn't it", RIGHT, 3.0f);
+				dialogueManager->AddDialogue(GATEKEEPER, "That machinery part inside the church belongs to you doesn't it", RIGHT, 3.0f);
 				dialogueManager->AddDialogue(PLAYER, "!!!", LEFT);
 				dialogueManager->AddDialogue(GATEKEEPER, "Here's a pickaxe. bring me 5 skulls and 10 bones and I'll let you into the church.", RIGHT, 3.0f);
 				story_state = GY_GATEKEEPER_DIALOGUE;
@@ -257,12 +257,15 @@ void SceneGraveyard::Update(double dt)
 			{
 				if (gatekeeper->CheckEntry())
 				{
-					dialogueManager->AddDialogue(GATEKEEPER, "You have been granted entry to the church.", RIGHT, 2.0f);
+					dialogueManager->AddDialogue(GATEKEEPER, "Did you bring the goods?", RIGHT, 2.0f);
+					dialogueManager->AddDialogue(PLAYER, "Here.");
+					dialogueManager->AddDialogue(GATEKEEPER, "Nice and ripe. Thanks.", RIGHT, 2.0f);
+					dialogueManager->AddDialogue(GATEKEEPER, "You can enter the church now.", RIGHT, 2.0f);
 					story_state = GY_GATEKEEPER2_DIALOGUE;
 				}
 				else
 				{
-					dialogueManager->AddDialogue(GATEKEEPER, "Didn't I say to bring me 5 skulls and 20 bones?", RIGHT, 2.0f);
+					dialogueManager->AddDialogue(GATEKEEPER, "Didn't I say to bring me 5 skulls and 10 bones?", RIGHT, 2.0f);
 				}
 			}
 		}

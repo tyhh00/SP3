@@ -86,7 +86,7 @@ void DialogueManager::Render(SceneBase* scene)
 			scene->RenderMeshOnScreen(dialogue->personaIcon, 70, 15, 20, 30, 0.9f);
 		}
 		// Text Dialogue
-		scene->RenderTextOnScreen(scene->GetMesh(SceneBase::GEO_TEXT), dialogue->text, Color(1.0f, 1.0f, 1.0f), 2, 25, 12, 30, Text::getFont(CALIBRI)->textWidth, 256);
+		scene->RenderTextOnScreen(scene->GetMesh(SceneBase::GEO_TEXT), dialogue->text, Color(1.0f, 1.0f, 1.0f), 2, 25, 12, 50, Text::getFont(CALIBRI)->textWidth, 256);
 	}
 }
 
