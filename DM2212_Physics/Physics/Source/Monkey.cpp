@@ -60,7 +60,6 @@ void Monkey::Update(double dt)
 		go->pos = pos;
 		go->scale = Vector3(3, 3, 3);
 		go->physics->SetMovable(true);
-		go->physics->SetEnableCollisionResponse(true);
 		go->mesh = scene->GetMeshList(SceneBase::GEO_JUNGLE_BANANA);
 		go->geoTypeID = SceneBase::GEO_JUNGLE_BANANA;
 		this->goManager->AddGO(go);

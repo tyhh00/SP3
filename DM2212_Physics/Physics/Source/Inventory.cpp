@@ -125,25 +125,10 @@ void Inventory::Update(double dt)
 		}
 	}
 
+	//toggle on and off inv
 	if (input->IsKeyPressed(VK_TAB))
 	{
 		enableInv = !enableInv;
-	}
-	
-
-	if (input->IsKeyPressed(VK_LEFT))
-	{
-		std::cout << "cycle backward" << std::endl;
-		CycleItem(false);
-		if(currentItem)
-			std::cout << "qty: " << currentItem->GetQuantity() << std::endl;
-	}
-	if (input->IsKeyPressed(VK_RIGHT))
-	{
-		std::cout << "cycle forward" << std::endl;
-		CycleItem(true);
-		if(currentItem)
-			std::cout << "qty: " << currentItem->GetQuantity() << std::endl;
 	}
 
 	if (input->IsKeyPressed('1'))
@@ -172,18 +157,6 @@ void Inventory::Update(double dt)
 		selectedPos = Vector3(buttonManager->getButtonByName("ConsumableItem3")->getUIInfo().originX, buttonManager->getButtonByName("ConsumableItem3")->getUIInfo().originY, 0);
 	}
 
-
-	//buttonManager->Update(scene, dt);
-	//for (auto& buttonCollide : buttonManager->getButtonsInteracted())
-	//{
-	//	for (int i = 0; i < 3; i++)
-	//	{
-	//		if (buttonCollide->buttonClicked->getName() == ("UIitem" + std::to_string(i + 1)) && buttonCollide->justClicked)
-	//		{
-	//			SwitchItem(i);
-	//		}
-	//	}
-	//}
 	itemVector.erase(std::remove(itemVector.begin(), itemVector.end(), nullptr), itemVector.end());
 }
 
