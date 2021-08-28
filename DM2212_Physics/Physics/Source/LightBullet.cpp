@@ -2,6 +2,7 @@
 #include "Debug.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
+#include "../Source/SoundController/SoundController.h"
 
 LightBullet::LightBullet(Vector3 scale, GameObject* attachedPlayer, float _bulletSpeed)
 	: Bullet(nullptr, -1, SHAPE_TYPE::CIRCLE, BULLET_TYPE::LIGHT, scale, false, 1.f, _bulletSpeed)
@@ -9,7 +10,7 @@ LightBullet::LightBullet(Vector3 scale, GameObject* attachedPlayer, float _bulle
 {
 	//ANIMATED SPRITE
 	mesh = MeshBuilder::GenerateQuad("Wall", Color(1, 1, 1), 2.0f);
-	mesh->textureID = LoadTGA("Image/PortalTravelSprite.tga");
+	mesh->textureID = LoadTGA("Image/lightBullet.tga");
 
 	aliveTimer = 0.0;
 	
@@ -37,6 +38,7 @@ void LightBullet::CollidedWith(GameObject* go)
 {
 	if (go->type != GO_PLAYER)
 	{
+		CSoundController::GetInstance()->PlaySoundByID(LIGHTBULLET_COLLIDED);
 		this->dead = true;
 		go->MinusCurrHealth(5);
 	}

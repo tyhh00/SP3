@@ -4,6 +4,7 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 #include "Flashlight.h"
+#include "../Source/SoundController/SoundController.h"
 
 Prowler::Prowler() : Enemy(JG_PROWLER)
 {
@@ -42,6 +43,7 @@ void Prowler::Init(SceneBase* scene, Inventory* inventory, Player* _player, Game
 	physics->SetMovable(true);
 	physics->SetEnableCollisionResponse(true);
 	physics->SetGravity(Vector3(0,-98.f,0));
+	this->AddToResponseWhitelist(GO_PLAYER);
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(20, 9, 5.0f, 5.0f);
 	animatedSprites->AddAnimation("idleRight", 0, 4);
@@ -111,6 +113,7 @@ void Prowler::Update(double dt)
 		{
 			animatedSprites->PlayAnimation("runLeft", -1, 1.0f);
 		}
+		//CSoundController::GetInstance()->PlaySoundByID(PROWLER_FOOTSTEPS);
 		break;
 	case ATTACK:
 	{
@@ -119,6 +122,7 @@ void Prowler::Update(double dt)
 			player->currentHP -= ATTACK_DAMAGE;
 			readyToAttack = false;
 		}
+		CSoundController::GetInstance()->PlaySoundByID(PROWLER_ATTACK);
 
 		attackAnimationTimer += dt;
 		if (attackAnimationTimer > 1.f)
@@ -182,6 +186,7 @@ void Prowler::Update(double dt)
 			{
 				offset = -10;
 			}
+			CSoundController::GetInstance()->PlaySoundByID(PROWLER_SPAWN_MINION);
 
 			Monkey* monkey = new Monkey();
 

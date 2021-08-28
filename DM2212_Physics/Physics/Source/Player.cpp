@@ -18,6 +18,7 @@
 #include "Campfire.h"
 #include "Coin.h"
 #include "GameManager.h"
+#include "../Source/SoundController/SoundController.h"
 
 
 Player::Player() : input(NULL)
@@ -349,18 +350,22 @@ void Player::CollidedWith(GameObject* go)
 		}
 		break;
 	case SceneBase::GEO_JUNGLE_FIRETORCH:
+		CSoundController::GetInstance()->PlaySoundByID(ITEM_PICKUP);
 		goManager->RemoveGO(go);
 		inventory->AddItem(new FireTorch(go->mesh));
 		break;
 	case SceneBase::GEO_JUNGLE_APPLE:
+		CSoundController::GetInstance()->PlaySoundByID(ITEM_PICKUP);
 		goManager->RemoveGO(go);
 		inventory->AddItem(new Apple(go->mesh));
 		break;
 	case SceneBase::GEO_JUNGLE_PISTOL:
+		CSoundController::GetInstance()->PlaySoundByID(ITEM_PICKUP);
 		goManager->RemoveGO(go);
-		inventory->AddItem(new Pistol(cam, goManager, pos, new LightBullet(Vector3(2,2,2), this, 30), go->mesh));
+		inventory->AddItem(new Pistol(cam, goManager, pos, new LightBullet(Vector3(1.5, 0.75f, 2), this, 60), go->mesh));
 		break;
 	case SceneBase::GEO_JUNGLE_BANANA:
+		CSoundController::GetInstance()->PlaySoundByID(ITEM_PICKUP);
 		goManager->RemoveGO(go);
 		inventory->AddItem(new Cheese(go->mesh));
 		break;

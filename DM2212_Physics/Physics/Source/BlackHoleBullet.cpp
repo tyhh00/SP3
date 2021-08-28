@@ -158,7 +158,7 @@ void BlackHoleBullet::CollidedWith(GameObject* go)
 	{
 		if (go->type == GameObject::GO_TILE)
 		{
-			DEBUG_MSG("Found tile");
+			//DEBUG_MSG("Found tile");
 			if (scale.x >= 7 && scale.y >= 7)
 			{
 				if (go->IsResponable())
@@ -177,7 +177,7 @@ void BlackHoleBullet::CollidedWith(GameObject* go)
 	{
 		if (go->type == GO_ENEMY || go->type == GO_BULLET && go != this)
 		{
-			DEBUG_MSG("FOUND");
+			//DEBUG_MSG("FOUND");
 			if (go->pos.x < 0) go->pos.x *= -1;
 			Vector3 dis = this->pos - go->pos;
 			if (go->type == GO_BULLET)
@@ -190,16 +190,16 @@ void BlackHoleBullet::CollidedWith(GameObject* go)
 			}
 			if (!dis.IsZero())
 			{
-				DEBUG_MSG("DIS length square" << dis.LengthSquared());
+				//DEBUG_MSG("DIS length square" << dis.LengthSquared());
 				dis.z = 0;
 				Vector3 dis_N = dis.Normalized();
 				if (dis.LengthSquared() > 1 * 1 && dis.LengthSquared() <= 140 * 140)
 				{
 					go->physics->SetVelocity(Vector3(0, 0, 0));
-					DEBUG_MSG("PRE " << go->pos << "\n" << "bh pos " << pos);
+					//DEBUG_MSG("PRE " << go->pos << "\n" << "bh pos " << pos);
 					go->pos += dis_N * 14 * deltaTime;
 					go->physics->pos += dis_N * 14 * deltaTime;
-					DEBUG_MSG("GO MOVING INTO BH pos " << go->pos << "\n" << "bh pos " << pos);
+					//DEBUG_MSG("GO MOVING INTO BH pos " << go->pos << "\n" << "bh pos " << pos);
 				}
 
 				if (dis.LengthSquared() <= 8 * 8)

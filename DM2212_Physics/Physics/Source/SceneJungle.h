@@ -15,6 +15,7 @@
 #include "LightBullet.h"
 #include "BananaBullet.h"
 #include "Input.h"
+#include "Coin.h"
 #include "GameObjectManager.h"
 #include "GameManager.h"
 #include "Grappling.h"

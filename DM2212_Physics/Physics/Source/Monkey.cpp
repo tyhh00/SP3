@@ -4,6 +4,7 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 #include "Flashlight.h"
+#include "../Source/SoundController/SoundController.h"
 
 Monkey::Monkey() : Enemy(JG_MONKEY)
 {
@@ -35,6 +36,7 @@ void Monkey::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, Bulle
 	physics->SetMovable(true);
 	physics->SetEnableCollisionResponse(true);
 	physics->SetGravity(Vector3(0, -98.f, 0));
+	this->AddToResponseWhitelist(GO_PLAYER);
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(1, 18, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("jumpRight", 0, 2);
@@ -87,6 +89,7 @@ void Monkey::Update(double dt)
 				physics->SetVelocity(Vector3((*playerPos - this->pos).Normalized().x * movement_speed, physics->GetVelocity().y, physics->GetVelocity().z));
 				if (shootTimer >= 2)
 				{
+					CSoundController::GetInstance()->PlaySoundByID(MONKEY_BANANA);
 					bulletSpawner->SpawnBullet(this->pos, Vector3((*playerPos - pos).Normalized().x, 0, 0),(*playerPos - this->pos));
 					shootTimer = 0;
 				}

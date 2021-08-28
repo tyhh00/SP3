@@ -2,6 +2,7 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 #include "Pistol.h"
+#include "../Source/SoundController/SoundController.h"
 
 Pistol::Pistol(Camera* _cam, GameObjectManager* _goManager, Vector3& _playerPos, LightBullet* _lightBullet, Mesh* _mesh) : Weapon(I_PISTOL, mesh, bulletSpawner)
 {
@@ -34,9 +35,10 @@ void Pistol::Update(double dt)
 		CursorToWorldPosition(x, y);
 
 		Vector3 displacement = Vector3(x, y, 0) - *playerPos;
-		bulletSpawner->SpawnBullet(*playerPos, displacement, displacement);
+		bulletSpawner->SpawnBullet(Vector3(playerPos->x, playerPos->y + 1, 0), displacement, displacement);
 
 		shootInterval = 0;
+		CSoundController::GetInstance()->PlaySoundByID(LIGHTBULLET_SHOOT);
 	}
 }
 
