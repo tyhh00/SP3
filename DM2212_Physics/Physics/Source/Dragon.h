@@ -13,7 +13,7 @@ public:
 	Dragon();
 	~Dragon();
 
-	void Init(SceneBase* scene, Vector3& target, int numParts, GameObjectManager* goManager); // keep target only if you need to access player pos
+	void Init(SceneBase* scene, GameObject* target, int numParts, GameObjectManager* goManager); // keep target only if you need to access player pos
 	void Update(double dt);
 	void Render(SceneBase* scene);
 	float convertidk(float pain);
@@ -31,7 +31,7 @@ private:
 	
 	ENEMY_STATE state;
 
-	Vector3 *playerPos; // to keep track of player pos
+	GameObject *player; // to keep track of player pos
 	
 	GameObject* dragonHead;
 

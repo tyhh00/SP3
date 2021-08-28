@@ -54,12 +54,6 @@ void Crab::Init(GameObject* target, MOVEMENT_TYPE type)
 
 void Crab::Update(double dt)
 { 
-
-	if (timeout > 0)
-	{
-		timeout -= dt;
-	}
-
 	switch (state)
 	{
 	case IDLE:
@@ -132,6 +126,11 @@ void Crab::Update(double dt)
 		}
 		break;
 	case ATTACK:
+		if (timeout > 0)
+		{
+			timeout -= dt;
+		}
+
 		if ((player->pos - pos).Length() < attackRange) //checks if player within attack range
 		{
 			if (timeout <= 0) //cooldown for attack

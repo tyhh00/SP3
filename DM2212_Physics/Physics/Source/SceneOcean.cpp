@@ -117,7 +117,7 @@ void SceneOcean::Init()
 			dragon->physics->SetInelasticity(0.99f);
 			dragon->physics->SetIsBouncable(false);
 			dragon->physics->SetGravity(Vector3(0, 0, 0));			
-			dragon->Init(this, player->pos, 8, goManager);
+			dragon->Init(this, player, 8, goManager);
 			dragon->mesh = nullptr;
 			goManager->AddGO(dragon);
 

@@ -16,11 +16,11 @@ Dragon::~Dragon()
 	}
 }
 
-void Dragon::Init(SceneBase* scene,Vector3 &target, int numParts, GameObjectManager* goManager)
+void Dragon::Init(SceneBase* scene,GameObject* target, int numParts, GameObjectManager* goManager)
 {
 	this->scene = scene;
 	this->inventory = inventory;
-	playerPos = &target;
+	player = target;
 	goM = goManager;
 
 	this->maxHP = 100;
@@ -104,12 +104,17 @@ void Dragon::Update(double dt)
 		dragon.clear();
 	}
 
-
 	switch (state)
 	{
 	case INACTIVE:
 		break;
 	case SINCURVE:
+
+		if (timeout > 0)
+		{
+			timeout -= dt;
+		}
+
 		for (int i = 0; i < dragon.size(); i++)
 		{
 			float angleZ = (360.f / dragon.size()) * i - angle;
@@ -130,6 +135,20 @@ void Dragon::Update(double dt)
 			dragon.at(i)->physics->SetNormal(Vector3(cos(Math::DegreeToRadian(dragon.at(i)->physics->GetRotateZ())), 
 				sin(Math::DegreeToRadian(dragon.at(i)->physics->GetRotateZ())), 0));
 			
+			dragon.at(i)->pos.x -= 10 * dt;
+
+			if (abs(dragon.at(i)->pos.x - player->pos.x) < 8)
+			{
+				if (abs(dragon.at(i)->pos.y - player->pos.y) < 8)
+				{
+					if (timeout <= 0)
+					{
+						player->currentHP -= 5;
+						timeout = 2;
+					}
+					std::cout << player->currentHP << std::endl;
+				}
+			}
 		//5	dragon.at(i)->physics->SetVelocity(Vector3(-dt, dragon.at(i)->physics->GetVelocity().y, dragon.at(i)->physics->GetVelocity().z));
 		}
 		break;
