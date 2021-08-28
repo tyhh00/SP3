@@ -358,7 +358,7 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_JUNGLE_PISTOL:
 		goManager->RemoveGO(go);
-		inventory->AddItem(new Pistol(cam, goManager, pos, new LightBullet(Vector3(2,2,2), this, 30), go->mesh));
+		inventory->AddItem(new Pistol(cam, goManager, pos, new LightBullet(Vector3(2,2,2), this, 60), go->mesh));
 		break;
 	case SceneBase::GEO_JUNGLE_BANANA:
 		goManager->RemoveGO(go);
