@@ -37,6 +37,7 @@ void SceneJungle::Init()
 	m_worldHeight = m_screenHeight * 2;
 	m_worldWidth = m_screenWidth * 15;
 
+	dialogueManager = DialogueManager::GetInstance();
 
 	//Inventory init
 	inventory->Init(this);
@@ -95,7 +96,7 @@ void SceneJungle::Init()
 			monkey->physics->SetInelasticity(0.99f);
 			monkey->physics->SetIsBouncable(false);
 			monkey->physics->SetGravity(Vector3(0, 0, 0));
-			monkey->Init(this, inventory, player->pos, new BulletSpawner(goManager, new BananaBullet(Vector3(2, 2, 2), monkey, 30)));
+			monkey->Init(this, goManager, inventory, player->pos, new BulletSpawner(goManager, new BananaBullet(Vector3(2, 2, 2), monkey, 30)));
 
 			monkey->AddBottomSprite();
 			monkey->bottomSprite->mesh = meshList[GEO_WALL];
@@ -191,8 +192,8 @@ void SceneJungle::Init()
 	ability2->SetGOManager(this->goManager);*/
 
 	gameManager->initAbilities(this, &camera, goManager, player);
-	gameManager->setAbility(1, ABILITY_DASH);
-	gameManager->setAbility(2, ABILITY_GRAPPLER);
+	//gameManager->setAbility(1, ABILITY_DASH);
+	//gameManager->setAbility(2, ABILITY_GRAPPLER);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 }
 
@@ -202,6 +203,12 @@ void SceneJungle::Update(double dt)
 	inventory->Update(dt);
 	camera.Update(player->pos, dt);
 
+	if (!playedDialogue)
+	{
+		dialogueManager->AddDialogue(PLAYER, "Wow, what a change in environment!", LEFT, 3.0f);
+		dialogueManager->AddDialogue(PLAYER, "Let's explore this jungle :D", LEFT, 3.0f);
+		playedDialogue = true;
+	}
 	if (input->IsKeyPressed('P'))
 	{
 		std::cout << "PRESSESD P" << std::endl;

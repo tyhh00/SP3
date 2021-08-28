@@ -152,8 +152,6 @@ void SceneOcean::Init()
 
 	// ABILITIES
 	gameManager->initAbilities(this, &camera, goManager, player);
-	gameManager->setAbility(1, ABILITY_SLOWTIME);
-	//gameManager->setAbility(2, ABILITY_DASH);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 
 	// TRIDENT

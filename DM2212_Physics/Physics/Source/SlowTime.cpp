@@ -23,7 +23,7 @@ void SlowTimeAbility::Update(double dt)
 	if (abilityCD_timeleft < 0)
 		abilityCD_timeleft = 0.0f;
 
-	if (input->IsKeyPressed('Q') && abilityTimer <= 0)
+	if (input->IsKeyPressed(buttonChar) && abilityTimer <= 0)
 	{
 		abilityTimer = 8;
 		goManager->SetmSpeed(0.1f);

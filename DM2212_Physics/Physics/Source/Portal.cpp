@@ -42,7 +42,7 @@ void PortalAbility::Update(double dt)
 	{
 	case DEFAULT:
 		// CHECK FOR ABILITY USE CONDITIONS
-		if (Input::GetInstance()->IsKeyPressed('Z'))
+		if (Input::GetInstance()->IsKeyPressed(buttonChar))
 		{
 			if (!endPortal.active && abilityCD_timeleft <= 0)
 			{
@@ -75,7 +75,7 @@ void PortalAbility::Update(double dt)
 			anim_timer += dt;
 		}
 		
-		if (Input::GetInstance()->IsKeyDown('Z'))
+		if (Input::GetInstance()->IsKeyDown(buttonChar))
 		{
 			double mousePosX, mousePosY;
 			CursorToWorldPosition(mousePosX, mousePosY);
@@ -85,7 +85,7 @@ void PortalAbility::Update(double dt)
 	case PLACING:
 	{
 		// CHECK FOR PLACE PORTAL CONDITIONS
-		if (!Input::GetInstance()->IsKeyDown('Z'))
+		if (!Input::GetInstance()->IsKeyDown(buttonChar))
 		{
 			// START OPENING END PORTAL
 			ghost_portal = false;

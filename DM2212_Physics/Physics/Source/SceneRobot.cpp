@@ -170,8 +170,6 @@ void SceneRobot::Init()
 
 	// ABILITIES
 	gameManager->initAbilities(this, &camera, goManager, player);
-	gameManager->setAbility(1, ABILITY_BLACKHOLE);
-	gameManager->setAbility(2, ABILITY_RECALL);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 
 }

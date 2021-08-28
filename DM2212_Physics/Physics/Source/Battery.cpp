@@ -12,6 +12,7 @@ Battery::Battery(Mesh* _mesh, Inventory* inventory, int _quantity) : Consumable(
 	input = Input::GetInstance();
 	mesh = _mesh;
 	this->inventory = inventory;
+	isDurable = true;
 }
 
 void Battery::Init()

@@ -110,6 +110,14 @@ Ability* GameManager::getCurrAbility(int abilityNum)
 void GameManager::setAbility(int abilityNum, ABILITY_TYPE type)
 {
 	currAbility[abilityNum - 1] = abilityArray[type];
+	if (abilityNum == 1)
+	{
+		currAbility[abilityNum - 1]->SetActivatingKey(ABILITY_KEYBIND_1);
+	}
+	else
+	{
+		currAbility[abilityNum - 1]->SetActivatingKey(ABILITY_KEYBIND_2);
+	}
 }
 
 void GameManager::removeAbility(int abilityNum)
