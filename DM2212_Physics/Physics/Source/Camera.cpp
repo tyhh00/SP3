@@ -95,7 +95,6 @@ void Camera::Update(Vector3 focusTarget, double dt)
 		}
 	}
 
-	Constraint();
 
 	
 	if (target != newTarget)
@@ -103,6 +102,7 @@ void Camera::Update(Vector3 focusTarget, double dt)
 
 		UpdateTarget(dt);
 	}
+	Constraint();
 
 	// update cam pos based on target
 	position.x = target.x;
@@ -248,22 +248,22 @@ void Camera::ToggleAutoLock(bool on)
 
 void Camera::Constraint()
 {
-	if (newTarget.x + screenWidth * 0.5 > worldWidth)
+	if (target.x + screenWidth * 0.5 > worldWidth)
 	{
-		newTarget.x = worldWidth - screenWidth * 0.5;
+		target.x = worldWidth - screenWidth * 0.5;
 	}
-	else if (newTarget.x - screenWidth * 0.5 < 0)
+	else if (target.x - screenWidth * 0.5 < 0)
 	{
-		newTarget.x = screenWidth * 0.5;
+		target.x = screenWidth * 0.5;
 	}
 
-	if (newTarget.y + screenHeight * 0.5 > worldHeight)
+	if (target.y + screenHeight * 0.5 > worldHeight)
 	{
-		newTarget.y = worldHeight - screenHeight * 0.5;
+		target.y = worldHeight - screenHeight * 0.5;
 	}
-	else if (newTarget.y - screenHeight * 0.5 < 0)
+	else if (target.y - screenHeight * 0.5 < 0)
 	{
-		newTarget.y = screenHeight * 0.5;
+		target.y = screenHeight * 0.5;
 	}
 }
 

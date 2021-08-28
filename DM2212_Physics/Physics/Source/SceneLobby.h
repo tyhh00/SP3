@@ -39,6 +39,8 @@ protected:
 	bool showMachinePartsUI;
 	bool showAbilityUI;
 
+	bool selectedAbilities = false;
+	bool showEtoInteract = false;
 
 	Player* player;
 	GameObject* timeMachine, * abilityMachine;

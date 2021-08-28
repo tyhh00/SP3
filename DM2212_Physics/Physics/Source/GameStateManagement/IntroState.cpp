@@ -41,7 +41,7 @@ bool CIntroState::Init(void)
 
 	// Load the sounds into CSoundController
 	soundController = CSoundController::GetInstance();
-	soundController->Init();
+	//soundController->Init();
 	soundController->LoadSound("Sounds\\Sound_BombExplosion.wav", SOUND_TYPE::BOMB_EXPLOSION, true);
 	soundController->LoadSound("Sounds\\Sound_DirtLand.wav", SOUND_TYPE::LANDED_GRASS, true);
 	soundController->LoadSound("Sounds\\Sound_DirtWalk.ogg", SOUND_TYPE::WALKING_GRASS, true);
@@ -66,6 +66,8 @@ bool CIntroState::Init(void)
 	soundController->LoadSound("Sounds\\Sound_GameBG1.wav", SOUND_TYPE::BG_ARCADE, true, true);
 	soundController->LoadSound("Sounds\\Sound_GameBG2.wav", SOUND_TYPE::BG_ARCADE2, true, true);
 	soundController->LoadSound("Sounds\\Sound_MainMenu.wav", SOUND_TYPE::BG_MAINMENU, true, true);
+	soundController->LoadSound("Sounds\\Sound_GraveyardBGM.wav", SOUND_TYPE::BG_GRAVEYARD, true, true);
+	soundController->LoadSound("Sounds\\Sound_ChurchBG.wav", SOUND_TYPE::BG_CHURCH, true, true);
 
 
 	sceneSplash = new SceneSplashScreen();

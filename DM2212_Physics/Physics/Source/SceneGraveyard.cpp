@@ -7,6 +7,7 @@
 #include "LevelLoader.h"
 #include "Utility.h"
 #include "Debug.h"
+#include "SoundController/SoundController.h"
 
 //Entity Includes
 #include "Player.h"
@@ -172,6 +173,8 @@ void SceneGraveyard::Init()
 	// ABILITIESZ
 	gameManager->initAbilities(this, &camera, goManager, player);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
+
+	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_GRAVEYARD);
 
 	story_state = GY_INTRO;
 }
@@ -588,6 +591,9 @@ void SceneGraveyard::LoadBossScene()
 	// ABILITIES
 	gameManager->initAbilities(this, &camera, goManager, player);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
+
+	CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_GRAVEYARD, 1, 0.5);
+	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_CHURCH);
 }
 
 void SceneGraveyard::Exit()
@@ -596,4 +602,7 @@ void SceneGraveyard::Exit()
 	//Cleanup GameObjects
 	goManager->Exit();
 	inventory->Clear();
+
+	CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_GRAVEYARD, 1, 0.5);
+	CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_CHURCH, 1, 0.5);
 }

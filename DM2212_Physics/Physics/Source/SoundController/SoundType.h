@@ -7,6 +7,8 @@ enum SOUND_TYPE {
 	BG_ARCADE,
 	BG_ARCADE2,
 	WALKING_GRASS,
+	BG_GRAVEYARD,
+	BG_CHURCH,
 	
 	//Non-Loopable
 	WARP,
