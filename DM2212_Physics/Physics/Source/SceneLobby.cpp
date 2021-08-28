@@ -528,4 +528,5 @@ void SceneLobby::Exit()
 	{
 		buttonManager->deleteButton(machinePartsUIButtons[i]);
 	}
+	machinePartsUIButtons.clear();
 }

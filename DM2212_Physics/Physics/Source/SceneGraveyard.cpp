@@ -295,6 +295,7 @@ void SceneGraveyard::Update(double dt)
 		if (reaper->currentHP <= 0)
 		{
 			machinepart->active = true;
+			machinepart->pos = reaper->pos;
 			story_state = CHURCH_END;
 		}
 		break;
@@ -587,10 +588,10 @@ void SceneGraveyard::LoadBossScene()
 	camera.SetMode(Camera::CENTER);
 
 	// ABILITIES
-	PortalAbility* ability = new PortalAbility;
-	ability->SetCamera(&camera);
-	ability->SetScenePointer(this);
-	player->SetAbilities(ability, nullptr);
+	gameManager->initAbilities(this, &camera, goManager, player);
+	gameManager->setAbility(1, ABILITY_DASH);
+	gameManager->setAbility(2, ABILITY_PORTAL);
+	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 }
 
 void SceneGraveyard::Exit()
