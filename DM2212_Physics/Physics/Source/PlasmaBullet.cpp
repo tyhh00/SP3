@@ -80,7 +80,7 @@ void PlasmaBullet::CollidedWith(GameObject* go)
 	{
 		if (go->IsResponable())
 		{
-			go->SetTemporaryDisable(8.7);
+			go->SetTemporaryDisable(4);
 		}
 		else if (go->IsDamagableByExplosive())
 		{

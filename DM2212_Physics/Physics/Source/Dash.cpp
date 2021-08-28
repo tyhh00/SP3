@@ -1,7 +1,8 @@
-
+ 
 #include "Dash.h"
 #include "Application.h"
 #include "MeshBuilder.h"
+#include "Player.h"
 
 
 DashAbility::DashAbility(Mesh* mesh) : Ability('Q', ABILITY_DASH, 3.f, mesh)
@@ -10,11 +11,14 @@ DashAbility::DashAbility(Mesh* mesh) : Ability('Q', ABILITY_DASH, 3.f, mesh)
 	dashTimer = 0;
 	dashDir = 0;
 	isDashing = false;
-	enableCollision = false;
 	maxVel = 0;
 }
 
 DashAbility::~DashAbility()
+{
+}
+
+void DashAbility::Init()
 {
 }
 
@@ -27,7 +31,7 @@ void DashAbility::Update(double dt)
 	if (input->IsKeyPressed(buttonChar) && abilityCD_timeleft <= 0)
 	{
 		//check if player's vel is not zero and is not already dashing
-		if (!playerPhysics->GetVelocity().IsZero() && !isDashing)
+		if (!player->physics->GetVelocity().IsZero() && !isDashing)
 		{
 			abilityCD_timeleft = GetCooldownDuration();
 			isDashing = true;
@@ -38,10 +42,10 @@ void DashAbility::Update(double dt)
 	if (isDashing)
 	{
 		//disable gravity
-		playerPhysics->SetGravityUpdate(false);
+		player->physics->SetGravityUpdate(false);
 
 		//disable collision
-		enableCollision = false;
+		player->enableCollision = false;
 
 		//start dash timer
 		dashTimer += dt;
@@ -53,12 +57,12 @@ void DashAbility::Update(double dt)
 			//reset dash timer, is dashing and physics update
 			dashTimer = 0;
 			isDashing = false;
-			enableCollision = true;
-			playerPhysics->SetGravityUpdate(true);
+			player->enableCollision = true;
+			player->physics->SetGravityUpdate(true);
 		}
 
 		//double check if player vel is not zero if not will have divide by zero error in normalized()
-		if (!playerPhysics->GetVelocity().IsZero())
+		if (!player->physics->GetVelocity().IsZero())
 		{
 			//use the player's accel to determine the dir of the dash
 			float dir = dashDir * 200 * 200 * dt;
@@ -67,14 +71,21 @@ void DashAbility::Update(double dt)
 			std::cout << maxVel << std::endl;
 
 			//add the dash dir to the player's vel
-			playerPhysics->AddVelocity(Vector3(dir, 0, 0));
+			player->physics->AddVelocity(Vector3(dir, 0, 0));
 		}
-		std::cout << "VEL: " << playerPhysics->GetVelocity() << std::endl;
+		std::cout << "VEL: " << player->physics->GetVelocity() << std::endl;
 	}
 	else
 	{
 		maxVel = 20;
-		enableCollision = true;
+		player->enableCollision = true;
+	}
+
+	if (isDashing)
+	{
+		Player* playerptr = dynamic_cast<Player*>(player);
+		dashDir = playerptr->dashDir;
+		playerptr->curr_max_vel = maxVel;
 	}
 
 }
@@ -83,16 +94,14 @@ void DashAbility::Render()
 {
 }
 
-void DashAbility::UpdatePlayer(int& _dashDir, Physics* _playerPhysics, float& _maxVel, bool& _enableCollision)
-{
-	playerPhysics = _playerPhysics;
-	_enableCollision = enableCollision;
-	if (isDashing)
-	{
-		dashDir = _dashDir;
-		_maxVel = maxVel;
-	}
-}
+//void DashAbility::UpdatePlayer(int& _dashDir, Physics* _playerPhysics, float& _maxVel, bool& _enableCollision)
+//{
+//	if (isDashing)
+//	{
+//		dashDir = _dashDir;
+//		_maxVel = maxVel;
+//	}
+//}
 
 ABILITY_TYPE DashAbility::GetAbilityType()
 {

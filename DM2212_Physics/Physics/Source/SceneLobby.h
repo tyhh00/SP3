@@ -13,6 +13,7 @@
 #include "GameStateManagement/GameStateManager.h"
 #include "SceneManager.h"
 #include "Buttons/DialogueManager.h"
+#include "GameManager.h"
 
 
 class SceneLobby : public SceneBase
@@ -35,12 +36,27 @@ protected:
 
 	float m_speed;
 
-	Inventory* inventory;
+	bool showMachinePartsUI;
+	bool showAbilityUI;
+
+
+	Player* player;
+	GameObject* timeMachine, * abilityMachine;
+	LobbyPortal* portal_graveyard, *portal_jungle, *portal_ocean, *portal_robot;
+
+	Mesh* machinePartsUIBG, * machinePartsSlot;
+	std::vector<Button*> machinePartsUIButtons;
+	ButtonManager* buttonManager;
+
+	Mesh* abilityUIBG, * grapplingAbilityUI, * dashAbilityUI, * portalAbilityUI, * recallAbilityUI, * slowTimeAbilityUI, * blackHoleAbilityUI;
+	Mesh* ability1, * ability2, *clearAbility;
+	std::vector<Button*> abilityUIButtons;
+
 	Input* input;
+	Inventory* inventory;
 	GameObjectManager* goManager;
 	DialogueManager* dialogueManager;
-	Player* player;
-	LobbyPortal* portal_graveyard, *portal_jungle, *portal_ocean, *portal_robot;
+	GameManager* gameManager;
 
 	double gridLength, gridHeight;
 	void CursorToWorldPosition(double& theX, double& theY);

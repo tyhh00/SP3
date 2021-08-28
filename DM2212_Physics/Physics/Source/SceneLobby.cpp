@@ -20,7 +20,33 @@ SceneLobby::SceneLobby()
 	input = Input::GetInstance();
 	goManager = new GameObjectManager();
 	inventory = new Inventory();
-	
+	buttonManager = new ButtonManager(80, 60);
+
+	machinePartsUIBG = MeshBuilder::GenerateQuad("Machine Parts Display BG", Color(1, 1, 1), 1.0f);
+	machinePartsUIBG->textureID = LoadTGA("Image/TimeMachineBG.tga");
+	machinePartsSlot = MeshBuilder::GenerateQuad("Machine Parts Slots", Color(1, 1, 1), 1.0f);
+	machinePartsSlot->textureID = LoadTGA("Image/TimeMachinePartsSlot.tga");
+
+	abilityUIBG = MeshBuilder::GenerateQuad("Machine Parts Slots", Color(1, 1, 1), 1.0f);
+	abilityUIBG->textureID = LoadTGA("Image/TimeMachineBG.tga");
+	grapplingAbilityUI = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	grapplingAbilityUI->textureID = LoadTGA("Image/Grappling.tga");
+	dashAbilityUI = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	dashAbilityUI->textureID = LoadTGA("Image/Dash.tga");
+	portalAbilityUI = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	portalAbilityUI->textureID = LoadTGA("Image/PortalAbilityIcon.tga");
+	recallAbilityUI = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	recallAbilityUI->textureID = LoadTGA("Image/recall_ability.tga");
+	slowTimeAbilityUI = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	slowTimeAbilityUI->textureID = LoadTGA("Image/slow_time.tga");
+	blackHoleAbilityUI = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	blackHoleAbilityUI->textureID = LoadTGA("Image/black_hole.tga");
+	ability1 = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	ability1->textureID = LoadTGA("Image/blackUI.tga");
+	ability2 = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	ability2->textureID = LoadTGA("Image/blackUI.tga");
+	clearAbility = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
+	clearAbility->textureID = LoadTGA("Image/Delete.tga");
 }
 
 SceneLobby::~SceneLobby()
@@ -35,6 +61,66 @@ SceneLobby::~SceneLobby()
 	{
 		delete inventory;
 		inventory = NULL;
+	}
+	if (buttonManager)
+	{
+		delete buttonManager;
+		buttonManager = NULL;
+	}
+	if (machinePartsUIBG)
+	{
+		delete machinePartsUIBG;
+		machinePartsUIBG = NULL;
+	}
+	if (machinePartsSlot)
+	{
+		delete machinePartsSlot;
+		machinePartsSlot = NULL;
+	}
+	if (abilityUIBG)
+	{
+		delete abilityUIBG;
+		abilityUIBG = NULL;
+	}
+	if (dashAbilityUI)
+	{
+		delete dashAbilityUI;
+		dashAbilityUI = NULL;
+	}
+	if (portalAbilityUI)
+	{
+		delete portalAbilityUI;
+		portalAbilityUI = NULL;
+	}
+	if (recallAbilityUI)
+	{
+		delete recallAbilityUI;
+		recallAbilityUI = NULL;
+	}
+	if (slowTimeAbilityUI)
+	{
+		delete slowTimeAbilityUI;
+		slowTimeAbilityUI = NULL;
+	}
+	if (blackHoleAbilityUI)
+	{
+		delete blackHoleAbilityUI;
+		blackHoleAbilityUI = NULL;
+	}	
+	if (ability1)
+	{
+		delete ability1;
+		ability1 = NULL;
+	}
+	if (ability2)
+	{
+		delete ability2;
+		ability2 = NULL;
+	}
+	if (clearAbility)
+	{
+		delete clearAbility;
+		clearAbility = NULL;
 	}
 }
 
@@ -56,14 +142,121 @@ void SceneLobby::Init()
 	m_speed = 1.f;
 	Math::InitRNG();
 
+	// Game Manager
+	gameManager = GameManager::GetInstance();
 	// GO Manager
 	goManager->Init();
 	// Inventory 
 	inventory->Init(this);
+
+	showAbilityUI = false;
 	
 	// Unique Meshes
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BG]->textureID = LoadTGA("Image/bg_lobby.tga");
+
+
+	// Buttons
+	if (gameManager->getMachineStatus(1))
+	{
+		Button* part = ButtonFactory::createNoTextButton("machinePart1", 31.25, 37.5,
+			5, 5, meshList[GEO_MACHINEPART_1]);
+		machinePartsUIButtons.push_back(part);
+	}
+	if (gameManager->getMachineStatus(2))
+	{
+		Button* part = ButtonFactory::createNoTextButton("machinePart2", 47.5, 37.5,
+			5, 5, meshList[GEO_MACHINEPART_2]);
+		machinePartsUIButtons.push_back(part);
+	}
+	if (gameManager->getMachineStatus(3))
+	{
+		Button* part = ButtonFactory::createNoTextButton("machinePart3", 31.25, 21.25,
+			5, 5, meshList[GEO_MACHINEPART_3]);
+		machinePartsUIButtons.push_back(part);
+	}
+	if (gameManager->getMachineStatus(4))
+	{
+		Button* part = ButtonFactory::createNoTextButton("machinePart4", 47.5, 21.25,
+			5, 5, meshList[GEO_MACHINEPART_4]);
+		machinePartsUIButtons.push_back(part);
+	}
+	Button* machinePartSlot1 = ButtonFactory::createNoTextButton("machinePartSlot1", 31.25, 37.5,
+		15, 15, machinePartsSlot);
+	machinePartsUIButtons.push_back(machinePartSlot1);
+	Button* machinePartSlot2 = ButtonFactory::createNoTextButton("machinePartSlot2", 47.5, 37.5,
+		15, 15, machinePartsSlot);
+	machinePartsUIButtons.push_back(machinePartSlot2);
+	Button* machinePartSlot3 = ButtonFactory::createNoTextButton("machinePartSlot3", 31.25, 21.25,
+		15, 15, machinePartsSlot);
+	machinePartsUIButtons.push_back(machinePartSlot3);
+	Button* machinePartSlot4 = ButtonFactory::createNoTextButton("machinePartSlot4", 47.5, 21.25,
+		15, 15, machinePartsSlot);
+	machinePartsUIButtons.push_back(machinePartSlot4);
+
+	Button* machinePartsBG = ButtonFactory::createNoTextButton("machinePartBG", 40, 30,
+		40, 40, machinePartsUIBG);
+	machinePartsUIButtons.push_back(machinePartsBG);
+
+	for (int i = 0; i < machinePartsUIButtons.size(); i++)
+	{
+		machinePartsUIButtons[i]->disable();
+		buttonManager->addButton(machinePartsUIButtons[i]);
+	}
+	
+	showMachinePartsUI = false;
+	
+
+
+
+	//ABILITY
+	Button* abilitySlot1 = ButtonFactory::createNoTextButton("abilitySlot1", 23.125, 37.5,
+		15, 15, grapplingAbilityUI);
+	abilityUIButtons.push_back(abilitySlot1);
+
+	Button* abilitySlot2 = ButtonFactory::createNoTextButton("abilitySlot2", 39.375, 37.5,
+		10, 10, dashAbilityUI);
+	abilityUIButtons.push_back(abilitySlot2);
+
+	Button* abilitySlot3 = ButtonFactory::createNoTextButton("abilitySlot3", 55.625, 37.5,
+		10, 10, portalAbilityUI);
+	abilityUIButtons.push_back(abilitySlot3);
+
+	Button* abilitySlot4 = ButtonFactory::createNoTextButton("abilitySlot4", 23.125, 21.25,
+		10, 10, recallAbilityUI);
+	abilityUIButtons.push_back(abilitySlot4);
+
+	Button* abilitySlot5 = ButtonFactory::createNoTextButton("abilitySlot5", 39.375, 21.25,
+		10, 10, slowTimeAbilityUI);
+	abilityUIButtons.push_back(abilitySlot5);
+
+	Button* abilitySlot6 = ButtonFactory::createNoTextButton("abilitySlot6", 55.625, 21.25,
+		10, 10, blackHoleAbilityUI);
+	abilityUIButtons.push_back(abilitySlot6);
+
+	Button* abilityDelete = ButtonFactory::createTextButton("abilityDelete", 43, 1, 15, 15, 0, 0, Color(1, 1, 1), "Clear", 4);
+	abilityUIButtons.push_back(abilityDelete);
+
+	Button* abilityBG = ButtonFactory::createNoTextButton("abilityBG", 40, 30,
+		70, 50, abilityUIBG);
+	abilityUIButtons.push_back(abilityBG);
+
+	Button* abilitySelection1 = ButtonFactory::createNoTextButton("abilitySelection1", 100, 37.5,
+		15, 15, ability1);
+	buttonManager->addButton(abilitySelection1);
+
+	Button* abilitySelection2 = ButtonFactory::createNoTextButton("abilitySelection2", 100, 37.5,
+		15, 15, ability2);
+	buttonManager->addButton(abilitySelection2);
+
+
+	for (int i = 0; i < abilityUIButtons.size(); i++)
+	{
+		abilityUIButtons[i]->disable();
+		buttonManager->addButton(abilityUIButtons[i]);
+	}
+
+
 
 	//Level Loading
 	std::vector<GameObject*> tiles;
@@ -88,7 +281,7 @@ void SceneLobby::Init()
 			goManager->AddGO(player);
 
 			DEBUG_MSG("From Phy Editor: " << player->scale);
-			
+
 
 			//Delete Grid Player
 			delete go;
@@ -150,9 +343,17 @@ void SceneLobby::Init()
 			delete go;
 			go = nullptr;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_MACHINE1)
+		{
+			timeMachine = go;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_ABILITY_MACHINE)
+		{
+			abilityMachine = go;
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
-	
+
 	// Add all remaining tiles
 	goManager->AddAllGO(tiles);
 
@@ -162,6 +363,8 @@ void SceneLobby::Init()
 	//camera.SetFocusTarget(player->pos);
 
 	sceneManager = SceneManager::GetInstance();
+
+	gameManager->initAbilities(this, &camera, goManager, player);
 }
 
 void SceneLobby::Update(double dt)
@@ -169,7 +372,106 @@ void SceneLobby::Update(double dt)
 	SceneBase::Update(dt);
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
-	
+
+	// button manager
+	buttonManager->Update(dt);
+	// TIME MACHINE
+	if (abs(timeMachine->pos.y - player->pos.y) < 20 && abs(timeMachine->pos.x - player->pos.x) < 10
+		&& input->IsKeyPressed('E'))
+	{
+		showMachinePartsUI = !showMachinePartsUI;
+		if (showMachinePartsUI)
+		{
+			for (int i = 0; i < machinePartsUIButtons.size(); i++)
+			{
+				buttonManager->activateButton(machinePartsUIButtons[i]->getName());
+			}
+		}
+		else
+		{
+			for (int i = 0; i < machinePartsUIButtons.size(); i++)
+			{
+				buttonManager->deactivateButton(machinePartsUIButtons[i]->getName());
+			}
+		}
+	}
+
+	//ABILITY MACHINE
+	if (abs(abilityMachine->pos.y - player->pos.y) < 20 && abs(abilityMachine->pos.x - player->pos.x) < 10
+		&& input->IsKeyPressed('E'))
+	{
+		showAbilityUI = !showAbilityUI;
+	}
+	if (showAbilityUI)
+	{
+		for (int i = 0; i < abilityUIButtons.size(); i++)
+		{
+			buttonManager->activateButton(abilityUIButtons[i]->getName());
+		}
+		buttonManager->activateButton("abilitySelection1");
+		buttonManager->activateButton("abilitySelection2");
+	}
+	else
+	{
+		for (int i = 0; i < abilityUIButtons.size(); i++)
+		{
+			buttonManager->deactivateButton(abilityUIButtons[i]->getName());
+		}
+		buttonManager->deactivateButton("abilitySelection1");
+		buttonManager->deactivateButton("abilitySelection2");
+	}
+	for (auto& buttonCollide : buttonManager->getButtonsInteracted())
+	{
+		for (int i = 0; i < abilityUIButtons.size() - 1; i++) 
+		{
+			if (buttonCollide->buttonClicked->getName() == ("abilityDelete") && buttonCollide->justClicked)
+			{
+				gameManager->removeAbility(1);
+				gameManager->removeAbility(2);
+				buttonManager->getButtonByName("abilitySelection1")->setOrigin(100, buttonCollide->buttonClicked->getOriginY());
+				buttonManager->getButtonByName("abilitySelection2")->setOrigin(100, buttonCollide->buttonClicked->getOriginY());
+			}
+			else if (buttonCollide->buttonClicked->getName() == ("abilitySlot" + std::to_string(i + 1)) && buttonCollide->justClicked)
+			{
+				int abilityNum = -1;
+				if (gameManager->getCurrAbility(1) == nullptr)
+				{
+					abilityNum = 1;
+					buttonManager->getButtonByName("abilitySelection1")->setOrigin(buttonCollide->buttonClicked->getOriginX(), buttonCollide->buttonClicked->getOriginY());
+				}
+				else if (gameManager->getCurrAbility(1) != nullptr && gameManager->getCurrAbility(2) == nullptr)
+				{
+					abilityNum = 2;
+					buttonManager->getButtonByName("abilitySelection2")->setOrigin(buttonCollide->buttonClicked->getOriginX(), buttonCollide->buttonClicked->getOriginY());
+				}
+			
+				if (abilityNum == -1)
+					continue;
+				
+				switch (i)
+				{
+				case 0:
+					gameManager->setAbility(abilityNum, ABILITY_GRAPPLER);
+					break;
+				case 1:
+					gameManager->setAbility(abilityNum, ABILITY_DASH);
+					break;
+				case 2:
+					gameManager->setAbility(abilityNum, ABILITY_PORTAL);
+					break;
+				case 3:
+					gameManager->setAbility(abilityNum, ABILITY_RECALL);
+					break;
+				case 4:
+					gameManager->setAbility(abilityNum, ABILITY_SLOWTIME);
+					break;
+				}
+			}
+		}
+	}
+
+
+	// PORTALS
 	if (((portal_graveyard->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_graveyard->pos.x - 4)) && (player->pos.x <= (portal_graveyard->pos.x + 4)))
 	{
 		portal_graveyard->Open();
@@ -249,7 +551,7 @@ void SceneLobby::Update(double dt)
 	}
 
 	if (!dialogueManager->Update(dt))
-		goManager->Update(dt);
+		goManager->Update(dt, &this->camera);
 }
 
 void SceneLobby::Render()
@@ -325,7 +627,7 @@ void SceneLobby::Render()
 	modelStack.PopMatrix();
 
 	goManager->Render(this);
-
+	buttonManager->Render(this);
 	dialogueManager->Render(this);
 
 	std::ostringstream ss;
@@ -424,4 +726,14 @@ void SceneLobby::Exit()
 	SceneBase::Exit();
 	goManager->Exit();
 	inventory->Clear();
+	for (int i = 0; i < machinePartsUIButtons.size(); i++)
+	{
+		buttonManager->deleteButton(machinePartsUIButtons[i]);
+	}
+	machinePartsUIButtons.clear();
+	for (int i = 0; i < abilityUIButtons.size(); i++)
+	{
+		buttonManager->deleteButton(abilityUIButtons[i]);
+	}
+	abilityUIButtons.clear();
 }

@@ -12,6 +12,8 @@ Pistol::Pistol(Camera* _cam, GameObjectManager* _goManager, Vector3& _playerPos,
 	playerPos = &_playerPos;
 
 	input = Input::GetInstance();
+
+	shootInterval = 0;
 }
 
 Pistol::~Pistol()
@@ -25,13 +27,16 @@ void Pistol::Init()
 
 void Pistol::Update(double dt)
 {
-	if (input->IsMousePressed(0))
+	shootInterval += dt;
+	if (input->IsMousePressed(0) && shootInterval > 0.5f)
 	{
 		double x, y;
 		CursorToWorldPosition(x, y);
 
 		Vector3 displacement = Vector3(x, y, 0) - *playerPos;
-		bulletSpawner->SpawnBullet(*playerPos, displacement, displacement);
+		bulletSpawner->SpawnBullet(Vector3(playerPos->x, playerPos->y + 1, 0), displacement, Vector3(0,1,0));
+
+		shootInterval = 0;
 	}
 }
 

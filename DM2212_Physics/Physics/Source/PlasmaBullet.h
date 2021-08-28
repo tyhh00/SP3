@@ -21,6 +21,8 @@ public:
 	PlasmaBullet(Vector3 scale, GameObject* attachedPlayer, float bulletSpeed = 35);
 	~PlasmaBullet();
 
+	
+
 	//GO Virtual Functions
 	void Init();
 	void Update(double dt);

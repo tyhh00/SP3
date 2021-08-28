@@ -48,8 +48,8 @@ void SceneRobot::Init()
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = 143;
-	m_worldWidth = 500;
+	m_worldHeight = 198;
+	m_worldWidth = 1594;
 
 	//Physics code here
 	m_speed = 1.f;
@@ -116,7 +116,7 @@ void SceneRobot::Init()
 		{
 			Coin* coin = new Coin(1);
 			coin->active = true;
-			coin->scale = go->scale * 0.9;
+			coin->scale = go->scale * 0.85;
 			coin->pos = go->pos;
 			coin->physics = go->physics->Clone();
 			coin->Init();
@@ -144,10 +144,11 @@ void SceneRobot::Init()
 			engine->AddToGOCollisionWhitelist(GameObject::GO_BULLET);
 
 			PlasmaBullet* bullet = new PlasmaBullet(Vector3(2, 2, 2), engine, 40);
+			bullet->SetExplosionRadius(15.5f);
 			bullet->AddToGOCollisionWhitelist(GameObject::GO_PLASMAENGINE);
 			engine->Init(
 				new BulletSpawner(goManager, bullet),
-				player, 10.0f);
+				player, 7.0f);
 			goManager->AddGO(engine);
 
 			delete go;
@@ -167,10 +168,11 @@ void SceneRobot::Init()
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);
 
-	player->SetAbilities(
-		new RecallAbility(player, 3.0, meshList[GEO_ABILITYICON_RECALL]),
-		new BlackHoleAbility(player, new BulletSpawner(goManager, new BlackHoleBullet(meshList[GEO_BLACKHOLE], GEO_BLACKHOLE, Vector3(3, 3, 3), player, 40)), &camera, m_screenWidth, m_screenHeight, meshList[GEO_ABILITYICON_BLACKHOLE]));
-	
+	// ABILITIES
+	gameManager->initAbilities(this, &camera, goManager, player);
+	gameManager->setAbility(1, ABILITY_BLACKHOLE);
+	gameManager->setAbility(2, ABILITY_RECALL);
+	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 
 }
 
@@ -212,7 +214,7 @@ void SceneRobot::Update(double dt)
 		goManager->AddGO(bul);*/
 	}
 	
-	goManager->Update(dt);
+	goManager->Update(dt, &this->camera);
 
 	if (player->currentHP <= 0)
 	{

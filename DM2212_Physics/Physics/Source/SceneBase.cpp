@@ -281,6 +281,9 @@ void SceneBase::Init()
 	LoadTile(GEO_ROBOT_SMALLCUBE_17_DIAMOND4, "ROBOT_SMALLCUBE_17_DIAMOND4.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_ROBOT_SMALLCUBE_18_SIGN1, "ROBOT_SMALLCUBE_18_SIGN1.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 
+	LoadTile(GEO_ROBOT_SMALLCUBE_16_MISCDECOR, "ROBOT_SMALLCUBE_16_MISCDECOR.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_ROBOT_SMALLCUBE_17_MISCDECOR, "ROBOT_SMALLCUBE_17_MISCDECOR.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+
 	LoadTile(GEO_JUNGLE_DIRT_BLOCK,	"JUNGLE_DIRT_BLOCK.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_DIRT_CENTER, "JUNGLE_DIRT_CENTER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);//
 	LoadTile(GEO_JUNGLE_DIRT_INTERSECTION_BOTTOM_LEFT, "JUNGLE_DIRT_INTERSECTION_BOTTOM_LEFT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -312,6 +315,9 @@ void SceneBase::Init()
 	LoadTile(GEO_JUNGLE_BANANA, "GEO_JUNGLE_BANANA.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_PROWLER, "GEO_JUNGLE_PROWLER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_PISTOL, "GEO_JUNGLE_PISTOL.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_CACTUS, "GEO_JUNGLE_CACTUS.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_FENCE, "GEO_JUNGLE_FENCE.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_PINETREE, "GEO_JUNGLE_PINETREE.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 
 	//jungle trees
 	LoadTile(GEO_JUNGLE_TREE_BOTTOM, "JUNGLE_TREE_BOTTOM.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -389,8 +395,6 @@ void SceneBase::Init()
 	LoadTile(GEO_OCEAN_PILLAR, "OCEAN_pillar.tga", 5, 5, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_RUIN, "OCEAN_ruin.tga", 8, 8, SHAPE_TYPE::RECTANGLE);
 
-	LoadTile(GEO_ROBOT_SMALLCUBE_16_MISCDECOR, "ROBOT_SMALLCUBE_16_MISCDECOR.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-
 	LoadTile(GEO_MACHINEPART_1, "MachinePart_1.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_MACHINEPART_2, "MachinePart_2.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_MACHINEPART_3, "MachinePart_3.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -413,23 +417,7 @@ void SceneBase::Init()
 	meshList[GEO_ABILITY_BGCOOLDOWN] = MeshBuilder::GenerateQuad("ability_bg_cooldown", Color(1, 1, 1), 5.0f);
 	meshList[GEO_ABILITY_BGCOOLDOWN]->textureID = LoadTGA("Image//ability_border_cooldown.tga");
 
-	meshList[GEO_ABILITYICON_BLACKHOLE] = MeshBuilder::GenerateQuad("ability_portal", Color(1, 1, 1), 2.0f);
-	meshList[GEO_ABILITYICON_BLACKHOLE]->textureID = LoadTGA("Image//black_hole.tga");
-
-	meshList[GEO_ABILITYICON_RECALL] = MeshBuilder::GenerateQuad("ability_recall", Color(1, 1, 1), 2.0f);
-	meshList[GEO_ABILITYICON_RECALL]->textureID = LoadTGA("Image//recall_ability.tga");
-
-	meshList[GEO_ABILITYICON_PORTAL] = MeshBuilder::GenerateQuad("ability_portal", Color(1, 1, 1), 2.0f);
-	meshList[GEO_ABILITYICON_PORTAL]->textureID = LoadTGA("Image//PortalAbilityIcon.tga");
-
-	meshList[GEO_ABILITYICON_GRAPPLINGHOOK] = MeshBuilder::GenerateQuad("ability_recall", Color(1, 1, 1), 2.0f);
-	meshList[GEO_ABILITYICON_GRAPPLINGHOOK]->textureID = LoadTGA("Image//Grappling.tga");
-
-	meshList[GEO_ABILITYICON_DASH] = MeshBuilder::GenerateQuad("ability_dash", Color(1, 1, 1), 2.0f);
-	meshList[GEO_ABILITYICON_DASH]->textureID = LoadTGA("Image//Dash.tga");
-
-	meshList[GEO_ABILITYICON_SLOWDOWNTIME] = MeshBuilder::GenerateQuad("ability_slowtime", Color(1, 1, 1), 2.0f);
-	meshList[GEO_ABILITYICON_SLOWDOWNTIME]->textureID = LoadTGA("Image//slow_time.tga");
+	
 
 	//Shapes
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);

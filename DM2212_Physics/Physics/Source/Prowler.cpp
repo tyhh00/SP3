@@ -23,9 +23,9 @@ void Prowler::Init(SceneBase* scene, Inventory* inventory, Player* _player, Game
 	state = IDLE;
 
 	movement_speed = 20.0f;
-	activeRange = 40.0f;
+	activeRange = 80.f;
 	attackRange = 10.f;
-	defendRange = 30.f;
+	defendRange = 40.f;
 	shootTimer = 2;
 
 	currentHP = 7;
@@ -42,6 +42,7 @@ void Prowler::Init(SceneBase* scene, Inventory* inventory, Player* _player, Game
 	physics->SetMovable(true);
 	physics->SetEnableCollisionResponse(true);
 	physics->SetGravity(Vector3(0,-98.f,0));
+	this->AddToResponseWhitelist(GO_PLAYER);
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(20, 9, 5.0f, 5.0f);
 	animatedSprites->AddAnimation("idleRight", 0, 4);

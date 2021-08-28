@@ -11,6 +11,8 @@
 //Entity Includes
 #include "Player.h"
 
+#include "Coin.h"
+
 //...
 
 SceneJungle::SceneJungle()
@@ -103,6 +105,19 @@ void SceneJungle::Init()
 			delete go;
 			go = nullptr;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_COIN)
+		{
+			Coin* coin = new Coin(1);
+			coin->active = true;
+			coin->scale = go->scale * 0.85;
+			coin->pos = go->pos;
+			coin->physics = go->physics->Clone();
+			coin->Init();
+			goManager->AddGO(coin);
+
+			delete go;
+			go = nullptr;
+		}
 		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_JUNGLE_CAMPFIRE)
 		{
 			Campfire* campfire = new Campfire();
@@ -141,6 +156,18 @@ void SceneJungle::Init()
 			delete go;
 			go = nullptr;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_COIN)
+		{
+			Coin* coin = new Coin(1);
+			coin->active = true;
+			coin->scale = go->scale * 0.85;
+			coin->pos = go->pos;
+			coin->physics = go->physics->Clone();
+			coin->Init();
+			goManager->AddGO(coin);
+			delete go;
+			go = nullptr;
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	
@@ -154,16 +181,19 @@ void SceneJungle::Init()
 	camera.SetMode(Camera::CENTER);
 
 	// ABILITIES
-	DashAbility* ability = new DashAbility(meshList[GEO_ABILITYICON_DASH]);
+	/*DashAbility* ability = new DashAbility(meshList[GEO_ABILITYICON_DASH]);
 	ability->SetCamera(&camera);
 	ability->SetScenePointer(this);
 
 	GrapplingAbility* ability2 = new GrapplingAbility(inventory, meshList[GEO_ABILITYICON_GRAPPLINGHOOK]);
 	ability2->SetCamera(&camera);
 	ability2->SetScenePointer(this);
-	ability2->SetGOManager(this->goManager);
+	ability2->SetGOManager(this->goManager);*/
 
-	player->SetAbilities(ability, ability2); 
+	//gameManager->initAbilities(this, &camera, goManager, player);
+	//gameManager->setAbility(1, ABILITY_DASH);
+	//gameManager->setAbility(2, ABILITY_GRAPPLER);
+	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 }
 
 void SceneJungle::Update(double dt)
@@ -201,7 +231,7 @@ void SceneJungle::Update(double dt)
 		m_speed += 0.1f;
 	}
 
-	goManager->Update(dt);
+	goManager->Update(dt, &this->camera);
 
 	if (player->currentHP <= 0)
 	{

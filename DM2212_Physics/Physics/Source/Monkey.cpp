@@ -35,6 +35,7 @@ void Monkey::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, Bulle
 	physics->SetMovable(true);
 	physics->SetEnableCollisionResponse(true);
 	physics->SetGravity(Vector3(0, -98.f, 0));
+	this->AddToResponseWhitelist(GO_PLAYER);
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(1, 18, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("jumpRight", 0, 2);
@@ -79,14 +80,15 @@ void Monkey::Update(double dt)
 		}
 		else
 		{
+			if ((*playerPos - pos).Length() > activeRange)
+				state = IDLE;
 			shootTimer += dt;
 			if (!(*playerPos - pos).IsZero())
 			{
 				physics->SetVelocity(Vector3((*playerPos - this->pos).Normalized().x * movement_speed, physics->GetVelocity().y, physics->GetVelocity().z));
-				if (shootTimer >= 1)
+				if (shootTimer >= 2)
 				{
-					std::cout << "FIRED BULLET" << std::endl;
-					bulletSpawner->SpawnBullet(this->pos, Vector3((*playerPos - pos).Normalized().x, 0, 0), (*playerPos - this->pos));
+					bulletSpawner->SpawnBullet(this->pos, Vector3((*playerPos - pos).Normalized().x, 0, 0),(*playerPos - this->pos));
 					shootTimer = 0;
 				}
 			}

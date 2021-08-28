@@ -31,7 +31,6 @@ Player::Player() : input(NULL)
 , stamina(100.f)
 , curr_max_vel(MAX_VEL)
 , stamina_rate_multiplier(0.0f)
-, invisibility(false)
 , staminaCD(0.0)
 {
 	type = GO_PLAYER;
@@ -40,22 +39,18 @@ Player::Player() : input(NULL)
 
 Player::~Player()
 {
-	for (int i = 0; i < 2; i++)
-	{
-		if (abilityArray[i] != nullptr)
-		{
-			delete abilityArray[i];
-			abilityArray[i] = nullptr;
-			//Set mesh to nullptr cause its already deleted in SceneBase, Player is only deleted when scenebase is deleted hence this code is valid
-			UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("ability_" + std::to_string(i + 1) + "_icon")->setQuadImage(nullptr);
-		}
-	}
+	//for (int i = 0; i < 2; i++)
+	//{
+	//	if (abilityArray[i] != nullptr)
+	//	{
+	//		delete abilityArray[i];
+	//		abilityArray[i] = nullptr;
+	//		//Set mesh to nullptr cause its already deleted in SceneBase, Player is only deleted when scenebase is deleted hence this code is valid
+	//		UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("ability_" + std::to_string(i + 1) + "_icon")->setQuadImage(nullptr);
+	//	}
+	//}
 
-	if (portalSprite)
-	{
-		delete portalSprite;
-		portalSprite = NULL;
-	}
+	
 	if (animatedSprites)
 	{
 		delete animatedSprites;
@@ -76,8 +71,6 @@ void Player::Init(Camera* _cam, MOVEMENT_MODE mode, GameObjectManager* GOM, Inve
 	{
 		physics->SetGravity(Vector3(0, 0, 0));
 	}
-	portalSprite = MeshBuilder::GenerateQuad("portal travel sprites", Color(1, 1, 1), 1.0f);
-	portalSprite->textureID = LoadTGA("Image/PortalTravelSprite.tga");
 
 	input = Input::GetInstance();
 	gameManager = GameManager::GetInstance();
@@ -146,52 +139,8 @@ void Player::Update(double dt)
 			}
 			//ready->disable();
 			//cooldown->disable();
-			switch (abilityArray[i]->GetAbilityType())
-			{
-			case ABILITY_DASH:
-			{
-				abilityArray[i]->Update(dt);
-				DashAbility* ability = dynamic_cast<DashAbility*>(abilityArray[i]);
-				ability->UpdatePlayer(dashDir, physics, curr_max_vel, enableCollision);
-			}
-			break;
-			case ABILITY_PORTAL:
-			{
-				PortalAbility* ability = dynamic_cast<PortalAbility*>(abilityArray[i]);
-				ability->CustomUpdate(physics->GetOnGround(), pos);
-				ability->Update(dt);
-				ability->CustomUpdate(pos, invisibility);
-				if (invisibility)
-				{
-					mesh = portalSprite;
-					physics->SetEnableUpdate(false);
-					enableCollision = false;
-				}
-				else
-				{
-					mesh = animatedSprites;
-					physics->SetEnableUpdate(true);
-					enableCollision = true;
-				}
-			}
-			break;
-			case ABILITY_GRAPPLER:
-			{
-				abilityArray[i]->Update(dt);
-				GrapplingAbility* ability = dynamic_cast<GrapplingAbility*>(abilityArray[i]);
-				ability->UpdatePlayer(pos, physics, curr_max_vel);
-			}
-			break;
-			case ABILITY_SLOWTIME:
-			{
-				abilityArray[i]->Update(dt);
-			}
-			break;
 
-			default:
-				abilityArray[i]->Update(dt);
-				break;
-			}
+			abilityArray[i]->Update(dt);
 		}
 	}
 
@@ -411,7 +360,7 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_JUNGLE_PISTOL:
 		goManager->RemoveGO(go);
-		inventory->AddItem(new Pistol(cam, goManager, pos, new LightBullet(Vector3(2,2,2), this, 30), go->mesh));
+		inventory->AddItem(new Pistol(cam, goManager, pos, new LightBullet(Vector3(2,2,2), this, 60), go->mesh));
 		break;
 	case SceneBase::GEO_JUNGLE_BANANA:
 		goManager->RemoveGO(go);
