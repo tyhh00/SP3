@@ -7,7 +7,7 @@
 #include "Item.h"
 #include "Inventory.h"
 #include "Apple.h"
-#include "Cheese.h"
+#include "Banana.h"
 #include "Input.h"
 #include "GameObjectManager.h"
 

@@ -147,7 +147,8 @@ void Prowler::Update(double dt)
 	{
 		if ((player->pos - pos).Length() < defendRange)
 		{
-			physics->SetVelocity(Vector3(-(player->pos - pos).Normalized().x * movement_speed * 1.5f, physics->GetVelocity().y, physics->GetVelocity().z));
+			if (!(player->pos - pos).IsZero())
+				physics->SetVelocity(Vector3(-(player->pos - pos).Normalized().x * movement_speed * 1.5f, physics->GetVelocity().y, physics->GetVelocity().z));
 		}
 		else
 		{
@@ -197,7 +198,7 @@ void Prowler::Update(double dt)
 			monkey->physics->SetInelasticity(0.99f);
 			monkey->physics->SetIsBouncable(false);
 			monkey->physics->SetGravity(Vector3(0, 0, 0));
-			monkey->Init(this->scene, inventory, player->pos, new BulletSpawner(goManager, new BananaBullet(Vector3(2, 2, 2), monkey, 30)));
+			monkey->Init(this->scene, goManager, inventory, player->pos, new BulletSpawner(goManager, new BananaBullet(Vector3(2, 2, 2), monkey, 30)));
 
 			monkey->AddBottomSprite();
 			monkey->bottomSprite->mesh = this->scene->GetMeshList(SceneBase::GEO_WALL);
