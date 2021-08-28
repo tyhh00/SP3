@@ -67,6 +67,7 @@ bool CIntroState::Init(void)
 	soundController->LoadSound("Sounds\\Sound_GameBG2.wav", SOUND_TYPE::BG_ARCADE2, true, true);
 	soundController->LoadSound("Sounds\\Sound_MainMenu.wav", SOUND_TYPE::BG_MAINMENU, true, true);
 	soundController->LoadSound("Sounds\\Sound_GraveyardBGM.wav", SOUND_TYPE::BG_GRAVEYARD, true, true);
+	soundController->LoadSound("Sounds\\Sound_ChurchBG.wav", SOUND_TYPE::BG_CHURCH, true, true);
 
 
 	sceneSplash = new SceneSplashScreen();

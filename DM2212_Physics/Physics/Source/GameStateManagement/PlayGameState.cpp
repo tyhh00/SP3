@@ -27,6 +27,8 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
 	, backButtonMesh(NULL)
 	, menuBG(NULL)
 	, buttonHighlight(NULL)
+	, leftArrowMesh(NULL)
+	, rightArrowMesh(NULL)
 {
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
@@ -84,6 +86,13 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
 
 	buttonManager->addButton(buttonHighlight); // second last
 	buttonManager->addButton(menuBGButton); // must be last
+
+	pauseButtonsList.push_back(menuBGButton);
+	pauseButtonsList.push_back(lobbyButton);
+	pauseButtonsList.push_back(optionsButton);
+	pauseButtonsList.push_back(resumeButton);
+	optionsButtonsList.push_back(backButton);
+	optionsButtonsList.push_back(menuBGButton);
 }
 
 /**
@@ -116,6 +125,8 @@ CPlayGameState::~CPlayGameState(void)
 		delete menuBG;
 		menuBG = NULL;
 	}
+	pauseButtonsList.clear();
+	optionsButtonsList.clear();
 }
 
 /**
@@ -128,6 +139,7 @@ bool CPlayGameState::Init(void)
 	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, true);
 
 	gameManager = GameManager::GetInstance();
+	soundController = CSoundController::GetInstance();
 
 	currentState = DEFAULT;
 
@@ -156,10 +168,10 @@ bool CPlayGameState::Update(const double dElapsedTime)
 		if (currentState == DEFAULT && Input::GetInstance()->IsKeyPressed(VK_ESCAPE))
 		{
 			currentState = PAUSED;
-			buttonManager->activateButton("resume");
-			buttonManager->activateButton("lobby");
-			buttonManager->activateButton("options");
-			buttonManager->activateButton("menuBG");
+			for (int i = 0; i < pauseButtonsList.size(); i++)
+			{
+				buttonManager->activateButton(pauseButtonsList[i]->getName());
+			}
 		}
 		if (sceneManager->getScene()->gameLost)
 		{
@@ -176,6 +188,16 @@ bool CPlayGameState::Update(const double dElapsedTime)
 		}
 		break;
 	case PAUSED:
+		if (Input::GetInstance()->IsKeyPressed(VK_OEM_PLUS))
+		{
+			std::cout << "PLUS BUTTON, VOLUMEINCREASE" << std::endl;
+			soundController->MasterVolumeIncrease();
+		}
+		if (Input::GetInstance()->IsKeyPressed(VK_OEM_MINUS))
+		{
+			std::cout << "MINUS BUTTON, VOLUMEDECREASE" << std::endl;
+			soundController->MasterVolumeDecrease();
+		}
 		break;
 	case GAMEOVER:
 		break;
@@ -203,10 +225,10 @@ bool CPlayGameState::Update(const double dElapsedTime)
 		{
 			if (button->buttonClicked->getName() == "resume")
 			{
-				buttonManager->deactivateButton("resume");
-				buttonManager->deactivateButton("lobby");
-				buttonManager->deactivateButton("options");
-				buttonManager->deactivateButton("menuBG");
+				for (int i = 0; i < pauseButtonsList.size(); i++)
+				{
+					buttonManager->deactivateButton(pauseButtonsList[i]->getName());
+				}
 				currentState = DEFAULT;
 				break;
 			}
@@ -221,18 +243,26 @@ bool CPlayGameState::Update(const double dElapsedTime)
 			}
 			else if (button->buttonClicked->getName() == "options")
 			{
-				buttonManager->deactivateButton("resume");
-				buttonManager->deactivateButton("lobby");
-				buttonManager->deactivateButton("options");
-				buttonManager->activateButton("back");
+				for (int i = 0; i < pauseButtonsList.size(); i++)
+				{
+					buttonManager->deactivateButton(pauseButtonsList[i]->getName());
+				}
+				for (int i = 0; i < optionsButtonsList.size(); i++)
+				{
+					buttonManager->activateButton(optionsButtonsList[i]->getName());
+				}
 				break;
 			}
 			else if (button->buttonClicked->getName() == "back")
 			{
-				buttonManager->deactivateButton("back");
-				buttonManager->activateButton("lobby");
-				buttonManager->activateButton("options");
-				buttonManager->activateButton("resume");
+				for (int i = 0; i < optionsButtonsList.size(); i++)
+				{
+					buttonManager->deactivateButton(optionsButtonsList[i]->getName());
+				}
+				for (int i = 0; i < pauseButtonsList.size(); i++)
+				{
+					buttonManager->activateButton(pauseButtonsList[i]->getName());
+				}
 				break;
 			}
 			else if (button->buttonClicked->getName() == "lobby")
