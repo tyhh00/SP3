@@ -22,8 +22,8 @@ void Dragon::Init(SceneBase* scene,Vector3 &target, int numParts)
 	this->inventory = inventory;
 	playerPos = &target;
 
-	this->maxHP = 200;
-	this->currentHP = 200;
+	this->maxHP = 100;
+	this->currentHP = 100;
 	this->type = GO_DRAGON;
 
 	angle = 0;
@@ -131,8 +131,9 @@ void Dragon::Update(double dt)
 
 	for (int i = 1; i < dragon.size(); i++)
 	{
-		dragon.at(i)->pos = dragon.at(i - 1)->pos + Vector3(dragon.at(i - 1)->scale.x * -2 * cos(Math::DegreeToRadian(convertidk(dragon.at(i - 1)->physics->GetRotateZ()))),
-			dragon.at(i - 1)->scale.x * -2 * sin(Math::DegreeToRadian(convertidk(dragon.at(i - 1)->physics->GetRotateZ()))), 0);
+		float angle = convertidk(dragon.at(i - 1)->physics->GetRotateZ()) + convertidk(dragon.at(i)->physics->GetRotateZ());
+		dragon.at(i)->pos = dragon.at(i - 1)->pos + Vector3(dragon.at(i - 1)->scale.x * -2 * cos(Math::DegreeToRadian( 0.5 * angle)),
+			dragon.at(i - 1)->scale.x * -2 * sin(Math::DegreeToRadian(0.5 * angle)), 0);
 	}
 
 }

@@ -44,6 +44,7 @@ public:
 
 	Mesh* GetMeshIcon();
 
+	void SetActivatingKey(char key);
 	char GetActivatingKey();
 
 protected:
@@ -60,6 +61,6 @@ protected:
 	SceneBase* scene; //Used for custom rendering of abilities
 	GameObject* player;
 	ABILITY_TYPE type;
-	const char buttonChar;
+	char buttonChar;
 };
 

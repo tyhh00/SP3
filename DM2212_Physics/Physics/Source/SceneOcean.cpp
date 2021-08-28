@@ -120,6 +120,23 @@ void SceneOcean::Init()
 			delete go;
 			go = nullptr;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_OCEAN_THUNDERBLOCK)
+		{
+			ThunderBlock* thunder = new ThunderBlock(goManager);
+			thunder->active = true;
+			thunder->scale = go->scale;
+			thunder->pos = go->pos;
+			thunder->physics = go->physics->Clone();
+			thunder->physics->SetInelasticity(0.99f);
+			thunder->physics->SetIsBouncable(false);
+			thunder->Init();
+			thunder->mesh = go->mesh;
+			goManager->AddGO(thunder);
+
+			//Delete Grid Player
+			delete go;
+			go = nullptr;
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 	
@@ -134,8 +151,6 @@ void SceneOcean::Init()
 
 	// ABILITIES
 	gameManager->initAbilities(this, &camera, goManager, player);
-	gameManager->setAbility(1, ABILITY_SLOWTIME);
-	//gameManager->setAbility(2, ABILITY_DASH);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 
 	// TRIDENT

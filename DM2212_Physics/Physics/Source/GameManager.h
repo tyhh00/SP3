@@ -13,10 +13,22 @@ class GameManager : public CSingletonTemplate<GameManager>
 	friend CSingletonTemplate<GameManager>;
 
 public:
+
+	enum GAMESTORY_STATE {
+		GS_INTRO,
+		GS_DEFAULT,
+		GS_END,
+
+		GS_TOTAL,
+	};
+
 	void Init();
 
 	bool getMachineStatus(int partNum);
 	void setMachineStatus(int partNum, bool obtained);
+
+	GAMESTORY_STATE getGameState();
+	void setGameState(GAMESTORY_STATE state);
 
 	void initAbilities(SceneBase* scene, Camera* camera, GameObjectManager* GOM, GameObject* player);
 	Ability* getCurrAbility(int abilityNum);
@@ -41,12 +53,14 @@ protected:
 	GameManager();
 	~GameManager();
 
-	bool timeMachineStatus[4];
 
 	float score;
 	int coinsCollected;
 
-
+	// GAME STORY STATE
+	GAMESTORY_STATE game_state;
+	// TIME MACHINE PARTS COLLECTION STATUS
+	bool timeMachineStatus[4];
 	// ABILITIES
 	char ABILITY_KEYBIND_1;
 	char ABILITY_KEYBIND_2;

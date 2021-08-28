@@ -4,7 +4,7 @@
 #include "MeshBuilder.h"
 
 
-PortalAbility::PortalAbility(Mesh* mesh) : Ability('Z', ABILITY_PORTAL, 10.0f, mesh)
+PortalAbility::PortalAbility(Mesh* mesh) : Ability('Z', ABILITY_PORTAL, 7.0f, mesh)
 {
 	ghost_portal = false;
 	ghost_player = false;
@@ -34,13 +34,17 @@ void PortalAbility::Init()
 
 void PortalAbility::Update(double dt)
 {
+	abilityCD_timeleft -= dt;
+	if (abilityCD_timeleft < 0)
+		abilityCD_timeleft = 0.0f;
+
 	switch (state)
 	{
 	case DEFAULT:
 		// CHECK FOR ABILITY USE CONDITIONS
-		if (Input::GetInstance()->IsKeyPressed('Z'))
+		if (Input::GetInstance()->IsKeyPressed(buttonChar))
 		{
-			if (player->physics->GetOnGround() && !endPortal.active)
+			if (!endPortal.active && abilityCD_timeleft <= 0)
 			{
 				// START OPENING START PORTAL
 				startPortal.active = true;
@@ -71,7 +75,7 @@ void PortalAbility::Update(double dt)
 			anim_timer += dt;
 		}
 		
-		if (Input::GetInstance()->IsKeyDown('Z'))
+		if (Input::GetInstance()->IsKeyDown(buttonChar))
 		{
 			double mousePosX, mousePosY;
 			CursorToWorldPosition(mousePosX, mousePosY);
@@ -81,14 +85,15 @@ void PortalAbility::Update(double dt)
 	case PLACING:
 	{
 		// CHECK FOR PLACE PORTAL CONDITIONS
-		if (!Input::GetInstance()->IsKeyDown('Z'))
+		if (!Input::GetInstance()->IsKeyDown(buttonChar))
 		{
 			// START OPENING END PORTAL
 			ghost_portal = false;
 			endPortal.active = true;
 			endPortal.SetAnimation("opening", 0, 0.3f);
 			anim_timer = 0;
-
+			
+			abilityCD_timeleft = abilityCooldownDuration;
 			state = PLACING_ANIM;
 			std::cout << "PORTAL ABILITY: Placing other Portal" << std::endl;
 		}
@@ -110,6 +115,7 @@ void PortalAbility::Update(double dt)
 
 			player->enableCollision = false;
 			player->physics->SetEnableUpdate(false);
+			player->physics->SetEnableCollisionResponse(false);
 			player->pos.z = -10;
 			ghost_player = true;
 
@@ -135,6 +141,7 @@ void PortalAbility::Update(double dt)
 			anim_timer = 0;
 			player->enableCollision = true;
 			player->physics->SetEnableUpdate(true);
+			player->physics->SetEnableCollisionResponse(true);
 			player->pos.z = 0;
 			ghost_player = false;
 			state = CLOSINGSTART_ANIM;
@@ -219,7 +226,7 @@ void PortalAbility::Render()
 		scene->modelStack.PushMatrix();
 		scene->modelStack.Translate(player->pos.x, player->pos.y, player->pos.z);
 		scene->modelStack.Scale(3, 3, 3);
-		scene->RenderMesh(portalSprite, false);
+		scene->RenderMesh(portalSprite, true);
 		scene->modelStack.PopMatrix();
 	}
 	

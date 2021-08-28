@@ -73,6 +73,11 @@ Mesh* Ability::GetMeshIcon()
 	return icon;
 }
 
+void Ability::SetActivatingKey(char key)
+{
+	buttonChar = key;
+}
+
 char Ability::GetActivatingKey()
 {
 	return this->buttonChar;

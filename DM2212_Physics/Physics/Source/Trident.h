@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "GameObjectManager.h"
 #include "SpriteAnimation.h"
+#include "ThunderBlock.h"
 
 class TridentGO : public GameObject {
 public:

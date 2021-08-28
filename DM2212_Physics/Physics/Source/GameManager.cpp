@@ -32,13 +32,16 @@ void GameManager::Init()
 	score = 0;
 	coinsCollected = 0;
 
+	// set state to GS_INTRO
+	game_state = GS_INTRO;
+
+	// set machine part status
 	for (int i = 0; i < 4; i++)
 	{
 		timeMachineStatus[i] = false;
 	}
 
 	// create abilities
-	
 	Mesh* blackholeIcon = MeshBuilder::GenerateQuad("ability_blackhole", Color(1, 1, 1), 2.0f);
 	blackholeIcon->textureID = LoadTGA("Image//black_hole.tga");
 	Mesh* recallIcon = MeshBuilder::GenerateQuad("ability_recall", Color(1, 1, 1), 2.0f);
@@ -59,8 +62,8 @@ void GameManager::Init()
 	abilityArray[ABILITY_SLOWTIME] = new SlowTimeAbility(slowtimeIcon);
 	abilityArray[ABILITY_RECALL] = new RecallAbility(3.0f, recallIcon);
 
-	// in scenes
-	// call set scene pointers and then init
+	ABILITY_KEYBIND_1 = 'Q';
+	ABILITY_KEYBIND_2 = 'Z';
 }
 
 bool GameManager::getMachineStatus(int partNum)
@@ -71,6 +74,16 @@ bool GameManager::getMachineStatus(int partNum)
 void GameManager::setMachineStatus(int partNum, bool obtained)
 {
 	timeMachineStatus[partNum - 1] = obtained;
+}
+
+GameManager::GAMESTORY_STATE GameManager::getGameState()
+{
+	return game_state;
+}
+
+void GameManager::setGameState(GAMESTORY_STATE state)
+{
+	game_state = state;
 }
 
 void GameManager::initAbilities(SceneBase* scene, Camera* camera, GameObjectManager* GOM, GameObject* player)
@@ -97,6 +110,14 @@ Ability* GameManager::getCurrAbility(int abilityNum)
 void GameManager::setAbility(int abilityNum, ABILITY_TYPE type)
 {
 	currAbility[abilityNum - 1] = abilityArray[type];
+	if (abilityNum == 1)
+	{
+		currAbility[abilityNum - 1]->SetActivatingKey(ABILITY_KEYBIND_1);
+	}
+	else
+	{
+		currAbility[abilityNum - 1]->SetActivatingKey(ABILITY_KEYBIND_2);
+	}
 }
 
 void GameManager::removeAbility(int abilityNum)

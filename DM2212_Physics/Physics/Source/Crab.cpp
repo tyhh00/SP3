@@ -17,15 +17,15 @@ void Crab::Init(Vector3 &target, MOVEMENT_TYPE type)
 {
 	playerPos = &target;
 
-	this->currentHP = 50;
-	this->maxHP = 50;
+	this->currentHP = 30;
+	this->maxHP = 30;
 	this->type = GO_CRAB;
 
 	state = IDLE;
 	mType = type;
 	activeRange = 80.0f;
-	hostileRange = 20.0f;
-	attackRange = 3.0f;
+	hostileRange = 40.0f;
+	attackRange = 10.0f;
 	crabTimer = 6;
 	WLARTimer = 6;
 	deathTimer = 2;
@@ -141,10 +141,12 @@ void Crab::Update(double dt)
 				if (tempVel <= 0)
 				{
 					animatedSprites->PlayAnimation("attackLeft", 0, 1.0f);
+					animatedSprites->Reset();
 				}
 				else
 				{
 					animatedSprites->PlayAnimation("attackRight", 0, 1.0f);
+					animatedSprites->Reset();
 				}
 				timeout = 1;
 			}

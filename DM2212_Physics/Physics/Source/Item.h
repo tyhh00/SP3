@@ -25,6 +25,8 @@ public:
 		I_SKULL,
 		I_PICKAXE,
 		I_TRIDENT,
+		I_REDSHELL,
+		I_BLUESHELL,
 		I_TOTAL
 	};
 

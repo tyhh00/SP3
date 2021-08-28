@@ -25,7 +25,7 @@ public:
 	void Init();
 	void Update(double dt, Camera* cam);
 	void Render(SceneBase* scene);
-	void AddGO(GameObject* go);
+	void AddGO(GameObject* go, bool instant = false);
 	void RemoveGO(GameObject* go);
 	void AddAllGO(std::vector<GameObject*> gos);
 	int GetNumGOsbyType(GameObject::GAMEOBJECT_TYPE type);

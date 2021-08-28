@@ -17,6 +17,8 @@
 #include "Pistol.h"
 #include "Campfire.h"
 #include "Coin.h"
+#include "Blueshell.h"
+#include "Redshell.h"
 #include "GameManager.h"
 #include "../Source/SoundController/SoundController.h"
 
@@ -317,7 +319,7 @@ void Player::CollidedWith(GameObject* go)
 		inventory->AddItem(new Battery(go->mesh, inventory));
 		break;
 	case SceneBase::GEO_BONES_02:
-		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+		if (inventory->GetCurrentItem() != nullptr && inventory->GetCurrentItemType() == Item::I_PICKAXE
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
@@ -325,7 +327,7 @@ void Player::CollidedWith(GameObject* go)
 		}
 		break;
 	case SceneBase::GEO_BONES_03:
-		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+		if (inventory->GetCurrentItem() != nullptr && inventory->GetCurrentItemType() == Item::I_PICKAXE
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
@@ -333,7 +335,7 @@ void Player::CollidedWith(GameObject* go)
 		}
 		break;
 	case SceneBase::GEO_BONES_10:
-		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+		if (inventory->GetCurrentItem() != nullptr && inventory->GetCurrentItemType() == Item::I_PICKAXE
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
@@ -341,7 +343,7 @@ void Player::CollidedWith(GameObject* go)
 		}
 		break;
 	case SceneBase::GEO_BONES_11:
-		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+		if (inventory->GetCurrentItem() != nullptr && inventory->GetCurrentItemType() == Item::I_PICKAXE
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
@@ -369,9 +371,6 @@ void Player::CollidedWith(GameObject* go)
 		goManager->RemoveGO(go);
 		inventory->AddItem(new Cheese(go->mesh));
 		break;
-	case SceneBase::GEO_LOBBY_PORTAL_GRAVEYARD:
-		std::cout << "AAAAAAAAAAA" << std::endl;
-		break;
 	case SceneBase::GEO_MACHINEPART_1:
 		gameManager->setMachineStatus(1, true);
 		break;
@@ -391,6 +390,21 @@ void Player::CollidedWith(GameObject* go)
 			currentHP += 1.f; //heal player if stand beside campfire
 	}
 		break;
+	case SceneBase::GEO_OCEAN_SEASHELL1:
+		if (input->IsKeyPressed('F'))
+		{
+			goManager->RemoveGO(go);
+			inventory->AddItem(new Blueshell(1));	
+		}
+		break;
+	case SceneBase::GEO_OCEAN_SEASHELL2:
+		if (input->IsKeyPressed('F'))
+		{
+			goManager->RemoveGO(go);
+			inventory->AddItem(new Redshell(1));	
+		}
+		break;
+	
 	default:
 		break;
 	}

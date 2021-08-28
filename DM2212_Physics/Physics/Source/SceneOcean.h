@@ -17,6 +17,7 @@
 #include "Trident.h"
 #include "Crab.h"
 #include "Dragon.h"
+#include "ThunderBlock.h"
 
 class SceneOcean : public SceneBase
 {
