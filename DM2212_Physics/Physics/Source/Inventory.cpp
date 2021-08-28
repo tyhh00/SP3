@@ -130,20 +130,20 @@ void Inventory::Update(double dt)
 		enableInv = !enableInv;
 	}
 	
-	if (currentItem)
+
+	if (input->IsKeyPressed(VK_LEFT))
 	{
-		if (input->IsKeyPressed(VK_LEFT))
-		{
-			std::cout << "cycle backward" << std::endl;
-			CycleItem(false);
+		std::cout << "cycle backward" << std::endl;
+		CycleItem(false);
+		if(currentItem)
 			std::cout << "qty: " << currentItem->GetQuantity() << std::endl;
-		}
-		if (input->IsKeyPressed(VK_RIGHT))
-		{
-			std::cout << "cycle forward" << std::endl;
-			CycleItem(true);
+	}
+	if (input->IsKeyPressed(VK_RIGHT))
+	{
+		std::cout << "cycle forward" << std::endl;
+		CycleItem(true);
+		if(currentItem)
 			std::cout << "qty: " << currentItem->GetQuantity() << std::endl;
-		}
 	}
 
 	if (input->IsKeyPressed('1'))
@@ -312,7 +312,8 @@ void Inventory::CycleItem(bool forward)
 			if (currentItemIndex == itemVector.size() - 1)
 				currentItemIndex = -1;
 			currentItem = itemVector[currentItemIndex + 1];
-			std::cout << "curr: " << currentItem->GetType() << std::endl;
+			if(currentItem)
+				std::cout << "curr: " << currentItem->GetType() << std::endl;
 		}
 	}
 	else //cycle backwards
@@ -463,7 +464,9 @@ void Inventory::DeleteItem(Item* delItem)
 
 Item::ITEM_TYPE Inventory::GetCurrentItemType()
 {
-	return currentItem->GetType();
+	if(currentItem)
+		return currentItem->GetType();
+	return Item::ITEM_TYPE::I_TOTAL; //Non Existent
 }
 
 Item* Inventory::GetCurrentItem()
