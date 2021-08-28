@@ -301,7 +301,8 @@ void SceneGraveyard::Update(double dt)
 			machinepart->active = true;
 			machinepart->pos = reaper->pos;
 			story_state = CHURCH_END;
-			dialogueManager->AddDialogue(GRIMREAPER, "UARGHHH", RIGHT);
+			dialogueManager->AddDialogue(GRIMREAPER, "Ugh.. it seems I have lost.", RIGHT);
+			dialogueManager->AddDialogue(GRIMREAPER, "Greedy humans.. You were never supposed to mess with the spacetime continuum, only disaster awaits you.", RIGHT);
 		}
 		break;
 	case CHURCH_END:

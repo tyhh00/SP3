@@ -23,6 +23,7 @@ void Tombstone::Init(SceneBase* scene, Inventory* inventory)
 	this->scene = scene;
 	this->inventory = inventory;
 
+	this->SetIsSlowed(false);
 	type = GO_TOMBSTONE;
 
 	physics->SetEnableCollisionResponse(false);
