@@ -92,6 +92,11 @@ void RecallAbility::Render()
 
 }
 
+void RecallAbility::Reset()
+{
+	abilityCD_timeleft = 0;
+}
+
 ABILITY_TYPE RecallAbility::GetAbilityType()
 {
 	return ABILITY_RECALL;

@@ -32,6 +32,7 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
+	virtual void InitLights();
 protected:
 
 	float m_speed;

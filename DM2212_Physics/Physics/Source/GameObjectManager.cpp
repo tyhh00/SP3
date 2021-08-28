@@ -519,18 +519,7 @@ void GameObjectManager::Render(SceneBase* scene)
 		if (go != nullptr && go->active && !go->invisible)
 		{
 			go->Render(scene);
-			// test things; to see bottomSprite
-			/*if (go->bottomSprite)
-			{
-				GameObject* sprite = go->bottomSprite;
-				float angle = Math::RadianToDegree(atan2(sprite->physics->GetNormal().y, sprite->physics->GetNormal().x));
-				scene->modelStack.PushMatrix();
-				scene->modelStack.Translate(sprite->pos.x, sprite->pos.y, sprite->pos.z);
-				scene->modelStack.Rotate(angle + sprite->physics->GetRotateZ(), 0, 0, 1);
-				scene->modelStack.Scale(sprite->scale.x, sprite->scale.y, sprite->scale.z);
-				scene->RenderMesh(sprite->mesh, false);
-				scene->modelStack.PopMatrix();
-			}*/
+			
 		}
 	}
 	for (std::vector<GameObject*>::iterator it = m_stationaryGOList.begin(); it != m_stationaryGOList.end(); ++it)

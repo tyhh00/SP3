@@ -2,6 +2,7 @@
 #include "Debug.h"
 #include <fstream>
 #include <sstream>
+#include <experimental/filesystem>
 
 std::vector<std::string> splitStr(std::string str, char delimiter);
 
@@ -127,6 +128,19 @@ bool LevelLoader::LoadTiles(std::string filename, Mesh* meshList[], TileSetting*
 	}
 	DEBUG_MSG("Loaded Level " << filename << " with " << gridObjects.size() << " Tiles");
 	return true;
+}
+
+std::vector<std::string> LevelLoader::GetLevelNames()
+{
+	std::vector<std::string> list;
+	for (const auto& fileName : std::experimental::filesystem::directory_iterator(file_path))
+	{
+		std::string name = fileName.path().filename().string();
+		name = name.substr(0, name.size() - 4);
+		list.push_back(name);
+	}
+	return list;
+
 }
 
 std::vector<std::string> splitStr(std::string str, char delimiter) {

@@ -141,6 +141,11 @@ void GrapplingAbility::Render()
 	}
 }
 
+void GrapplingAbility::Reset()
+{
+	abilityCD_timeleft = 0;
+}
+
 ABILITY_TYPE GrapplingAbility::GetAbilityType()
 {
 	return type;

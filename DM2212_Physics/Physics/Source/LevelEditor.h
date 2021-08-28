@@ -6,7 +6,9 @@
 #include "SceneBase.h"
 #include "Debug.h"
 #include "LevelLoader.h"
+#include "Buttons/ButtonManager.h"
 #include <map>
+#include <filesystem>
 
 //Used in Update Loop of Level Editor, CTRL-Z, Find previous action, and base on type of action, revert changes
 enum ACTION_TYPE
@@ -49,6 +51,15 @@ enum RENDERMODE_STATE
 	RENDER_COUNT
 };
 
+enum LEVELEDITOR_STATE
+{
+	MAPSELECTION,
+	MAPCREATION,
+	LEVELEDIT,
+	PLAYLEVEL,
+	LEVELEDITORSTATE_COUNT
+};
+
 //LevelEditor itself will be a scene
 //Since we dont need GO_Type, we just use GEO_TYPE(Since its directly working with art)
 class LevelEditor : public SceneBase
@@ -57,6 +68,18 @@ class LevelEditor : public SceneBase
 	const float snapRotateSpeed = 0.04;
 
 protected:
+	
+	ButtonManager bm_le;
+	LEVELEDITOR_STATE editorState;
+	std::vector<std::string> fileNames;
+	int fileOffset;
+
+	//Static af but its ok, no time alr
+	std::string notif;
+	float notifTime;
+	
+	//Level Editting Variables
+	
 	std::vector<GameObject*> gridObjects; //Disassociation with GameObjectManager
 
 	std::map<int, std::map<int, std::vector<GameObject*>>> nearbyMap;
@@ -98,12 +121,20 @@ public:
 
 	//Load map from text file
 	bool LoadMap(std::string filename);
+
+	void LoadEditorDefaultValues();
+
+	void MenuStateUpdate(double dt);
+	void EditorStateUpdate(double dt);
 	
 	//Saves map into text file
 	void SaveMap();
 
 	//Clears the entire gridObjects list
 	void ClearMap();
+
+	//Unloads the map from level editor, sending user back to MAPSELECTION
+	void UnloadMap();
 
 	//Remove GameObject from gridObjects
 	void RemoveGO(GameObject* go);

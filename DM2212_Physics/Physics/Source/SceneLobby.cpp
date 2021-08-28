@@ -361,11 +361,13 @@ void SceneLobby::Init()
 	// Dialogue
 	if (gameManager->getGameState() == GameManager::GS_INTRO)
 	{
-		dialogueManager->AddDialogue(PLAYER, "Ouch my head hurts..Where am I?");
-		dialogueManager->AddDialogue(PLAYER, "What happened to me?");
+		dialogueManager->AddDialogue(PLAYER, "Ouch my head hurts..Where am I? What happened to me..");
+		dialogueManager->AddDialogue(PLAYER, "(You look around the room, but all you find is a funny looking machine.)");
 		dialogueManager->AddDialogue(PLAYER, "Is this a time machine?");
 		dialogueManager->AddDialogue(PLAYER, "??!!?!11!!?!");
-		dialogueManager->AddDialogue(PLAYER, "(As you near the machine, )");
+		dialogueManager->AddDialogue(PLAYER, "(As you touch the machine it starts to shake violently before shattering into 4 pieces. They fly into corners of the room and each open up a portal)");
+		dialogueManager->AddDialogue(PLAYER, "Oh no! I needed that to find out what happened, they seem to have created links to the worlds they flew into");
+		dialogueManager->AddDialogue(PLAYER, "I need to go to each one and find each part to rebuild the machine and go back!");
 		gameManager->setGameState(GameManager::GS_DEFAULT);
 	}
 
@@ -453,6 +455,12 @@ void SceneLobby::Update(double dt)
 		if (!showEtoInteract)
 			showEtoInteract = false;
 	}
+
+	//disable movement when showing UI
+	if (showAbilityUI || showMachinePartsUI)
+		player->physics->SetEnableUpdate(false);
+	else
+		player->physics->SetEnableUpdate(true);
 	
 	for (auto& buttonCollide : buttonManager->getButtonsInteracted())
 	{
@@ -565,20 +573,6 @@ void SceneLobby::Update(double dt)
 	portal_ocean->Update(dt);
 	portal_robot->Update(dt);
 
-	// DIALOGUE TEST
-	if (input->IsKeyPressed('T'))
-	{
-		dialogueManager->AddDialogue(PLAYER, "TEST AAAAAAAAAAA");
-	}
-	if (input->IsKeyPressed('Y'))
-	{
-		dialogueManager->AddDialogue(GATEKEEPER, "LALALALALLALALALALALALALALALALALALALALALALALALALALAL", RIGHT);
-	}
-
-	if (Application::IsMousePressed(2))
-	{
-
-	}
 
 	if(Application::IsKeyPressed('9'))
 	{

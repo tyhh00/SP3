@@ -47,6 +47,7 @@ public:
 	int getCoins();
 	void setCoins(int coins);
 
+	void resetAll(); // TO BE CALLED WHEN QUITTING GAME TO MENU; to reset when reentering;
 
 protected:
 

@@ -1,5 +1,8 @@
 #ifndef LEVELLOADER_H
 #define LEVELLOADER_H
+
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+
 #include "SingletonTemplate.h"
 #include <vector>
 #include "GameObject.h"
@@ -12,6 +15,7 @@ class LevelLoader : public CSingletonTemplate<LevelLoader>
 
 public:
 	bool LoadTiles(std::string mapName, Mesh* meshList[], TileSetting* tileSize[], std::vector<GameObject*>&, double&, double&);
+	std::vector<std::string> GetLevelNames();
 
 protected:
 	LevelLoader();

@@ -23,26 +23,36 @@ void SlowTimeAbility::Update(double dt)
 	if (abilityCD_timeleft < 0)
 		abilityCD_timeleft = 0.0f;
 
+
+	scene->lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
+
 	if (input->IsKeyPressed(buttonChar) && abilityTimer <= 0)
 	{
 		abilityTimer = 8;
 		goManager->SetmSpeed(0.1f);
-		scene->setBLightEnabled(true);
+		SetLighting();
 	}
 
-	if (abilityTimer <= 0)
+	if (abilityTimer > 0)
 	{ 
-		goManager->SetmSpeed(1.f);
-		scene->setBLightEnabled(false);
-	}
-	else
-	{
 		abilityTimer -= dt;
+		if (abilityTimer <= 0)
+		{
+			goManager->SetmSpeed(1.f);
+			scene->InitLights();
+			std::cout << "Initting Lights" << std::endl;
+		}
 	}
 }
 
 void SlowTimeAbility::Render()
 {}
+
+void SlowTimeAbility::Reset()
+{
+	abilityTimer = 0;
+	abilityCD_timeleft = 0;
+}
 
 ABILITY_TYPE SlowTimeAbility::GetAbilityType()
 {
@@ -64,4 +74,12 @@ void SlowTimeAbility::CursorToWorldPosition(double& theX, double& theY)
 
 	theX = x;
 	theY = y;
+}
+
+void SlowTimeAbility::SetLighting()
+{
+	scene->ToggleLightColor(0, Color(0.702, 0.529, 1));
+	scene->ToggleLightPower(0, 2);
+	scene->lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
+	scene->setBLightEnabled(true);
 }

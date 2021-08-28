@@ -421,7 +421,17 @@ void SceneBase::Init()
 	meshList[GEO_ABILITY_BGCOOLDOWN] = MeshBuilder::GenerateQuad("ability_bg_cooldown", Color(1, 1, 1), 5.0f);
 	meshList[GEO_ABILITY_BGCOOLDOWN]->textureID = LoadTGA("Image//ability_border_cooldown.tga");
 
+	meshList[GEO_LEVELEDITOR_BG] = MeshBuilder::GenerateQuad("leveleditor_bg", Color(1, 1, 1), 2.0f);
+	meshList[GEO_LEVELEDITOR_BG]->textureID = LoadTGA("Image//LevelEditorBG.tga");
 
+	meshList[GEO_LEVELEDITOR_PLAY] = MeshBuilder::GenerateQuad("leveleditor_play", Color(1, 1, 1), 2.0f);
+	meshList[GEO_LEVELEDITOR_PLAY]->textureID = LoadTGA("Image//LevelEditorPlay.tga");
+
+	meshList[GEO_LEVELEDITOR_EDIT] = MeshBuilder::GenerateQuad("leveleditor_edit", Color(1, 1, 1), 2.0f);
+	meshList[GEO_LEVELEDITOR_EDIT]->textureID = LoadTGA("Image//LevelEditorEdit.tga");
+
+	meshList[GEO_LEVELEDITOR_LEVELNAMEBAR] = MeshBuilder::GenerateQuad("leveleditor_levelname", Color(1, 1, 1), 2.0f);
+	meshList[GEO_LEVELEDITOR_LEVELNAMEBAR]->textureID = LoadTGA("Image//LevelEditorLevelName.tga");
 
 	//Shapes
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
@@ -705,6 +715,92 @@ void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	glEnable(GL_DEPTH_TEST);
 }
 
+void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int limit, int(&charWidth)[256], int arrSize)
+{
+	if (!mesh || mesh->textureID <= 0) //Proper error check
+		return;
+
+	//glDisable(GL_DEPTH_TEST);
+	Mtx44 ortho;
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
+	projectionStack.PushMatrix();
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
+	viewStack.LoadIdentity(); //No need camera for ortho mode
+	modelStack.PushMatrix();
+	modelStack.LoadIdentity(); //Reset modelStack
+	modelStack.Translate(x, y, 1);
+	modelStack.Scale(size, size, size);
+
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
+	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
+	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
+
+	std::vector<std::string> lines;
+	int offset = 0;
+	while (true)
+	{
+		if (text.length() > limit)
+		{
+			int to = limit;
+			if (text.size() < offset + limit)
+			{
+				to = text.size() - offset;
+			}
+
+			std::string subtxt = text.substr(offset, to);
+			size_t lastSpace = subtxt.find_last_of(" ");
+			std::cout << lastSpace << std::endl;
+			if (lastSpace != std::string::npos && to == limit)
+			{
+				subtxt = subtxt.substr(0, lastSpace);
+				int diff = limit - lastSpace;
+				offset -= diff;
+			}
+			if (subtxt.size() > 0 && subtxt.at(0) == ' ')
+				subtxt.erase(0, 1);
+			lines.push_back(subtxt);
+			offset += limit;
+			if (to != limit)
+				break;
+		}
+		else
+		{
+			lines.push_back(text);
+			break;
+		}
+	}
+
+	int step = 0;
+	for (auto& line : lines)
+	{
+		float accumulator = 0;
+		for (unsigned i = 0; i < line.length(); ++i)
+		{
+			Mtx44 characterSpacing;
+			characterSpacing.SetToTranslation(0.5f + accumulator, 0.5f - step * size * 0.5, 1);
+			Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
+			glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
+			mesh->Render((unsigned)line[i] * 6, 6);
+
+			accumulator += charWidth[line[i]] / 64.0f;
+		}
+		++step;
+	}
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
+
+	//Add these code just before glEnable(GL_DEPTH_TEST);
+	projectionStack.PopMatrix();
+	viewStack.PopMatrix();
+	modelStack.PopMatrix();
+	glEnable(GL_DEPTH_TEST);
+}
+
 void SceneBase::RenderMesh(Mesh* mesh, bool enableLight)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
@@ -838,4 +934,11 @@ void SceneBase::ToggleLightRadius(int index, float innerR, float outerR)
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], lights[0].cosInner);
 	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], lights[1].cosCutoff);
 	glUniform1f(m_parameters[U_LIGHT1_COSINNER], lights[1].cosInner);
+}
+
+void SceneBase::ToggleLightColor(int index, Color color)
+{
+	lights[index].color = color;
+	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &lights[0].color.r);
+	glUniform3fv(m_parameters[U_LIGHT1_COLOR], 1, &lights[1].color.r);
 }

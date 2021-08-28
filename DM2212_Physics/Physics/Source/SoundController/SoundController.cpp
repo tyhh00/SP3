@@ -261,6 +261,10 @@ bool CSoundController::MasterVolumeIncrease(void)
 
 	// Increase the volume by 10%
 	cSoundEngine->setSoundVolume(fCurrentVolume + 0.1f);
+	if (cSoundEngine->getSoundVolume() > 1.0f)
+	{
+		cSoundEngine->setSoundVolume(1.0f);
+	}
 
 	return true;
 }
@@ -281,6 +285,10 @@ bool CSoundController::MasterVolumeDecrease(void)
 	// Decrease the volume by 10%
 	cSoundEngine->setSoundVolume(fCurrentVolume - 0.1f);
 
+	if (cSoundEngine->getSoundVolume() < 0)
+	{
+		cSoundEngine->setSoundVolume(0.0f);
+	}
 	return true;
 }
 

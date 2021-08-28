@@ -51,8 +51,8 @@ public:
 	bool StopPlayingSoundByID(const int ID);
 	void StopPlayingSoundByID(const int ID, float fadeTime, float fadeLeadTime);
 
-	// Increase Master volume
 	void SetMasterVolume(float v);
+	// Increase Master volume
 	bool MasterVolumeIncrease(void);
 	// Decrease Master volume
 	bool MasterVolumeDecrease(void);
