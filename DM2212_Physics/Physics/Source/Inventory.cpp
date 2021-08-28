@@ -198,8 +198,15 @@ void Inventory::Render()
 			if (i < weaponSize)
 			{
 				buttonManager->getButtonByName("WeaponItem" + std::to_string(i + 1))->setText(std::to_string(weaponVector[i]->GetQuantity()));
-				ProgressBar* bar = dynamic_cast<ProgressBar*>(buttonManager->getButtonByName("WeaponBar" + std::to_string(i + 1)));
-				bar->SetProgress(weaponVector[i]->GetDurability());
+				if (weaponVector[i]->GetIsDurable())
+				{
+					ProgressBar* bar = dynamic_cast<ProgressBar*>(buttonManager->getButtonByName("WeaponBar" + std::to_string(i + 1)));
+					bar->SetProgress(weaponVector[i]->GetDurability());
+				}
+			}
+			else
+			{
+				buttonManager->getButtonByName("WeaponItem" + std::to_string(i + 1))->setText("");
 			}
 		}
 
@@ -210,8 +217,16 @@ void Inventory::Render()
 			if (i < consumableSize)
 			{
 				buttonManager->getButtonByName("ConsumableItem" + std::to_string(i + 1))->setText(std::to_string(consumableVector[i]->GetQuantity()));
-				ProgressBar* bar = dynamic_cast<ProgressBar*>(buttonManager->getButtonByName("ConsumableBar" + std::to_string(i + 1)));
-				bar->SetProgress(consumableVector[i]->GetDurability());
+				std::cout << "QTY: " << consumableVector[i]->GetQuantity() << std::endl;
+				if (consumableVector[i]->GetIsDurable())
+				{
+					ProgressBar* bar = dynamic_cast<ProgressBar*>(buttonManager->getButtonByName("ConsumableBar" + std::to_string(i + 1)));
+					bar->SetProgress(consumableVector[i]->GetDurability());
+				}
+			}
+			else
+			{
+				buttonManager->getButtonByName("ConsumableItem" + std::to_string(i + 1))->setText("");
 			}
 		}		
 		buttonManager->Render(scene);

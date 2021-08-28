@@ -14,11 +14,12 @@ Monkey::~Monkey()
 {
 }
 
-void Monkey::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, BulletSpawner* _bulletSpawner)
+void Monkey::Init(SceneBase* scene, GameObjectManager* _goManager, Inventory* inventory, Vector3 &target, BulletSpawner* _bulletSpawner)
 {
 	this->scene = scene;
 	this->inventory = inventory;
 	this->bulletSpawner = _bulletSpawner;
+	this->goManager = _goManager;
 	playerPos = &target;
 
 	state = IDLE;
@@ -55,6 +56,15 @@ void Monkey::Update(double dt)
 { 
 	if (currentHP <= 0)
 	{
+		GameObject* go = new GameObject();
+		go->pos = pos;
+		go->scale = Vector3(3, 3, 3);
+		go->physics->SetMovable(true);
+		go->physics->SetEnableCollisionResponse(true);
+		go->mesh = scene->GetMeshList(SceneBase::GEO_JUNGLE_BANANA);
+		go->geoTypeID = SceneBase::GEO_JUNGLE_BANANA;
+		this->goManager->AddGO(go);
+
 		dead = true;
 		return;
 	}

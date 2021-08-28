@@ -95,7 +95,7 @@ void SceneJungle::Init()
 			monkey->physics->SetInelasticity(0.99f);
 			monkey->physics->SetIsBouncable(false);
 			monkey->physics->SetGravity(Vector3(0, 0, 0));
-			monkey->Init(this, inventory, player->pos, new BulletSpawner(goManager, new BananaBullet(Vector3(2, 2, 2), monkey, 30)));
+			monkey->Init(this, goManager, inventory, player->pos, new BulletSpawner(goManager, new BananaBullet(Vector3(2, 2, 2), monkey, 30)));
 
 			monkey->AddBottomSprite();
 			monkey->bottomSprite->mesh = meshList[GEO_WALL];
@@ -190,7 +190,7 @@ void SceneJungle::Init()
 	ability2->SetScenePointer(this);
 	ability2->SetGOManager(this->goManager);*/
 
-	//gameManager->initAbilities(this, &camera, goManager, player);
+	gameManager->initAbilities(this, &camera, goManager, player);
 	//gameManager->setAbility(1, ABILITY_DASH);
 	//gameManager->setAbility(2, ABILITY_GRAPPLER);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
