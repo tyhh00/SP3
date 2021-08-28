@@ -234,7 +234,7 @@ void SceneLobby::Init()
 		10, 10, blackHoleAbilityUI);
 	abilityUIButtons.push_back(abilitySlot6);
 
-	Button* abilityDelete = ButtonFactory::createTextButton("abilityDelete", 43, 1, 15, 15, 0, 0, Color(1, 1, 1), "Clear", 4);
+	Button* abilityDelete = ButtonFactory::createTextButton("abilityDelete", 40, 10, 15, 5, 4, 4, Color(1, 1, 1), "Clear", 4);
 	abilityUIButtons.push_back(abilityDelete);
 
 	Button* abilityBG = ButtonFactory::createNoTextButton("abilityBG", 40, 30,
@@ -269,7 +269,7 @@ void SceneLobby::Init()
 			player = new Player();
 			player->active = true;
 			player->scale = go->scale;
-			player->pos = go->pos;
+			player->pos = Vector3(91, 17, 0); //spawn player in center
 			player->physics = go->physics->Clone();
 			player->physics->SetInelasticity(0.99f);
 			player->physics->SetIsBouncable(false);
@@ -381,6 +381,7 @@ void SceneLobby::Init()
 
 void SceneLobby::Update(double dt)
 {
+	std::cout << player->pos << std::endl;
 	SceneBase::Update(dt);
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
@@ -388,50 +389,69 @@ void SceneLobby::Update(double dt)
 	// button manager
 	buttonManager->Update(dt);
 	// TIME MACHINE
-	if (abs(timeMachine->pos.y - player->pos.y) < 20 && abs(timeMachine->pos.x - player->pos.x) < 10
-		&& input->IsKeyPressed('E'))
+	if (abs(timeMachine->pos.y - player->pos.y) < 20 && abs(timeMachine->pos.x - player->pos.x) < 10)
 	{
-		showMachinePartsUI = !showMachinePartsUI;
-		showAbilityUI = false;
-		if (showMachinePartsUI)
-		{
-			for (int i = 0; i < machinePartsUIButtons.size(); i++)
-			{
-				buttonManager->activateButton(machinePartsUIButtons[i]->getName());
-			}
-		}
+		if (!showAbilityUI)
+			showEtoInteract = true;
 		else
+			showEtoInteract = false;
+		if (input->IsKeyPressed('E'))
 		{
-			for (int i = 0; i < machinePartsUIButtons.size(); i++)
+			showMachinePartsUI = !showMachinePartsUI;
+			showAbilityUI = false;
+			if (showMachinePartsUI)
 			{
-				buttonManager->deactivateButton(machinePartsUIButtons[i]->getName());
+				for (int i = 0; i < machinePartsUIButtons.size(); i++)
+				{
+					buttonManager->activateButton(machinePartsUIButtons[i]->getName());
+				}
+			}
+			else
+			{
+				for (int i = 0; i < machinePartsUIButtons.size(); i++)
+				{
+					buttonManager->deactivateButton(machinePartsUIButtons[i]->getName());
+				}
 			}
 		}
 	}
+	else
+		showEtoInteract = false;
 
 	//ABILITY MACHINE
-	if (abs(abilityMachine->pos.y - player->pos.y) < 10 && abs(abilityMachine->pos.x - player->pos.x) < 10
-		&& input->IsKeyPressed('E'))
+	if (abs(abilityMachine->pos.y - player->pos.y) < 10 && abs(abilityMachine->pos.x - player->pos.x) < 10)
 	{
-		showAbilityUI = !showAbilityUI;
-		if (showAbilityUI)
-		{
-			for (int i = 0; i < abilityUIButtons.size(); i++)
-			{
-				buttonManager->activateButton(abilityUIButtons[i]->getName());
-			}
-			buttonManager->activateButton("abilitySelection1");
-			buttonManager->activateButton("abilitySelection2");
-		}
+		if (!showAbilityUI)
+			showEtoInteract = true;
 		else
+			showEtoInteract = false;
+		if (input->IsKeyPressed('E'))
 		{
-			for (int i = 0; i < abilityUIButtons.size(); i++)
+			showAbilityUI = !showAbilityUI;
+			if (showAbilityUI)
 			{
-				buttonManager->deactivateButton(abilityUIButtons[i]->getName());
+				for (int i = 0; i < abilityUIButtons.size(); i++)
+				{
+					buttonManager->activateButton(abilityUIButtons[i]->getName());
+				}
+				buttonManager->activateButton("abilitySelection1");
+				buttonManager->activateButton("abilitySelection2");
 			}
-			buttonManager->deactivateButton("abilitySelection1");
-			buttonManager->deactivateButton("abilitySelection2");
+			else
+			{
+				for (int i = 0; i < abilityUIButtons.size(); i++)
+				{
+					buttonManager->deactivateButton(abilityUIButtons[i]->getName());
+				}
+				buttonManager->deactivateButton("abilitySelection1");
+				buttonManager->deactivateButton("abilitySelection2");
+			}
 		}
+	}
+	else
+	{
+		if (!showEtoInteract)
+			showEtoInteract = false;
 	}
 	
 	for (auto& buttonCollide : buttonManager->getButtonsInteracted())
@@ -440,6 +460,7 @@ void SceneLobby::Update(double dt)
 		{
 			if (buttonCollide->buttonClicked->getName() == ("abilityDelete") && buttonCollide->justClicked)
 			{
+				selectedAbilities = false;
 				gameManager->removeAbility(1);
 				gameManager->removeAbility(2);
 				buttonManager->getButtonByName("abilitySelection1")->setOrigin(100, buttonCollide->buttonClicked->getOriginY());
@@ -455,6 +476,7 @@ void SceneLobby::Update(double dt)
 				}
 				else if (gameManager->getCurrAbility(1) != nullptr && gameManager->getCurrAbility(2) == nullptr)
 				{
+					selectedAbilities = true;
 					abilityNum = 2;
 					buttonManager->getButtonByName("abilitySelection2")->setOrigin(buttonCollide->buttonClicked->getOriginX(), buttonCollide->buttonClicked->getOriginY());
 				}
@@ -489,7 +511,7 @@ void SceneLobby::Update(double dt)
 
 
 	// PORTALS
-	if (((portal_graveyard->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_graveyard->pos.x - 4)) && (player->pos.x <= (portal_graveyard->pos.x + 4)))
+	if ((selectedAbilities && (portal_graveyard->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_graveyard->pos.x - 4)) && (player->pos.x <= (portal_graveyard->pos.x + 4)))
 	{
 		portal_graveyard->Open();
 		if (Application::IsKeyPressed(VK_RETURN))
@@ -501,7 +523,7 @@ void SceneLobby::Update(double dt)
 	else {
 		portal_graveyard->Close();
 	}
-	if (((portal_jungle->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_jungle->pos.x - 4)) && (player->pos.x <= (portal_jungle->pos.x + 4)))
+	if ((selectedAbilities && (portal_jungle->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_jungle->pos.x - 4)) && (player->pos.x <= (portal_jungle->pos.x + 4)))
 	{
 		portal_jungle->Open();
 		if (Application::IsKeyPressed(VK_RETURN))
@@ -513,7 +535,7 @@ void SceneLobby::Update(double dt)
 	else {
 		portal_jungle->Close();
 	}
-	if (((portal_ocean->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_ocean->pos.x - 4)) && (player->pos.x <= (portal_ocean->pos.x + 4)))
+	if ((selectedAbilities && (portal_ocean->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_ocean->pos.x - 4)) && (player->pos.x <= (portal_ocean->pos.x + 4)))
 	{
 		portal_ocean->Open();
 		if (Application::IsKeyPressed(VK_RETURN))
@@ -525,7 +547,7 @@ void SceneLobby::Update(double dt)
 	else {
 		portal_ocean->Close();
 	}
-	if (((portal_robot->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_robot->pos.x - 4)) && (player->pos.x <= (portal_robot->pos.x + 4)))
+	if ((selectedAbilities && (portal_robot->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_robot->pos.x - 4)) && (player->pos.x <= (portal_robot->pos.x + 4)))
 	{
 		portal_robot->Open();
 		if (Application::IsKeyPressed(VK_RETURN))
@@ -665,8 +687,9 @@ void SceneLobby::Render()
 	ss.precision(5);
 	ss << "FPS: " << fps;
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 0, 2);
-
-	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 2, 0, 0);
+	
+	if (showEtoInteract)
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press E to interact", Color(1, 1, 1), 7, 55, 15);
 }
 
 void SceneLobby::InitLights()
