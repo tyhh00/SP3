@@ -13,7 +13,6 @@ class GameManager : public CSingletonTemplate<GameManager>
 	friend CSingletonTemplate<GameManager>;
 
 public:
-
 	void Init();
 
 	bool getMachineStatus(int partNum);

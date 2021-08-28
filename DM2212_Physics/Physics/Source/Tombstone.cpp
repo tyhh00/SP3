@@ -25,6 +25,8 @@ void Tombstone::Init(SceneBase* scene, Inventory* inventory)
 
 	type = GO_TOMBSTONE;
 
+	physics->SetEnableCollisionResponse(false);
+
 	currentHP = 5;
 	maxHP = 5; // IN SECONDS
 
