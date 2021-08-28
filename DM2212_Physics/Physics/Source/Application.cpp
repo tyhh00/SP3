@@ -159,6 +159,7 @@ void Application::Run()
 	GameManager::GetInstance()->Init();
 	UIManager::GetInstance()->Init();
 	DialogueManager::GetInstance()->Init();
+	CSoundController::GetInstance()->Init();
 	//double dElapsedTime = 0.0;
 	//SceneManager::GetInstance()->init();
 

@@ -51,6 +51,8 @@ class ButtonManager
 	float screenWidth, screenHeight;
 	float elapsed;
 
+	int zPriority;
+
 public:
 	ButtonManager();
 	ButtonManager(float screenWidth, float screenHeight);
@@ -63,6 +65,8 @@ public:
 
 	void Update(double dt);
 	void Render(SceneBase * scene);
+
+	void SetZPriority(int zPriority);
 
 	void addButton(Button* button);
 	bool deleteButton(Button* button);

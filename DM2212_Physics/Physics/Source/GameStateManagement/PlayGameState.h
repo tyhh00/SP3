@@ -13,6 +13,7 @@
 #include "../UIManager.h"
 #include "../Buttons/DialogueManager.h"
 #include "../GameManager.h"
+#include "../SoundController/SoundController.h"
 
 class CPlayGameState : public CGameStateBase
 {
@@ -51,11 +52,17 @@ protected:
 	GAME_STATE currentState;
 	Mesh* resumeButtonMesh, *lobbyButtonMesh, *retryButtonMesh, *optionsButtonMesh, *backButtonMesh;
 	Mesh* menuBG;
+	Mesh* volumeBar[6];
+	Mesh* leftArrowMesh, *rightArrowMesh;
 
 	Button* buttonHighlight;
+	std::vector<Button*> pauseButtonsList;
+	std::vector<Button*> optionsButtonsList;
 
 	ButtonManager* buttonManager;
 	DialogueManager* dialogueManager;
 	GameManager* gameManager;
+	CSoundController* soundController;
 
+	void UpdateVolumeBar();
 };
