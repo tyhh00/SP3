@@ -204,7 +204,7 @@ void SceneGraveyard::Update(double dt)
 	if (input->IsKeyPressed('C'))
 	{
 		LoadBossScene();
-		story_state = CHURCH_INTRO;
+		story_state = CHURCH_DEFAULT;
 	}
 
 	goManager->Update(dt, &this->camera);
@@ -301,6 +301,7 @@ void SceneGraveyard::Update(double dt)
 			machinepart->active = true;
 			machinepart->pos = reaper->pos;
 			story_state = CHURCH_END;
+			dialogueManager->AddDialogue(GRIMREAPER, "UARGHHH", RIGHT);
 		}
 		break;
 	case CHURCH_END:
