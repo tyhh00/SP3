@@ -15,7 +15,7 @@ public:
 		I_CONSUMABLE,
 		I_WEAPON,
 		I_APPLE,
-		I_CHEESE,
+		I_BANANA,
 		I_PISTOL,
 		I_FLASHLIGHT,
 		I_BATTERY,
@@ -50,6 +50,7 @@ public:
 	void ReduceDurability(float amt);
 
 	bool GetIsStackable();
+	bool GetIsDurable();
 
 	void SetScene(SceneBase* scene);
 
@@ -62,6 +63,7 @@ protected:
 	int quantity;
 	float durability; // in percentage, 0 - none, 1 - max
 	bool isStackable;
+	bool isDurable;
 
 	SceneBase* scene;
 

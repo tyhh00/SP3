@@ -392,6 +392,7 @@ void SceneLobby::Update(double dt)
 		&& input->IsKeyPressed('E'))
 	{
 		showMachinePartsUI = !showMachinePartsUI;
+		showAbilityUI = false;
 		if (showMachinePartsUI)
 		{
 			for (int i = 0; i < machinePartsUIButtons.size(); i++)
@@ -409,29 +410,30 @@ void SceneLobby::Update(double dt)
 	}
 
 	//ABILITY MACHINE
-	if (abs(abilityMachine->pos.y - player->pos.y) < 20 && abs(abilityMachine->pos.x - player->pos.x) < 10
+	if (abs(abilityMachine->pos.y - player->pos.y) < 10 && abs(abilityMachine->pos.x - player->pos.x) < 10
 		&& input->IsKeyPressed('E'))
 	{
 		showAbilityUI = !showAbilityUI;
-	}
-	if (showAbilityUI)
-	{
-		for (int i = 0; i < abilityUIButtons.size(); i++)
+		if (showAbilityUI)
 		{
-			buttonManager->activateButton(abilityUIButtons[i]->getName());
+			for (int i = 0; i < abilityUIButtons.size(); i++)
+			{
+				buttonManager->activateButton(abilityUIButtons[i]->getName());
+			}
+			buttonManager->activateButton("abilitySelection1");
+			buttonManager->activateButton("abilitySelection2");
 		}
-		buttonManager->activateButton("abilitySelection1");
-		buttonManager->activateButton("abilitySelection2");
-	}
-	else
-	{
-		for (int i = 0; i < abilityUIButtons.size(); i++)
+		else
 		{
-			buttonManager->deactivateButton(abilityUIButtons[i]->getName());
+			for (int i = 0; i < abilityUIButtons.size(); i++)
+			{
+				buttonManager->deactivateButton(abilityUIButtons[i]->getName());
+			}
+			buttonManager->deactivateButton("abilitySelection1");
+			buttonManager->deactivateButton("abilitySelection2");
 		}
-		buttonManager->deactivateButton("abilitySelection1");
-		buttonManager->deactivateButton("abilitySelection2");
 	}
+	
 	for (auto& buttonCollide : buttonManager->getButtonsInteracted())
 	{
 		for (int i = 0; i < abilityUIButtons.size() - 1; i++) 
@@ -476,6 +478,9 @@ void SceneLobby::Update(double dt)
 					break;
 				case 4:
 					gameManager->setAbility(abilityNum, ABILITY_SLOWTIME);
+					break;
+				case 5:
+					gameManager->setAbility(abilityNum, ABILITY_BLACKHOLE);
 					break;
 				}
 			}

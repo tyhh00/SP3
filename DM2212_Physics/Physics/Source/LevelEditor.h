@@ -56,6 +56,8 @@ enum LEVELEDITOR_STATE
 	MAPSELECTION,
 	MAPCREATION,
 	LEVELEDIT,
+	PLAYLEVEL,
+	LEVELEDITORSTATE_COUNT
 };
 
 //LevelEditor itself will be a scene
@@ -70,6 +72,11 @@ protected:
 	ButtonManager bm_le;
 	LEVELEDITOR_STATE editorState;
 	std::vector<std::string> fileNames;
+	int fileOffset;
+
+	//Static af but its ok, no time alr
+	std::string notif;
+	float notifTime;
 	
 	//Level Editting Variables
 	
@@ -116,6 +123,9 @@ public:
 	bool LoadMap(std::string filename);
 
 	void LoadEditorDefaultValues();
+
+	void MenuStateUpdate(double dt);
+	void EditorStateUpdate(double dt);
 	
 	//Saves map into text file
 	void SaveMap();

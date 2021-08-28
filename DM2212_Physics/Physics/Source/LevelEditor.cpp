@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include "UIManager.h"
 
 
 #include "Buttons/ButtonFactory.h"
@@ -12,6 +13,10 @@
 LevelEditor::LevelEditor() : heldOnTo(nullptr)
 {
 	editorState = MAPSELECTION;
+	fileOffset = 0;
+	notif = "";
+	notifTime = 0.0;
+
 }
 
 LevelEditor::~LevelEditor()
@@ -22,7 +27,7 @@ LevelEditor::~LevelEditor()
 void LevelEditor::Exit()
 {
 	UnloadMap();
-	editorState = MAPSELECTION;
+	UIManager::GetInstance()->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, true);
 }
 
 void LevelEditor::Init()
@@ -34,25 +39,19 @@ void LevelEditor::Init()
 	//Init Buttons
 	fileNames = LevelLoader::GetInstance()->GetLevelNames();
 
-	//int i = 0;
-	//for (auto& name : fileNames)
-	//{
-	//	bm_le.addButton(ButtonFactory::createButton("LEVEL_LevelNameBar_"+std::to_string(i), 29, 40-i*6, 18, 2, meshList[GEO_LEVELEDITOR_LEVELNAMEBAR],
-	//		-7.6,2.4, Color(1.0f, 1.0f, 1.0f), name, 2.6, SUPERMARIO));
+	int i = 0;
+	for (auto& name : fileNames)
+	{
+		bm_le.addButton(ButtonFactory::createButton("LEVEL_LevelNameBar_Index"+std::to_string(i), 29, 40-i*6, 18, 2, meshList[GEO_LEVELEDITOR_LEVELNAMEBAR],
+			-7.6,2.4, Color(1.0f, 1.0f, 1.0f), name, 2.6, SUPERMARIO));
 
-	//	bm_le.addButton(ButtonFactory::createNoTextButton("LEVEL_Play_" + std::to_string(i), 58, 40 - i * 6, 2.5, 2, meshList[GEO_LEVELEDITOR_PLAY]));
-	//	bm_le.addButton(ButtonFactory::createNoTextButton("LEVEL_Edit_" + std::to_string(i), 64, 40 - i * 6, 2.5, 2, meshList[GEO_LEVELEDITOR_EDIT]));
-	//	if(++i >= 5)
-	//		break;
-	//}
-	//bm_le.addButton(ButtonFactory::createNoTextButton("MAIN_EditorBackground", 40, 30, 40, 30, meshList[GEO_LEVELEDITOR_BG]));
+		bm_le.addButton(ButtonFactory::createNoTextButton("LEVEL_Play_Index" + std::to_string(i), 58, 40 - i * 6, 2.5, 2, meshList[GEO_LEVELEDITOR_PLAY]));
+		bm_le.addButton(ButtonFactory::createNoTextButton("LEVEL_Edit_Index" + std::to_string(i), 64, 40 - i * 6, 2.5, 2, meshList[GEO_LEVELEDITOR_EDIT]));
+		if(++i >= 5)
+			break;
+	}
+	bm_le.addButton(ButtonFactory::createNoTextButton("MAIN_EditorBackground", 40, 30, 40, 30, meshList[GEO_LEVELEDITOR_BG]));
 
-
-
-	std::string mapToLoad ="OCEAN_1_1";
-
-	LoadEditorDefaultValues();
-	LoadMap(mapToLoad);
 }
 
 void LevelEditor::UnloadMap()
@@ -60,17 +59,25 @@ void LevelEditor::UnloadMap()
 	for (int i = 0; i < gridObjects.size(); i++)
 	{
 		if (gridObjects[i])
+		{
 			delete gridObjects[i];
+			gridObjects[i] = NULL;
+		}
 	}
+	gridObjects.clear();
 	editorState = MAPSELECTION;
 	//BM Switcher
 }
 
 bool LevelEditor::LoadMap(std::string filename)
 {
-	mapName = filename;
-	mapLoaded = true;
-	return (LevelLoader::GetInstance()->LoadTiles(filename, this->meshList, this->tileSize, gridObjects, gridLength, gridHeight));
+	if (gridObjects.size() == 0)
+	{
+		mapName = filename;
+		mapLoaded = true;
+		editorState = LEVELEDIT;
+		return (LevelLoader::GetInstance()->LoadTiles(filename, this->meshList, this->tileSize, gridObjects, gridLength, gridHeight));
+	}
 }
 
 void LevelEditor::LoadEditorDefaultValues()
@@ -100,49 +107,6 @@ void LevelEditor::LoadEditorDefaultValues()
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 }
 
-void LevelEditor::SaveMap()
-{
-	if (unsavedChanges)
-	{
-		unsavedChanges = false;
-		DEBUG_MSG("Saving " << mapName << ".txt ...");
-
-		std::ofstream file("Levels\\" + mapName + ".txt");
-		file << "# Format: \"TILE_ID Enum Val\":\"Position\":\"Rotation\":\"Scale\"" << std::endl;
-		file << "GridLength: " << gridLength << std::endl;
-		file << "GridHeight: " << gridHeight << std::endl;
-		file << "Tiles: " << std::endl;
-
-		for (auto& go : gridObjects)
-		{
-			std::stringstream ss;
-			ss << go->geoTypeID << ":" <<
-				go->pos.x << "," << go->pos.y << "," << go->pos.z << ":" <<
-				go->physics->GetNormal().x << "," << go->physics->GetNormal().y << "," << go->physics->GetNormal().z << ":" <<
-				go->scale.x / (tileSize[go->geoTypeID]->gridLength * gridLength) << "," << go->scale.y / (tileSize[go->geoTypeID]->gridHeight * gridHeight) << "," << go->scale.z / gridLength;
-				
-			if (go->type == GameObject::GO_TILE_DECORATIVE)
-			{
-				ss << ":DECORATIVE";
-			}
-
-			file << ss.str() << std::endl;
-		}
-
-		DEBUG_MSG("Saved " << mapName);
-	}
-}
-
-void LevelEditor::ClearMap()
-{
-
-}
-
-void LevelEditor::RemoveGO(GameObject* go)
-{
-
-}
-
 void LevelEditor::Update(double dt)
 {
 	SceneBase::Update(dt);
@@ -151,9 +115,86 @@ void LevelEditor::Update(double dt)
 
 	bm_le.Update(dt);
 
+	notifTime -= dt;
+
 	canScrollIn -= dt;
 	if (canScrollIn < 0.0)
 		canScrollIn = 0.0;
+
+	//DEBUG_MSG("Cursor within screen? " << CursorWithinScreen());
+	if (editorState == LEVELEDITOR_STATE::MAPSELECTION
+		|| editorState == LEVELEDITOR_STATE::MAPCREATION)
+	{
+		MenuStateUpdate(dt);
+	}
+	else
+	{
+		EditorStateUpdate(dt);
+	}
+}
+
+void LevelEditor::MenuStateUpdate(double dt)
+{
+	UIManager::GetInstance()->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, false);
+	for (auto& col : bm_le.getButtonsInteracted())
+	{
+		for (int i = 0; i < 5; ++i)
+		{
+			if (col->justClicked && col->buttonClicked->getName() == "LEVEL_Edit_Index"+std::to_string(i))
+			{
+				std::string mapToLoad = fileNames.at(fileOffset+i);
+				LoadEditorDefaultValues();
+				LoadMap(mapToLoad);
+				break;
+			}
+			else if (col->justClicked && col->buttonClicked->getName() == "LEVEL_Play_Index" + std::to_string(i))
+			{
+				notif = "Play feature coming soon!";
+				notifTime = 1.2;
+			}
+		}
+	}
+
+	if (fileNames.size() > 5 && Application::mouseScrollingUp > 0 && canScrollIn <= 0)
+	{
+		canScrollIn = scrollingSpeed * 2;
+		int scrollVal = 0;
+		if (Application::mouseScrollingUp == 1)
+			scrollVal -= 1;
+		else if (Application::mouseScrollingUp == 2)
+			scrollVal += 1;
+
+
+		if (fileOffset + scrollVal < 0) fileOffset = 0;
+		if (fileOffset + scrollVal  < fileNames.size() - 1)
+		{
+			fileOffset += scrollVal;
+			for (int i = 0; i < 5; ++i)
+			{
+				Button* b = bm_le.getButtonByName("LEVEL_LevelNameBar_Index" + std::to_string(i));
+				Button* b1 = bm_le.getButtonByName("LEVEL_Play_Index" + std::to_string(i));
+				Button* b2 = bm_le.getButtonByName("LEVEL_Edit_Index" + std::to_string(i));
+				b->enable();
+				b1->enable();
+				b2->enable();
+				if (fileNames.size() > fileOffset + i)
+					b->setText(fileNames.at(fileOffset + i));
+				else
+				{
+					b->disable();
+					b1->disable();
+					b2->disable();
+				}
+				
+			}
+
+		}
+	}
+}
+
+void LevelEditor::EditorStateUpdate(double dt)
+{
+	UIManager::GetInstance()->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, true);
 	canSnapRotateIn -= dt;
 	if (canSnapRotateIn < 0.0)
 		canSnapRotateIn = 0.0;
@@ -169,9 +210,9 @@ void LevelEditor::Update(double dt)
 	}
 
 	static bool bRButtonState = false;
-	if(!bRButtonState && Application::IsMousePressed(1))
+	if (!bRButtonState && Application::IsMousePressed(1))
 		bRButtonState = true; //Down
-	else if(bRButtonState && !Application::IsMousePressed(1))
+	else if (bRButtonState && !Application::IsMousePressed(1))
 		bRButtonState = false; //Up
 
 	static bool bCTRLState = false;
@@ -195,7 +236,7 @@ void LevelEditor::Update(double dt)
 	else if (Application::IsKeyPressed('T'))
 		scrollState = SCROLLER_TRANSLATE;
 
-	if(Input::GetInstance()->IsKeyReleased('1'))
+	if (Input::GetInstance()->IsKeyReleased('1'))
 	{
 		snapPosToGrid = !snapPosToGrid;
 	}
@@ -225,7 +266,7 @@ void LevelEditor::Update(double dt)
 
 	static bool cannotPasteYet = true; //after pressing Left-Click, you must let go of left click once before u can start placing blocks
 	static bool pastedOnce = false;
-	
+
 	for (std::vector<GameObject*>::iterator it = gridObjects.begin(); it != gridObjects.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
@@ -270,7 +311,7 @@ void LevelEditor::Update(double dt)
 	}
 	double curs_tw_X, curs_tw_Y;
 	CursorToWorldPosition(curs_tw_X, curs_tw_Y);
-	
+
 	//Enable Pasting
 	if (bCTRLState && LKeyRelease && cannotPasteYet)
 	{
@@ -334,7 +375,7 @@ void LevelEditor::Update(double dt)
 				heldOnTo->pos += heldOnTo->physics->GetNormal() * (scrollVal);
 			}
 			break;
-		
+
 		case SCROLLER_ROTATE:
 			if (heldOnTo != nullptr)
 			{
@@ -345,7 +386,7 @@ void LevelEditor::Update(double dt)
 					angle += Math::DegreeToRadian(scrollVal);
 				}
 				else
-					angle += (scrollVal) * dt * 2.5;
+					angle += (scrollVal)*dt * 2.5;
 				heldOnTo->physics->SetNormal(Vector3(cosf(angle), sinf(angle), 0));
 			}
 			break;
@@ -365,7 +406,7 @@ void LevelEditor::Update(double dt)
 
 
 		}
-		
+
 
 	}
 
@@ -401,7 +442,7 @@ void LevelEditor::Update(double dt)
 		{
 			heldOnTo = nullptr;
 		}
-		else 
+		else
 		{
 			if (snapPosToGrid)
 			{
@@ -498,11 +539,53 @@ void LevelEditor::Update(double dt)
 
 	if (bCTRLState && Input::GetInstance()->IsKeyPressed('S'))
 	{
-		if(unsavedChanges)
+		if (unsavedChanges)
 			SaveMap();
 	}
 
-	//DEBUG_MSG("Cursor within screen? " << CursorWithinScreen());
+}
+
+void LevelEditor::SaveMap()
+{
+	if (unsavedChanges)
+	{
+		unsavedChanges = false;
+		DEBUG_MSG("Saving " << mapName << ".txt ...");
+
+		std::ofstream file("Levels\\" + mapName + ".txt");
+		file << "# Format: \"TILE_ID Enum Val\":\"Position\":\"Rotation\":\"Scale\"" << std::endl;
+		file << "GridLength: " << gridLength << std::endl;
+		file << "GridHeight: " << gridHeight << std::endl;
+		file << "Tiles: " << std::endl;
+
+		for (auto& go : gridObjects)
+		{
+			std::stringstream ss;
+			ss << go->geoTypeID << ":" <<
+				go->pos.x << "," << go->pos.y << "," << go->pos.z << ":" <<
+				go->physics->GetNormal().x << "," << go->physics->GetNormal().y << "," << go->physics->GetNormal().z << ":" <<
+				go->scale.x / (tileSize[go->geoTypeID]->gridLength * gridLength) << "," << go->scale.y / (tileSize[go->geoTypeID]->gridHeight * gridHeight) << "," << go->scale.z / gridLength;
+				
+			if (go->type == GameObject::GO_TILE_DECORATIVE)
+			{
+				ss << ":DECORATIVE";
+			}
+
+			file << ss.str() << std::endl;
+		}
+
+		DEBUG_MSG("Saved " << mapName);
+	}
+}
+
+void LevelEditor::ClearMap()
+{
+
+}
+
+void LevelEditor::RemoveGO(GameObject* go)
+{
+
 }
 
 std::vector<GameObject*> LevelEditor::GetCollidedGOs(double worldPos_X, double worldPos_Y)
@@ -547,47 +630,63 @@ void LevelEditor::Render()
 	//RenderMesh(meshList[GEO_AXES], false)
 
 	// all gos
-	for (std::vector<GameObject*>::iterator it = gridObjects.begin(); it != gridObjects.end(); ++it)
+	if (editorState == LEVELEDITOR_STATE::LEVELEDIT)
 	{
-		GameObject* go = (GameObject*)*it;
-
-		if (renderMode == RENDER_SOLID && go->type == GameObject::GO_TILE_DECORATIVE)
-			continue;
-		else if (renderMode == RENDER_DECORATIVE && go->type == GameObject::GO_TILE)
-			continue;
-
-		float angle = Math::RadianToDegree(atan2(go->physics->GetNormal().y, go->physics->GetNormal().x));
-		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(angle, 0, 0, 1);
-
-		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		RenderMesh(go->mesh, false);
-		modelStack.PopMatrix();
-
-	}
-
-	int loops = 0;
-	double xAdd = gridLength * 2.0;
-	double yAdd = gridHeight * 2.0;
-	int startX = floor((camera.position.x - (m_screenWidth * 0.5 - 2)) / xAdd) * xAdd;
-	int startY = floor((camera.position.y - (m_screenWidth * 0.5 - 2)) / yAdd) * yAdd;
-	for (int x = startX; x < camera.position.x + (m_screenWidth * 0.5 + 2); x += xAdd)
-	{
-		for (int y = startY; y < camera.position.y + (m_screenHeight * 0.5 + 2); y += yAdd)
+		for (std::vector<GameObject*>::iterator it = gridObjects.begin(); it != gridObjects.end(); ++it)
 		{
-			loops++;
+			GameObject* go = (GameObject*)*it;
+
+			if (renderMode == RENDER_SOLID && go->type == GameObject::GO_TILE_DECORATIVE)
+				continue;
+			else if (renderMode == RENDER_DECORATIVE && go->type == GameObject::GO_TILE)
+				continue;
+
+			float angle = Math::RadianToDegree(atan2(go->physics->GetNormal().y, go->physics->GetNormal().x));
 			modelStack.PushMatrix();
-			modelStack.Translate(x, y, 0);
-			modelStack.Rotate(0, 0, 0, 1);
-			modelStack.Scale(gridLength, gridHeight, 1);
-			RenderMesh(meshList[GEO_TILEGRID], false);
+			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+			modelStack.Rotate(angle, 0, 0, 1);
+
+			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+			RenderMesh(go->mesh, false);
 			modelStack.PopMatrix();
+
+		}
+
+		int loops = 0;
+		double xAdd = gridLength * 2.0;
+		double yAdd = gridHeight * 2.0;
+		int startX = floor((camera.position.x - (m_screenWidth * 0.5 - 2)) / xAdd) * xAdd;
+		int startY = floor((camera.position.y - (m_screenWidth * 0.5 - 2)) / yAdd) * yAdd;
+		for (int x = startX; x < camera.position.x + (m_screenWidth * 0.5 + 2); x += xAdd)
+		{
+			for (int y = startY; y < camera.position.y + (m_screenHeight * 0.5 + 2); y += yAdd)
+			{
+				loops++;
+				modelStack.PushMatrix();
+				modelStack.Translate(x, y, 0);
+				modelStack.Rotate(0, 0, 0, 1);
+				modelStack.Scale(gridLength, gridHeight, 1);
+				RenderMesh(meshList[GEO_TILEGRID], false);
+				modelStack.PopMatrix();
+			}
+		}
+		//DEBUG_MSG("Looped " << loops << " to cover all grids in viewable scene");
+	}
+	else if (editorState == LEVELEDITOR_STATE::MAPCREATION ||
+		editorState == LEVELEDITOR_STATE::MAPSELECTION)
+	{
+
+		bm_le.Render(this);
+
+		if (notifTime > 0.0)
+		{
+			std::ostringstream ss;
+			ss.str("");
+			ss.precision(1);
+			ss << notif;
+			RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 30, 5, Text::getFont(CALIBRI)->textWidth, 256);
 		}
 	}
-	//DEBUG_MSG("Looped " << loops << " to cover all grids in viewable scene");
-
-	bm_le.Render(this);
 
 	// fps tings
 

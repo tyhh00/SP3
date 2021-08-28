@@ -16,6 +16,7 @@ Item::Item(GROUP_TYPE _groupType, ITEM_TYPE _itemType, int _quantity, bool _isSt
 	, scene(NULL)
 	, mesh(_mesh)
 	, durability(_durability)
+	, isDurable(false)
 {
 }
 
@@ -26,6 +27,7 @@ Item::Item(GROUP_TYPE _groupType, ITEM_TYPE _itemType, int _quantity, bool _isSt
 	, isStackable(_isStackable)
 	, scene(NULL)
 	, durability(_durability)
+	, isDurable(false)
 {
 }
 
@@ -112,6 +114,11 @@ void Item::ReduceDurability(float amt)
 bool Item::GetIsStackable()
 {
 	return isStackable;
+}
+
+bool Item::GetIsDurable()
+{
+	return isDurable;
 }
 
 void Item::SetScene(SceneBase* scene)

@@ -100,7 +100,7 @@ void GrapplingAbility::Update(double dt)
 		//}
 		//std::cout << maxVel << std::endl;
 	}
-	else if (player->physics != nullptr)
+	else if (player != nullptr)
 	{
 		if (player->physics->GetVelocity().x < 1 && player->physics->GetVelocity().x > -1)
 		{

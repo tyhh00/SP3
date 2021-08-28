@@ -9,7 +9,7 @@
 #include "Ghost.h"
 #include "Monkey.h"
 #include "FireTorch.h"
-#include "Cheese.h"
+#include "Banana.h"
 #include "Bone.h"
 #include "Skull.h"
 #include "Pickaxe.h"
@@ -359,7 +359,7 @@ void Player::CollidedWith(GameObject* go)
 	case SceneBase::GEO_JUNGLE_APPLE:
 		CSoundController::GetInstance()->PlaySoundByID(ITEM_PICKUP);
 		goManager->RemoveGO(go);
-		inventory->AddItem(new Apple(go->mesh));
+		inventory->AddItem(new Apple(go->mesh, this));
 		break;
 	case SceneBase::GEO_JUNGLE_PISTOL:
 		CSoundController::GetInstance()->PlaySoundByID(ITEM_PICKUP);
@@ -369,7 +369,7 @@ void Player::CollidedWith(GameObject* go)
 	case SceneBase::GEO_JUNGLE_BANANA:
 		CSoundController::GetInstance()->PlaySoundByID(ITEM_PICKUP);
 		goManager->RemoveGO(go);
-		inventory->AddItem(new Cheese(go->mesh));
+		inventory->AddItem(new Banana(go->mesh, this));
 		break;
 	case SceneBase::GEO_MACHINEPART_1:
 		gameManager->setMachineStatus(1, true);
