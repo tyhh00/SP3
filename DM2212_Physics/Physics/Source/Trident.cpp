@@ -79,8 +79,15 @@ void TridentGO::CollidedWith(GameObject* go)
 		this->physics->pos.x = -100;
 		break;
 	case GameObject::GO_DRAGON:
-		std::cout << "AAAAAAA" << std::endl;
-		go->currentHP -= 10;
+		if (go->parent != nullptr)
+		{
+			go->parent->currentHP -= 10;
+			std::cout << "parent curHP: " << go->parent->currentHP << std::endl;
+		}
+		else //parent (dragon head)
+		{
+			go->currentHP -= 10;
+		}
 		this->pos.x = -100;
 		this->physics->pos.x = -100;
 		break;

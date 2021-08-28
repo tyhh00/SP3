@@ -24,6 +24,8 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, SHAPE_TYPE shapeType)
 	, respawnableBlock(false)
 	, reappearIn(0.1)
 	, slowedObj(true)
+	, invisible(false)
+	, parent(nullptr)
 {
 	physics = new Physics(shapeType, pos, scale);
 }
@@ -57,6 +59,8 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue, Mesh* mesh, int geoTypeID, SHA
 	, respawnableBlock(false)
 	, reappearIn(0.16)
 	, slowedObj(true)
+	, invisible(false)
+	, parent(nullptr)
 {}
 
 bool GameObject::IsDamagable()

@@ -35,13 +35,16 @@ void SceneOcean::Init()
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	m_worldHeight = m_screenHeight * 3;
-	m_worldWidth = m_screenWidth * 5;
+	m_worldWidth = m_screenWidth * 7;
 
 	//Inventory init
 	inventory->Init(this);
 
 	// GO Manager
 	goManager->Init();
+
+	// Dialogue Manager
+	dialogueManager = DialogueManager::GetInstance();
 
 	//Physics code here
 	m_speed = 1.f;
@@ -94,7 +97,7 @@ void SceneOcean::Init()
 			crab->physics = go->physics->Clone();
 			crab->physics->SetInelasticity(0.99f);
 			crab->physics->SetIsBouncable(false);
-			crab->Init(player->pos, Crab::LAR);
+			crab->Init(player, Crab::LAR);
 
 			crab->AddBottomSprite();
 			crab->bottomSprite->mesh = meshList[GEO_WALL];
@@ -113,8 +116,12 @@ void SceneOcean::Init()
 			dragon->physics = go->physics->Clone();
 			dragon->physics->SetInelasticity(0.99f);
 			dragon->physics->SetIsBouncable(false);
-			dragon->Init(this, player->pos, 8);
+			dragon->physics->SetGravity(Vector3(0, 0, 0));			
+			dragon->Init(this, player, 8, goManager);
+			dragon->mesh = nullptr;
 			goManager->AddGO(dragon);
+
+			std::cout << "Dragon spawn at: " << dragon->pos << std::endl;
 
 			//Delete Grid Player
 			delete go;
@@ -134,6 +141,38 @@ void SceneOcean::Init()
 			goManager->AddGO(thunder);
 
 			//Delete Grid Player
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_OCEAN_YH)
+		{
+			yh = new YongHong();
+
+			yh->active = true;
+			yh->scale = go->scale;
+			yh->pos = go->pos;
+			yh->physics = go->physics->Clone();
+			yh->physics->SetInelasticity(0.99f);
+			yh->physics->SetIsBouncable(false);
+			yh->Init(inventory);
+
+			goManager->AddGO(yh);
+			delete go;
+			go = nullptr;
+		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_OCEAN_WHALE)
+		{
+			whale = new Whale();
+
+			whale->active = true;
+			whale->scale = go->scale;
+			whale->pos = go->pos;
+			whale->physics = go->physics->Clone();
+			whale->physics->SetInelasticity(0.99f);
+			whale->physics->SetIsBouncable(false);
+			whale->Init(inventory);
+
+			goManager->AddGO(whale);
 			delete go;
 			go = nullptr;
 		}
@@ -158,7 +197,7 @@ void SceneOcean::Init()
 	trident->Init(&camera, goManager, player->pos);
 	inventory->AddItem(trident);
 
-
+	story_state = INTRO;
 }
 
 void SceneOcean::Update(double dt)
@@ -179,15 +218,104 @@ void SceneOcean::Update(double dt)
 
 	goManager->Update(dt, &this->camera);
 
+
 	if (player->currentHP <= 0)
 	{
 		gameLost = true;
-	}
-	if (gameManager->getMachineStatus(3))
-	{
-		gameWin = true;
+		return;
 	}
 
+	// STORY UPDATES
+	switch (story_state)
+	{
+	case INTRO:
+		if (player->physics->GetOnGround())
+		{
+			dialogueManager->AddDialogue(PLAYER, "Where am I now? This smells familiar.", LEFT, 1.0f);
+			dialogueManager->AddDialogue(PLAYER, "The ocean? But why's there so many crabs?", LEFT, 1.0f);
+			dialogueManager->AddDialogue(PLAYER, "Why am I holding a trident?", LEFT, 1.0f);
+			story_state = FINDWHALE;
+		}
+		break;
+	case FINDWHALE:
+		if (abs(whale->pos.x - player->pos.x) < 30)
+		{
+			if (input->IsKeyPressed('E'))
+			{
+				dialogueManager->AddDialogue(PLAYER, "???", LEFT);
+				dialogueManager->AddDialogue(PLAYER, "A beached whale?", LEFT);
+				dialogueManager->AddDialogue(WHALE, "Hello second time-traveller! Welcome to my empire.", RIGHT, 3.0f);
+				dialogueManager->AddDialogue(PLAYER, "Second? What do you mean?", LEFT);
+				dialogueManager->AddDialogue(WHALE, "There was another one of your kind who landed earlier. Had a strange aura coming from it.", RIGHT, 3.0f);
+				dialogueManager->AddDialogue(PLAYER, "I see... did you happen to know where they went?", LEFT);
+				dialogueManager->AddDialogue(PLAYER, "Do you also happen to have a time-machine part?", LEFT);
+				dialogueManager->AddDialogue(WHALE, "Unfortunately no. But I did happen to see the part you speak of.", RIGHT, 3.0f);
+				dialogueManager->AddDialogue(WHALE, "Bring me at least 5 of the blue and red colored shells respectively, and I'll tell you.", RIGHT, 3.0f);
+				dialogueManager->AddDialogue(PLAYER, "Okay.", LEFT);
+				story_state = WHALE_TEXT;
+			}
+		}
+		break;
+	case WHALE_TEXT:
+		if (abs(whale->pos.x - player->pos.x) < 30)
+		{
+			if (input->IsKeyPressed('E'))
+			{
+				if (whale->CheckEntry())
+				{
+					dialogueManager->AddDialogue(WHALE, "Alright I'll tell you now. I last saw the parts with the time-traveller.", RIGHT, 2.0f);
+					story_state = FIND_YH;
+				}
+				else
+				{
+					dialogueManager->AddDialogue(WHALE, "Unfortunately, it seems you do not have enough of the required items.", RIGHT, 2.0f);
+					dialogueManager->AddDialogue(WHALE, "Come back when you have them.", RIGHT, 2.0f);
+				}
+			}
+		}
+		break;
+	case FIND_YH:
+		if (abs(yh->pos.x - player->pos.x) < 20)
+		{
+			if (input->IsKeyPressed('E'))
+			{
+				dialogueManager->AddDialogue(PLAYER, "Excuse me? Are you the time-traveller the whale speaks of?");
+				dialogueManager->AddDialogue(YH, "Yes I am. Fancy seeing another human here on this planet.", RIGHT);
+				dialogueManager->AddDialogue(YH, "What do you need?", RIGHT);
+				dialogueManager->AddDialogue(PLAYER, "I need the time-machine part to fix my machine. Do you happen to have it?");
+				dialogueManager->AddDialogue(YH, "I can give it to you on one condition.", RIGHT);
+				dialogueManager->AddDialogue(YH, "I've lost my bottle. It contains great power beyond this world's knowledge, and can cause chaos.", RIGHT);
+				dialogueManager->AddDialogue(YH, "If you find my bottle and return it to me, I will give you your machine part.", RIGHT);
+				dialogueManager->AddDialogue(PLAYER, "Okay.", LEFT);
+				story_state = YH_TEXT;
+			}
+		}
+		break;
+	case YH_TEXT:
+		if (abs(yh->pos.x - player->pos.x) < 20)
+		{
+			if (input->IsKeyPressed('E'))
+			{
+				if (yh->CheckEntry())
+				{
+					dialogueManager->AddDialogue(YH, "You've found it! Thank you for returning it.Here's the machine part.", RIGHT, 2.0f);
+					story_state = OCEAN_END;
+				}
+				else
+				{
+					dialogueManager->AddDialogue(YH, "Where's my bottle?", RIGHT, 2.0f);
+					dialogueManager->AddDialogue(YH, "No bottle no bueno.", RIGHT, 2.0f);
+				}
+			}
+		}
+		break;
+	case OCEAN_END:
+		if (gameManager->getMachineStatus(3))
+		{
+			gameWin = true;
+		}
+		break;
+	}
 	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
 }
 

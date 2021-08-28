@@ -20,7 +20,7 @@ public:
 	Crab();
 	~Crab();
 
-	void Init(Vector3& target, MOVEMENT_TYPE type); // keep target only if you need to access player pos
+	void Init(GameObject* target, MOVEMENT_TYPE type); // keep target only if you need to access player pos
 	void Update(double dt);
 
 private:
@@ -43,7 +43,7 @@ private:
 	ENEMY_STATE state;
 	float tempVel;
 	MOVEMENT_TYPE mType;
-	Vector3 *playerPos; // to keep track of player pos
+	GameObject *player; // to keep track of player pos
 	
 	SpriteAnimation* animatedSprites;
 

@@ -63,6 +63,8 @@ struct GameObject
 	Mesh* mesh;
 	Attachment* bottomSprite;
 
+	GameObject* parent;
+
 	GAMEOBJECT_TYPE type;
 
 	bool dead;
@@ -102,6 +104,7 @@ struct GameObject
 	float reappearCD; //After reappeared, how long more till next one shows
 
 	bool slowedObj; //if GO is slowed down 
+	bool invisible; 
 
 	//Reponse Collision whitelisted GAMEOBJECT_TYPES
 	std::set<int> responseWhitelist;

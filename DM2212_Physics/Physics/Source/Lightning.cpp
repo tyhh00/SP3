@@ -29,7 +29,7 @@ void Lightning::Init(Vector3 pos, Vector3 dir)
 
 	this->scale.Set(5, 20, 1);
 	this->physics->SetDir(dir);
-	this->pos = pos + (dir * scale.y);
+	this->pos = pos + (dir * this->scale.y);
 	
 	//this->pos = pos;
 	
@@ -62,11 +62,12 @@ void Lightning::CollidedWith(GameObject* go)
 {
 	if (go->type == GO_PLAYER)
 	{
-		if (timeout <= 0)
-		{
-			go->currentHP -= 5;
-			timeout = 1.5f;
-		}
+		go->currentHP -= 5;
+	}
+	if (go->type == GO_CRAB)
+	{
+		std::cout << "Collided" << std::endl;
+		go->currentHP -= 100;
 	}
 }
 

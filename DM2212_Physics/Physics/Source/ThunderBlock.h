@@ -24,7 +24,7 @@ public:
 	};
 	void Update(double dt)
 	{
-		theta += 100 * dt;
+		theta += 200 * dt;
 		physics->SetDir(Vector3(cos(Math::DegreeToRadian(theta)), sin(Math::DegreeToRadian(theta)), 0));
 		physics->SetNormal(physics->GetDir().Cross(Vector3(0,0,-1)));
 		
