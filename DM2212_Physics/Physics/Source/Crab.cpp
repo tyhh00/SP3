@@ -57,10 +57,6 @@ void Crab::Update(double dt)
 	{
 		timeout -= dt;
 	}
-	else if (timeout <= 0)
-	{
-		timeout = 0;
-	}
 
 	switch (state)
 	{
@@ -136,7 +132,7 @@ void Crab::Update(double dt)
 	case ATTACK:
 		if ((*playerPos - pos).Length() < attackRange) //checks if player within attack range
 		{
-			if (timeout < 0) //cooldown for attack
+			if (timeout <= 0) //cooldown for attack
 			{
 				if (tempVel <= 0)
 				{
@@ -148,7 +144,6 @@ void Crab::Update(double dt)
 					animatedSprites->PlayAnimation("attackRight", 0, 1.0f);
 					animatedSprites->Reset();
 				}
-				timeout = 1;
 			}
 		}
 		else //if not within attack range, then set state back to WLAR
@@ -205,6 +200,8 @@ void Crab::Update(double dt)
 		animatedSprites->PlayAnimation("left", -1, 1.0f);
 	}*/
 
+	std::cout << timeout << std::endl;
+
 }
 
 void Crab::updateMType(double dt)
@@ -248,10 +245,11 @@ void Crab::CollidedWith(GameObject* go) //walk into a wall
 
 	if (go->type == GO_PLAYER)
 	{
+		std::cout << "Collided" << std::endl;
 		if (timeout <= 0)
 		{
 			go->currentHP -= 5;
-			timeout = 1;
+			timeout = 0.8;
 		}
 	}
 }

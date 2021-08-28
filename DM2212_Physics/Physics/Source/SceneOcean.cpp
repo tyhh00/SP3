@@ -113,7 +113,8 @@ void SceneOcean::Init()
 			dragon->physics = go->physics->Clone();
 			dragon->physics->SetInelasticity(0.99f);
 			dragon->physics->SetIsBouncable(false);
-			dragon->Init(this, player->pos, 8);
+			dragon->physics->SetGravity(Vector3(0, 0, 0));
+			dragon->Init(this, player->pos, 8, goManager);
 			goManager->AddGO(dragon);
 
 			//Delete Grid Player

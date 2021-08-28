@@ -14,7 +14,7 @@ public:
 	Dragon();
 	~Dragon();
 
-	void Init(SceneBase* scene, Vector3& target, int numParts); // keep target only if you need to access player pos
+	void Init(SceneBase* scene, Vector3& target, int numParts, GameObjectManager* goManager); // keep target only if you need to access player pos
 	void Update(double dt);
 	void Render(SceneBase* scene);
 	float convertidk(float pain);
@@ -36,6 +36,7 @@ private:
 	
 	SpriteAnimation* animatedSprites;
 	Inventory* inventory;
+	GameObjectManager* goM;
 
 	std::vector<GameObject*> dragon;
 	float angle; 

@@ -16,11 +16,12 @@ Dragon::~Dragon()
 	}
 }
 
-void Dragon::Init(SceneBase* scene,Vector3 &target, int numParts)
+void Dragon::Init(SceneBase* scene,Vector3 &target, int numParts, GameObjectManager* goManager)
 {
 	this->scene = scene;
 	this->inventory = inventory;
 	playerPos = &target;
+	goM = goManager;
 
 	this->maxHP = 100;
 	this->currentHP = 100;
@@ -56,6 +57,11 @@ void Dragon::Init(SceneBase* scene,Vector3 &target, int numParts)
 	go->mesh = MeshBuilder::GenerateQuad("dragonTail", Color(1, 1, 1), 2.f);
 	go->mesh->textureID = LoadTGA("Image/Tiles/enemy_dragonTail.tga");
 	dragon.push_back(go);
+
+	//for (int i = 0; dragon.size(); i++)
+	//{
+	//	goM->AddGO(dragon.at(i));
+	//}
 
 	state = SINCURVE;
 
