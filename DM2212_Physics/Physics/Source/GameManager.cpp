@@ -99,6 +99,11 @@ void GameManager::setAbility(int abilityNum, ABILITY_TYPE type)
 	currAbility[abilityNum - 1] = abilityArray[type];
 }
 
+void GameManager::removeAbility(int abilityNum)
+{
+	currAbility[abilityNum - 1] = nullptr;
+}
+
 void GameManager::addScore(float score)
 {
 	if (score > 0)

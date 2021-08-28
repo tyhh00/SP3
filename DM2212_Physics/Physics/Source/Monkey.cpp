@@ -35,6 +35,7 @@ void Monkey::Init(SceneBase* scene, Inventory* inventory, Vector3 &target, Bulle
 	physics->SetMovable(true);
 	physics->SetEnableCollisionResponse(true);
 	physics->SetGravity(Vector3(0, -98.f, 0));
+	this->AddToResponseWhitelist(GO_PLAYER);
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(1, 18, 2.0f, 2.0f);
 	animatedSprites->AddAnimation("jumpRight", 0, 2);

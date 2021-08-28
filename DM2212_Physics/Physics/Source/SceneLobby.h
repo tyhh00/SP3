@@ -37,15 +37,20 @@ protected:
 	float m_speed;
 
 	bool showMachinePartsUI;
+	bool showAbilityUI;
 
 
 	Player* player;
-	GameObject* timeMachine;
+	GameObject* timeMachine, * abilityMachine;
 	LobbyPortal* portal_graveyard, *portal_jungle, *portal_ocean, *portal_robot;
 
 	Mesh* machinePartsUIBG, * machinePartsSlot;
 	std::vector<Button*> machinePartsUIButtons;
 	ButtonManager* buttonManager;
+
+	Mesh* abilityUIBG, * grapplingAbilityUI, * dashAbilityUI, * portalAbilityUI, * recallAbilityUI, * slowTimeAbilityUI, * blackHoleAbilityUI;
+	Mesh* ability1, * ability2, *clearAbility;
+	std::vector<Button*> abilityUIButtons;
 
 	Input* input;
 	Inventory* inventory;

@@ -34,7 +34,7 @@ void Pistol::Update(double dt)
 		CursorToWorldPosition(x, y);
 
 		Vector3 displacement = Vector3(x, y, 0) - *playerPos;
-		bulletSpawner->SpawnBullet(*playerPos, displacement, displacement);
+		bulletSpawner->SpawnBullet(Vector3(playerPos->x, playerPos->y + 1, 0), displacement, Vector3(0,1,0));
 
 		shootInterval = 0;
 	}

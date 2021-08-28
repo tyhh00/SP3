@@ -25,8 +25,12 @@ void GrapplingAbility::Init()
 
 void GrapplingAbility::Update(double dt)
 {
+	abilityCD_timeleft -= dt;
+	if (abilityCD_timeleft < 0)
+		abilityCD_timeleft = 0.0f;
+
 	//attach grappling hook
-	if (input->IsKeyPressed(buttonChar))
+	if (input->IsKeyPressed(buttonChar) && abilityCD_timeleft <= 0)
 	{
 		double x, y;
 		CursorToWorldPosition(x, y);
@@ -40,6 +44,7 @@ void GrapplingAbility::Update(double dt)
 				initialDisplacement = temp - player->pos;
 				isGrappling = true;
 				grapplingHook.active = true;
+				abilityCD_timeleft = GetCooldownDuration();
 			}
 		}
 

@@ -21,6 +21,7 @@ public:
 	void initAbilities(SceneBase* scene, Camera* camera, GameObjectManager* GOM, GameObject* player);
 	Ability* getCurrAbility(int abilityNum);
 	void setAbility(int abilityNum, ABILITY_TYPE type);
+	void removeAbility(int abilityNum);
 
 	void addScore(float score);
 	void removeScore(float score);

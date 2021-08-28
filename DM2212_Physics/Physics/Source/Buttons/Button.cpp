@@ -209,6 +209,3 @@ void Button::enable() {
 void Button::setQuadImage(Mesh* type) {
 	this->quadTexture = type;
 }
-
-
-
