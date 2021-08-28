@@ -221,7 +221,7 @@ void PortalAbility::Render()
 		scene->modelStack.PushMatrix();
 		scene->modelStack.Translate(player->pos.x, player->pos.y, player->pos.z);
 		scene->modelStack.Scale(3, 3, 3);
-		scene->RenderMesh(portalSprite, false);
+		scene->RenderMesh(portalSprite, true);
 		scene->modelStack.PopMatrix();
 	}
 	
