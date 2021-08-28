@@ -2,6 +2,7 @@
 #include "Campfire.h"
 #include "Application.h"
 #include "MeshBuilder.h"
+#include "../Source/SoundController/SoundController.h"
 
 
 Campfire::Campfire()
@@ -64,6 +65,7 @@ void Campfire::Update(double dt)
 	{
 		if ((*playerPos - pos).Length() < 10 && !isLit)
 		{
+			CSoundController::GetInstance()->PlaySoundByID(CAMPFIRE);
 			isLit = true;
 		}
 	}

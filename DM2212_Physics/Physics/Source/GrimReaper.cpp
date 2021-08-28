@@ -137,7 +137,7 @@ void GrimReaper::CollidedWith(GameObject* go)
 	if (go->type == GO_PLAYER && 
 		state == WHACKING && cooldown_timer <= 0)
 	{
-		//go->currentHP -= 40;
+		go->currentHP -= 30;
 		cooldown_timer += 2.f;
 	}
 }

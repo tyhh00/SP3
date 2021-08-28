@@ -169,7 +169,7 @@ void SceneGraveyard::Init()
 	camera.SetFocusTarget(player->pos);
 	camera.SetMode(Camera::CENTER);
 
-	// ABILITIES
+	// ABILITIESZ
 	gameManager->initAbilities(this, &camera, goManager, player);
 	gameManager->setAbility(1, ABILITY_DASH);
 	gameManager->setAbility(2, ABILITY_PORTAL);

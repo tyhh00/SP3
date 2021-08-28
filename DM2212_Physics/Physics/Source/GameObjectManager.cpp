@@ -543,9 +543,21 @@ void GameObjectManager::Render(SceneBase* scene)
 		go->Render(scene);
 	}
 }
-void GameObjectManager::AddGO(GameObject* go)
+void GameObjectManager::AddGO(GameObject* go, bool instant)
 {
-	toAddList.push_back(go);
+	if (!instant)
+		toAddList.push_back(go);
+	else
+	{
+		if (go->physics->GetMovable())
+		{
+			m_movableGOList.push_back(go);
+		}
+		else
+		{
+			m_stationaryGOList.push_back(go);
+		}
+	}
 }
 void GameObjectManager::RemoveGO(GameObject* go)
 {

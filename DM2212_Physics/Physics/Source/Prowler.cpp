@@ -4,6 +4,7 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 #include "Flashlight.h"
+#include "../Source/SoundController/SoundController.h"
 
 Prowler::Prowler() : Enemy(JG_PROWLER)
 {
@@ -112,6 +113,7 @@ void Prowler::Update(double dt)
 		{
 			animatedSprites->PlayAnimation("runLeft", -1, 1.0f);
 		}
+		//CSoundController::GetInstance()->PlaySoundByID(PROWLER_FOOTSTEPS);
 		break;
 	case ATTACK:
 	{
@@ -120,6 +122,7 @@ void Prowler::Update(double dt)
 			player->currentHP -= ATTACK_DAMAGE;
 			readyToAttack = false;
 		}
+		CSoundController::GetInstance()->PlaySoundByID(PROWLER_ATTACK);
 
 		attackAnimationTimer += dt;
 		if (attackAnimationTimer > 1.f)
@@ -183,6 +186,7 @@ void Prowler::Update(double dt)
 			{
 				offset = -10;
 			}
+			CSoundController::GetInstance()->PlaySoundByID(PROWLER_SPAWN_MINION);
 
 			Monkey* monkey = new Monkey();
 
