@@ -250,7 +250,7 @@ void SceneOcean::Update(double dt)
 				dialogueManager->AddDialogue(PLAYER, "I see... did you happen to know where they went?", LEFT);
 				dialogueManager->AddDialogue(PLAYER, "Do you also happen to have a time-machine part?", LEFT);
 				dialogueManager->AddDialogue(WHALE, "Unfortunately no. But I did happen to see the part you speak of.", RIGHT, 3.0f);
-				dialogueManager->AddDialogue(WHALE, "Bring me at least 5 of the blue and red colored shells respectively, and I'll tell you.", RIGHT, 3.0f);
+				dialogueManager->AddDialogue(WHALE, "Bring me at least 5 of the blue and red colored shells each to prove your worth, and I'll tell you.", RIGHT, 3.0f);
 				dialogueManager->AddDialogue(PLAYER, "Okay.", LEFT);
 				story_state = WHALE_TEXT;
 			}
@@ -298,7 +298,7 @@ void SceneOcean::Update(double dt)
 			{
 				if (yh->CheckEntry())
 				{
-					dialogueManager->AddDialogue(YH, "You've found it! Thank you for returning it.Here's the machine part.", RIGHT, 2.0f);
+					dialogueManager->AddDialogue(YH, "You've found it! Thank you for returning it. Here's the machine part.", RIGHT, 2.0f);
 					story_state = OCEAN_END;
 				}
 				else

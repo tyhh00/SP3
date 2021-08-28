@@ -522,7 +522,7 @@ void SceneLobby::Update(double dt)
 	if ((selectedAbilities && (portal_graveyard->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_graveyard->pos.x - 4)) && (player->pos.x <= (portal_graveyard->pos.x + 4)))
 	{
 		portal_graveyard->Open();
-		if (Application::IsKeyPressed(VK_RETURN))
+		if (input->IsKeyPressed('E'))
 		{
 			sceneManager->setScene(w_graveyard);
 			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
@@ -534,7 +534,7 @@ void SceneLobby::Update(double dt)
 	if ((selectedAbilities && (portal_jungle->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_jungle->pos.x - 4)) && (player->pos.x <= (portal_jungle->pos.x + 4)))
 	{
 		portal_jungle->Open();
-		if (Application::IsKeyPressed(VK_RETURN))
+		if (input->IsKeyPressed('E'))
 		{
 			sceneManager->setScene(w_jungle);
 			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
@@ -546,7 +546,7 @@ void SceneLobby::Update(double dt)
 	if ((selectedAbilities && (portal_ocean->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_ocean->pos.x - 4)) && (player->pos.x <= (portal_ocean->pos.x + 4)))
 	{
 		portal_ocean->Open();
-		if (Application::IsKeyPressed(VK_RETURN))
+		if (input->IsKeyPressed('E'))
 		{
 			sceneManager->setScene(w_ocean);
 			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
@@ -558,7 +558,7 @@ void SceneLobby::Update(double dt)
 	if ((selectedAbilities && (portal_robot->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_robot->pos.x - 4)) && (player->pos.x <= (portal_robot->pos.x + 4)))
 	{
 		portal_robot->Open();
-		if (Application::IsKeyPressed(VK_RETURN))
+		if (input->IsKeyPressed('E'))
 		{
 			sceneManager->setScene(w_robot);
 			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");

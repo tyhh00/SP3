@@ -325,7 +325,7 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_BONES_02:
 		if (inventory->GetCurrentItem() != nullptr && inventory->GetCurrentItemType() == Item::I_PICKAXE
-			&& input->IsKeyPressed('F'))
+			&& input->IsKeyPressed('E'))
 		{
 			goManager->RemoveGO(go);
 			inventory->AddItem(new Bone(2));
@@ -333,7 +333,7 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_BONES_03:
 		if (inventory->GetCurrentItem() != nullptr && inventory->GetCurrentItemType() == Item::I_PICKAXE
-			&& input->IsKeyPressed('F'))
+			&& input->IsKeyPressed('E'))
 		{
 			goManager->RemoveGO(go);
 			inventory->AddItem(new Bone(3));
@@ -341,7 +341,7 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_BONES_10:
 		if (inventory->GetCurrentItem() != nullptr && inventory->GetCurrentItemType() == Item::I_PICKAXE
-			&& input->IsKeyPressed('F'))
+			&& input->IsKeyPressed('E'))
 		{
 			goManager->RemoveGO(go);
 			inventory->AddItem(new Skull(1));
@@ -349,7 +349,7 @@ void Player::CollidedWith(GameObject* go)
 		break;
 	case SceneBase::GEO_BONES_11:
 		if (inventory->GetCurrentItem() != nullptr && inventory->GetCurrentItemType() == Item::I_PICKAXE
-			&& input->IsKeyPressed('F'))
+			&& input->IsKeyPressed('E'))
 		{
 			goManager->RemoveGO(go);
 			inventory->AddItem(new Skull(1));
@@ -400,21 +400,21 @@ void Player::CollidedWith(GameObject* go)
 	}
 		break;
 	case SceneBase::GEO_OCEAN_SEASHELL1:
-		if (input->IsKeyPressed('F'))
+		if (input->IsKeyPressed('E'))
 		{
 			goManager->RemoveGO(go);
 			inventory->AddItem(new Blueshell(1));	
 		}
 		break;
 	case SceneBase::GEO_OCEAN_SEASHELL2:
-		if (input->IsKeyPressed('F'))
+		if (input->IsKeyPressed('E'))
 		{
 			goManager->RemoveGO(go);
 			inventory->AddItem(new Redshell(1));	
 		}
 		break;
 	case SceneBase::GEO_OCEAN_BOTTLE:
-		if (input->IsKeyPressed('F'))
+		if (input->IsKeyPressed('E'))
 		{
 			goManager->RemoveGO(go);
 			inventory->AddItem(new Bottle(1));

@@ -28,7 +28,7 @@ void Flashlight::Update(double dt)
 {
 	light_pos.Set(scene->lights[1].position.x, scene->lights[1].position.y, scene->lights[1].position.z);
 
-	if (input->IsKeyPressed('F'))
+	if (input->IsKeyPressed('E'))
 	{
 		active = !active;
 		if (active && currBatt > 0)
