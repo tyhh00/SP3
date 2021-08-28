@@ -52,6 +52,7 @@ public:
 	void Init();
 	void Update(double dt);
 	void Render();
+	void Reset();
 	ABILITY_TYPE GetAbilityType();
 
 private:

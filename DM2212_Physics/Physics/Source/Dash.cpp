@@ -96,6 +96,11 @@ void DashAbility::Render()
 {
 }
 
+void DashAbility::Reset()
+{
+	abilityCD_timeleft = 0;
+}
+
 //void DashAbility::UpdatePlayer(int& _dashDir, Physics* _playerPhysics, float& _maxVel, bool& _enableCollision)
 //{
 //	if (isDashing)

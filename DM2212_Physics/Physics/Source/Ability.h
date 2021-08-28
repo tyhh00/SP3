@@ -28,6 +28,7 @@ public:
 	virtual void Init() = 0;
 	virtual void Update(double dt) = 0;
 	virtual void Render() = 0;
+	virtual void Reset() = 0;
 	virtual ABILITY_TYPE GetAbilityType() = 0;
 
 	void SetCamera(Camera* camera);

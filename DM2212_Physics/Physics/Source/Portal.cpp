@@ -232,6 +232,18 @@ void PortalAbility::Render()
 	
 }
 
+void PortalAbility::Reset()
+{
+	state = DEFAULT;
+	ghost_portal = false;
+	ghost_player = false;
+	startPortal.active = false;
+	endPortal.active = false;
+	anim_timer = 0;
+	abilityCD_timeleft = 0;
+
+}
+
 ABILITY_TYPE PortalAbility::GetAbilityType()
 {
 	return type;

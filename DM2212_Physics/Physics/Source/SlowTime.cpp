@@ -33,19 +33,26 @@ void SlowTimeAbility::Update(double dt)
 		SetLighting();
 	}
 
-	if (abilityTimer <= 0)
+	if (abilityTimer > 0)
 	{ 
-		goManager->SetmSpeed(1.f);
-		scene->InitLights();
-	}
-	else
-	{
 		abilityTimer -= dt;
+		if (abilityTimer <= 0)
+		{
+			goManager->SetmSpeed(1.f);
+			scene->InitLights();
+			std::cout << "Initting Lights" << std::endl;
+		}
 	}
 }
 
 void SlowTimeAbility::Render()
 {}
+
+void SlowTimeAbility::Reset()
+{
+	abilityTimer = 0;
+	abilityCD_timeleft = 0;
+}
 
 ABILITY_TYPE SlowTimeAbility::GetAbilityType()
 {

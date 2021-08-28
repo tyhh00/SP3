@@ -47,6 +47,7 @@ void Flashlight::Update(double dt)
 
 	if (active)
 	{
+		scene->ToggleLightPower(1, scene->lights[1].defaultPower);
 		if (input->IsMousePressed(0))
 		{
 			intensified = true;
@@ -64,7 +65,6 @@ void Flashlight::Update(double dt)
 	
 		currBatt -= rate_multiplier * batt_usage_rate * dt;
 		durability = currBatt / maxBatt;
-		std::cout << "Flashlight.cpp: CURRENT BATT: " << currBatt << std::endl;
 
 	}
 }
