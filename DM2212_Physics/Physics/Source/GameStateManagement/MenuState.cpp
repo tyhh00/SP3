@@ -103,4 +103,7 @@ void CMenuState::Destroy(void)
 {
 	cout << "CMenuState::Destroy()\n" << endl;
 	menuScene->Exit();
+	//Fading effect for sound
+	DEBUG_MSG("Fading out");
+	CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_MAINMENU, 3, 0.5);
 }
