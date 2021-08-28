@@ -751,7 +751,7 @@ void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 			std::string subtxt = text.substr(offset, to);
 			size_t lastSpace = subtxt.find_last_of(" ");
 			std::cout << lastSpace << std::endl;
-			if (lastSpace != std::string::npos)
+			if (lastSpace != std::string::npos && to == limit)
 			{
 				subtxt = subtxt.substr(0, lastSpace);
 				int diff = limit - lastSpace;
