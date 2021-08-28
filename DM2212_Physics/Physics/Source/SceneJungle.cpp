@@ -191,8 +191,6 @@ void SceneJungle::Init()
 	ability2->SetGOManager(this->goManager);*/
 
 	gameManager->initAbilities(this, &camera, goManager, player);
-	gameManager->setAbility(1, ABILITY_DASH);
-	gameManager->setAbility(2, ABILITY_GRAPPLER);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 }
 

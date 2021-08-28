@@ -171,8 +171,6 @@ void SceneGraveyard::Init()
 
 	// ABILITIESZ
 	gameManager->initAbilities(this, &camera, goManager, player);
-	gameManager->setAbility(1, ABILITY_DASH);
-	gameManager->setAbility(2, ABILITY_PORTAL);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 
 	story_state = GY_INTRO;
@@ -589,8 +587,6 @@ void SceneGraveyard::LoadBossScene()
 
 	// ABILITIES
 	gameManager->initAbilities(this, &camera, goManager, player);
-	gameManager->setAbility(1, ABILITY_DASH);
-	gameManager->setAbility(2, ABILITY_PORTAL);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 }
 
