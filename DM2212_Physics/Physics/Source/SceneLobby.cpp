@@ -234,7 +234,7 @@ void SceneLobby::Init()
 		10, 10, blackHoleAbilityUI);
 	abilityUIButtons.push_back(abilitySlot6);
 
-	Button* abilityDelete = ButtonFactory::createTextButton("abilityDelete", 43, 1, 15, 15, 0, 0, Color(1, 1, 1), "Clear", 4);
+	Button* abilityDelete = ButtonFactory::createTextButton("abilityDelete", 40, 10, 15, 5, 4, 4, Color(1, 1, 1), "Clear", 4);
 	abilityUIButtons.push_back(abilityDelete);
 
 	Button* abilityBG = ButtonFactory::createNoTextButton("abilityBG", 40, 30,
@@ -269,7 +269,7 @@ void SceneLobby::Init()
 			player = new Player();
 			player->active = true;
 			player->scale = go->scale;
-			player->pos = go->pos;
+			player->pos = Vector3(91, 17, 0); //spawn player in center
 			player->physics = go->physics->Clone();
 			player->physics->SetInelasticity(0.99f);
 			player->physics->SetIsBouncable(false);
@@ -381,6 +381,7 @@ void SceneLobby::Init()
 
 void SceneLobby::Update(double dt)
 {
+	std::cout << player->pos << std::endl;
 	SceneBase::Update(dt);
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
@@ -390,7 +391,10 @@ void SceneLobby::Update(double dt)
 	// TIME MACHINE
 	if (abs(timeMachine->pos.y - player->pos.y) < 20 && abs(timeMachine->pos.x - player->pos.x) < 10)
 	{
-		showEtoInteract = true;
+		if (!showAbilityUI)
+			showEtoInteract = true;
+		else
+			showEtoInteract = false;
 		if (input->IsKeyPressed('E'))
 		{
 			showMachinePartsUI = !showMachinePartsUI;
@@ -417,7 +421,10 @@ void SceneLobby::Update(double dt)
 	//ABILITY MACHINE
 	if (abs(abilityMachine->pos.y - player->pos.y) < 10 && abs(abilityMachine->pos.x - player->pos.x) < 10)
 	{
-		showEtoInteract = true;
+		if (!showAbilityUI)
+			showEtoInteract = true;
+		else
+			showEtoInteract = false;
 		if (input->IsKeyPressed('E'))
 		{
 			showAbilityUI = !showAbilityUI;
@@ -442,7 +449,10 @@ void SceneLobby::Update(double dt)
 		}
 	}
 	else
-		showEtoInteract = false;
+	{
+		if (!showEtoInteract)
+			showEtoInteract = false;
+	}
 	
 	for (auto& buttonCollide : buttonManager->getButtonsInteracted())
 	{
