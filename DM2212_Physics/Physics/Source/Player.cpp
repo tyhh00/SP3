@@ -67,6 +67,7 @@ void Player::Init(Camera* _cam, MOVEMENT_MODE mode, GameObjectManager* GOM, Inve
 	physics->SetMass(5);
 	physics->SetMovable(true);
 	currentHP = 100;
+	invisibility = false;
 	cam = _cam;
 
 	if (mode == WASD)
@@ -257,13 +258,16 @@ void Player::Render(SceneBase* scene)
 	}
 
 	// player sprite
-	float angle = Math::RadianToDegree(atan2(physics->GetNormal().y, physics->GetNormal().x));
-	scene->modelStack.PushMatrix();
-	scene->modelStack.Translate(pos.x, pos.y, pos.z);
-	scene->modelStack.Rotate(angle + physics->GetRotateZ(), 0, 0, 1);
-	scene->modelStack.Scale(scale.x, scale.y, scale.z);
-	scene->RenderMesh(mesh, true);
-	scene->modelStack.PopMatrix();
+	if (!invisibility)
+	{
+		float angle = Math::RadianToDegree(atan2(physics->GetNormal().y, physics->GetNormal().x));
+		scene->modelStack.PushMatrix();
+		scene->modelStack.Translate(pos.x, pos.y, pos.z);
+		scene->modelStack.Rotate(angle + physics->GetRotateZ(), 0, 0, 1);
+		scene->modelStack.Scale(scale.x, scale.y, scale.z);
+		scene->RenderMesh(mesh, true);
+		scene->modelStack.PopMatrix();
+	}
 	
 	// Render Stamina Bar??
 	/*ProgressBar stamina_bar(staminaBar, 40, 5, 15.f, 1.f);
@@ -373,15 +377,19 @@ void Player::CollidedWith(GameObject* go)
 		inventory->AddItem(new Banana(go->mesh, this));
 		break;
 	case SceneBase::GEO_MACHINEPART_1:
+		goManager->RemoveGO(go);
 		gameManager->setMachineStatus(1, true);
 		break;
 	case SceneBase::GEO_MACHINEPART_2:
+		goManager->RemoveGO(go);
 		gameManager->setMachineStatus(2, true);
 		break;
 	case SceneBase::GEO_MACHINEPART_3:
+		goManager->RemoveGO(go);
 		gameManager->setMachineStatus(3, true);
 		break;
 	case SceneBase::GEO_MACHINEPART_4:
+		goManager->RemoveGO(go);
 		gameManager->setMachineStatus(4, true);
 		break;
 	case SceneBase::GEO_JUNGLE_CAMPFIRE:
