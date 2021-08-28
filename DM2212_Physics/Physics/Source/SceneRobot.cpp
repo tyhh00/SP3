@@ -48,8 +48,8 @@ void SceneRobot::Init()
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = 143;
-	m_worldWidth = 500;
+	m_worldHeight = 193;
+	m_worldWidth = 1600;
 
 	//Physics code here
 	m_speed = 1.f;
@@ -144,10 +144,11 @@ void SceneRobot::Init()
 			engine->AddToGOCollisionWhitelist(GameObject::GO_BULLET);
 
 			PlasmaBullet* bullet = new PlasmaBullet(Vector3(2, 2, 2), engine, 40);
+			bullet->SetExplosionRadius(15.5f);
 			bullet->AddToGOCollisionWhitelist(GameObject::GO_PLASMAENGINE);
 			engine->Init(
 				new BulletSpawner(goManager, bullet),
-				player, 10.0f);
+				player, 7.0f);
 			goManager->AddGO(engine);
 
 			delete go;

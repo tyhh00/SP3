@@ -79,14 +79,15 @@ void Monkey::Update(double dt)
 		}
 		else
 		{
+			if ((*playerPos - pos).Length() > activeRange)
+				state = IDLE;
 			shootTimer += dt;
 			if (!(*playerPos - pos).IsZero())
 			{
 				physics->SetVelocity(Vector3((*playerPos - this->pos).Normalized().x * movement_speed, physics->GetVelocity().y, physics->GetVelocity().z));
-				if (shootTimer >= 1)
+				if (shootTimer >= 2)
 				{
-					std::cout << "FIRED BULLET" << std::endl;
-					bulletSpawner->SpawnBullet(this->pos, Vector3((*playerPos - pos).Normalized().x, 0, 0), (*playerPos - this->pos));
+					bulletSpawner->SpawnBullet(this->pos, Vector3((*playerPos - pos).Normalized().x, 0, 0),(*playerPos - this->pos));
 					shootTimer = 0;
 				}
 			}

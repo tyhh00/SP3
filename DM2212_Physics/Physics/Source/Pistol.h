@@ -22,6 +22,8 @@ private:
 	Camera* cam;
 
 	Vector3* playerPos;
+
+	float shootInterval;
 };
 
 

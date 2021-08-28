@@ -268,6 +268,9 @@ void Inventory::UpdateItemVector()
 
 	for (Item* item : itemVector)
 	{
+		if (item == nullptr)
+			continue;
+
 		if (item->GetGroupType() == Item::G_CONSUMABLE)
 		{
 			Consumable* newConsumable = dynamic_cast<Consumable*>(item);

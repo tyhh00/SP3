@@ -23,9 +23,9 @@ void Prowler::Init(SceneBase* scene, Inventory* inventory, Player* _player, Game
 	state = IDLE;
 
 	movement_speed = 20.0f;
-	activeRange = 40.0f;
+	activeRange = 80.f;
 	attackRange = 10.f;
-	defendRange = 30.f;
+	defendRange = 40.f;
 	shootTimer = 2;
 
 	currentHP = 7;

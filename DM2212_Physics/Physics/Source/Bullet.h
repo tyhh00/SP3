@@ -36,6 +36,8 @@ public:
 	void SetBulletSpeed(float _bulletSpeed);
 	float GetBulletSpeed();
 
+	void SetExplosionRadius(float rad);
+
 	void SetBulletStatus(BULLET_STATUS status);
 
 protected:
