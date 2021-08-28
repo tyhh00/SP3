@@ -87,7 +87,7 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
 	Button* leftArrowButton = ButtonFactory::createNoTextButton("leftarrow", 35, 30, 4, 4, leftArrowMesh);
 	Button* rightArrowButton = ButtonFactory::createNoTextButton("rightarrow", 45, 30, 4, 4, rightArrowMesh);
 	Button* volumeBarButton = ButtonFactory::createNoTextButton("volumebar", 40, 35, 23, 4, 
-		volumeBar[(int)(soundController->GetMasterVolume() * 5)]);
+		volumeBar[5]);
 
 	// DISABLE AND ADD BUTTONS TO BUTTON MANAGER
 	menuBGButton->disable();
@@ -186,6 +186,8 @@ bool CPlayGameState::Init(void)
 	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, true);
 
 	currentState = DEFAULT;
+
+	UpdateVolumeBar();
 
 	buttonManager->deactivateButton("highlight");
 	buttonManager->deactivateButton("retry");

@@ -25,6 +25,7 @@ private:
 
 	Input* input;
 	void CursorToWorldPosition(double& theX, double& theY);
+	void SetLighting();
 	double abilityTimer;
 
 };
