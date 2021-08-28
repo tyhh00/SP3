@@ -671,7 +671,81 @@ void LevelEditor::Render()
 			}
 		}
 		//DEBUG_MSG("Looped " << loops << " to cover all grids in viewable scene");
+			// fps tings
+
+		std::ostringstream ss;
+		ss.str("");
+		ss.precision(4);
+		ss << "FPS: " << fps;
+		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 3);
+
+
+		double x, y;
+		CursorPosition(x, y);
+		ss.str("");
+		ss.precision(3);
+		ss << "Cursor Position: (" << x << ", " << y << ")";
+		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 97);
+
+		double wX, wY;
+		CursorToWorldPosition(wX, wY);
+		ss.str("");
+		ss.precision(3);
+		ss << "World Position: (" << wX << ", " << wY << ")";
+		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 94);
+
+		ss.str("");
+		ss.precision(3);
+		ss << "Editor: ";
+		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 91);
+
+		ss.str("");
+		ss.precision(3);
+		ss << "Changes " << (unsavedChanges ? "UNSAVED" : "SAVED");
+		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color((unsavedChanges ? 1 : 0), (unsavedChanges ? 0 : 1), 0), 3, 0, 88);
+
+		ss.str("");
+		ss.precision(3);
+		ss << "Snap to Grid " << (snapPosToGrid ? "ENABLED" : "Disabled");
+		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color((snapPosToGrid ? 0 : 1), (snapPosToGrid ? 1 : 0), 0), 3, 0, 85);
+
+		ss.str("");
+		ss.precision(3);
+		ss << "Snap Rotation " << (snapRotToGrid ? "ENABLED" : "Disabled");
+		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color((snapRotToGrid ? 0 : 1), (snapRotToGrid ? 1 : 0), 0), 3, 0, 82);
+
+		ss.str("");
+		ss.precision(3);
+		ss << "Decorative Mode " << (decorativeMode ? "ENABLED" : "Disabled");
+		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color((decorativeMode ? 0 : 1), (decorativeMode ? 1 : 0), 0), 3, 0, 79);
+
+		ss.str("");
+		ss.precision(3);
+		switch (renderMode)
+		{
+		case RENDER_ALL:
+			ss << "ALL TILES SHOWN";
+			break;
+		case RENDER_SOLID:
+			ss << "ONLY SOLID TILES SHOWN";
+			break;
+		case RENDER_DECORATIVE:
+			ss << "ONLY DECORATIVE TILES SHOWN";
+			break;
+		}
+		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 76);
+
+		if (heldOnTo != nullptr)
+		{
+			ss.str("");
+			ss.precision(3);
+			ss << "Selected Block Mesh: " << heldOnTo->mesh->name;
+			RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 90, 2);
+		}
 	}
+
+
+
 	else if (editorState == LEVELEDITOR_STATE::MAPCREATION ||
 		editorState == LEVELEDITOR_STATE::MAPSELECTION)
 	{
@@ -688,77 +762,7 @@ void LevelEditor::Render()
 		}
 	}
 
-	// fps tings
 
-	std::ostringstream ss;
-	ss.str("");
-	ss.precision(4);
-	ss << "FPS: " << fps;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 3);
-
-
-	double x,y;
-	CursorPosition(x, y);
-	ss.str("");
-	ss.precision(3);
-	ss << "Cursor Position: (" << x << ", " << y << ")";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 97);
-
-	double wX, wY;
-	CursorToWorldPosition(wX, wY);
-	ss.str("");
-	ss.precision(3);
-	ss << "World Position: (" << wX << ", " << wY << ")";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 94);
-
-	ss.str("");
-	ss.precision(3);
-	ss << "Editor: ";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 91);
-
-	ss.str("");
-	ss.precision(3);
-	ss << "Changes " << (unsavedChanges ? "UNSAVED":"SAVED");
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color((unsavedChanges ? 1 : 0), (unsavedChanges ? 0 : 1), 0), 3, 0,88);
-
-	ss.str("");
-	ss.precision(3);
-	ss << "Snap to Grid " << (snapPosToGrid ? "ENABLED" : "Disabled");
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color((snapPosToGrid ? 0 : 1), (snapPosToGrid ? 1 : 0), 0), 3, 0, 85);
-
-	ss.str("");
-	ss.precision(3);
-	ss << "Snap Rotation " << (snapRotToGrid? "ENABLED" : "Disabled");
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color((snapRotToGrid ? 0 : 1), (snapRotToGrid ? 1 : 0), 0), 3, 0, 82);
-
-	ss.str("");
-	ss.precision(3);
-	ss << "Decorative Mode " << (decorativeMode ? "ENABLED" : "Disabled");
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color((decorativeMode ? 0 : 1), (decorativeMode ? 1 : 0), 0), 3, 0, 79);
-
-	ss.str("");
-	ss.precision(3);
-	switch (renderMode)
-	{
-	case RENDER_ALL:
-		ss << "ALL TILES SHOWN";
-		break;
-	case RENDER_SOLID:
-		ss << "ONLY SOLID TILES SHOWN";
-		break;
-	case RENDER_DECORATIVE:
-		ss << "ONLY DECORATIVE TILES SHOWN";
-		break;
-	}
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0,1,0), 3, 0, 76);
-
-	if (heldOnTo != nullptr)
-	{
-		ss.str("");
-		ss.precision(3);
-		ss << "Selected Block Mesh: " << heldOnTo->mesh->name;
-		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 90, 2);
-	}
 
 	//int line = 88;
 

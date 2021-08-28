@@ -40,6 +40,7 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
 	uiManager = UIManager::GetInstance();
 
 	buttonManager = new ButtonManager(80, 60);
+	buttonManager->SetZPriority(5);
 
 	// ALL MESHES
 	resumeButtonMesh = MeshBuilder::GenerateQuad("resume button", Color(1, 1, 1), 1.0f);

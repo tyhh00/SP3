@@ -61,7 +61,7 @@ public:
 	float getOriginX();
 	float getOriginY();
 
-	virtual void Render(SceneBase* scene);
+	virtual void Render(SceneBase* scene, int z);
 
 	~Button();
 };
