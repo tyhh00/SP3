@@ -216,7 +216,11 @@ void Inventory::Clear()
 {
 	for (Item* item : itemVector)
 	{
-		delete item;
+		if (item)
+		{
+			delete item;
+			item = NULL;
+		}
 	}
 	itemVector.clear();
 

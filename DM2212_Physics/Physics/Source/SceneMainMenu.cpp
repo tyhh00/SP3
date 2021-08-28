@@ -98,9 +98,6 @@ void SceneMainMenu::Update(double dt)
 			if (button->buttonClicked->getName() == "play")
 			{
 				CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
-				//Fading effect for sound
-				DEBUG_MSG("Fading out");
-				CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_MAINMENU, 3, 0.5);
 			}
 			else if (button->buttonClicked->getName() == "credits")
 			{

@@ -64,6 +64,7 @@ void Flashlight::Update(double dt)
 	
 		currBatt -= rate_multiplier * batt_usage_rate * dt;
 		durability = currBatt / maxBatt;
+		std::cout << "Flashlight.cpp: CURRENT BATT: " << currBatt << std::endl;
 
 	}
 }
