@@ -22,7 +22,8 @@ using namespace std;
  */
 CIntroState::CIntroState(void)
 {
-
+	//soundController = CSoundController::GetInstance();
+	//soundController->Init();
 }
 
 /**
@@ -38,10 +39,9 @@ CIntroState::~CIntroState(void)
 bool CIntroState::Init(void)
 {
 	cout << "CIntroState::Init()\n" << endl;
-
-	// Load the sounds into CSoundController
 	soundController = CSoundController::GetInstance();
 	//soundController->Init();
+	// Load the sounds into CSoundController
 	soundController->LoadSound("Sounds\\Sound_BombExplosion.wav", SOUND_TYPE::BOMB_EXPLOSION, true);
 	soundController->LoadSound("Sounds\\Sound_DirtLand.wav", SOUND_TYPE::LANDED_GRASS, true);
 	soundController->LoadSound("Sounds\\Sound_DirtWalk.ogg", SOUND_TYPE::WALKING_GRASS, true);

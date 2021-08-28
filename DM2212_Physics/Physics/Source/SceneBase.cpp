@@ -931,3 +931,10 @@ void SceneBase::ToggleLightRadius(int index, float innerR, float outerR)
 	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], lights[1].cosCutoff);
 	glUniform1f(m_parameters[U_LIGHT1_COSINNER], lights[1].cosInner);
 }
+
+void SceneBase::ToggleLightColor(int index, Color color)
+{
+	lights[index].color = color;
+	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &lights[0].color.r);
+	glUniform3fv(m_parameters[U_LIGHT1_COLOR], 1, &lights[1].color.r);
+}

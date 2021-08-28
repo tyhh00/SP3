@@ -327,6 +327,55 @@ void SceneRobot::Render()
 
 void SceneRobot::InitLights()
 {
+	lights[0].type = Light::LIGHT_POINT;
+	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
+	lights[0].color.Set(0.702, 0.529, 1);
+	lights[0].power = 2;
+	lights[0].defaultPower = lights[0].power;
+	lights[0].kC = 1.f;
+	lights[0].kL = 0.01f;
+	lights[0].kQ = 0.001f;
+	lights[0].cosCutoff = cos(Math::DegreeToRadian(45));
+	lights[0].cosInner = cos(Math::DegreeToRadian(30));
+	lights[0].exponent = 3.f;
+	lights[0].spotDirection.Set(0.f, 0.f, 1.f);
+
+	lights[1].type = Light::LIGHT_SPOT;
+	lights[1].position.Set(0, 0, 1);
+	lights[1].color.Set(0.8, 0.8, 1);
+	lights[1].power = 0;
+	lights[1].defaultPower = 2;
+	lights[1].kC = 1.f;
+	lights[1].kL = 0.01f;
+	lights[1].kQ = 0.001f;
+	lights[1].cosCutoff = cos(Math::DegreeToRadian(45));
+	lights[1].cosInner = cos(Math::DegreeToRadian(30));
+	lights[1].exponent = 3.f;
+	lights[1].spotDirection.Set(0.f, 0.f, 1.f);
+
+	// Make sure you pass uniform parameters after glUseProgram()
+	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
+
+	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &lights[0].color.r);
+	glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
+	glUniform1f(m_parameters[U_LIGHT0_KC], lights[0].kC);
+	glUniform1f(m_parameters[U_LIGHT0_KL], lights[0].kL);
+	glUniform1f(m_parameters[U_LIGHT0_KQ], lights[0].kQ);
+	glUniform1i(m_parameters[U_LIGHT0_TYPE], lights[0].type);
+	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], lights[0].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT0_COSINNER], lights[0].cosInner);
+	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], lights[0].exponent);
+
+	glUniform1i(m_parameters[U_LIGHT1_TYPE], lights[1].type);
+	glUniform3fv(m_parameters[U_LIGHT1_COLOR], 1, &lights[1].color.r);
+	glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
+	glUniform1f(m_parameters[U_LIGHT1_KC], lights[1].kC);
+	glUniform1f(m_parameters[U_LIGHT1_KL], lights[1].kL);
+	glUniform1f(m_parameters[U_LIGHT1_KQ], lights[1].kQ);
+	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], lights[1].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT1_COSINNER], lights[1].cosInner);
+	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], lights[1].exponent);
+
 	bLightEnabled = false;
 }
 

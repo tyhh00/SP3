@@ -88,7 +88,7 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
 	Button* leftArrowButton = ButtonFactory::createNoTextButton("leftarrow", 35, 30, 4, 4, leftArrowMesh);
 	Button* rightArrowButton = ButtonFactory::createNoTextButton("rightarrow", 45, 30, 4, 4, rightArrowMesh);
 	Button* volumeBarButton = ButtonFactory::createNoTextButton("volumebar", 40, 35, 23, 4, 
-		volumeBar[(int)(soundController->GetMasterVolume() * 5)]);
+		volumeBar[5]);
 
 	// DISABLE AND ADD BUTTONS TO BUTTON MANAGER
 	menuBGButton->disable();
@@ -187,6 +187,8 @@ bool CPlayGameState::Init(void)
 	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, true);
 
 	currentState = DEFAULT;
+
+	UpdateVolumeBar();
 
 	buttonManager->deactivateButton("highlight");
 	buttonManager->deactivateButton("retry");
@@ -318,13 +320,14 @@ bool CPlayGameState::Update(const double dElapsedTime)
 			else if (button->buttonClicked->getName() == "rightarrow")
 			{
 				soundController->MasterVolumeIncrease();
-				//soundController->MasterVolumeIncrease();
+				if (soundController->GetMasterVolume() > 0.2)
+					soundController->MasterVolumeIncrease();
 				UpdateVolumeBar();
 			}
 			else if (button->buttonClicked->getName() == "leftarrow")
 			{
 				soundController->MasterVolumeDecrease();
-				//soundController->MasterVolumeDecrease();
+				soundController->MasterVolumeDecrease();
 				UpdateVolumeBar();
 			}
 		}
@@ -360,5 +363,32 @@ void CPlayGameState::Destroy(void)
 
 void CPlayGameState::UpdateVolumeBar()
 {
-	buttonManager->getButtonByName("volumebar")->setQuadImage(volumeBar[(int)(soundController->GetMasterVolume() * 5)]);
+	int numBar;
+	float volume = soundController->GetMasterVolume();
+	if (volume >= 0.8f)
+	{
+		numBar = 5;
+	}
+	else if (volume >= 0.6f)
+	{
+		numBar = 4;
+	}
+	else if (volume >= 0.4f)
+	{
+		numBar = 3;
+	}
+	else if (volume >= 0.2f)
+	{
+		numBar = 2;
+	}
+	else if (volume > 0)
+	{
+		numBar = 1;
+	}
+	else 
+	{
+		numBar = 0;
+	}
+	//buttonManager->getButtonByName("volumebar")->setQuadImage(volumeBar[(int)(soundController->GetMasterVolume() * 5)]);
+	buttonManager->getButtonByName("volumebar")->setQuadImage(volumeBar[numBar]);
 }

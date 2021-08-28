@@ -453,6 +453,12 @@ void SceneLobby::Update(double dt)
 		if (!showEtoInteract)
 			showEtoInteract = false;
 	}
+
+	//disable movement when showing UI
+	if (showAbilityUI || showMachinePartsUI)
+		player->physics->SetEnableUpdate(false);
+	else
+		player->physics->SetEnableUpdate(true);
 	
 	for (auto& buttonCollide : buttonManager->getButtonsInteracted())
 	{
