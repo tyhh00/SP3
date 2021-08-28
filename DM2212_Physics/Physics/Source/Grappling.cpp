@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "Player.h"
 #include "MeshBuilder.h"
+#include "../Source/SoundController/SoundController.h"
 
 
 GrapplingAbility::GrapplingAbility(Mesh* mesh) : Ability('Z', ABILITY_GRAPPLER, 5.0f, mesh)
@@ -40,6 +41,7 @@ void GrapplingAbility::Update(double dt)
 		{
 			if ((x > go->pos.x - go->scale.x && x < go->pos.x + go->scale.x) && (y > go->pos.y - go->scale.y && y < go->pos.y + go->scale.y))
 			{
+				CSoundController::GetInstance()->PlaySoundByID(GRAPPLER);
 				temp = Vector3(x, y, 0);
 				initialDisplacement = temp - player->pos;
 				isGrappling = true;

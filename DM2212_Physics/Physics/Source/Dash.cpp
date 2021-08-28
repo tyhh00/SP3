@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "MeshBuilder.h"
 #include "Player.h"
+#include "../Source/SoundController/SoundController.h"
 
 
 DashAbility::DashAbility(Mesh* mesh) : Ability('Q', ABILITY_DASH, 3.f, mesh)
@@ -33,6 +34,7 @@ void DashAbility::Update(double dt)
 		//check if player's vel is not zero and is not already dashing
 		if (!player->physics->GetVelocity().IsZero() && !isDashing)
 		{
+			CSoundController::GetInstance()->PlaySoundByID(DASH);
 			abilityCD_timeleft = GetCooldownDuration();
 			isDashing = true;
 		}

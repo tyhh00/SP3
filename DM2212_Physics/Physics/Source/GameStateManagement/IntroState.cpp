@@ -52,6 +52,15 @@ bool CIntroState::Init(void)
 	soundController->LoadSound("Sounds\\Sound_Warp.wav", SOUND_TYPE::WARP, true);
 	soundController->LoadSound("Sounds\\Sound_Selector.wav", SOUND_TYPE::SELECTOR, true);
 	soundController->LoadSound("Sounds\\Sound_Sizzle.wav", SOUND_TYPE::ACID_SIZZLE, true);
+	soundController->LoadSound("Sounds\\Sound_Light_Bullet_Shoot.wav", SOUND_TYPE::LIGHTBULLET_SHOOT, true);
+	soundController->LoadSound("Sounds\\Sound_Light_Bullet_Collided.wav", SOUND_TYPE::LIGHTBULLET_COLLIDED, true);
+	soundController->LoadSound("Sounds\\Sound_Dash.wav", SOUND_TYPE::DASH, true);
+	soundController->LoadSound("Sounds\\Sound_Grappler.wav", SOUND_TYPE::GRAPPLER, true);
+	soundController->LoadSound("Sounds\\Sound_Campfire.wav", SOUND_TYPE::CAMPFIRE, true);
+	soundController->LoadSound("Sounds\\Sound_MonkeyBanana.wav", SOUND_TYPE::MONKEY_BANANA, true);
+	soundController->LoadSound("Sounds\\Sound_ProwlerAttack.wav", SOUND_TYPE::PROWLER_ATTACK, true);
+	soundController->LoadSound("Sounds\\Sound_ProwlerFootsteps.wav", SOUND_TYPE::PROWLER_FOOTSTEPS, true);
+	soundController->LoadSound("Sounds\\Sound_SpawnMinion.wav", SOUND_TYPE::PROWLER_SPAWN_MINION, true);
 	//Loopables
 	soundController->LoadSound("Sounds\\Sound_GameBG1.wav", SOUND_TYPE::BG_ARCADE, true, true);
 	soundController->LoadSound("Sounds\\Sound_GameBG2.wav", SOUND_TYPE::BG_ARCADE2, true, true);
