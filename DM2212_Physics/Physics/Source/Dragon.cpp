@@ -31,37 +31,44 @@ void Dragon::Init(SceneBase* scene,Vector3 &target, int numParts, GameObjectMana
 	curve = 10;
 	curveTimer = 0.1f;
 
-	GameObject* go = new GameObject;
-	go->active = true;
-	go->scale.Set(5, 5, 5);
-	go->pos.Set(pos.x, pos.y, pos.z);
-	go->mesh = MeshBuilder::GenerateQuad("dragonHead", Color(1, 1, 1), 2.f);
-	go->mesh->textureID = LoadTGA("Image/Tiles/enemy_dragonHead.tga");
-	dragon.push_back(go);
+	dragonHead = new GameObject(GO_DRAGON);
+	dragonHead->active = true;
+	dragonHead->scale.Set(5, 5, 5);
+	dragonHead->pos.Set(pos.x, pos.y, pos.z);
+	dragonHead->mesh = MeshBuilder::GenerateQuad("dragonHead", Color(1, 1, 1), 2.f);
+	dragonHead->mesh->textureID = LoadTGA("Image/Tiles/enemy_dragonHead.tga");
+	dragonHead->invisible = true;
+	dragonHead->maxHP = 110;
+	dragonHead->currentHP = 110;
+	dragon.push_back(dragonHead);
 
 	for (int i = 0; i < numParts; i++)
 	{
-		GameObject* go = new GameObject;
+		GameObject* go = new GameObject(GO_DRAGON);
 		go->active = true;
 		go->scale.Set(5, 5, 5);
 		go->pos.Set(pos.x + 10 + (10 * i), pos.y, pos.z);
 		go->mesh = MeshBuilder::GenerateQuad("dragonBody", Color(1, 1, 1), 2.f);
 		go->mesh->textureID = LoadTGA("Image/Tiles/enemy_dragonBody.tga");
+		go->invisible = true;
+		go->parent = dragonHead;
 		dragon.push_back(go);
 	}
 
-	go = new GameObject;
+	GameObject* go = new GameObject(GO_DRAGON);
 	go->active = true;
 	go->scale.Set(5, 5, 5);
 	go->pos.Set(pos.x + 10 + (10 * numParts), pos.y, pos.z);
 	go->mesh = MeshBuilder::GenerateQuad("dragonTail", Color(1, 1, 1), 2.f);
 	go->mesh->textureID = LoadTGA("Image/Tiles/enemy_dragonTail.tga");
+	go->invisible = true;
+	go->parent = dragonHead;
 	dragon.push_back(go);
 
-	//for (int i = 0; dragon.size(); i++)
-	//{
-	//	goM->AddGO(dragon.at(i));
-	//}
+	for (int i = 0; i < dragon.size(); i++)
+	{
+		goM->AddGO(dragon.at(i));
+	}
 
 	state = SINCURVE;
 
@@ -69,17 +76,6 @@ void Dragon::Init(SceneBase* scene,Vector3 &target, int numParts, GameObjectMana
 
 	physics->SetMovable(true);
 	physics->SetGravity(Vector3(0,0,0));
-	animatedSprites = MeshBuilder::GenerateSpriteAnimation(2, 3, 2.0f, 2.0f);
-
-	animatedSprites->AddAnimation("right", 3, 5);
-	animatedSprites->AddAnimation("left", 1, 2);
-	
-
-	mesh = animatedSprites;
-	mesh->textureID = LoadTGA("Image/Dragon_sprite.tga");
-
-	animatedSprites->PlayAnimation("left", -1, 1.0f);
-
 }
 
 void Dragon::Update(double dt)
@@ -98,6 +94,15 @@ void Dragon::Update(double dt)
 		curveTimer -= dt;
 	}
 
+	if (dragonHead->currentHP <= 0)
+	{
+		for (int i = 0; i < dragon.size(); i++)
+		{
+			dragon.at(i)->dead = true;
+		}
+		this->dead = true;
+		dragon.clear();
+	}
 
 
 	switch (state)
@@ -124,17 +129,11 @@ void Dragon::Update(double dt)
 			}
 			dragon.at(i)->physics->SetNormal(Vector3(cos(Math::DegreeToRadian(dragon.at(i)->physics->GetRotateZ())), 
 				sin(Math::DegreeToRadian(dragon.at(i)->physics->GetRotateZ())), 0));
+			
 		//5	dragon.at(i)->physics->SetVelocity(Vector3(-dt, dragon.at(i)->physics->GetVelocity().y, dragon.at(i)->physics->GetVelocity().z));
 		}
 		break;
-	case ATTACK:
-		break;
-	case DEAD:
-		break;
 	}
-
-	animatedSprites->Update(dt);
-
 
 
 	for (int i = 1; i < dragon.size(); i++)
@@ -158,6 +157,24 @@ void Dragon::Render(SceneBase* scene)
 		scene->RenderMesh(dragon.at(i)->mesh, true);
 		scene->modelStack.PopMatrix();
 	}
+
+	if (dragonHead->currentHP > 0 && dragonHead->currentHP < dragonHead->maxHP)
+	{
+		float healthPercen = dragonHead->currentHP / dragonHead->maxHP;
+
+		scene->modelStack.PushMatrix();
+		scene->modelStack.Translate(dragonHead->pos.x, dragonHead->pos.y - dragonHead->scale.x * 1.5, dragonHead->pos.z);
+		scene->modelStack.Scale(1.f, 0.2f, 1.f);
+		scene->RenderMesh(scene->GetMesh(SceneBase::GEOMETRY_TYPE::GEO_HEALTHBAR_OUTER), false);
+
+		scene->modelStack.PushMatrix();
+		scene->modelStack.Translate(-2.5 * (1 - healthPercen), 0.f, 0.f);
+		scene->modelStack.Scale(healthPercen, 1.f, 1.f);
+		scene->RenderMesh(scene->GetMesh(SceneBase::GEOMETRY_TYPE::GEO_HEALTHBAR), false);
+		scene->modelStack.PopMatrix();
+		scene->modelStack.PopMatrix();
+	}
+
 }
 
 float Dragon::convertidk(float pain)

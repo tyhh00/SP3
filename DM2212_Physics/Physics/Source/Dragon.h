@@ -2,7 +2,6 @@
 #define DRAGON_H
 
 #include "GameObject.h"
-#include "SpriteAnimation.h"
 #include "Physics.h"
 #include "Input.h"
 #include "Enemy.h"
@@ -34,7 +33,8 @@ private:
 
 	Vector3 *playerPos; // to keep track of player pos
 	
-	SpriteAnimation* animatedSprites;
+	GameObject* dragonHead;
+
 	Inventory* inventory;
 	GameObjectManager* goM;
 

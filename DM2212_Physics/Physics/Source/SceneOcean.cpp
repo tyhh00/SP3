@@ -97,7 +97,7 @@ void SceneOcean::Init()
 			crab->physics = go->physics->Clone();
 			crab->physics->SetInelasticity(0.99f);
 			crab->physics->SetIsBouncable(false);
-			crab->Init(player->pos, Crab::LAR);
+			crab->Init(player, Crab::LAR);
 
 			crab->AddBottomSprite();
 			crab->bottomSprite->mesh = meshList[GEO_WALL];
@@ -116,9 +116,12 @@ void SceneOcean::Init()
 			dragon->physics = go->physics->Clone();
 			dragon->physics->SetInelasticity(0.99f);
 			dragon->physics->SetIsBouncable(false);
-			dragon->physics->SetGravity(Vector3(0, 0, 0));
+			dragon->physics->SetGravity(Vector3(0, 0, 0));			
 			dragon->Init(this, player->pos, 8, goManager);
+			dragon->mesh = nullptr;
 			goManager->AddGO(dragon);
+
+			std::cout << "Dragon spawn at: " << dragon->pos << std::endl;
 
 			//Delete Grid Player
 			delete go;

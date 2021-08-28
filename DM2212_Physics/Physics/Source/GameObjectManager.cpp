@@ -516,7 +516,7 @@ void GameObjectManager::Render(SceneBase* scene)
 	for (std::vector<GameObject*>::iterator it = m_movableGOList.begin(); it != m_movableGOList.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go != nullptr && go->active)
+		if (go != nullptr && go->active && !go->invisible)
 		{
 			go->Render(scene);
 			// test things; to see bottomSprite
@@ -537,7 +537,7 @@ void GameObjectManager::Render(SceneBase* scene)
 	{
 		GameObject* go = (GameObject*)*it;
 
-		if (go == nullptr || !go->active)
+		if (go == nullptr || !go->active || go->invisible)
 			continue;
 
 		go->Render(scene);
