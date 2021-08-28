@@ -20,6 +20,12 @@ SceneLobby::SceneLobby()
 	input = Input::GetInstance();
 	goManager = new GameObjectManager();
 	inventory = new Inventory();
+	buttonManager = new ButtonManager(80, 60);
+
+	machinePartsUIBG = MeshBuilder::GenerateQuad("Machine Parts Display BG", Color(1, 1, 1), 1.0f);
+	machinePartsUIBG->textureID = LoadTGA("Image/TimeMachineBG.tga");
+	machinePartsSlot = MeshBuilder::GenerateQuad("Machine Parts Slots", Color(1, 1, 1), 1.0f);
+	machinePartsSlot->textureID = LoadTGA("Image/TimeMachinePartsSlot.tga");
 	
 }
 
@@ -35,6 +41,21 @@ SceneLobby::~SceneLobby()
 	{
 		delete inventory;
 		inventory = NULL;
+	}
+	if (buttonManager)
+	{
+		delete buttonManager;
+		buttonManager = NULL;
+	}
+	if (machinePartsUIBG)
+	{
+		delete machinePartsUIBG;
+		machinePartsUIBG = NULL;
+	}
+	if (machinePartsSlot)
+	{
+		delete machinePartsSlot;
+		machinePartsSlot = NULL;
 	}
 }
 
@@ -56,6 +77,8 @@ void SceneLobby::Init()
 	m_speed = 1.f;
 	Math::InitRNG();
 
+	// Game Manager
+	gameManager = GameManager::GetInstance();
 	// GO Manager
 	goManager->Init();
 	// Inventory 
@@ -64,6 +87,56 @@ void SceneLobby::Init()
 	// Unique Meshes
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BG]->textureID = LoadTGA("Image/bg_lobby.tga");
+
+	// Buttons
+	if (gameManager->getMachineStatus(1))
+	{
+		Button* part = ButtonFactory::createNoTextButton("machinePart1", 31.25, 37.5,
+			5, 5, meshList[GEO_MACHINEPART_1]);
+		machinePartsUIButtons.push_back(part);
+	}
+	if (gameManager->getMachineStatus(2))
+	{
+		Button* part = ButtonFactory::createNoTextButton("machinePart2", 47.5, 37.5,
+			5, 5, meshList[GEO_MACHINEPART_2]);
+		machinePartsUIButtons.push_back(part);
+	}
+	if (gameManager->getMachineStatus(3))
+	{
+		Button* part = ButtonFactory::createNoTextButton("machinePart3", 31.25, 21.25,
+			5, 5, meshList[GEO_MACHINEPART_3]);
+		machinePartsUIButtons.push_back(part);
+	}
+	if (gameManager->getMachineStatus(4))
+	{
+		Button* part = ButtonFactory::createNoTextButton("machinePart4", 47.5, 21.25,
+			5, 5, meshList[GEO_MACHINEPART_4]);
+		machinePartsUIButtons.push_back(part);
+	}
+	Button* machinePartSlot1 = ButtonFactory::createNoTextButton("machinePartSlot1", 31.25, 37.5,
+		15, 15, machinePartsSlot);
+	machinePartsUIButtons.push_back(machinePartSlot1);
+	Button* machinePartSlot2 = ButtonFactory::createNoTextButton("machinePartSlot2", 47.5, 37.5,
+		15, 15, machinePartsSlot);
+	machinePartsUIButtons.push_back(machinePartSlot2);
+	Button* machinePartSlot3 = ButtonFactory::createNoTextButton("machinePartSlot3", 31.25, 21.25,
+		15, 15, machinePartsSlot);
+	machinePartsUIButtons.push_back(machinePartSlot3);
+	Button* machinePartSlot4 = ButtonFactory::createNoTextButton("machinePartSlot4", 47.5, 21.25,
+		15, 15, machinePartsSlot);
+	machinePartsUIButtons.push_back(machinePartSlot4);
+
+	Button* machinePartsBG = ButtonFactory::createNoTextButton("machinePartBG", 40, 30,
+		40, 40, machinePartsUIBG);
+	machinePartsUIButtons.push_back(machinePartsBG);
+
+	for (int i = 0; i < machinePartsUIButtons.size(); i++)
+	{
+		machinePartsUIButtons[i]->disable();
+		buttonManager->addButton(machinePartsUIButtons[i]);
+	}
+	
+	showMachinePartsUI = false;
 
 	//Level Loading
 	std::vector<GameObject*> tiles;
@@ -88,7 +161,7 @@ void SceneLobby::Init()
 			goManager->AddGO(player);
 
 			DEBUG_MSG("From Phy Editor: " << player->scale);
-			
+
 
 			//Delete Grid Player
 			delete go;
@@ -150,9 +223,13 @@ void SceneLobby::Init()
 			delete go;
 			go = nullptr;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_MACHINE1)
+		{
+			timeMachine = go;
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
-	
+
 	// Add all remaining tiles
 	goManager->AddAllGO(tiles);
 
@@ -169,7 +246,30 @@ void SceneLobby::Update(double dt)
 	SceneBase::Update(dt);
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
-	
+
+	// button manager
+	buttonManager->Update(dt);
+	// TIME MACHINE
+	if (abs(timeMachine->pos.y - player->pos.y) < 20 && abs(timeMachine->pos.x - player->pos.x) < 10
+		&& input->IsKeyPressed('E'))
+	{
+		showMachinePartsUI = !showMachinePartsUI;
+		if (showMachinePartsUI)
+		{
+			for (int i = 0; i < machinePartsUIButtons.size(); i++)
+			{
+				buttonManager->activateButton(machinePartsUIButtons[i]->getName());
+			}
+		}
+		else
+		{
+			for (int i = 0; i < machinePartsUIButtons.size(); i++)
+			{
+				buttonManager->deactivateButton(machinePartsUIButtons[i]->getName());
+			}
+		}
+	}
+	// PORTALS
 	if (((portal_graveyard->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_graveyard->pos.x - 4)) && (player->pos.x <= (portal_graveyard->pos.x + 4)))
 	{
 		portal_graveyard->Open();
@@ -325,7 +425,7 @@ void SceneLobby::Render()
 	modelStack.PopMatrix();
 
 	goManager->Render(this);
-
+	buttonManager->Render(this);
 	dialogueManager->Render(this);
 
 	std::ostringstream ss;
@@ -424,4 +524,8 @@ void SceneLobby::Exit()
 	SceneBase::Exit();
 	goManager->Exit();
 	inventory->Clear();
+	for (int i = 0; i < machinePartsUIButtons.size(); i++)
+	{
+		buttonManager->deleteButton(machinePartsUIButtons[i]);
+	}
 }

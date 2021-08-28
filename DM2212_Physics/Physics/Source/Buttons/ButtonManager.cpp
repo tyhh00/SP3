@@ -155,7 +155,7 @@ bool ButtonManager::deleteButton(Button* button) {
 	for (auto& entry : buttons) {
 		if (entry == button) {
 			delete button;
-			button = nullptr;
+			entry = nullptr;
 			deleted = true;
 			break;
 		}
