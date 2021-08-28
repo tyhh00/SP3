@@ -62,6 +62,7 @@ void GameManager::Init()
 
 	ABILITY_KEYBIND_1 = 'Q';
 	ABILITY_KEYBIND_2 = 'Z';
+	INTERACT_KEYBIND = 'E';
 }
 
 bool GameManager::getMachineStatus(int partNum)
