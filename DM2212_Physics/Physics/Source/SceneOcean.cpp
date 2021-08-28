@@ -35,7 +35,7 @@ void SceneOcean::Init()
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	m_worldHeight = m_screenHeight * 3;
-	m_worldWidth = m_screenWidth * 5;
+	m_worldWidth = m_screenWidth * 7;
 
 	//Inventory init
 	inventory->Init(this);

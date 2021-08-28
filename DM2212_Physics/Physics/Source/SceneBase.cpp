@@ -395,6 +395,10 @@ void SceneBase::Init()
 	LoadTile(GEO_OCEAN_PILLAR, "OCEAN_pillar.tga", 5, 5, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_RUIN, "OCEAN_ruin.tga", 8, 8, SHAPE_TYPE::RECTANGLE);
 
+	LoadTile(GEO_OCEAN_WHALE, "OCEAN_whale.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_YH, "OCEAN_yh.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_BOTTLE, "OCEAN_bottle.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+
 	LoadTile(GEO_MACHINEPART_1, "MachinePart_1.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_MACHINEPART_2, "MachinePart_2.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_MACHINEPART_3, "MachinePart_3.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
