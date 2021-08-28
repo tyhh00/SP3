@@ -269,7 +269,7 @@ void Player::Render(SceneBase* scene)
 	stamina_bar.RenderHorizontal(scene, stamina, max_stamina);*/
 
 
-
+	//UIManager::GetInstance()->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, true);
 	//This is initialised in UIManager
 	ProgressBar* pHealthBar = dynamic_cast<ProgressBar*>(
 		UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("playerhealth")
