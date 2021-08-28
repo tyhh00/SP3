@@ -37,6 +37,7 @@ void SceneJungle::Init()
 	m_worldHeight = m_screenHeight * 2;
 	m_worldWidth = m_screenWidth * 15;
 
+	dialogueManager = DialogueManager::GetInstance();
 
 	//Inventory init
 	inventory->Init(this);
@@ -202,6 +203,12 @@ void SceneJungle::Update(double dt)
 	inventory->Update(dt);
 	camera.Update(player->pos, dt);
 
+	if (!playedDialogue)
+	{
+		dialogueManager->AddDialogue(PLAYER, "Wow, what a change in environment!", LEFT, 3.0f);
+		dialogueManager->AddDialogue(PLAYER, "Let's explore this jungle :D", LEFT, 3.0f);
+		playedDialogue = true;
+	}
 	if (input->IsKeyPressed('P'))
 	{
 		std::cout << "PRESSESD P" << std::endl;

@@ -19,6 +19,7 @@
 #include "GameObjectManager.h"
 #include "GameManager.h"
 #include "Grappling.h"
+#include "Buttons/DialogueManager.h"
 
 class SceneJungle : public SceneBase
 {
@@ -38,13 +39,15 @@ protected:
 	bool isDashing = false;
 	bool isGrappling = false;
 
+	bool playedDialogue = false;
+
 	Player* player;
 	Inventory* inventory;
 
 	Input* input;
 	GameObjectManager* goManager;
 	GameManager* gameManager;
-
+	DialogueManager* dialogueManager;
 	double gridLength, gridHeight;
 };
 
