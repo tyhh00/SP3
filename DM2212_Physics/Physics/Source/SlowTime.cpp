@@ -39,8 +39,6 @@ void SlowTimeAbility::Update(double dt)
 	{
 		abilityTimer -= dt;
 	}
-
-	std::cout << "time: " << abilityTimer << std::endl;
 }
 
 void SlowTimeAbility::Render()

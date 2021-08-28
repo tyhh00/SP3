@@ -31,10 +31,10 @@ void SceneBase::Init()
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
 	// Accept fragment if it closer to the camera than the former one
-	glDepthFunc(GL_LESS); 
+	glDepthFunc(GL_LESS);
 
 	glEnable(GL_CULL_FACE);
-	
+
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	glEnable(GL_BLEND);
@@ -43,8 +43,8 @@ void SceneBase::Init()
 	glGenVertexArrays(1, &m_vertexArrayID);
 	glBindVertexArray(m_vertexArrayID);
 
-	m_programID = LoadShaders( "Shader//comg.vertexshader", "Shader//comg.fragmentshader" );
-	
+	m_programID = LoadShaders("Shader//comg.vertexshader", "Shader//comg.fragmentshader");
+
 	// Get a handle for our uniform
 	m_parameters[U_MVP] = glGetUniformLocation(m_programID, "MVP");
 	//m_parameters[U_MODEL] = glGetUniformLocation(m_programID, "M");
@@ -85,7 +85,7 @@ void SceneBase::Init()
 	// Get a handle for our "textColor" uniform
 	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
-	
+
 	// Use our shader
 	glUseProgram(m_programID);
 
@@ -139,7 +139,7 @@ void SceneBase::Init()
 
 	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
-	for(int i = 0; i < NUM_GEOMETRY; ++i)
+	for (int i = 0; i < NUM_GEOMETRY; ++i)
 	{
 		meshList[i] = NULL;
 		tileSize[i] = NULL;
@@ -185,13 +185,13 @@ void SceneBase::Init()
 	LoadTile(GEO_LOBBY_MACHINE3, "LOBBY_MACHINE_3.tga", 3, 3, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_LOBBY_MACHINE4, "LOBBY_MACHINE_4.tga", 3, 3, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_LOBBY_MACHINE5, "LOBBY_MACHINE_5.tga", 3, 3, SHAPE_TYPE::RECTANGLE);
-	
-	
-	LoadTile(GEO_LOBBY_FLOOR, "LOBBY_FLOOR.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	//LoadTile(GEO_LOBBY_FLOOR, "Invisible.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	LoadTile(GEO_LOBBY_WALL, "LOBBY_WALL.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+
+
+	//LoadTile(GEO_LOBBY_FLOOR, "LOBBY_FLOOR.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_LOBBY_FLOOR, "Invisible.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_LOBBY_WALL, "Invisible.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_LOBBY_ABILITY_MACHINE, "GEO_LOBBY_ABILITY_MACHINE.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	
+
 	LoadTile(GEO_OCEAN_1_TOPLEFT, "OCEAN_1_topLeft.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_1_TOPMID, "OCEAN_1_topMid.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_1_TOPRIGHT, "OCEAN_1_topRight.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -284,7 +284,7 @@ void SceneBase::Init()
 	LoadTile(GEO_ROBOT_SMALLCUBE_16_MISCDECOR, "ROBOT_SMALLCUBE_16_MISCDECOR.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_ROBOT_SMALLCUBE_17_MISCDECOR, "ROBOT_SMALLCUBE_17_MISCDECOR.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 
-	LoadTile(GEO_JUNGLE_DIRT_BLOCK,	"JUNGLE_DIRT_BLOCK.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_JUNGLE_DIRT_BLOCK, "JUNGLE_DIRT_BLOCK.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_DIRT_CENTER, "JUNGLE_DIRT_CENTER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);//
 	LoadTile(GEO_JUNGLE_DIRT_INTERSECTION_BOTTOM_LEFT, "JUNGLE_DIRT_INTERSECTION_BOTTOM_LEFT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_JUNGLE_DIRT_INTERSECTION_BOTTOM_RIGHT, "JUNGLE_DIRT_INTERSECTION_BOTTOM_RIGHT.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -362,7 +362,7 @@ void SceneBase::Init()
 	LoadTile(GEO_CHURCH_PLATFORM_EDGE, "CHURCH_PLATFORM_EDGE.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_CHURCH_PLATFORM_CORNER, "CHURCH_PLATFORM_CORNER.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_ENEMY_GRIMREAPER, "GrimReaper.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	
+
 	LoadTile(GEO_LOBBY_PORTAL_JUNGLE, "LOBBY_portalFrame.tga", 2, 2, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_LOBBY_PORTAL_GRAVEYARD, "LOBBY_portalFrame.tga", 2, 2, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_LOBBY_PORTAL_OCEAN, "LOBBY_portalFrame.tga", 2, 2, SHAPE_TYPE::RECTANGLE);
@@ -374,7 +374,7 @@ void SceneBase::Init()
 	LoadTile(GEO_OCEAN_DRAGONHEAD, "enemy_dragonHead.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 
 	LoadTile(GEO_COIN, "coin_tile.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
-	
+
 	LoadTile(GEO_OCEAN_BEACHBALL, "OCEAN_beachBall.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_UMBRELLA, "OCEAN_beachUmbrella.tga", 2, 2, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_TREE1, "OCEAN_coconutTree.tga", 3, 3, SHAPE_TYPE::RECTANGLE);
@@ -417,7 +417,7 @@ void SceneBase::Init()
 	meshList[GEO_ABILITY_BGCOOLDOWN] = MeshBuilder::GenerateQuad("ability_bg_cooldown", Color(1, 1, 1), 5.0f);
 	meshList[GEO_ABILITY_BGCOOLDOWN]->textureID = LoadTGA("Image//ability_border_cooldown.tga");
 
-	
+
 
 	//Shapes
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
@@ -461,7 +461,7 @@ void SceneBase::LoadTile(GEOMETRY_TYPE type, std::string fileName, double length
 			meshList[type]->textureID = LoadTGA(path.c_str());
 			break;
 		case CIRCLE:
-			meshList[type] = MeshBuilder::GenerateCircle("Tile-" + fileName, 1.f, Color(1,1,1));
+			meshList[type] = MeshBuilder::GenerateCircle("Tile-" + fileName, 1.f, Color(1, 1, 1));
 			meshList[type]->textureID = LoadTGA(path.c_str());
 			break;
 		}
@@ -472,7 +472,7 @@ void SceneBase::LoadTile(GEOMETRY_TYPE type, std::string fileName, double length
 	}
 	else
 		DEBUG_MSG("Unable to load tile of path " << path << ". With GEOMETRY_TYPE ID: " << type << ".");
-	
+
 }
 
 TileSetting* SceneBase::GetTileSetting(GEOMETRY_TYPE type)
@@ -521,15 +521,15 @@ void SceneBase::Update(double dt)
 	//	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	//if(Application::IsKeyPressed('4'))
 	//	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	
+
 	fps = (float)(1.f / dt);
 }
 
 void SceneBase::RenderText(Mesh* mesh, std::string text, Color color)
 {
-	if(!mesh || mesh->textureID <= 0)
+	if (!mesh || mesh->textureID <= 0)
 		return;
-	
+
 	glDisable(GL_DEPTH_TEST);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
 	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
@@ -538,13 +538,13 @@ void SceneBase::RenderText(Mesh* mesh, std::string text, Color color)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
-	for(unsigned i = 0; i < text.length(); ++i)
+	for (unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
 		characterSpacing.SetToTranslation(i * 0.6f, 0, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
-	
+
 		mesh->Render((unsigned)text[i] * 6, 6);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -554,7 +554,7 @@ void SceneBase::RenderText(Mesh* mesh, std::string text, Color color)
 
 void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
-	if(!mesh || mesh->textureID <= 0)
+	if (!mesh || mesh->textureID <= 0)
 		return;
 
 	glDisable(GL_DEPTH_TEST);
@@ -575,7 +575,7 @@ void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
-	for(unsigned i = 0; i < text.length(); ++i)
+	for (unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
 		characterSpacing.SetToTranslation(i * 0.5f + 0.5f, 0.5f, 0); //1.0f is the spacing of each character, you may change this value
@@ -701,21 +701,21 @@ void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	glEnable(GL_DEPTH_TEST);
 }
 
-void SceneBase::RenderMesh(Mesh *mesh, bool enableLight)
+void SceneBase::RenderMesh(Mesh* mesh, bool enableLight)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
-	
+
 	MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top();
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
-	if(enableLight && bLightEnabled)
+	if (enableLight && bLightEnabled)
 	{
 		glUniform1i(m_parameters[U_LIGHTENABLED], 1);
 		modelView = viewStack.Top() * modelStack.Top();
 		glUniformMatrix4fv(m_parameters[U_MODELVIEW], 1, GL_FALSE, &modelView.a[0]);
 		modelView_inverse_transpose = modelView.GetInverse().GetTranspose();
 		glUniformMatrix4fv(m_parameters[U_MODELVIEW_INVERSE_TRANSPOSE], 1, GL_FALSE, &modelView.a[0]);
-		
+
 		//load material
 		glUniform3fv(m_parameters[U_MATERIAL_AMBIENT], 1, &mesh->material.kAmbient.r);
 		glUniform3fv(m_parameters[U_MATERIAL_DIFFUSE], 1, &mesh->material.kDiffuse.r);
@@ -725,11 +725,11 @@ void SceneBase::RenderMesh(Mesh *mesh, bool enableLight)
 
 	}
 	else
-	{	
+	{
 		glUniform1i(m_parameters[U_LIGHTENABLED], 0);
 	}
 
-	if(mesh->textureID > 0)
+	if (mesh->textureID > 0)
 	{
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
 		glActiveTexture(GL_TEXTURE0);
@@ -741,7 +741,7 @@ void SceneBase::RenderMesh(Mesh *mesh, bool enableLight)
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 0);
 	}
 	mesh->Render();
-	if(mesh->textureID > 0)
+	if (mesh->textureID > 0)
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
@@ -785,9 +785,9 @@ void SceneBase::Render()
 void SceneBase::Exit()
 {
 	// Cleanup VBO
-	for(int i = 0; i < NUM_GEOMETRY; ++i)
+	for (int i = 0; i < NUM_GEOMETRY; ++i)
 	{
-		if(meshList[i])
+		if (meshList[i])
 			delete meshList[i];
 		if (tileSize[i])
 			delete tileSize[i];
@@ -811,17 +811,17 @@ void SceneBase::ToggleLightOnOff(int index, bool on)
 	{
 		lights[index].power = 0;
 	}
-	
+
 	glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
 	glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
-	
+
 }
 
 void SceneBase::ToggleLightPower(int index, int power)
 {
-	
+
 	lights[index].power = power;
-	
+
 	glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
 	glUniform1f(m_parameters[U_LIGHT1_POWER], lights[1].power);
 }

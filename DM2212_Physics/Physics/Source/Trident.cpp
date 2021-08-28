@@ -21,12 +21,6 @@ void Trident::Init(Camera* cam, GameObjectManager* goManager, Vector3& pos)
 	GOmanager = goManager;
 	tridentGO = nullptr;
 	playerPos = &pos;
-
-	animatedSprites = MeshBuilder::GenerateSpriteAnimation(3, 4, 2.0f, 2.0f);
-	animatedSprites->AddAnimation("thunder", 0, 11);
-	mesh = animatedSprites;
-	mesh->textureID = LoadTGA("Image/thunder_spriteSheet.tga");
-	animatedSprites->PlayAnimation("thunder", -1, 1.f);
 }
 
 void Trident::Update(double dt)
@@ -42,6 +36,7 @@ void Trident::Update(double dt)
 	if (input->IsMouseReleased(0) && tridentGO == nullptr)
 	{
 		tridentGO = new TridentGO;
+		tridentGO->Init();
 		tridentGO->pos = *playerPos;
 		tridentGO->scale.Set(5, 5, 5);
 		Vector3 mousePos(mouseposx, mouseposy, 0);
@@ -79,11 +74,21 @@ void TridentGO::CollidedWith(GameObject* go)
 	switch (go->type)
 	{
 	case GameObject::GO_CRAB:
-		go->currentHP -= 1;
+		go->currentHP -= 10;
+		this->pos.x = -100;
+		this->physics->pos.x = -100;
 		break;
 	case GameObject::GO_DRAGON:
 		std::cout << "AAAAAAA" << std::endl;
-		go->currentHP -= 1;
+		go->currentHP -= 10;
+		this->pos.x = -100;
+		this->physics->pos.x = -100;
+		break;
+	case GameObject::GO_THUNDERBLOCK:
+		ThunderBlock* thunder = dynamic_cast<ThunderBlock*>(go);
+		thunder->SpawnLightning();
+		this->pos.x = -100;
+		this->physics->pos.x = -100;
 		break;
 	}
 }

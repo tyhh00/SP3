@@ -22,8 +22,8 @@ void Dragon::Init(SceneBase* scene,Vector3 &target, int numParts)
 	this->inventory = inventory;
 	playerPos = &target;
 
-	this->maxHP = 200;
-	this->currentHP = 200;
+	this->maxHP = 100;
+	this->currentHP = 100;
 	this->type = GO_DRAGON;
 
 	angle = 0;
