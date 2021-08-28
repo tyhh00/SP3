@@ -117,10 +117,10 @@ bool Button::hasText() {
  * 
  * \param scene - Scene to render this button on (Generally rendered in Game::activeScene)
  */
-void Button::Render(SceneBase* scene) {
+void Button::Render(SceneBase* scene, int z) {
 	if (enabled) {
         if(quadTexture != nullptr)
-		    scene->RenderMeshOnScreen(quadTexture, UIInfo.originX, UIInfo.originY, UIInfo.sizeX, UIInfo.sizeY);
+		    scene->RenderMeshOnScreen(quadTexture, UIInfo.originX, UIInfo.originY, UIInfo.sizeX, UIInfo.sizeY, z);
 		if (text != nullptr) {
 			text->Render(scene);
 		}

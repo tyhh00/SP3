@@ -48,7 +48,7 @@ void SceneRobot::Init()
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-	m_worldHeight = 198;
+	m_worldHeight = 198                                          ;
 	m_worldWidth = 1594;
 
 	//Physics code here

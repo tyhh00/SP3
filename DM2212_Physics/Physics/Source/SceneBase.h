@@ -302,6 +302,13 @@ public:
 		GEO_ABILITY_BG,
 		GEO_ABILITY_BGCOOLDOWN,
 
+		GEO_LEVELEDITOR_BG,
+		GEO_LEVELEDITOR_LEVELNAMEBAR,
+		GEO_LEVELEDITOR_PLAY,
+		GEO_LEVELEDITOR_EDIT,
+		GEO_LEVELEDITOR_NEW,
+		GEO_LEVELEDITOR_BACKBUTTON,
+
 		//UI
 		GEO_UI_APPLE,
 		GEO_UI_CHEESE,
@@ -361,6 +368,7 @@ public:
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int limit);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int(&charWidth)[256], int arrSize);
+	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int limit, int(&charWidth)[256], int arrSize);
 	void RenderMesh(Mesh *mesh, bool enableLight);
 	void RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey, float z = 1);
 	Mesh* GetMeshList(GEOMETRY_TYPE geoType);

@@ -35,7 +35,7 @@ void UIManager::Init()
 	//Init BMs
 	ButtonManager* bm_gameplayStat = bm_array[UI_TYPE::UNIVERSAL_GAMEPLAY_STATS];
 
-	if (meshGenerated.size() < 1)
+	if (meshGenerated.size() < 1) //First init()
 	{
 		//HealthBar
 		Mesh* playerHealth = MeshBuilder::GenerateQuad("health", Color(0.8, 0.2, 0.2), 1.0f);
@@ -57,10 +57,6 @@ void UIManager::Init()
 		//Coin Icon
 		bm_gameplayStat->addButton(ButtonFactory::createNoTextButton("coinicon", 2.2, 57, 1.2, 1.2, coinIcon));
 		bm_gameplayStat->addButton(ButtonFactory::createTextButton("coinvalue", 4.6, 55.1, 2, 2, 0, 0, Color(0.9, 0.9, 0.9), std::to_string(GameManager::GetInstance()->getCoins()), 1.4, SUPERMARIO));
-		
-
-
-
 
 
 		//Ability Backgrounds
@@ -79,7 +75,6 @@ void UIManager::Init()
 		onCD->disable();
 		bm_gameplayStat->addButton(onCD);
 		bm_gameplayStat->addButton(ButtonFactory::createTextButton("ability_1_key", 7, 3, 2, 2, 0, 0, Color(0.7, 0.7, 0.55), "Q", 1.4, SUPERMARIO));
-	
 		
 		bm_gameplayStat->addButton(ButtonFactory::createNoTextButton("ability_2_icon", 11, 7, 1, 1, nullptr));
 		Button* ready2 = ButtonFactory::createNoTextButton("ability_2_ready", 11, 7, 1, 1, ability_bg);

@@ -10,6 +10,7 @@ ButtonManager::ButtonManager(float screenWidth, float screenHeight)
 	: screenWidth(screenWidth)
 	, screenHeight(screenHeight)
 	, elapsed(0.f)
+	, zPriority(1)
 {
 }
 
@@ -17,6 +18,7 @@ ButtonManager::ButtonManager()
 	: screenWidth(80)
 	, screenHeight(60)
 	, elapsed(0.f)
+	, zPriority(1)
 {
 }
 
@@ -131,8 +133,13 @@ void ButtonManager::Update(double dt) {
 void ButtonManager::Render(SceneBase* scene)
 {
 	for (auto& button : buttons) {
-		button->Render(scene);
+		button->Render(scene, this->zPriority);
 	}
+}
+
+void ButtonManager::SetZPriority(int zPriority)
+{
+	this->zPriority = zPriority;
 }
 
 /**

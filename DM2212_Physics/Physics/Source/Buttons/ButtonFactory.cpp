@@ -23,11 +23,11 @@ Button* ButtonFactory::createNoTextButton(std::string buttonName, float originX,
 	return noTextButton;
 }
 
-Button* ButtonFactory::createButton(std::string buttonName, float originX, float originY, float quadSizeX, float quadSizeY, Mesh* quadTexture, float offsetX, float offsetY, Color textColour, std::string textString, float textSize)
+Button* ButtonFactory::createButton(std::string buttonName, float originX, float originY, float quadSizeX, float quadSizeY, Mesh* quadTexture, float offsetX, float offsetY, Color textColour, std::string textString, float textSize, FONTTYPE fontType)
 {
 	Button* namedButton;
 	namedButton = new Button(buttonName, originX, originY, quadSizeX, quadSizeY, quadTexture);
-	namedButton->spawnTextObject("Text", textColour, CALIBRI, textSize);
+	namedButton->spawnTextObject("Text", textColour, fontType, textSize);
 	namedButton->getTextObject()->setTextString(textString);
 	namedButton->getTextObject()->setTextOffsetFromTopLeft(offsetX, offsetY);
 	return namedButton;
