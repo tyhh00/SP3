@@ -4,7 +4,7 @@
 #include "MeshBuilder.h"
 
 
-PortalAbility::PortalAbility(Mesh* mesh) : Ability('Z', ABILITY_PORTAL, 10.0f, mesh)
+PortalAbility::PortalAbility(Mesh* mesh) : Ability('Z', ABILITY_PORTAL, 7.0f, mesh)
 {
 	ghost_portal = false;
 	ghost_player = false;
@@ -34,13 +34,17 @@ void PortalAbility::Init()
 
 void PortalAbility::Update(double dt)
 {
+	abilityCD_timeleft -= dt;
+	if (abilityCD_timeleft < 0)
+		abilityCD_timeleft = 0.0f;
+
 	switch (state)
 	{
 	case DEFAULT:
 		// CHECK FOR ABILITY USE CONDITIONS
 		if (Input::GetInstance()->IsKeyPressed('Z'))
 		{
-			if (player->physics->GetOnGround() && !endPortal.active)
+			if (!endPortal.active && abilityCD_timeleft <= 0)
 			{
 				// START OPENING START PORTAL
 				startPortal.active = true;
@@ -88,7 +92,8 @@ void PortalAbility::Update(double dt)
 			endPortal.active = true;
 			endPortal.SetAnimation("opening", 0, 0.3f);
 			anim_timer = 0;
-
+			
+			abilityCD_timeleft = abilityCooldownDuration;
 			state = PLACING_ANIM;
 			std::cout << "PORTAL ABILITY: Placing other Portal" << std::endl;
 		}
