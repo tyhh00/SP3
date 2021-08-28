@@ -19,6 +19,7 @@
 #include "Coin.h"
 #include "Blueshell.h"
 #include "Redshell.h"
+#include "Bottle.h"
 #include "GameManager.h"
 #include "../Source/SoundController/SoundController.h"
 
@@ -402,6 +403,13 @@ void Player::CollidedWith(GameObject* go)
 		{
 			goManager->RemoveGO(go);
 			inventory->AddItem(new Redshell(1));	
+		}
+		break;
+	case SceneBase::GEO_OCEAN_BOTTLE:
+		if (input->IsKeyPressed('F'))
+		{
+			goManager->RemoveGO(go);
+			inventory->AddItem(new Bottle(1));
 		}
 		break;
 	
