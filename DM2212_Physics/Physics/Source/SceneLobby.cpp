@@ -158,7 +158,7 @@ void SceneLobby::Init()
 
 			player->AddBottomSprite();
 			player->bottomSprite->mesh = meshList[GEO_WALL];
-			goManager->AddGO(player);
+			goManager->AddGO(player, true);
 
 			DEBUG_MSG("From Phy Editor: " << player->scale);
 
@@ -232,6 +232,18 @@ void SceneLobby::Init()
 
 	// Add all remaining tiles
 	goManager->AddAllGO(tiles);
+
+
+	// Dialogue
+	if (gameManager->getGameState() == GameManager::GS_INTRO)
+	{
+		dialogueManager->AddDialogue(PLAYER, "Ouch my head hurts..Where am I?");
+		dialogueManager->AddDialogue(PLAYER, "What happened to me?");
+		dialogueManager->AddDialogue(PLAYER, "Is this a time machine?");
+		dialogueManager->AddDialogue(PLAYER, "??!!?!11!!?!");
+		dialogueManager->AddDialogue(PLAYER, "(As you near the machine, )");
+		gameManager->setGameState(GameManager::GS_DEFAULT);
+	}
 
 	// Camera 
 	camera.Init(Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 1), Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 0), Vector3(0, 1, 0));
