@@ -110,6 +110,7 @@ void PortalAbility::Update(double dt)
 
 			player->enableCollision = false;
 			player->physics->SetEnableUpdate(false);
+			player->physics->SetEnableCollisionResponse(false);
 			player->pos.z = -10;
 			ghost_player = true;
 
@@ -135,6 +136,7 @@ void PortalAbility::Update(double dt)
 			anim_timer = 0;
 			player->enableCollision = true;
 			player->physics->SetEnableUpdate(true);
+			player->physics->SetEnableCollisionResponse(true);
 			player->pos.z = 0;
 			ghost_player = false;
 			state = CLOSINGSTART_ANIM;

@@ -316,7 +316,7 @@ void Player::CollidedWith(GameObject* go)
 		inventory->AddItem(new Battery(go->mesh, inventory));
 		break;
 	case SceneBase::GEO_BONES_02:
-		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+		if (inventory->GetCurrentItem() != nullptr && inventory->GetCurrentItemType() == Item::I_PICKAXE
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
@@ -324,7 +324,7 @@ void Player::CollidedWith(GameObject* go)
 		}
 		break;
 	case SceneBase::GEO_BONES_03:
-		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+		if (inventory->GetCurrentItem() != nullptr && inventory->GetCurrentItemType() == Item::I_PICKAXE
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
@@ -332,7 +332,7 @@ void Player::CollidedWith(GameObject* go)
 		}
 		break;
 	case SceneBase::GEO_BONES_10:
-		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+		if (inventory->GetCurrentItem() != nullptr && inventory->GetCurrentItemType() == Item::I_PICKAXE
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
@@ -340,7 +340,7 @@ void Player::CollidedWith(GameObject* go)
 		}
 		break;
 	case SceneBase::GEO_BONES_11:
-		if (inventory->GetCurrentItemType() == Item::I_PICKAXE
+		if (inventory->GetCurrentItem() != nullptr && inventory->GetCurrentItemType() == Item::I_PICKAXE
 			&& input->IsKeyPressed('F'))
 		{
 			goManager->RemoveGO(go);
