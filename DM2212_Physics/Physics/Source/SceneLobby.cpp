@@ -479,6 +479,9 @@ void SceneLobby::Update(double dt)
 				case 4:
 					gameManager->setAbility(abilityNum, ABILITY_SLOWTIME);
 					break;
+				case 5:
+					gameManager->setAbility(abilityNum, ABILITY_BLACKHOLE);
+					break;
 				}
 			}
 		}
