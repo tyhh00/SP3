@@ -21,25 +21,27 @@ using namespace std;
  @brief Constructor
  */
 CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
-	, resumeButtonMesh(NULL)
-	, lobbyButtonMesh(NULL)
-	, retryButtonMesh(NULL)
-	, backButtonMesh(NULL)
-	, menuBG(NULL)
-	, buttonHighlight(NULL)
-	, leftArrowMesh(NULL)
-	, rightArrowMesh(NULL)
+, resumeButtonMesh(NULL)
+, lobbyButtonMesh(NULL)
+, retryButtonMesh(NULL)
+, backButtonMesh(NULL)
+, menuBG(NULL)
+, buttonHighlight(NULL)
+, leftArrowMesh(NULL)
+, rightArrowMesh(NULL)
 {
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 
 	sceneManager = SceneManager::GetInstance();
-
+	gameManager = GameManager::GetInstance();
+	soundController = CSoundController::GetInstance();
 	dialogueManager = DialogueManager::GetInstance();
 	uiManager = UIManager::GetInstance();
 
 	buttonManager = new ButtonManager(80, 60);
 
+	// ALL MESHES
 	resumeButtonMesh = MeshBuilder::GenerateQuad("resume button", Color(1, 1, 1), 1.0f);
 	resumeButtonMesh->textureID = LoadTGA("Image/ResumeButton.tga");
 	lobbyButtonMesh = MeshBuilder::GenerateQuad("back to lobby button", Color(1, 1, 1), 1.0f);
@@ -56,43 +58,70 @@ CPlayGameState::CPlayGameState(void) : buttonManager(NULL)
 	Mesh* highlight = MeshBuilder::GenerateQuad("Button Hover Highlight", Color(1, 1, 1), 1.0f);
 	highlight->textureID = LoadTGA("Image/ButtonHighlightA.tga");
 
-	Button* menuBGButton = ButtonFactory::createNoTextButton("menuBG", 40, 30,
-		30, 40, menuBG);
-	Button* resumeButton = ButtonFactory::createNoTextButton("resume", 40, 40,
-		15, 7, resumeButtonMesh);
-	Button* optionsButton = ButtonFactory::createNoTextButton("options", 40, 30,
-		15, 7, optionsButtonMesh);
-	Button* lobbyButton = ButtonFactory::createNoTextButton("lobby", 40, 20,
-		15, 7, lobbyButtonMesh);
-	Button* retryButton = ButtonFactory::createNoTextButton("retry", 40, 30,
-		15, 7, retryButtonMesh);
-	Button* backButton = ButtonFactory::createNoTextButton("back", 40, 20,
-		15, 7, backButtonMesh);
-	buttonHighlight = ButtonFactory::createNoTextButton("highlight", 40, 30,
-		16, 8, highlight);
+	volumeBar[0] = MeshBuilder::GenerateQuad("volume bar", Color(1, 1, 1), 1.0f);
+	volumeBar[0]->textureID = LoadTGA("Image/VolumeBar_0.tga");
+	volumeBar[1] = MeshBuilder::GenerateQuad("volume bar", Color(1, 1, 1), 1.0f);
+	volumeBar[1]->textureID = LoadTGA("Image/VolumeBar_1.tga");
+	volumeBar[2] = MeshBuilder::GenerateQuad("volume bar", Color(1, 1, 1), 1.0f);
+	volumeBar[2]->textureID = LoadTGA("Image/VolumeBar_2.tga");
+	volumeBar[3] = MeshBuilder::GenerateQuad("volume bar", Color(1, 1, 1), 1.0f);
+	volumeBar[3]->textureID = LoadTGA("Image/VolumeBar_3.tga");
+	volumeBar[4] = MeshBuilder::GenerateQuad("volume bar", Color(1, 1, 1), 1.0f);
+	volumeBar[4]->textureID = LoadTGA("Image/VolumeBar_4.tga");
+	volumeBar[5] = MeshBuilder::GenerateQuad("volume bar", Color(1, 1, 1), 1.0f);
+	volumeBar[5]->textureID = LoadTGA("Image/VolumeBar_5.tga");
+	leftArrowMesh = MeshBuilder::GenerateQuad("left arrow", Color(1, 1, 1), 1.0f);
+	leftArrowMesh->textureID = LoadTGA("Image/LeftArrow.tga");
+	rightArrowMesh = MeshBuilder::GenerateQuad("right arrow", Color(1, 1, 1), 1.0f);
+	rightArrowMesh->textureID = LoadTGA("Image/RightArrow.tga");
 
+	// ALL BUTTONS
+	Button* menuBGButton = ButtonFactory::createNoTextButton("menuBG", 40, 30, 30, 40, menuBG);
+	Button* resumeButton = ButtonFactory::createNoTextButton("resume", 40, 40, 15, 7, resumeButtonMesh);
+	Button* optionsButton = ButtonFactory::createNoTextButton("options", 40, 30, 15, 7, optionsButtonMesh);
+	Button* lobbyButton = ButtonFactory::createNoTextButton("lobby", 40, 20, 15, 7, lobbyButtonMesh);
+	Button* retryButton = ButtonFactory::createNoTextButton("retry", 40, 30, 15, 7, retryButtonMesh);
+	Button* backButton = ButtonFactory::createNoTextButton("back", 40, 20, 15, 7, backButtonMesh);
+	buttonHighlight = ButtonFactory::createNoTextButton("highlight", 40, 30, 16, 8, highlight);
+
+	Button* leftArrowButton = ButtonFactory::createNoTextButton("leftarrow", 35, 30, 4, 4, leftArrowMesh);
+	Button* rightArrowButton = ButtonFactory::createNoTextButton("rightarrow", 45, 30, 4, 4, rightArrowMesh);
+	Button* volumeBarButton = ButtonFactory::createNoTextButton("volumebar", 40, 35, 23, 4, 
+		volumeBar[(int)(soundController->GetMasterVolume() * 5)]);
+
+	// DISABLE AND ADD BUTTONS TO BUTTON MANAGER
 	menuBGButton->disable();
 	resumeButton->disable();
 	lobbyButton->disable();
 	retryButton->disable();
 	optionsButton->disable();
 	backButton->disable();
+	leftArrowButton->disable();
+	rightArrowButton->disable();
+	volumeBarButton->disable();
 	buttonHighlight->disable();
 	buttonManager->addButton(resumeButton);
 	buttonManager->addButton(lobbyButton);
 	buttonManager->addButton(retryButton);
 	buttonManager->addButton(optionsButton);
 	buttonManager->addButton(backButton);
+	buttonManager->addButton(leftArrowButton);
+	buttonManager->addButton(rightArrowButton);
+	buttonManager->addButton(volumeBarButton);
 
 	buttonManager->addButton(buttonHighlight); // second last
 	buttonManager->addButton(menuBGButton); // must be last
 
+	// my own vectors, just to for loop
 	pauseButtonsList.push_back(menuBGButton);
 	pauseButtonsList.push_back(lobbyButton);
 	pauseButtonsList.push_back(optionsButton);
 	pauseButtonsList.push_back(resumeButton);
 	optionsButtonsList.push_back(backButton);
 	optionsButtonsList.push_back(menuBGButton);
+	optionsButtonsList.push_back(leftArrowButton);
+	optionsButtonsList.push_back(rightArrowButton);
+	optionsButtonsList.push_back(volumeBarButton);
 }
 
 /**
@@ -125,6 +154,24 @@ CPlayGameState::~CPlayGameState(void)
 		delete menuBG;
 		menuBG = NULL;
 	}
+	if (leftArrowMesh)
+	{
+		delete leftArrowMesh;
+		leftArrowMesh = NULL;
+	}
+	if (rightArrowMesh)
+	{
+		delete rightArrowMesh;
+		rightArrowMesh = NULL;
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		if (volumeBar[i])
+		{
+			delete volumeBar[i];
+			volumeBar[i] = NULL;
+		}
+	}
 	pauseButtonsList.clear();
 	optionsButtonsList.clear();
 }
@@ -138,18 +185,18 @@ bool CPlayGameState::Init(void)
 
 	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, true);
 
-	gameManager = GameManager::GetInstance();
-	soundController = CSoundController::GetInstance();
-
 	currentState = DEFAULT;
 
 	buttonManager->deactivateButton("highlight");
 	buttonManager->deactivateButton("retry");
-	buttonManager->deactivateButton("lobby");
-	buttonManager->deactivateButton("menuBG");
-	buttonManager->deactivateButton("resume");
-	buttonManager->deactivateButton("options");
-	buttonManager->deactivateButton("back");
+	for (int i = 0; i < pauseButtonsList.size(); i++)
+	{
+		buttonManager->deactivateButton(pauseButtonsList[i]->getName());
+	}
+	for (int i = 0; i < optionsButtonsList.size(); i++)
+	{
+		buttonManager->deactivateButton(optionsButtonsList[i]->getName());
+	}
 
 	return true;
 }
@@ -188,16 +235,6 @@ bool CPlayGameState::Update(const double dElapsedTime)
 		}
 		break;
 	case PAUSED:
-		if (Input::GetInstance()->IsKeyPressed(VK_OEM_PLUS))
-		{
-			std::cout << "PLUS BUTTON, VOLUMEINCREASE" << std::endl;
-			soundController->MasterVolumeIncrease();
-		}
-		if (Input::GetInstance()->IsKeyPressed(VK_OEM_MINUS))
-		{
-			std::cout << "MINUS BUTTON, VOLUMEDECREASE" << std::endl;
-			soundController->MasterVolumeDecrease();
-		}
 		break;
 	case GAMEOVER:
 		break;
@@ -216,7 +253,11 @@ bool CPlayGameState::Update(const double dElapsedTime)
 	buttonManager->Update(sceneManager->getScene(), dElapsedTime);
 	for (auto button : buttonManager->getButtonsInteracted())
 	{
-		if (button->hovering && button->buttonClicked->getName() != "menuBG")
+		if (button->hovering 
+			&& button->buttonClicked->getName() != "menuBG"
+			&& button->buttonClicked->getName() != "leftarrow"
+			&& button->buttonClicked->getName() != "rightarrow"
+			)
 		{
 			buttonManager->activateButton("highlight");
 			buttonHighlight->setOrigin(button->buttonClicked->getOriginX(), button->buttonClicked->getOriginY());
@@ -273,6 +314,18 @@ bool CPlayGameState::Update(const double dElapsedTime)
 				CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
 				return true;
 			}
+			else if (button->buttonClicked->getName() == "rightarrow")
+			{
+				soundController->MasterVolumeIncrease();
+				//soundController->MasterVolumeIncrease();
+				UpdateVolumeBar();
+			}
+			else if (button->buttonClicked->getName() == "leftarrow")
+			{
+				soundController->MasterVolumeDecrease();
+				//soundController->MasterVolumeDecrease();
+				UpdateVolumeBar();
+			}
 		}
 	}
 	
@@ -302,4 +355,9 @@ void CPlayGameState::Destroy(void)
 	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, false);
 	sceneManager->destroy();
 	dialogueManager->Exit();
+}
+
+void CPlayGameState::UpdateVolumeBar()
+{
+	buttonManager->getButtonByName("volumebar")->setQuadImage(volumeBar[(int)(soundController->GetMasterVolume() * 5)]);
 }

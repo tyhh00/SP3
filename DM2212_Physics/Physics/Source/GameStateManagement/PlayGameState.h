@@ -64,5 +64,5 @@ protected:
 	GameManager* gameManager;
 	CSoundController* soundController;
 
-
+	void UpdateVolumeBar();
 };

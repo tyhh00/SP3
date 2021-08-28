@@ -41,7 +41,7 @@ bool CIntroState::Init(void)
 
 	// Load the sounds into CSoundController
 	soundController = CSoundController::GetInstance();
-	soundController->Init();
+	//soundController->Init();
 	soundController->LoadSound("Sounds\\Sound_BombExplosion.wav", SOUND_TYPE::BOMB_EXPLOSION, true);
 	soundController->LoadSound("Sounds\\Sound_DirtLand.wav", SOUND_TYPE::LANDED_GRASS, true);
 	soundController->LoadSound("Sounds\\Sound_DirtWalk.ogg", SOUND_TYPE::WALKING_GRASS, true);
