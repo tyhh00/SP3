@@ -116,6 +116,8 @@ void Dragon::Update(double dt)
 			{
 				dragon.at(i)->physics->SetRotateZ(360 - dragon.at(i)->physics->GetRotateZ()); //+ angleZ + angle);
 			}
+			dragon.at(i)->physics->SetNormal(Vector3(cos(Math::DegreeToRadian(dragon.at(i)->physics->GetRotateZ())), 
+				sin(Math::DegreeToRadian(dragon.at(i)->physics->GetRotateZ())), 0));
 		//5	dragon.at(i)->physics->SetVelocity(Vector3(-dt, dragon.at(i)->physics->GetVelocity().y, dragon.at(i)->physics->GetVelocity().z));
 		}
 		break;
