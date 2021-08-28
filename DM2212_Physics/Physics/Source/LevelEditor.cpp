@@ -3,29 +3,78 @@
 #include "Application.h"
 #include "Input.h"
 #include <fstream>
+#include <iostream>
 #include <sstream>
+
+
+#include "Buttons/ButtonFactory.h"
 
 LevelEditor::LevelEditor() : heldOnTo(nullptr)
 {
-
+	editorState = MAPSELECTION;
 }
 
 LevelEditor::~LevelEditor()
 {
-	for (int i = 0; i < gridObjects.size(); i++)
-	{
-		if(gridObjects[i])
-			delete gridObjects[i];
-	}
+	Exit();
+}
+
+void LevelEditor::Exit()
+{
+	UnloadMap();
+	editorState = MAPSELECTION;
 }
 
 void LevelEditor::Init()
 {
 	SceneBase::Init();
 
+	editorState = MAPSELECTION;
+
+	//Init Buttons
+	fileNames = LevelLoader::GetInstance()->GetLevelNames();
+
+	//int i = 0;
+	//for (auto& name : fileNames)
+	//{
+	//	bm_le.addButton(ButtonFactory::createButton("LEVEL_LevelNameBar_"+std::to_string(i), 29, 40-i*6, 18, 2, meshList[GEO_LEVELEDITOR_LEVELNAMEBAR],
+	//		-7.6,2.4, Color(1.0f, 1.0f, 1.0f), name, 2.6, SUPERMARIO));
+
+	//	bm_le.addButton(ButtonFactory::createNoTextButton("LEVEL_Play_" + std::to_string(i), 58, 40 - i * 6, 2.5, 2, meshList[GEO_LEVELEDITOR_PLAY]));
+	//	bm_le.addButton(ButtonFactory::createNoTextButton("LEVEL_Edit_" + std::to_string(i), 64, 40 - i * 6, 2.5, 2, meshList[GEO_LEVELEDITOR_EDIT]));
+	//	if(++i >= 5)
+	//		break;
+	//}
+	//bm_le.addButton(ButtonFactory::createNoTextButton("MAIN_EditorBackground", 40, 30, 40, 30, meshList[GEO_LEVELEDITOR_BG]));
+
+
+
 	std::string mapToLoad ="OCEAN_1_1";
 
+	LoadEditorDefaultValues();
+	LoadMap(mapToLoad);
+}
 
+void LevelEditor::UnloadMap()
+{
+	for (int i = 0; i < gridObjects.size(); i++)
+	{
+		if (gridObjects[i])
+			delete gridObjects[i];
+	}
+	editorState = MAPSELECTION;
+	//BM Switcher
+}
+
+bool LevelEditor::LoadMap(std::string filename)
+{
+	mapName = filename;
+	mapLoaded = true;
+	return (LevelLoader::GetInstance()->LoadTiles(filename, this->meshList, this->tileSize, gridObjects, gridLength, gridHeight));
+}
+
+void LevelEditor::LoadEditorDefaultValues()
+{
 	// Calculating aspect ratio
 	m_screenHeight = 100.f;
 	m_screenWidth = m_screenHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
@@ -49,15 +98,6 @@ void LevelEditor::Init()
 
 	camera.Init(Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 1), Vector3(m_screenWidth * 0.5, m_screenHeight * 0.5, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
-
-	LoadMap(mapToLoad);
-}
-
-bool LevelEditor::LoadMap(std::string filename)
-{
-	mapName = filename;
-	mapLoaded = true;
-	return (LevelLoader::GetInstance()->LoadTiles(filename, this->meshList, this->tileSize, gridObjects, gridLength, gridHeight));
 }
 
 void LevelEditor::SaveMap()
@@ -108,6 +148,8 @@ void LevelEditor::Update(double dt)
 	SceneBase::Update(dt);
 	camera.Update(dt);
 	fps = 1 / dt;
+
+	bm_le.Update(dt);
 
 	canScrollIn -= dt;
 	if (canScrollIn < 0.0)
@@ -502,7 +544,7 @@ void LevelEditor::Render()
 	// Model matrix : an identity matrix (model will be at the origin)
 	modelStack.LoadIdentity();
 
-	//RenderMesh(meshList[GEO_AXES], false);
+	//RenderMesh(meshList[GEO_AXES], false)
 
 	// all gos
 	for (std::vector<GameObject*>::iterator it = gridObjects.begin(); it != gridObjects.end(); ++it)
@@ -545,7 +587,7 @@ void LevelEditor::Render()
 	}
 	//DEBUG_MSG("Looped " << loops << " to cover all grids in viewable scene");
 
-
+	bm_le.Render(this);
 
 	// fps tings
 
@@ -652,16 +694,6 @@ void LevelEditor::Render()
 	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, line);
 
 	RenderTextOnScreen(meshList[GEO_TEXT], mapName, Color(1, 1, 1), 3, 0, 0);
-}
-
-void LevelEditor::Exit()
-{
-	for (int i = 0; i < gridObjects.size(); i++)
-	{
-		if (gridObjects[i])
-			delete gridObjects[i];
-	}
-	gridObjects.clear();
 }
 
 //Utilities

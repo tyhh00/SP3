@@ -417,7 +417,17 @@ void SceneBase::Init()
 	meshList[GEO_ABILITY_BGCOOLDOWN] = MeshBuilder::GenerateQuad("ability_bg_cooldown", Color(1, 1, 1), 5.0f);
 	meshList[GEO_ABILITY_BGCOOLDOWN]->textureID = LoadTGA("Image//ability_border_cooldown.tga");
 
+	meshList[GEO_LEVELEDITOR_BG] = MeshBuilder::GenerateQuad("leveleditor_bg", Color(1, 1, 1), 2.0f);
+	meshList[GEO_LEVELEDITOR_BG]->textureID = LoadTGA("Image//LevelEditorBG.tga");
 
+	meshList[GEO_LEVELEDITOR_PLAY] = MeshBuilder::GenerateQuad("leveleditor_play", Color(1, 1, 1), 2.0f);
+	meshList[GEO_LEVELEDITOR_PLAY]->textureID = LoadTGA("Image//LevelEditorPlay.tga");
+
+	meshList[GEO_LEVELEDITOR_EDIT] = MeshBuilder::GenerateQuad("leveleditor_edit", Color(1, 1, 1), 2.0f);
+	meshList[GEO_LEVELEDITOR_EDIT]->textureID = LoadTGA("Image//LevelEditorEdit.tga");
+
+	meshList[GEO_LEVELEDITOR_LEVELNAMEBAR] = MeshBuilder::GenerateQuad("leveleditor_levelname", Color(1, 1, 1), 2.0f);
+	meshList[GEO_LEVELEDITOR_LEVELNAMEBAR]->textureID = LoadTGA("Image//LevelEditorLevelName.tga");
 
 	//Shapes
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
