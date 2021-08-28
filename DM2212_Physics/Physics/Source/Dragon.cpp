@@ -131,8 +131,9 @@ void Dragon::Update(double dt)
 
 	for (int i = 1; i < dragon.size(); i++)
 	{
-		dragon.at(i)->pos = dragon.at(i - 1)->pos + Vector3(dragon.at(i - 1)->scale.x * -2 * cos(Math::DegreeToRadian(convertidk(dragon.at(i - 1)->physics->GetRotateZ()))),
-			dragon.at(i - 1)->scale.x * -2 * sin(Math::DegreeToRadian(convertidk(dragon.at(i - 1)->physics->GetRotateZ()))), 0);
+		float angle = convertidk(dragon.at(i - 1)->physics->GetRotateZ()) + convertidk(dragon.at(i)->physics->GetRotateZ());
+		dragon.at(i)->pos = dragon.at(i - 1)->pos + Vector3(dragon.at(i - 1)->scale.x * -2 * cos(Math::DegreeToRadian( 0.5 * angle)),
+			dragon.at(i - 1)->scale.x * -2 * sin(Math::DegreeToRadian(0.5 * angle)), 0);
 	}
 
 }
