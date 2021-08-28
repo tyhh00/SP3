@@ -261,6 +261,10 @@ bool CSoundController::MasterVolumeIncrease(void)
 
 	// Increase the volume by 10%
 	cSoundEngine->setSoundVolume(fCurrentVolume + 0.1f);
+	if (cSoundEngine->getSoundVolume() > 1.0f)
+	{
+		cSoundEngine->setSoundVolume(1.0f);
+	}
 
 	return true;
 }

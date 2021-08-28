@@ -320,13 +320,14 @@ bool CPlayGameState::Update(const double dElapsedTime)
 			else if (button->buttonClicked->getName() == "rightarrow")
 			{
 				soundController->MasterVolumeIncrease();
-				//soundController->MasterVolumeIncrease();
+				if (soundController->GetMasterVolume() > 0.2)
+					soundController->MasterVolumeIncrease();
 				UpdateVolumeBar();
 			}
 			else if (button->buttonClicked->getName() == "leftarrow")
 			{
 				soundController->MasterVolumeDecrease();
-				//soundController->MasterVolumeDecrease();
+				soundController->MasterVolumeDecrease();
 				UpdateVolumeBar();
 			}
 		}
@@ -362,5 +363,32 @@ void CPlayGameState::Destroy(void)
 
 void CPlayGameState::UpdateVolumeBar()
 {
-	buttonManager->getButtonByName("volumebar")->setQuadImage(volumeBar[(int)(soundController->GetMasterVolume() * 5)]);
+	int numBar;
+	float volume = soundController->GetMasterVolume();
+	if (volume >= 0.8f)
+	{
+		numBar = 5;
+	}
+	else if (volume >= 0.6f)
+	{
+		numBar = 4;
+	}
+	else if (volume >= 0.4f)
+	{
+		numBar = 3;
+	}
+	else if (volume >= 0.2f)
+	{
+		numBar = 2;
+	}
+	else if (volume > 0)
+	{
+		numBar = 1;
+	}
+	else 
+	{
+		numBar = 0;
+	}
+	//buttonManager->getButtonByName("volumebar")->setQuadImage(volumeBar[(int)(soundController->GetMasterVolume() * 5)]);
+	buttonManager->getButtonByName("volumebar")->setQuadImage(volumeBar[numBar]);
 }
