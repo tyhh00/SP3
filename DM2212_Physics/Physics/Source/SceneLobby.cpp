@@ -249,7 +249,7 @@ void SceneLobby::Update(double dt)
 	}
 
 	if (!dialogueManager->Update(dt))
-		goManager->Update(dt);
+		goManager->Update(dt, &this->camera);
 }
 
 void SceneLobby::Render()

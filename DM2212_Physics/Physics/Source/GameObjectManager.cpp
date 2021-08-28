@@ -210,7 +210,7 @@ void GameObjectManager::SetmSpeed(float mspeed)
 	m_speed = mspeed;
 }
 
-void GameObjectManager::Update(double dt)
+void GameObjectManager::Update(double dt, Camera* camera)
 {
 	int loops = 1;
 	if (dt > 0.1)
@@ -234,10 +234,37 @@ void GameObjectManager::Update(double dt)
 		}
 		toAddList.clear();
 
-
 		// Game Objects
 		// Update Moveable GOs
-		for (std::vector<GameObject*>::iterator it = m_movableGOList.begin(); it != m_movableGOList.end(); ++it)
+
+		//OPTIMIZATIONS (From O(n^2) to O(n+1)
+		std::vector<GameObject*> moveableIteration, stationaryIteration;
+		float minX, maxX, minY, maxY, radius;
+		radius = 1.5;
+		minX = camera->position.x - camera->screenWidth * radius;
+		maxX = camera->position.x + camera->screenWidth * radius;
+		minY = camera->position.y - camera->screenHeight * radius;
+		maxY = camera->position.y + camera->screenHeight * radius;
+		for (auto& go : m_movableGOList)
+		{
+			if (go->pos.x >= minX && go->pos.x <= maxX
+				&& go->pos.y >= minY && go->pos.y <= maxY)
+			{
+				moveableIteration.push_back(go);
+			}
+		}
+		for (auto& go : m_stationaryGOList)
+		{
+			if (go->pos.x >= minX && go->pos.x <= maxX
+				&& go->pos.y >= minY && go->pos.y <= maxY)
+			{
+				stationaryIteration.push_back(go);
+			}
+		}
+		//Optimizations end
+
+
+		for (std::vector<GameObject*>::iterator it = moveableIteration.begin(); it != moveableIteration.end(); ++it)
 		{
 			GameObject* go = (GameObject*)*it;
 
@@ -274,7 +301,7 @@ void GameObjectManager::Update(double dt)
 			}
 
 			// Collision with moving and moving
-			for (std::vector<GameObject*>::iterator it2 = it + 1; it2 != m_movableGOList.end(); ++it2)
+			for (std::vector<GameObject*>::iterator it2 = it + 1; it2 != moveableIteration.end(); ++it2)
 			{
 				GameObject* go2 = (GameObject*)*it2;
 
@@ -306,7 +333,7 @@ void GameObjectManager::Update(double dt)
 					}
 					if (go->IsExplosive())
 					{
-						for (auto& go3 : m_movableGOList)
+						for (auto& go3 : moveableIteration)
 						{
 							if (go3 == nullptr || !go3->active)
 								continue;
@@ -316,7 +343,7 @@ void GameObjectManager::Update(double dt)
 								go3->CollidedWith(go);
 							}
 						}
-						for (auto& go3 : m_stationaryGOList)
+						for (auto& go3 : stationaryIteration)
 						{
 							if (go3 == nullptr)
 								continue;
@@ -342,7 +369,7 @@ void GameObjectManager::Update(double dt)
 				}
 			}
 			// Collision with moving and stationary
-			for (std::vector<GameObject*>::iterator it2 = m_stationaryGOList.begin(); it2 != m_stationaryGOList.end(); ++it2)
+			for (std::vector<GameObject*>::iterator it2 = stationaryIteration.begin(); it2 != stationaryIteration.end(); ++it2)
 			{
 				GameObject* go2 = (GameObject*)*it2;
 
@@ -375,7 +402,7 @@ void GameObjectManager::Update(double dt)
 					go2->physics->scale = go2->scale;
 					if (go->IsExplosive())
 					{
-						for (auto& go3 : m_movableGOList)
+						for (auto& go3 : moveableIteration)
 						{
 							if (go3 == nullptr || !go3->active)
 								continue;
@@ -385,7 +412,7 @@ void GameObjectManager::Update(double dt)
 								go3->CollidedWith(go);
 							}
 						}
-						for (auto& go3 : m_stationaryGOList)
+						for (auto& go3 : stationaryIteration)
 						{
 							if (go3 == nullptr)
 								continue;
@@ -412,7 +439,7 @@ void GameObjectManager::Update(double dt)
 
 		}
 		// Update Stationary GOs
-		for (std::vector<GameObject*>::iterator it = m_stationaryGOList.begin(); it != m_stationaryGOList.end(); ++it)
+		for (std::vector<GameObject*>::iterator it = stationaryIteration.begin(); it != stationaryIteration.end(); ++it)
 		{
 			GameObject* go = (GameObject*)*it;
 			if (go == nullptr || !go->active)

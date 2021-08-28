@@ -206,7 +206,7 @@ void SceneGraveyard::Update(double dt)
 		story_state = CHURCH_INTRO;
 	}
 
-	goManager->Update(dt);
+	goManager->Update(dt, &this->camera);
 	inventory->Update(dt);
 
 	if (player->currentHP <= 0)

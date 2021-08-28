@@ -204,7 +204,7 @@ void SceneJungle::Update(double dt)
 		m_speed += 0.1f;
 	}
 
-	goManager->Update(dt);
+	goManager->Update(dt, &this->camera);
 
 	if (player->currentHP <= 0)
 	{
