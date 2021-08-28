@@ -250,8 +250,16 @@ void GameObjectManager::Update(double dt)
 				continue;
 			}
 
-			go->Update(splitDt);
-			go->physics->Update(splitDt);
+			if (go->isSlowed())
+			{
+				go->Update(m_speed * splitDt);
+				go->physics->Update(m_speed * splitDt);
+			}
+			else {
+				go->Update(splitDt);
+				go->physics->Update(splitDt);
+			}
+
 			if (go->physics->GetUpdateEnabled())
 				if (!go->isSlowed())
 				{
@@ -261,7 +269,8 @@ void GameObjectManager::Update(double dt)
 				{
 					go->pos += go->physics->GetVelocity() * m_speed * splitDt;
 				}
-				//go->pos += go->physics->GetVelocity() * m_speed * splitDt;
+			
+
 			go->physics->pos = go->pos;
 			go->physics->scale = go->scale;
 			if (go->bottomSprite != nullptr)
@@ -423,8 +432,15 @@ void GameObjectManager::Update(double dt)
 				toRemoveList.push_back(go);
 				continue;
 			}
-
-			go->Update(splitDt);
+			if (go->isSlowed())
+			{
+				go->Update(splitDt * m_speed);
+			}
+			else
+			{
+				go->Update(splitDt);
+			}
+			
 		}
 
 		// Remove GOs that need to be deleted
