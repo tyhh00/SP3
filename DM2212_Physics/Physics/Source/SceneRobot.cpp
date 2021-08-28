@@ -214,7 +214,7 @@ void SceneRobot::Update(double dt)
 		goManager->AddGO(bul);*/
 	}
 	
-	goManager->Update(dt);
+	goManager->Update(dt, &this->camera);
 
 	if (player->currentHP <= 0)
 	{

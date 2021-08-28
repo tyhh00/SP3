@@ -6,6 +6,7 @@
 #include "Application.h"
 #include "LoadTGA.h"
 #include "SceneBase.h"
+#include "Camera.h"
 
 
 class GameObjectManager
@@ -22,7 +23,7 @@ protected:
 
 public:
 	void Init();
-	void Update(double dt);
+	void Update(double dt, Camera* cam);
 	void Render(SceneBase* scene);
 	void AddGO(GameObject* go);
 	void RemoveGO(GameObject* go);

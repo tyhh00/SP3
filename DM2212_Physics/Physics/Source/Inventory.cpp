@@ -129,18 +129,21 @@ void Inventory::Update(double dt)
 	{
 		enableInv = !enableInv;
 	}
-
-	if (input->IsKeyPressed(VK_LEFT))
+	
+	if (currentItem)
 	{
-		std::cout << "cycle backward" << std::endl;
-		CycleItem(false);
-		std::cout << "qty: " << currentItem->GetQuantity() << std::endl;
-	}
-	if (input->IsKeyPressed(VK_RIGHT))
-	{
-		std::cout << "cycle forward" << std::endl;
-		CycleItem(true);
-		std::cout << "qty: " << currentItem->GetQuantity() << std::endl;
+		if (input->IsKeyPressed(VK_LEFT))
+		{
+			std::cout << "cycle backward" << std::endl;
+			CycleItem(false);
+			std::cout << "qty: " << currentItem->GetQuantity() << std::endl;
+		}
+		if (input->IsKeyPressed(VK_RIGHT))
+		{
+			std::cout << "cycle forward" << std::endl;
+			CycleItem(true);
+			std::cout << "qty: " << currentItem->GetQuantity() << std::endl;
+		}
 	}
 
 	if (input->IsKeyPressed('1'))
