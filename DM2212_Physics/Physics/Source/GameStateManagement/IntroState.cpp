@@ -64,6 +64,9 @@ bool CIntroState::Init(void)
 	soundController->LoadSound("Sounds\\Sound_Eating.wav", SOUND_TYPE::EATING, true);
 	soundController->LoadSound("Sounds\\Sound_Eating.wav", SOUND_TYPE::COIN, true);
 	soundController->LoadSound("Sounds\\Sound_Jump.wav", SOUND_TYPE::JUMP, true);
+	soundController->LoadSound("Sounds\\Sound_Blackhole_Dead.wav", SOUND_TYPE::BLACKHOLE_DEAD, true);
+	soundController->LoadSound("Sounds\\Sound_Blackhole_Shoot.wav", SOUND_TYPE::BLACKHOLE_SHOOT, true);
+	soundController->LoadSound("Sounds\\Sound_Recall.wav", SOUND_TYPE::RECALL_USE, true);
 	//Loopables
 	soundController->LoadSound("Sounds\\Sound_GameBG1.wav", SOUND_TYPE::BG_ARCADE, true, true);
 	soundController->LoadSound("Sounds\\Sound_GameBG2.wav", SOUND_TYPE::BG_ARCADE2, true, true);
@@ -72,7 +75,7 @@ bool CIntroState::Init(void)
 	soundController->LoadSound("Sounds\\Sound_ChurchBG.wav", SOUND_TYPE::BG_CHURCH, true, true);
 	soundController->LoadSound("Sounds\\Sound_JungleBG.wav", SOUND_TYPE::BG_JUNGLE, true, true);
 	soundController->LoadSound("Sounds\\Sound_LobbyBG.wav", SOUND_TYPE::BG_LOBBY, true, true);
-
+	soundController->LoadSound("Sounds\\Sound_RobotBG.wav", SOUND_TYPE::BG_ROBOTSCENE, true, true);
 
 	sceneSplash = new SceneSplashScreen();
 	sceneSplash->Init();

@@ -2,6 +2,7 @@
 #include "Debug.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
+#include "SoundController/SoundController.h"
 
 BlackHoleBullet::BlackHoleBullet(Mesh* mesh, int geoTypeID, Vector3 scale, GameObject* attachedPlayer, float bulletSpeed)
 //Init with nullptr mesh and -1 geoType since we're overriding mesh with animatedSprite
@@ -36,6 +37,8 @@ BlackHoleBullet::BlackHoleBullet(Mesh* mesh, int geoTypeID, Vector3 scale, GameO
 	physics->SetGravity(Vector3(0, -30, 0));
 	physics->SetGravityUpdate(true);
 	physics->SetEnableCollisionResponse(true);
+
+	firstLoop = false;
 }
 
 
@@ -52,6 +55,13 @@ void BlackHoleBullet::Update(double dt)
 {
 	aliveTimer += dt;
 	deltaTime = dt;
+
+	if (!firstLoop)
+	{
+		firstLoop = true;
+		CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BLACKHOLE_SHOOT);
+		CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BLACKHOLE_SHOOT);
+	}
 
 	if (thrownDirection == UNSET)
 	{
@@ -128,10 +138,12 @@ void BlackHoleBullet::Update(double dt)
 			scale.x = 0.1;
 			scale.y = 0.1;
 			state = SUICIDE;
+			CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BLACKHOLE_SHOOT);
 		}
 	}
 	else if (state == SUICIDE)
 	{
+		
 		scale += normalisedScale * scaleSpeed * dt * 5;
 		spriteRotationSpeed = Math::DegreeToRadian(30);
 		this->enableCollision = true;
