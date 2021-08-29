@@ -425,7 +425,7 @@ void SceneLobby::Update(double dt)
 
 	// button manager
 	buttonManager->Update(dt);
-	// TIME MACHINE
+	// TIME MACHINE INTERACTION
 	if (abs(timeMachine->pos.y - player->pos.y) < 20 && abs(timeMachine->pos.x - player->pos.x) < 10)
 	{
 		if (!showMachinePartsUI)
@@ -456,8 +456,7 @@ void SceneLobby::Update(double dt)
 	{
 		showEtoInteract = false;
 	}
-
-	// SETTINGS MACHINE
+	// SETTINGS MACHINE INTERACTION
 	if (abs(settingMachine->pos.y - player->pos.y) < 10 && abs(settingMachine->pos.x - player->pos.x) < 10)
 	{
 		if (!showAbilityUI)
@@ -487,7 +486,7 @@ void SceneLobby::Update(double dt)
 	else
 		showEtoInteract = false;
 
-	//ABILITY MACHINE
+	// ABILITY MACHINE INTERACTION
 	if (abs(abilityMachine->pos.y - player->pos.y) < 10 && abs(abilityMachine->pos.x - player->pos.x) < 10)
 	{
 		if (!showAbilityUI)
@@ -523,12 +522,13 @@ void SceneLobby::Update(double dt)
 			showEtoInteract = false;
 	}
 
-	//disable movement when showing UI
+	// disable movement when showing UI
 	if (showAbilityUI || showMachinePartsUI)
 		player->physics->SetEnableUpdate(false);
 	else
 		player->physics->SetEnableUpdate(true);
 	
+	// BUTTON COLLISION RESPONSE
 	for (auto& buttonCollide : buttonManager->getButtonsInteracted())
 	{
 		if (buttonCollide->justClicked)
@@ -586,19 +586,9 @@ void SceneLobby::Update(double dt)
 				}
 			}
 
-			if (buttonCollide->buttonClicked->getName() == "ability_1_keybind")
-			{
-				settingsSelectedButton = buttonCollide->buttonClicked;
-				buttonManager->getButtonByName("settings_selector")->setOrigin(settingsSelectedButton->getOriginX(),
-					settingsSelectedButton->getOriginY());
-			}
-			else if (buttonCollide->buttonClicked->getName() == "ability_2_keybind")
-			{
-				settingsSelectedButton = buttonCollide->buttonClicked;
-				buttonManager->getButtonByName("settings_selector")->setOrigin(settingsSelectedButton->getOriginX(),
-					settingsSelectedButton->getOriginY());
-			}
-			else if (buttonCollide->buttonClicked->getName() == "interact_keybind")
+			if (buttonCollide->buttonClicked->getName() == "ability_1_keybind" 
+				|| buttonCollide->buttonClicked->getName() == "ability_2_keybind"
+				|| buttonCollide->buttonClicked->getName() == "interact_keybind")
 			{
 				settingsSelectedButton = buttonCollide->buttonClicked;
 				buttonManager->getButtonByName("settings_selector")->setOrigin(settingsSelectedButton->getOriginX(),
@@ -609,7 +599,25 @@ void SceneLobby::Update(double dt)
 
 	bool besidePortal = false;
 	
-	std::cout << input->GetTypedEntry() << std::endl;
+	// KEYBIND SETTING
+	std::string entry = input->GetTypedEntry();
+	if (showSettingsUI && entry.size() > 0)
+	{
+		char newChar = entry.back();
+		settingsSelectedButton->setText(std::string(1, newChar));
+		if (settingsSelectedButton->getName() == "ability_1_keybind")
+		{
+			gameManager->ABILITY_KEYBIND_1 = newChar;
+		}
+		else if (settingsSelectedButton->getName() == "ability_2_keybind")
+		{
+			gameManager->ABILITY_KEYBIND_2 = newChar;
+		}
+		else if (settingsSelectedButton->getName() == "interact_keybind")
+		{
+			gameManager->INTERACT_KEYBIND = newChar;
+		}
+	}
 
 	// PORTALS
 	if (((portal_graveyard->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_graveyard->pos.x - 4)) && (player->pos.x <= (portal_graveyard->pos.x + 4)))
