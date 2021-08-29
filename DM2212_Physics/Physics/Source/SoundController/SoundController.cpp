@@ -52,7 +52,6 @@ bool CSoundController::Init(void)
 	cSoundEngine = createIrrKlangDevice(ESOD_WIN_MM, ESEO_MULTI_THREADED);
 	if (cSoundEngine == NULL)
 	{
-		cout << "Unable to initialise the IrrKlang sound engine" << endl;
 		return false;
 	}
 	return true;
@@ -84,7 +83,6 @@ bool CSoundController::LoadSound(	string filename,
 	// Trivial Rejection : Invalid pointer provided
 	if (pSoundSource == nullptr)
 	{
-		cout << "Unable to load sound " << filename.c_str() << endl;
 		return false;
 	}
 
@@ -211,12 +209,10 @@ void CSoundController::PlaySoundByID(const int ID)
 	CSoundInfo* pSoundInfo = GetSound(ID);
 	if (!pSoundInfo)
 	{
-		cout << "Sound #" << ID << " is not playable." << endl;
 		return;
 	}
 	else if (cSoundEngine->isCurrentlyPlaying(pSoundInfo->GetSound()))
 	{
-		cout << "Sound #" << ID << " is currently being played." << endl;
 		return;
 	}
 	if (pSoundInfo->GetSoundType() == CSoundInfo::SOUNDTYPE::_2D)

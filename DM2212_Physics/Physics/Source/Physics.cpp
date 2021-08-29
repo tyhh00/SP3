@@ -394,7 +394,6 @@ void Physics::ApplyFriction(Physics* ball, Vector3 normal, double dt)
 		return;
 	}
 
-	//std::cout << ball->GetVelocity() << std::endl;
 
 	// - velocity parallel to surface by amount of Nforce
 	const float FRICTION_K = 0.1f;
@@ -437,42 +436,6 @@ void Physics::ApplyContactForce(Physics* go1, Physics* go2, double dt, bool appl
 	Vector3 N = go2->collisionNormal;
 
 	float displacement = go1->scale.x + go2->scale.x;
-
-	/*Vector3 go1N = go1->normal;
-	Vector3 distance = go2->pos - go1->pos;
-	if (distance.Dot(go1->normal) < 0)
-		go1N = -go1N;
-
-	Vector3 NP(go1N.y, -go1N.x, 0);
-	if (go1->pos.x > go2->pos.x)
-		NP = (-go1N.y, -go1N.x, 0);
-
-	Vector3 pos1 = go1->pos + go1N;
-	Vector3 pos2 = go1->pos + NP;
-
-	Vector3 newPos1 = go2->pos - pos1;
-	Vector3 projPos1 = (newPos1.Dot(N) / N.Dot(N)) * N;
-
-	Vector3 newPos2 = go2->pos - pos2;
-	Vector3 projPos2 = (newPos2.Dot(N) / N.Dot(N)) * N;
-
-	std::cout << "1: " << projPos1.Length() << " 2: " << projPos2.Length() << std::endl;
-
-	if (projPos1.Length() < projPos2.Length())
-	{
-		std::cout << "y is the nearer side" << std::endl;
-		displacement = go1->scale.y + go2->scale.x;
-	}*/
-
-	//if (N == Vector3(0, -1, 0) || N == Vector3(0, 1, 0))
-	//	displacement = go1->scale.x + go2->scale.x;
-	//else if (N == Vector3(-1, 0, 0) || N == Vector3(1, 0, 0))
-	//	displacement = go1->scale.y + go2->scale.x;
-
-	//if (N != go2->normal || N != -go2->normal)
-	//{
-	//	displacement = go1->scale.y + go2->scale.x;
-	//}
 
 	//get inward normal
 	Vector3 w0_b1 = go2->pos - go1->pos;

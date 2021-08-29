@@ -53,7 +53,6 @@ void Lightning::CollidedWith(GameObject* go) //checks collision with objects
 	}
 	if (go->type == GO_CRAB)
 	{
-		std::cout << "Collided" << std::endl;
 		go->currentHP -= 100;
 	}
 }

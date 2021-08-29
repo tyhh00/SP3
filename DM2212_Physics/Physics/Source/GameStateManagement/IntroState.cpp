@@ -38,7 +38,6 @@ CIntroState::~CIntroState(void)
  */
 bool CIntroState::Init(void)
 {
-	cout << "CIntroState::Init()\n" << endl;
 	soundController = CSoundController::GetInstance();
 	//soundController->Init();
 	// Load the sounds into CSoundController
@@ -95,14 +94,11 @@ bool CIntroState::Init(void)
  */
 bool CIntroState::Update(const double dElapsedTime)
 {
-	cout << "CIntroState::Update()\n" << endl;
 
 	if (Application::IsKeyPressed(VK_SPACE))
 	{
 		// Reset the CKeyboardController
-		cout << "space key pressed" << endl;
 		// Load the menu state
-		cout << "Loading PlayGameState" << endl;
 
 		CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 
@@ -129,7 +125,6 @@ void CIntroState::Render()
  */
 void CIntroState::Destroy(void)
 {
-	cout << "CIntroState::Destroy()\n" << endl;
 
 	if (sceneSplash)
 	{

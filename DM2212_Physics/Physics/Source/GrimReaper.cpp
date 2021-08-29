@@ -140,7 +140,6 @@ void GrimReaper::CollidedWith(GameObject* go)
 		
 		if (state == WHACKING && cooldown_timer <= 0 && attack_timer < 0.5)
 		{
-			std::cout << "GRIM REAPER ATTACKED" << std::endl;
 			go->currentHP -= 30;
 			cooldown_timer += 2.f;
 		}
