@@ -263,6 +263,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 			&& button->buttonClicked->getName() != "menuBG"
 			&& button->buttonClicked->getName() != "leftarrow"
 			&& button->buttonClicked->getName() != "rightarrow"
+			&& button->buttonClicked->getName() != "volumebar"
 			)
 		{
 			buttonManager->activateButton("highlight");
