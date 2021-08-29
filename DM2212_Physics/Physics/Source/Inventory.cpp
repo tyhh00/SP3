@@ -366,6 +366,7 @@ void Inventory::AddItem(Item* newItem)
 	if (itemVector.empty())
 	{
 		itemVector.push_back(newItem);
+		currentItem = newItem;
 		UpdateItemVector();
 		return;
 	}
