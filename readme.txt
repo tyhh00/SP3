@@ -8,6 +8,7 @@ Mouse Click - Use/Toggle (Certain Weapons)
 Q - Use Ability 1
 Z - Use Ability 2
 TAB - Toggle Inventory (OPEN/CLOSE)
+1,2,3,4,5 - Select Inventory Slot
 ESC - Pause, Return to Main Menu
 
 //HIDDEN CONTROLS:
