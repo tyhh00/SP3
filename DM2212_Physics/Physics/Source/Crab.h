@@ -9,7 +9,8 @@
 
 class Crab : public Enemy {
 public:
-	enum MOVEMENT_TYPE {
+	enum MOVEMENT_TYPE
+	{
 		LAR,
 		CHASE,
 		MTYPE_TOTAL
