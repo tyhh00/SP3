@@ -22,6 +22,8 @@
 
 #include "Buttons/DialogueManager.h"
 
+#include "SoundController/SoundController.h"
+
 SceneRobot::SceneRobot()
 {
 	goManager = new GameObjectManager();
@@ -171,12 +173,14 @@ void SceneRobot::Init()
 	camera.Init(Vector3(player->pos.x, player->pos.y, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	camera.SetLimits(m_screenWidth, m_screenHeight, m_worldWidth, m_worldHeight);
 	camera.SetFocusTarget(player->pos);
+	camera.SetMode(Camera::CENTER);
 
 	// ABILITIES
 	gameManager->initAbilities(this, &camera, goManager, player);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 
-	
+	DEBUG_MSG("Sound played");
+	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_ROBOTSCENE, 1.2, 0.4);
 }
 
 void SceneRobot::Update(double dt)
@@ -410,6 +414,8 @@ void SceneRobot::CursorToWorldPosition(double& theX, double& theY)
 
 void SceneRobot::Exit()
 {
+	CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_ROBOTSCENE);
+	DEBUG_MSG("Sound stopped");
 	SceneBase::Exit();
 	//Cleanup GameObjects
 	goManager->Exit();
