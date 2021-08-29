@@ -122,6 +122,7 @@ void Player::Update(double dt)
 	if (this->pos.y < 0 || this->pos.y > cam->worldHeight + 20)
 	{
 		dead = true;
+		currentHP = 0;
 		return;
 	}
 
