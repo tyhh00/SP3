@@ -28,12 +28,14 @@ Settings Machine - Interact to change keybinds
 
 ***JUNGLE***
 //ITEMS:
-Gun - 
-Apple -
-Firetorch - 
-Campfire -
+Pistol - Left click to shoot bullets.
+Apple - Press E to consume it, only consumes when health is lesser than max.
+Firetorch - Equip it and go near a campfire, it will light it up.
+Campfire - If it is lit up, it will heal you.
+
 //ENEMIES:
-Monkey -
+Monkey - It will jump around and follow you. It also throw bananas at you, and it drops banana when u kill it
+Prowler - It will chase and melee attack you when in close range, it will also back out and spawn a new monkey when after it attacks you.
 
 ***GRAVEYARD***
 /ITEMS:
