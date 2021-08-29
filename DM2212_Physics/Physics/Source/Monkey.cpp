@@ -26,7 +26,7 @@ void Monkey::Init(SceneBase* scene, GameObjectManager* _goManager, Inventory* in
 
 	movement_speed = 20.0f;
 	activeRange = 50.0f;
-	shootTimer = 2;
+	shootTimer = 1.5f;
 
 	currentHP = 7;
 	maxHP = 7; // IN SECONDS

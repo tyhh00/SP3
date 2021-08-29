@@ -10,15 +10,14 @@ enum BLACKHOLEBULLET_STATE
 	SUICIDE,
 };
 
-enum THROWN_DIRECTION
-{
-	LEFT,
-	RIGHT,
-	UNSET
-};
-
 class BlackHoleBullet : public Bullet
 {
+	enum THROWN_DIRECTION
+	{
+		LEFT,
+		RIGHT,
+		UNSET
+	};
 public:
 	BlackHoleBullet(Mesh* mesh, int geoTypeID, Vector3 scale, GameObject* attachedPlayer, float bulletSpeed = 35);
 	~BlackHoleBullet();

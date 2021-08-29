@@ -5,7 +5,9 @@
 #include "LoadTGA.h"
 #include <sstream>
 #include "LevelLoader.h"
+#include "../Source/SoundController/SoundController.h"
 #include "Utility.h"
+#include <sstream>
 #include "Debug.h"
 
 //Entity Includes
@@ -162,7 +164,6 @@ void SceneLobby::Init()
 	meshList[GEO_BG]->textureID = LoadTGA("Image/bg_lobby.tga");
 
 
-	// MACHINE PARTS UI SETTINGS
 	if (gameManager->getMachineStatus(1))
 	{
 		Button* part = ButtonFactory::createNoTextButton("machinePart1", 31.25, 37.5,
@@ -379,6 +380,10 @@ void SceneLobby::Init()
 		{
 			timeMachine = go;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_LEVELEDITOR)
+		{
+			wizardMachine = go;
+		}
 		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_ABILITY_MACHINE)
 		{
 			abilityMachine = go;
@@ -415,6 +420,7 @@ void SceneLobby::Init()
 	sceneManager = SceneManager::GetInstance();
 
 	gameManager->initAbilities(this, &camera, goManager, player);
+	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_LOBBY);
 }
 
 void SceneLobby::Update(double dt)
@@ -423,6 +429,7 @@ void SceneLobby::Update(double dt)
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
 
+	bool showEtoInteract = false;
 	// button manager
 	buttonManager->Update(dt);
 	// TIME MACHINE INTERACTION
@@ -430,8 +437,6 @@ void SceneLobby::Update(double dt)
 	{
 		if (!showMachinePartsUI)
 			showEtoInteract = true;
-		else
-			showEtoInteract = false;
 		if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 		{
 			showMachinePartsUI = !showMachinePartsUI;
@@ -452,17 +457,12 @@ void SceneLobby::Update(double dt)
 			}
 		}
 	}
-	else
-	{
-		showEtoInteract = false;
-	}
+
 	// SETTINGS MACHINE INTERACTION
 	if (abs(settingMachine->pos.y - player->pos.y) < 10 && abs(settingMachine->pos.x - player->pos.x) < 10)
 	{
-		if (!showAbilityUI)
+		if (!showSettingsUI)
 			showEtoInteract = true;
-		else
-			showEtoInteract = false;
 		if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 		{
 			showSettingsUI = !showSettingsUI;
@@ -483,16 +483,31 @@ void SceneLobby::Update(double dt)
 			}
 		}
 	}
-	else
-		showEtoInteract = false;
 
-	// ABILITY MACHINE INTERACTION
+
+	//LEVELEDITOR MACHINE
+	if (abs(wizardMachine->pos.y - player->pos.y) < 17 && abs(wizardMachine->pos.x - player->pos.x) < 7)
+	{
+		if (abs(wizardMachine->pos.y - player->pos.y) < 8)
+		{
+			showEtoInteract = true;
+			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+			{
+				sceneManager->setScene(w_levelEditor);
+				CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+			}
+		}
+		wizardMachine->invisible = false;
+	}
+	else
+	{
+		wizardMachine->invisible = true;
+	}
+
 	if (abs(abilityMachine->pos.y - player->pos.y) < 10 && abs(abilityMachine->pos.x - player->pos.x) < 10)
 	{
 		if (!showAbilityUI)
 			showEtoInteract = true;
-		else
-			showEtoInteract = false;
 		if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 		{
 			showAbilityUI = !showAbilityUI;
@@ -519,11 +534,11 @@ void SceneLobby::Update(double dt)
 	else
 	{
 		if (!showEtoInteract)
-			showEtoInteract = false;
+			showEtoInteract = false; //?????????????????????????????
 	}
 
 	// disable movement when showing UI
-	if (showAbilityUI || showMachinePartsUI)
+	if (showAbilityUI || showMachinePartsUI || showSettingsUI)
 		player->physics->SetEnableUpdate(false);
 	else
 		player->physics->SetEnableUpdate(true);
@@ -629,6 +644,7 @@ void SceneLobby::Update(double dt)
 		besidePortal = true;
 		if (selectedAbilities)
 		{
+			showEtoInteract = true;
 			portal_graveyard->Open();
 			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 			{
@@ -645,6 +661,7 @@ void SceneLobby::Update(double dt)
 		besidePortal = true;
 		if (selectedAbilities)
 		{
+			showEtoInteract = true;
 			portal_jungle->Open();
 			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 			{
@@ -661,6 +678,7 @@ void SceneLobby::Update(double dt)
 		besidePortal = true;
 		if (selectedAbilities)
 		{
+			showEtoInteract = true;
 			portal_ocean->Open();
 			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 			{
@@ -677,6 +695,7 @@ void SceneLobby::Update(double dt)
 		besidePortal = true;
 		if (selectedAbilities)
 		{
+			showEtoInteract = true;
 			portal_robot->Open();
 			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 			{
@@ -714,7 +733,12 @@ void SceneLobby::Update(double dt)
 		goManager->Update(dt, &this->camera);
 
 	if (showEtoInteract)
+	{
+		std::stringstream ss;
+		ss << "Press " << gameManager->INTERACT_KEYBIND << " to interact";
+		buttonManager->getButtonByName("pressEtoInteract")->setText(ss.str());
 		buttonManager->activateButton("pressEtoInteract");
+	}
 	else
 		buttonManager->deactivateButton("pressEtoInteract");
 }
@@ -904,4 +928,5 @@ void SceneLobby::Exit()
 		buttonManager->deleteButton(settingsUIButtons[i]);
 	}
 	settingsUIButtons.clear();
+	CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_LOBBY, 1, 0.5);
 }
