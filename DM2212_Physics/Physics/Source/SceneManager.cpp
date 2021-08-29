@@ -51,12 +51,6 @@ SceneManager::~SceneManager()
 
 void SceneManager::init()
 {
-	/*physics->Init();
-	jungle->Init();
-	levelEditor->Init();
-	graveyard->Init();
-	robot->Init();
-	ocean->Init();*/
 }
 
 void SceneManager::setScene(worlds sceneType)
@@ -110,11 +104,6 @@ void SceneManager::render()
 
 void SceneManager::destroy()
 {
-	/*physics->Exit();
-	graveyard->Exit();
-	levelEditor->Exit();
-	robot->Exit();
-	ocean->Exit();*/
 	activeScene->Exit();
 }
 

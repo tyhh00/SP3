@@ -46,6 +46,8 @@ public:
 		lightning->physics = physics->Clone();
 		lightning->Init(pos, physics->GetDir());
 		lightning->active = true;
+		lightning->AddToResponseWhitelist(GO_PLAYER);
+		lightning->AddToResponseWhitelist(GO_ENEMY);
 		goM->AddGO(lightning);
 	};
 
