@@ -6,10 +6,9 @@
 #include "Physics.h"
 #include "Lightning.h"
 
-
 class ThunderBlock : public GameObject {
 public:
-	ThunderBlock(GameObjectManager* goManager)
+	ThunderBlock(GameObjectManager* goManager) //constructor that initialises the goManager
 	{
 		goM = goManager;
 		lightning = nullptr;
@@ -24,10 +23,12 @@ public:
 	};
 	void Update(double dt)
 	{
-		theta += 200 * dt;
-		physics->SetDir(Vector3(cos(Math::DegreeToRadian(theta)), sin(Math::DegreeToRadian(theta)), 0));
+		//rotate block
+		theta += 200 * dt; 
+		physics->SetDir(Vector3(cos(Math::DegreeToRadian(theta)), sin(Math::DegreeToRadian(theta)), 0)); 
 		physics->SetNormal(physics->GetDir().Cross(Vector3(0,0,-1)));
 		
+		//sets lightning to inactive after lightningTimer < 0
 		if (lightning != nullptr)
 		{
 			if (lightning->getTimer() < 0)
@@ -38,6 +39,7 @@ public:
 		}
 	};
 
+	//spawns lightning
 	void SpawnLightning()
 	{
 		lightning = new Lightning();
@@ -48,6 +50,7 @@ public:
 	};
 
 private:
+	//VARIABLES
 	Lightning* lightning;
 	GameObjectManager* goM;
 	float theta;

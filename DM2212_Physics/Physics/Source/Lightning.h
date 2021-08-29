@@ -11,14 +11,14 @@ public:
 	~Lightning();
 
 	void Init(Vector3 pos, Vector3 dir);
-	void Update(double dt);
-	void CollidedWith(GameObject* go);
-	double getTimer();
-	void Render(SceneBase* scene);
+	void Update(double dt); /
+	void CollidedWith(GameObject* go); //Checks if collided with GOs
+	double getTimer(); //returns LightningTimer
+	void Render(SceneBase* scene); //Render function
 
 private:
 	SpriteAnimation* animatedSprites;
-	double lightningTimer;
+	double lightningTimer; 
 };
 
 
