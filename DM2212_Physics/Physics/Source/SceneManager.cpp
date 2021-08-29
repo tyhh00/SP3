@@ -5,8 +5,9 @@
 using namespace std;
 
 SceneManager::SceneManager()
-	: activeScene(NULL)
+	: activeScene(NULL) //set active scene to null
 {
+	//Worlds
 	physics = new ScenePhysics();
 	jungle = new SceneJungle();
 	levelEditor = new LevelEditor();
@@ -15,7 +16,7 @@ SceneManager::SceneManager()
 	ocean = new SceneOcean();
 }
 
-SceneManager::~SceneManager()
+SceneManager::~SceneManager() //deletion of scene
 {
 	if (physics)
 	{
@@ -51,15 +52,9 @@ SceneManager::~SceneManager()
 
 void SceneManager::init()
 {
-	/*physics->Init();
-	jungle->Init();
-	levelEditor->Init();
-	graveyard->Init();
-	robot->Init();
-	ocean->Init();*/
 }
 
-void SceneManager::setScene(worlds sceneType)
+void SceneManager::setScene(worlds sceneType) 
 {
 	switch (sceneType)
 	{
@@ -82,8 +77,8 @@ void SceneManager::setScene(worlds sceneType)
 		activeScene = ocean;
 		break;
 	}
-	activeScene->Init();
-	activeScene->InitLights();
+	activeScene->Init(); //initialises scene
+	activeScene->InitLights(); //initialises lights
 	
 }
 void SceneManager::resetScene()
@@ -110,11 +105,6 @@ void SceneManager::render()
 
 void SceneManager::destroy()
 {
-	/*physics->Exit();
-	graveyard->Exit();
-	levelEditor->Exit();
-	robot->Exit();
-	ocean->Exit();*/
 	activeScene->Exit();
 }
 

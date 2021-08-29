@@ -35,7 +35,7 @@ private:
 		MSTATE_TOTAL
 	};
 
-	const float ATTACK_DAMAGE = 10.f;
+	const float ATTACK_DAMAGE = 15.f;
 
 	float movement_speed;
 	float activeRange;

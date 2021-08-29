@@ -40,12 +40,10 @@ protected:
 	bool showAbilityUI;
 	bool showSettingsUI;
 
-
 	bool selectedAbilities = false;
-	bool showEtoInteract = false;
 
 	Player* player;
-	GameObject* timeMachine, * abilityMachine, *settingMachine;
+	GameObject* timeMachine, * abilityMachine, *settingMachine, * wizardMachine;
 	LobbyPortal* portal_graveyard, *portal_jungle, *portal_ocean, *portal_robot;
 
 	Mesh* machinePartsUIBG, * machinePartsSlot;

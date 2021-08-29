@@ -11,10 +11,7 @@
 
 //Entity Includes
 #include "Player.h"
-
 #include "SlowTime.h"
-
-//...
 
 SceneOcean::SceneOcean()
 {
@@ -53,6 +50,7 @@ void SceneOcean::Init()
 	//Store keyboard instance
 	input = Input::GetInstance();
 
+	//stores gameManager instance
 	gameManager = GameManager::GetInstance();
 
 	// Unique Meshes
@@ -75,16 +73,10 @@ void SceneOcean::Init()
 			player->physics->SetInelasticity(0.99f);
 			player->physics->SetIsBouncable(false);
 			player->Init(&camera, Player::PLATFORMER, goManager, inventory);
-
 			player->AddBottomSprite();
 			player->bottomSprite->mesh = meshList[GEO_WALL];
 			goManager->AddGO(player);
-
-
-			DEBUG_MSG("From Phy Editor: " << player->scale);
-			
-
-			//Delete Grid Player
+			//delete grid player
 			delete go;
 			go = nullptr;
 		}
@@ -98,12 +90,9 @@ void SceneOcean::Init()
 			crab->physics->SetInelasticity(0.99f);
 			crab->physics->SetIsBouncable(false);
 			crab->Init(player, Crab::LAR);
-
 			crab->AddBottomSprite();
 			crab->bottomSprite->mesh = meshList[GEO_WALL];
 			goManager->AddGO(crab);
-
-			//Delete Grid Player
 			delete go;
 			go = nullptr;
 		}
@@ -120,10 +109,6 @@ void SceneOcean::Init()
 			dragon->Init(this, player, 8, goManager);
 			dragon->mesh = nullptr;
 			goManager->AddGO(dragon);
-
-			std::cout << "Dragon spawn at: " << dragon->pos << std::endl;
-
-			//Delete Grid Player
 			delete go;
 			go = nullptr;
 		}
@@ -139,15 +124,12 @@ void SceneOcean::Init()
 			thunder->Init();
 			thunder->mesh = go->mesh;
 			goManager->AddGO(thunder);
-
-			//Delete Grid Player
 			delete go;
 			go = nullptr;
 		}
 		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_OCEAN_YH)
 		{
 			yh = new YongHong();
-
 			yh->active = true;
 			yh->scale = go->scale;
 			yh->pos = go->pos;
@@ -155,7 +137,6 @@ void SceneOcean::Init()
 			yh->physics->SetInelasticity(0.99f);
 			yh->physics->SetIsBouncable(false);
 			yh->Init(inventory);
-
 			goManager->AddGO(yh);
 			delete go;
 			go = nullptr;
@@ -171,7 +152,6 @@ void SceneOcean::Init()
 			whale->physics->SetInelasticity(0.99f);
 			whale->physics->SetIsBouncable(false);
 			whale->Init(inventory);
-
 			goManager->AddGO(whale);
 			delete go;
 			go = nullptr;
@@ -197,28 +177,25 @@ void SceneOcean::Init()
 	trident->Init(&camera, goManager, player);
 	inventory->AddItem(trident);
 
+	// STORYSTATE INIT
 	story_state = INTRO;
 }
 
 void SceneOcean::Update(double dt)
 {
+	//Update SceneBase
 	SceneBase::Update(dt);
+	
+	//Update Inventory
 	inventory->Update(dt);
+	
+	//Update Camera
 	camera.Update(player->pos, dt);
 
-
-	if(input->IsKeyPressed('9'))
-	{
-		m_speed = Math::Max(0.f, m_speed - 0.1f);
-	}
-	if(input->IsKeyPressed('0'))
-	{
-		m_speed += 0.1f;
-	}
-
+	//Update goManager
 	goManager->Update(dt, &this->camera);
 
-
+	//checks if gameLost / player dies
 	if (player->currentHP <= 0)
 	{
 		gameLost = true;
@@ -310,15 +287,20 @@ void SceneOcean::Update(double dt)
 		}
 		break;
 	case OCEAN_END:
+		//checks if game won
 		if (gameManager->getMachineStatus(3))
 		{
 			gameWin = true;
 		}
 		break;
 	}
+
+	//Lights update when slowtime ability used
 	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
+
 }
 
+//Initialise Lights
 void SceneOcean::InitLights()
 {
 	lights[0].type = Light::LIGHT_POINT;
@@ -380,7 +362,6 @@ void SceneOcean::Render()
 
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
-//	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -10, 10);
 	projection.SetToOrtho(-1 * m_screenWidth * 0.5f, m_screenWidth * 0.5f, -1 * m_screenHeight * 0.5f, m_screenHeight * 0.5f, -10, 10);
 
 	projectionStack.LoadMatrix(projection);

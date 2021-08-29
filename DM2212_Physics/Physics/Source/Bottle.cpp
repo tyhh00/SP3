@@ -5,13 +5,18 @@
 
 Bottle::Bottle(int _quantity) : Consumable(I_BOTTLE, mesh)
 {
+	//STACKING
 	isStackable = true;
+
+	//QUANTITY
 	quantity = _quantity;
 
+	//INPUT
 	input = Input::GetInstance();
 
-	mesh = MeshBuilder::GenerateQuad("Bottle", Color(1, 1, 1), 2.0f);
-	mesh->textureID = LoadTGA("Image/Tiles/OCEAN_bottle.tga");
+	//MESH
+	mesh = MeshBuilder::GenerateQuad("redShell", Color(1, 1, 1), 2.0f);
+	mesh->textureID = LoadTGA("Image/Tiles/OCEAN_seashell2.tga");
 }
 
 void Bottle::Init()

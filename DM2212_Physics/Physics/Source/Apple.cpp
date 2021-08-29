@@ -27,9 +27,12 @@ void Apple::Update(double dt)
 	//if player consumes apple, add 5 hp
 	if (input->IsKeyPressed(GameManager::GetInstance()->INTERACT_KEYBIND))
 	{
-		CSoundController::GetInstance()->PlaySoundByID(EATING);
-		player->currentHP += 5;
-		RemoveQuantity(1);
+		if (player->currentHP < player->maxHP)
+		{
+			CSoundController::GetInstance()->PlaySoundByID(EATING);
+			player->currentHP += 5;
+			RemoveQuantity(1);
+		}
 	}
 }
 

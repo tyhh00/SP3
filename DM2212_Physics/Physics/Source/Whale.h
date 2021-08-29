@@ -12,30 +12,33 @@
 class Whale : public GameObject {
 public:
 
-	Whale()
+	Whale() //constructor
 	{
+		//MESH
 		mesh = MeshBuilder::GenerateQuad("whale", Color(1, 1, 1), 2.0f);
 		mesh->textureID = LoadTGA("Image/Tiles/OCEAN_whale.tga");
 	}
-	~Whale()
+	~Whale() //destructor
 	{
 	}
 
-	void Init(Inventory* inventory)
+	void Init(Inventory* inventory) //init
 	{
+		//INPUT
 		input = Input::GetInstance();
 
+		//INVENTORY
 		this->inventory = inventory;
 	}
-	void Update(double dt)
+	void Update(double dt) //update
 	{
 	}
-	bool Interact()
+	bool Interact() //interact
 	{
 		return true;
 	}
 
-	bool CheckEntry()
+	bool CheckEntry() //check requirement of shells
 	{
 		Item* blueshell = inventory->GetItem(Item::I_BLUESHELL);
 		Item* redshell = inventory->GetItem(Item::I_REDSHELL);
@@ -46,16 +49,14 @@ public:
 				return true;
 			}
 		}
-		std::cout << "Whale.h : CHECKING FOR SHELLS" << std::endl;
 		return false;
 	}
 
-
 private:
-	
-
-	SpriteAnimation* animatedSprites;
+	//INPUT
 	Input* input;
+
+	//INVENTORY
 	Inventory* inventory;
 };
 

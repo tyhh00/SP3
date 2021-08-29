@@ -38,7 +38,7 @@ void BananaBullet::CollidedWith(GameObject* go)
 	if (go->type == GO_PLAYER)
 	{
 		this->dead = true;
-		go->MinusCurrHealth(5);
+		go->MinusCurrHealth(10);
 	}
 }
 
