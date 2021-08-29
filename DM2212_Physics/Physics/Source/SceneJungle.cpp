@@ -314,7 +314,7 @@ void SceneJungle::Exit()
 	//Cleanup GameObjects
 	goManager->Exit();
 	inventory->Clear();
-	CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_JUNGLE, 1, 0.5);
+	CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_JUNGLE);
 }
 
 void SceneJungle::InitLights()
