@@ -73,7 +73,7 @@ public:
 		Item* bone = inventory->GetItem(Item::I_BONE);
 		if (skull != nullptr && bone != nullptr)
 		{
-			if (skull->GetQuantity() >= 5 && bone->GetQuantity() >= 10)
+			if (skull->GetQuantity() >= 2 && bone->GetQuantity() >= 5)
 			{
 				return true;
 			}
