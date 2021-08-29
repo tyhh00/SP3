@@ -45,6 +45,8 @@ private:
 
 	float deltaTime; //For CollidedWith Function
 
+	bool firstLoop;
+
 	int GetShotXDirection();
 };
 

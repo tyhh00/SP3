@@ -102,10 +102,18 @@ void Player::Init(Camera* _cam, MOVEMENT_MODE mode, GameObjectManager* GOM, Inve
 	goManager = GOM;
 	this->inventory = inventory;
 	this->mode = mode;
+	prevFrameHealth = currentHP;
 }
 
 void Player::Update(double dt)
 { 
+	//check if player health is less than prev frame (player got hurt) then play hurt sound
+	if (prevFrameHealth != currentHP)
+	{
+		CSoundController::GetInstance()->PlaySoundByID(HURT);
+	}
+	prevFrameHealth = currentHP;
+
 	animatedSprites->Update(dt);
 
 	// MOVEMENT SECTION
@@ -308,7 +316,6 @@ void Player::CollidedWith(GameObject* go)
 {
 	if (go->type == GO_ENEMY)
 	{
-		//...
 	}
 
 	switch (go->geoTypeID)

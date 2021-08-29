@@ -177,7 +177,7 @@ void SceneOcean::Init()
 	inventory->AddItem(trident);
 
 	// STORYSTATE INIT
-	story_state = INTRO;
+	story_state = YH_TEXT;
 
 	// SOUND
 	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_OCEAN);
@@ -202,6 +202,12 @@ void SceneOcean::Update(double dt)
 	{
 		gameLost = true;
 		return;
+	}
+
+	//checks if game won
+	if (gameManager->getMachineStatus(3))
+	{
+		gameWin = true;
 	}
 
 	// STORY UPDATES
@@ -289,11 +295,18 @@ void SceneOcean::Update(double dt)
 		}
 		break;
 	case OCEAN_END:
-		//checks if game won
-		if (gameManager->getMachineStatus(3))
-		{
-			gameWin = true;
-		}
+	{
+		GameObject* go = new GameObject();
+		go->pos = Vector3(yh->pos.x + 1, yh->pos.y, yh->pos.z);
+		go->scale = Vector3(3, 3, 3);
+		go->physics->SetMovable(true);
+		go->mesh = GetMeshList(SceneBase::GEO_MACHINEPART_3);
+		go->geoTypeID = SceneBase::GEO_MACHINEPART_3;
+		this->goManager->AddGO(go);
+	}
+	story_state = OCEAN_NULL;
+		break;
+	case OCEAN_NULL:
 		break;
 	}
 

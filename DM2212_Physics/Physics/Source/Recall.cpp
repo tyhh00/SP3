@@ -1,6 +1,8 @@
 #include "Recall.h"
 #include "Debug.h"
 
+#include "SoundController/SoundController.h"
+
 RecallAbility::RecallAbility(double recallTime, Mesh* mesh)
 	: Ability('Z', ABILITY_RECALL, 10.0, mesh)
 	, recallTime(recallTime)
@@ -60,6 +62,7 @@ void RecallAbility::Update(double dt)
 	{
 		abilityCD_timeleft = abilityCooldownDuration;
 		recallActive = true;
+		CSoundController::GetInstance()->PlaySoundByID(RECALL_USE);
 		assigned->physics->SetMovable(false);
 		lastActive = 0.0;
 	}

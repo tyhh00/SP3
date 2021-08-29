@@ -38,6 +38,7 @@ protected:
 		FIND_YH, // player interact with yh, yh ask for bottle
 		YH_TEXT, // if bottle found, set state to OCEAN_END. else, tell player bottle not found
 		OCEAN_END, // sets gameWin to true
+		OCEAN_NULL,
 		SS_TOTAL,
 	};
 

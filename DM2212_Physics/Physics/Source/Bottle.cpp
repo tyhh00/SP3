@@ -15,8 +15,8 @@ Bottle::Bottle(int _quantity) : Consumable(I_BOTTLE, mesh)
 	input = Input::GetInstance();
 
 	//MESH
-	mesh = MeshBuilder::GenerateQuad("redShell", Color(1, 1, 1), 2.0f);
-	mesh->textureID = LoadTGA("Image/Tiles/OCEAN_seashell2.tga");
+	mesh = MeshBuilder::GenerateQuad("bottle", Color(1, 1, 1), 2.0f);
+	mesh->textureID = LoadTGA("Image/Tiles/OCEAN_bottle.tga");
 }
 
 void Bottle::Init()
