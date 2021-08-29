@@ -41,6 +41,7 @@ enum SOUND_TYPE {
 	TRIDENT,
 	COIN,
 	JUMP,
+	HURT,
 	BG_JUNGLE,
 	BG_LOBBY,
 };

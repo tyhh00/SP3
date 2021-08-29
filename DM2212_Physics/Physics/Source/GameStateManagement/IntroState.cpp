@@ -69,6 +69,7 @@ bool CIntroState::Init(void)
 	soundController->LoadSound("Sounds\\Sound_Trident.wav", SOUND_TYPE::TRIDENT, true);
 	soundController->LoadSound("Sounds\\Sound_Coin.wav", SOUND_TYPE::COIN, true);
 	soundController->LoadSound("Sounds\\Sound_Jump.wav", SOUND_TYPE::JUMP, true);
+	soundController->LoadSound("Sounds\\Sound_Hurt.wav", SOUND_TYPE::HURT, true);
 	//Loopables
 	soundController->LoadSound("Sounds\\Sound_GameBG1.wav", SOUND_TYPE::BG_ARCADE, true, true);
 	soundController->LoadSound("Sounds\\Sound_GameBG2.wav", SOUND_TYPE::BG_ARCADE2, true, true);
