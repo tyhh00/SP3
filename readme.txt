@@ -51,6 +51,7 @@ Grim Reaper(BOSS) - Constantly Chases down the player. Once in attack range, sto
 
 ***OCEAN***
 /ITEMS:
+Trident: - Click and drag in the opposite direction using the left mouse button to throw the Trident.
 Red Shell - Item requirement to move onto next requirement. Press E to pickup.
 Blue Shell - Item requirement to move onto next requirement. Press E to pickup.
 Waterbottle - Item requirement to move onto next requirement. Press E to pickup.
@@ -59,10 +60,16 @@ Waterbottle - Item requirement to move onto next requirement. Press E to pickup.
 Crab - Idle every few seconds, move left and right every few seconds, if player within their range then chase them and attack them
 Dragon - Moves in a sin-curve towards the left direction. Damages player when they get too close.
 
+//SPECIAL BLOCKS:
+Thunder Block - Spawns lightning when trident is thrown at it.
+Lightning - Damages player & crab if they are within the lightning.
+
 ***ROBOT***
 /ITEMS:
 
 //ENEMIES:
+
+//SPECIAL BLOCKS:
 ------------------------------------------------>
 // ABILITIES:
 
