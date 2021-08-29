@@ -62,7 +62,7 @@ bool CIntroState::Init(void)
 	soundController->LoadSound("Sounds\\Sound_ProwlerFootsteps.wav", SOUND_TYPE::PROWLER_FOOTSTEPS, true);
 	soundController->LoadSound("Sounds\\Sound_SpawnMinion.wav", SOUND_TYPE::PROWLER_SPAWN_MINION, true);
 	soundController->LoadSound("Sounds\\Sound_Eating.wav", SOUND_TYPE::EATING, true);
-	soundController->LoadSound("Sounds\\Sound_Eating.wav", SOUND_TYPE::COIN, true);
+	soundController->LoadSound("Sounds\\Sound_Coin.wav", SOUND_TYPE::COIN, true);
 	soundController->LoadSound("Sounds\\Sound_Jump.wav", SOUND_TYPE::JUMP, true);
 	//Loopables
 	soundController->LoadSound("Sounds\\Sound_GameBG1.wav", SOUND_TYPE::BG_ARCADE, true, true);
