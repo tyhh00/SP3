@@ -6,6 +6,7 @@
 #include <sstream>
 #include "LevelLoader.h"
 #include "Utility.h"
+#include <sstream>
 #include "Debug.h"
 
 //Entity Includes
@@ -423,6 +424,7 @@ void SceneLobby::Update(double dt)
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
 
+	bool showEtoInteract = false;
 	// button manager
 	buttonManager->Update(dt);
 	// TIME MACHINE INTERACTION
@@ -430,8 +432,6 @@ void SceneLobby::Update(double dt)
 	{
 		if (!showMachinePartsUI)
 			showEtoInteract = true;
-		else
-			showEtoInteract = false;
 		if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 		{
 			showMachinePartsUI = !showMachinePartsUI;
@@ -452,17 +452,12 @@ void SceneLobby::Update(double dt)
 			}
 		}
 	}
-	else
-	{
-		showEtoInteract = false;
-	}
+
 	// SETTINGS MACHINE INTERACTION
 	if (abs(settingMachine->pos.y - player->pos.y) < 10 && abs(settingMachine->pos.x - player->pos.x) < 10)
 	{
-		if (!showAbilityUI)
+		if (!showSettingsUI)
 			showEtoInteract = true;
-		else
-			showEtoInteract = false;
 		if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 		{
 			showSettingsUI = !showSettingsUI;
@@ -483,16 +478,12 @@ void SceneLobby::Update(double dt)
 			}
 		}
 	}
-	else
-		showEtoInteract = false;
 
 	// ABILITY MACHINE INTERACTION
 	if (abs(abilityMachine->pos.y - player->pos.y) < 10 && abs(abilityMachine->pos.x - player->pos.x) < 10)
 	{
 		if (!showAbilityUI)
 			showEtoInteract = true;
-		else
-			showEtoInteract = false;
 		if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 		{
 			showAbilityUI = !showAbilityUI;
@@ -516,14 +507,9 @@ void SceneLobby::Update(double dt)
 			}
 		}
 	}
-	else
-	{
-		if (!showEtoInteract)
-			showEtoInteract = false;
-	}
 
 	// disable movement when showing UI
-	if (showAbilityUI || showMachinePartsUI)
+	if (showAbilityUI || showMachinePartsUI || showSettingsUI)
 		player->physics->SetEnableUpdate(false);
 	else
 		player->physics->SetEnableUpdate(true);
@@ -629,6 +615,7 @@ void SceneLobby::Update(double dt)
 		besidePortal = true;
 		if (selectedAbilities)
 		{
+			showEtoInteract = true;
 			portal_graveyard->Open();
 			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 			{
@@ -645,6 +632,7 @@ void SceneLobby::Update(double dt)
 		besidePortal = true;
 		if (selectedAbilities)
 		{
+			showEtoInteract = true;
 			portal_jungle->Open();
 			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 			{
@@ -661,6 +649,7 @@ void SceneLobby::Update(double dt)
 		besidePortal = true;
 		if (selectedAbilities)
 		{
+			showEtoInteract = true;
 			portal_ocean->Open();
 			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 			{
@@ -677,6 +666,7 @@ void SceneLobby::Update(double dt)
 		besidePortal = true;
 		if (selectedAbilities)
 		{
+			showEtoInteract = true;
 			portal_robot->Open();
 			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 			{
@@ -714,7 +704,12 @@ void SceneLobby::Update(double dt)
 		goManager->Update(dt, &this->camera);
 
 	if (showEtoInteract)
+	{
+		std::stringstream ss;
+		ss << "Press " << gameManager->INTERACT_KEYBIND << " to interact";
+		buttonManager->getButtonByName("pressEtoInteract")->setText(ss.str());
 		buttonManager->activateButton("pressEtoInteract");
+	}
 	else
 		buttonManager->deactivateButton("pressEtoInteract");
 }

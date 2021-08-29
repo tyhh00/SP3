@@ -20,6 +20,7 @@ void Prowler::Init(SceneBase* scene, Inventory* inventory, Player* _player, Game
 	this->inventory = inventory;
 	this->goManager = _goManager;
 	player = _player;
+	currentHP = 50;
 
 	state = IDLE;
 
@@ -68,6 +69,14 @@ void Prowler::Update(double dt)
 	if (currentHP <= 0)
 	{
 		dead = true;
+		GameObject* go = new GameObject();
+		go->pos = pos;
+		go->scale = Vector3(3, 3, 3);
+		go->physics->SetMovable(true);
+		go->mesh = scene->GetMeshList(SceneBase::GEO_MACHINEPART_2);
+		go->geoTypeID = SceneBase::GEO_MACHINEPART_2;
+		this->goManager->AddGO(go);
+
 		return;
 	}
 	if (!readyToSpawnMonkey)
