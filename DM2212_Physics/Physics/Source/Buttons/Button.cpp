@@ -122,7 +122,7 @@ void Button::Render(SceneBase* scene, int z) {
         if(quadTexture != nullptr)
 		    scene->RenderMeshOnScreen(quadTexture, UIInfo.originX, UIInfo.originY, UIInfo.sizeX, UIInfo.sizeY, z);
 		if (text != nullptr) {
-			text->Render(scene);
+			text->Render(scene, z);
 		}
 		
 	}

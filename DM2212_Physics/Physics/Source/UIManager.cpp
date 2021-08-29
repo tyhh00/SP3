@@ -31,10 +31,9 @@ void UIManager::Init()
 		active_array[i] = false;
 	}
 
-
 	//Init BMs
 	ButtonManager* bm_gameplayStat = bm_array[UI_TYPE::UNIVERSAL_GAMEPLAY_STATS];
-
+	bm_gameplayStat->SetZPriority(10);
 	if (meshGenerated.size() < 1) //First init()
 	{
 		//HealthBar

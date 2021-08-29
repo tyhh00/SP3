@@ -27,6 +27,10 @@ void Dragon::Init(SceneBase* scene,GameObject* target, int numParts, GameObjectM
 	this->currentHP = 100;
 	this->type = GO_DRAGON;
 
+	this->AddToGOCollisionWhitelist(GO_DRAGON);
+	this->AddToResponseWhitelist(GO_DRAGON);
+	this->AddToResponseWhitelist(GO_TILE);
+
 	angle = 0;
 	curve = 10;
 	curveTimer = 0.1f;
@@ -40,6 +44,11 @@ void Dragon::Init(SceneBase* scene,GameObject* target, int numParts, GameObjectM
 	dragonHead->invisible = true;
 	dragonHead->maxHP = 110;
 	dragonHead->currentHP = 110;
+	dragonHead->physics->SetMovable(true);
+	dragonHead->physics->SetGravity(Vector3(0, 0, 0));
+	dragonHead->AddToGOCollisionWhitelist(GO_DRAGON);
+	dragonHead->AddToResponseWhitelist(GO_DRAGON);
+	dragonHead->AddToResponseWhitelist(GO_TILE);
 	dragon.push_back(dragonHead);
 
 	for (int i = 0; i < numParts; i++)
@@ -52,6 +61,9 @@ void Dragon::Init(SceneBase* scene,GameObject* target, int numParts, GameObjectM
 		go->mesh->textureID = LoadTGA("Image/Tiles/enemy_dragonBody.tga");
 		go->invisible = true;
 		go->parent = dragonHead;
+		go->AddToGOCollisionWhitelist(GO_DRAGON);
+		go->AddToResponseWhitelist(GO_DRAGON);
+		go->AddToResponseWhitelist(GO_TILE);
 		dragon.push_back(go);
 	}
 
@@ -63,6 +75,9 @@ void Dragon::Init(SceneBase* scene,GameObject* target, int numParts, GameObjectM
 	go->mesh->textureID = LoadTGA("Image/Tiles/enemy_dragonTail.tga");
 	go->invisible = true;
 	go->parent = dragonHead;
+	go->AddToGOCollisionWhitelist(GO_DRAGON);
+	go->AddToResponseWhitelist(GO_DRAGON);
+	go->AddToResponseWhitelist(GO_TILE);
 	dragon.push_back(go);
 
 	for (int i = 0; i < dragon.size(); i++)
@@ -118,7 +133,7 @@ void Dragon::Update(double dt)
 		for (int i = 0; i < dragon.size(); i++)
 		{
 			float angleZ = (360.f / dragon.size()) * i - angle;
-			dragon.at(0)->pos.y = pos.y + sin(Math::DegreeToRadian(angleZ)) * 5;
+			dragon.at(0)->pos.y += sin(Math::DegreeToRadian(angleZ)) * 5;
 			dragon.at(i)->physics->SetRotateZ(angleZ);
 			if (dragon.at(i)->physics->GetRotateZ() < 0)
 			{
@@ -146,7 +161,6 @@ void Dragon::Update(double dt)
 						player->currentHP -= 5;
 						timeout = 2;
 					}
-					std::cout << player->currentHP << std::endl;
 				}
 			}
 		//5	dragon.at(i)->physics->SetVelocity(Vector3(-dt, dragon.at(i)->physics->GetVelocity().y, dragon.at(i)->physics->GetVelocity().z));
@@ -154,6 +168,10 @@ void Dragon::Update(double dt)
 		break;
 	}
 
+	this->pos = dragonHead->pos;
+	this->physics->pos = dragonHead->physics->pos;
+	std::cout << "dragonPos: " << dragonHead->pos << std::endl;
+	std::cout << "thisPos: " << this->pos << std::endl;
 
 	for (int i = 1; i < dragon.size(); i++)
 	{
@@ -161,7 +179,6 @@ void Dragon::Update(double dt)
 		dragon.at(i)->pos = dragon.at(i - 1)->pos + Vector3(dragon.at(i - 1)->scale.x * -2 * cos(Math::DegreeToRadian( 0.5 * angle)),
 			dragon.at(i - 1)->scale.x * -2 * sin(Math::DegreeToRadian(0.5 * angle)), 0);
 	}
-
 }
 
 void Dragon::Render(SceneBase* scene)
