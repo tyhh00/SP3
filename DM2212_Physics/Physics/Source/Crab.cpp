@@ -3,7 +3,6 @@
 #include "Application.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
-#include "Flashlight.h"
 
 Crab::Crab() : Enemy(OCEAN_CRAB)
 {
@@ -15,14 +14,10 @@ Crab::~Crab()
 
 void Crab::Init(GameObject* target, MOVEMENT_TYPE type)
 {
-
 	player = target;
-
 	this->currentHP = 30;
 	this->maxHP = 30;
 	this->type = GO_CRAB;
-	//this->rangeCheckMulti = 1.1;
-
 	state = IDLE;
 	mType = type;
 	activeRange = 80.0f;
@@ -35,6 +30,7 @@ void Crab::Init(GameObject* target, MOVEMENT_TYPE type)
 
 	physics->SetMovable(true);
 
+	//ADD ANIMATIONS
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(10, 6, 2.0f, 2.0f);
 
 	animatedSprites->AddAnimation("attackRight", 0, 8);
@@ -201,17 +197,6 @@ void Crab::Update(double dt)
 	}
 
 	animatedSprites->Update(dt);
-
-	/*if (physics->GetVelocity().x > 0)
-	{
-		animatedSprites->PlayAnimation("right", -1, 1.0f);
-	}
-	else if (physics->GetVelocity().x < 0)
-	{
-		animatedSprites->PlayAnimation("left", -1, 1.0f);
-	}*/
-
-
 }
 
 void Crab::updateMType(double dt)
@@ -247,13 +232,15 @@ void Crab::CollidedWith(GameObject* go) //walk into a wall
 	{
 	case SceneBase::GEO_OCEAN_1_MIDRIGHT:
 	case SceneBase::GEO_OCEAN_1_MIDLEFT:
+	case SceneBase::GEO_OCEAN_SEASHELL1:
+	case SceneBase::GEO_OCEAN_SEASHELL2:
+	case SceneBase::GEO_OCEAN_BOTTLE:
+	case SceneBase::GEO_OCEAN_1_BOTLEFT:
+	case SceneBase::GEO_OCEAN_1_BOTRIGHT:
+	case SceneBase::GEO_OCEAN_1_TOPLEFT:
+	case SceneBase::GEO_OCEAN_1_TOPRIGHT:
 		tempVel *= -1;
 		WLARTimer = 3;
 		break;
-	}
-
-	if (go->type == GO_PLAYER)
-	{
-		
 	}
 }
