@@ -34,20 +34,22 @@ public:
 	float GetStamina();
 	void DecreaseStamina(float amt);
 
+	// for easy access
 	int dashDir = 0;
 	float curr_max_vel;
 	bool invisibility;
+
 private:
 	const float MAX_VEL = 30.f;
 	const float MAX_SPRINTVEL = 45.f;
 
-	MOVEMENT_MODE mode;
-	SpriteAnimation* animatedSprites;
+	MOVEMENT_MODE mode; // choose btw topdown & platformer type
+	SpriteAnimation* animatedSprites; // animation sprite mesh
 
-	Camera* cam;
+	// Abilities
+	Ability* abilityArray[2]; 
 
-	float prevFrameHealth = 0;
-
+	// Variables
 	float accel;
 	float speed_multiplier;
 	float jump_force;
@@ -55,11 +57,14 @@ private:
 	float stamina;
 	float max_stamina;
 	float staminaCD;
-
 	float stamina_rate_multiplier;
 
-	Ability* abilityArray[2];
+	// Others
+	float prevFrameHealth = 0;
+
+
 	Input* input;
+	Camera* cam;
 	GameObjectManager* goManager;
 	GameManager* gameManager;
 	Inventory* inventory;
