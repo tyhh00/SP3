@@ -51,7 +51,6 @@ void DashAbility::Update(double dt)
 
 		//start dash timer
 		dashTimer += dt;
-		std::cout << dashTimer << std::endl;
 
 		//check if dash time is over
 		if (dashTimer > 0.25f)
@@ -70,12 +69,10 @@ void DashAbility::Update(double dt)
 			float dir = dashDir * 200 * 200 * dt;
 
 			maxVel = 100;
-			std::cout << maxVel << std::endl;
 
 			//add the dash dir to the player's vel
 			player->physics->AddVelocity(Vector3(dir, 0, 0));
 		}
-		std::cout << "VEL: " << player->physics->GetVelocity() << std::endl;
 	}
 	else
 	{

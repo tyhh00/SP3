@@ -182,7 +182,7 @@ CPlayGameState::~CPlayGameState(void)
  */
 bool CPlayGameState::Init(void)
 {
-	cout << "CPlayGameState::Init()\n" << endl;
+
 
 	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, true);
 
@@ -247,7 +247,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 		dialogueManager->Update(dElapsedTime);
 		if (!dialogueManager->isDialogue())
 		{
-			cout << "Loading LobbyState" << endl;
+
 			CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
 		}
 		break;
@@ -319,7 +319,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 			else if (button->buttonClicked->getName() == "lobby")
 			{
 				// Load the menu state
-				cout << "Loading LobbyState" << endl;
+
 				CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
 				lastClickedTime = 0;
 				return true;
@@ -364,7 +364,6 @@ void CPlayGameState::Render(void)
  */
 void CPlayGameState::Destroy(void)
 {
-	cout << "CPlayGameState::Destroy()\n" << endl;
 	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, false);
 	if (gameManager->getCurrAbility(1) != nullptr)
 		gameManager->getCurrAbility(1)->Reset();

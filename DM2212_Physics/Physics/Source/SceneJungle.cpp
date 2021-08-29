@@ -254,7 +254,6 @@ void SceneJungle::Render()
 		Vector3 lightDir(lights[0].position.x, lights[0].position.y, lights[0].position.z);
 		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
-		//std::cout << "// DIRECTIONAL" << std::endl;
 	}
 	else if (lights[0].type == Light::LIGHT_SPOT)
 	{
@@ -267,7 +266,6 @@ void SceneJungle::Render()
 	{
 		Position lightPosition_cameraspace = viewStack.Top() * lights[0].position;
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
-		//std::cout << "// POINT" << std::endl;
 	}
 
 	if (lights[1].type == Light::LIGHT_DIRECTIONAL)

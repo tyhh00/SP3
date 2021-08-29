@@ -107,5 +107,4 @@ void CLobbyState::Render(void)
 void CLobbyState::Destroy(void)
 {
 	sceneLobby->Exit();
-	cout << "CLobbyState::Destroy()\n" << endl;
 }

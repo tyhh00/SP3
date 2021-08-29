@@ -56,10 +56,8 @@ void PortalAbility::Update(double dt)
 				ghost_portal = true;
 
 				state = OPENING_ANIM;
-				std::cout << "PORTAL ABILITY: Opening a Portal" << std::endl;
 				break;
 			}
-			std::cout << "Cannot use Portal ability right now !" << std::endl;
 		}
 		break;
 	case OPENING_ANIM:
@@ -96,7 +94,6 @@ void PortalAbility::Update(double dt)
 			
 			abilityCD_timeleft = abilityCooldownDuration;
 			state = PLACING_ANIM;
-			std::cout << "PORTAL ABILITY: Placing other Portal" << std::endl;
 		}
 		else
 		{
@@ -123,7 +120,6 @@ void PortalAbility::Update(double dt)
 
 			CSoundController::GetInstance()->PlaySoundByID(PORTAL);
 			state = TELEPORTING;
-			std::cout << "PORTAL ABILITY: Teleporting player now" << std::endl;
 		}
 		else
 		{
@@ -149,7 +145,6 @@ void PortalAbility::Update(double dt)
 			ptr->invisibility = false;
 			ghost_player = false;
 			state = CLOSINGSTART_ANIM;
-			std::cout << "PORTAL ABILITY: Teleportation End." << std::endl;
 			break;
 		}
 

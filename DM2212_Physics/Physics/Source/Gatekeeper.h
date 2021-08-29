@@ -78,7 +78,6 @@ public:
 				return true;
 			}
 		}
-		std::cout << "Gatekeeper.h : CHECKING FOR CHURCH ENTRY REQUIREMENTS" << std::endl;
 		return false;
 	}
 

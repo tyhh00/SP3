@@ -35,13 +35,11 @@ void Flashlight::Update(double dt)
 		if (active && currBatt > 0)
 		{
 			scene->ToggleLightOnOff(1, true);
-			std::cout << "Flashlight has been turned on." << std::endl;
 		}
 		else
 		{
 			scene->ToggleLightOnOff(1, false);
 			intensified = false;
-			std::cout << "Flashlight has been turned off." << std::endl;
 		}
 	}
 

@@ -191,7 +191,6 @@ void Inventory::Render()
 			if (i < consumableSize)
 			{
 				buttonManager->getButtonByName("ConsumableItem" + std::to_string(i + 1))->setText(std::to_string(consumableVector[i]->GetQuantity()));
-				std::cout << "QTY: " << consumableVector[i]->GetQuantity() << std::endl;
 				if (consumableVector[i]->GetIsDurable())
 				{
 					ProgressBar* bar = dynamic_cast<ProgressBar*>(buttonManager->getButtonByName("ConsumableBar" + std::to_string(i + 1)));
@@ -305,8 +304,6 @@ void Inventory::CycleItem(bool forward)
 			if (currentItemIndex == itemVector.size() - 1)
 				currentItemIndex = -1;
 			currentItem = itemVector[currentItemIndex + 1];
-			if(currentItem)
-				std::cout << "curr: " << currentItem->GetType() << std::endl;
 		}
 	}
 	else //cycle backwards
@@ -318,7 +315,6 @@ void Inventory::CycleItem(bool forward)
 			if (currentItemIndex == 0)
 				currentItemIndex = itemVector.size();
 			currentItem = itemVector[currentItemIndex - 1];
-			std::cout << "curr: " << currentItem->GetType() << std::endl;
 		}
 	}
 }
@@ -387,7 +383,6 @@ void Inventory::AddItem(Item* newItem)
 			if (item->GetIsStackable() && item->IsEqual(newItem))
 			{
 				//add the quantity to the existing item
-				std::cout << "adding new qty to item: " << item->GetType() << std::endl;
 				AddQuantity(item, newItem->GetQuantity());
 				delete newItem;
 				newItem = nullptr;
@@ -407,7 +402,6 @@ void Inventory::AddItem(Item* newItem)
 			return;
 	}
 	//if cannot find an existing item or is existing item is not stackable, add it to the item vector
-	std::cout << "adding new item to vector" << std::endl;
 	itemVector.push_back(newItem);
 	currentItem = newItem;
 

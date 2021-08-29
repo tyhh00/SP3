@@ -33,7 +33,6 @@ void Camera::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	NEWD_Y = defaultNEWD_Y;
 	
 	if (NEWD_X >= MAXD_X || NEWD_Y >= MAXD_Y)
-		std::cout << "Camera new distance values must be smaller than max distance values!" << std::endl;
 
 	screenWidth = screenHeight = worldWidth = worldHeight = 0;
 
@@ -162,14 +161,12 @@ void Camera::SetMode(MODE mode)
 		NEWD_X = 0;
 		MAXD_Y = 0;
 		NEWD_Y = 0;
-		std::cout << "Camera mode has been set to CENTER." << std::endl;
 		break;
 	case EDGE:
 		MAXD_X = defaultMAXD_X;
 		NEWD_X = defaultNEWD_X;
 		MAXD_Y = defaultMAXD_Y;
 		NEWD_Y = defaultNEWD_Y;
-		std::cout << "Camera mode has been set to EDGE." << std::endl;
 		break;
 	default:
 		break;
@@ -181,12 +178,10 @@ void Camera::ToggleAutoLock()
 	auto_lock = !auto_lock;
 	if (auto_lock)
 	{
-		std::cout << "Auto Lock has been turned on, camera will follow target upon release." << std::endl;
 		view_locked = true;
 	}
 	else
 	{
-		std::cout << "Auto Lock has been turned off. Camera no longer follows target and can be more freely controlled." << std::endl;
 		view_locked = false; 
 	}
 }
@@ -213,12 +208,10 @@ void Camera::ToggleAutoLock(bool on)
 	auto_lock = on;
 	if (auto_lock)
 	{
-		std::cout << "Auto Lock has been turned on, camera will follow target upon release." << std::endl;
 		view_locked = true;
 	}
 	else
 	{
-		std::cout << "Auto Lock has been turned off. Camera no longer follows target and can be more freely controlled." << std::endl;
 		view_locked = false;
 	}
 }
