@@ -240,7 +240,7 @@ void SceneOcean::Update(double dt)
 	case FINDWHALE:
 		if (abs(whale->pos.x - player->pos.x) < 30)
 		{
-			if (input->IsKeyPressed('E'))
+			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 			{
 				dialogueManager->AddDialogue(PLAYER, "???", LEFT);
 				dialogueManager->AddDialogue(PLAYER, "A beached whale?", LEFT);
@@ -259,7 +259,7 @@ void SceneOcean::Update(double dt)
 	case WHALE_TEXT:
 		if (abs(whale->pos.x - player->pos.x) < 30)
 		{
-			if (input->IsKeyPressed('E'))
+			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 			{
 				if (whale->CheckEntry())
 				{
@@ -277,7 +277,7 @@ void SceneOcean::Update(double dt)
 	case FIND_YH:
 		if (abs(yh->pos.x - player->pos.x) < 20)
 		{
-			if (input->IsKeyPressed('E'))
+			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 			{
 				dialogueManager->AddDialogue(PLAYER, "Excuse me? Are you the time-traveller the whale speaks of?");
 				dialogueManager->AddDialogue(YH, "Yes I am. Fancy seeing another human here on this planet.", RIGHT);
@@ -294,7 +294,7 @@ void SceneOcean::Update(double dt)
 	case YH_TEXT:
 		if (abs(yh->pos.x - player->pos.x) < 20)
 		{
-			if (input->IsKeyPressed('E'))
+			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 			{
 				if (yh->CheckEntry())
 				{

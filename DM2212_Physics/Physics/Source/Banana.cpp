@@ -2,6 +2,7 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 #include "Banana.h"
+#include "GameManager.h"
 #include "../Source/SoundController/SoundController.h"
 
 Banana::Banana(Mesh* _mesh, GameObject* _player) : Consumable(I_BANANA, mesh)
@@ -20,7 +21,7 @@ void Banana::Init()
 void Banana::Update(double dt)
 {
 	//if player consumes banana, add 10 hp
-	if (Application::IsKeyPressed('E'))
+	if (Application::IsKeyPressed(GameManager::GetInstance()->INTERACT_KEYBIND))
 	{
 		CSoundController::GetInstance()->PlaySoundByID(EATING);
 		player->currentHP += 10;

@@ -2,6 +2,7 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 #include "Flashlight.h"
+#include "GameManager.h"
 
 Flashlight::Flashlight(Mesh* _mesh) : Weapon(I_FLASHLIGHT, mesh)
 {
@@ -28,7 +29,7 @@ void Flashlight::Update(double dt)
 {
 	light_pos.Set(scene->lights[1].position.x, scene->lights[1].position.y, scene->lights[1].position.z);
 
-	if (input->IsKeyPressed('E'))
+	if (input->IsKeyPressed(GameManager::GetInstance()->INTERACT_KEYBIND))
 	{
 		active = !active;
 		if (active && currBatt > 0)

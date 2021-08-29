@@ -3,6 +3,7 @@
 #include "LoadTGA.h"
 #include "Apple.h"
 #include "../Source/SoundController/SoundController.h"
+#include "GameManager.h"
 
 Apple::Apple(Mesh* _mesh, GameObject* _player, int _quantity, int stemLength) : Consumable(I_APPLE, mesh)
 	,stemLength(stemLength)
@@ -24,7 +25,7 @@ void Apple::Init()
 void Apple::Update(double dt)
 {
 	//if player consumes apple, add 5 hp
-	if (input->IsKeyPressed('E'))
+	if (input->IsKeyPressed(GameManager::GetInstance()->INTERACT_KEYBIND))
 	{
 		CSoundController::GetInstance()->PlaySoundByID(EATING);
 		player->currentHP += 5;

@@ -23,7 +23,7 @@ void GrimReaper::Init(SceneBase* scene, GameObjectManager* GOM, Vector3 &target)
 	state = INACTIVE;
 
 	idle_speed = 10.0f;
-	hostile_speed = 25.0f;
+	hostile_speed = 30.0f;
 
 	activeRange = 30.0f;
 	whackRange = 5.0f;
