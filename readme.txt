@@ -77,8 +77,10 @@ Lightning - Damages player & crab if they are within the lightning.
 Press assigned key to open a portal. Use mouse to control position of end portal. Upon releasing key, opens the end portal and teleports the player towards the end portal. Player does not collide with anything during this period.
 
 ***DASH***
+Press assigned key to initiate a dash movement. It also disables collision so you can phase through blocks
 
 ***GRAPPLE***
+Press assigned key to hook the grappler to a block and it will pull you towards it and keep its momentum.
 
 ***BLACKHOLE***
 
