@@ -71,6 +71,8 @@ void SceneRobot::Init()
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BG]->textureID = LoadTGA("Image/bg_robot.tga");
 
+	playedDialogue = false;
+
 	//Level Loading
 	std::vector<GameObject*> tiles;
 	if(LevelLoader::GetInstance()->LoadTiles("ROBOT_1_1", this->meshList, this->tileSize, tiles, gridLength, gridHeight))
@@ -175,8 +177,6 @@ void SceneRobot::Init()
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 
 	
-	DialogueManager::GetInstance()->AddDialogue(PLAYER, "Wow, what a change in environment!", PERSONA_DISPLAY::LEFT, 3.0f);
-	DialogueManager::GetInstance()->AddDialogue(PLAYER, "Let's explore this jungle :D", PERSONA_DISPLAY::LEFT, 3.0f);
 }
 
 void SceneRobot::Update(double dt)
@@ -184,6 +184,13 @@ void SceneRobot::Update(double dt)
 	SceneBase::Update(dt);
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
+
+	if (!playedDialogue)
+	{
+		playedDialogue = true;
+		DialogueManager::GetInstance()->AddDialogue(PLAYER, "Robots!!...", PERSONA_DISPLAY::LEFT, 3.0f);
+		DialogueManager::GetInstance()->AddDialogue(PLAYER, "another type II civilization,, this can't be good..", PERSONA_DISPLAY::LEFT, 3.0f);
+	}
 
 	// Updating of light things
 	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);

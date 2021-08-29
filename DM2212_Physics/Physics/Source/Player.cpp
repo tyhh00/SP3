@@ -107,11 +107,13 @@ void Player::Init(Camera* _cam, MOVEMENT_MODE mode, GameObjectManager* GOM, Inve
 
 void Player::Update(double dt)
 { 
+	//check if player health is less than prev frame (player got hurt) then play hurt sound
 	if (prevFrameHealth != currentHP)
 	{
 		CSoundController::GetInstance()->PlaySoundByID(HURT);
 	}
 	prevFrameHealth = currentHP;
+
 	animatedSprites->Update(dt);
 
 	// MOVEMENT SECTION

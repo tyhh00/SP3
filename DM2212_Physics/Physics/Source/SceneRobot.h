@@ -38,6 +38,8 @@ protected:
 	Player* player;
 	BulletSpawner* spawner;
 
+	bool playedDialogue;
+
 	double gridLength, gridHeight;
 	void CursorToWorldPosition(double& theX, double& theY);
 };
