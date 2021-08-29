@@ -408,6 +408,7 @@ void Player::CollidedWith(GameObject* go)
 	case SceneBase::GEO_OCEAN_SEASHELL1:
 		if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 		{
+			CSoundController::GetInstance()->PlaySoundByID(ITEM_PICKUP);
 			goManager->RemoveGO(go);
 			inventory->AddItem(new Blueshell(1));	
 		}
@@ -415,6 +416,7 @@ void Player::CollidedWith(GameObject* go)
 	case SceneBase::GEO_OCEAN_SEASHELL2:
 		if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 		{
+			CSoundController::GetInstance()->PlaySoundByID(ITEM_PICKUP);
 			goManager->RemoveGO(go);
 			inventory->AddItem(new Redshell(1));	
 		}
@@ -422,6 +424,7 @@ void Player::CollidedWith(GameObject* go)
 	case SceneBase::GEO_OCEAN_BOTTLE:
 		if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 		{
+			CSoundController::GetInstance()->PlaySoundByID(ITEM_PICKUP);
 			goManager->RemoveGO(go);
 			inventory->AddItem(new Bottle(1));
 		}

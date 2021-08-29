@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
+#include "../Source/SoundController/SoundController.h"
 
 Lightning::Lightning()
 {
