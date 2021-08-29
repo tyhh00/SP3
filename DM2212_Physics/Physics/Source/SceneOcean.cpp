@@ -6,7 +6,6 @@
 #include <sstream>
 #include "LevelLoader.h"
 #include "Utility.h"
-
 #include "Debug.h"
 
 //Entity Includes
@@ -178,7 +177,10 @@ void SceneOcean::Init()
 	inventory->AddItem(trident);
 
 	// STORYSTATE INIT
-	story_state = INTRO;
+	story_state = YH_TEXT;
+
+	// SOUND
+	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_OCEAN);
 }
 
 void SceneOcean::Update(double dt)
@@ -200,6 +202,12 @@ void SceneOcean::Update(double dt)
 	{
 		gameLost = true;
 		return;
+	}
+
+	//checks if game won
+	if (gameManager->getMachineStatus(3))
+	{
+		gameWin = true;
 	}
 
 	// STORY UPDATES
@@ -287,11 +295,18 @@ void SceneOcean::Update(double dt)
 		}
 		break;
 	case OCEAN_END:
-		//checks if game won
-		if (gameManager->getMachineStatus(3))
-		{
-			gameWin = true;
-		}
+	{
+		GameObject* go = new GameObject();
+		go->pos = Vector3(yh->pos.x + 1, yh->pos.y, yh->pos.z);
+		go->scale = Vector3(3, 3, 3);
+		go->physics->SetMovable(true);
+		go->mesh = GetMeshList(SceneBase::GEO_MACHINEPART_3);
+		go->geoTypeID = SceneBase::GEO_MACHINEPART_3;
+		this->goManager->AddGO(go);
+	}
+	story_state = OCEAN_NULL;
+		break;
+	case OCEAN_NULL:
 		break;
 	}
 
@@ -417,12 +432,10 @@ void SceneOcean::Render()
 		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightPosition_cameraspace.x);
 	}
 
-
 	if (inventory->GetCurrentItem())
 	{
 		std::stringstream ss;
 		ss << "curr item: " << inventory->GetCurrentItemType();
-
 		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1.0f, 1.0f, 1.0f), 4, 10, 10);
 	}
 
@@ -434,14 +447,17 @@ void SceneOcean::Render()
 	modelStack.Scale(m_screenWidth, m_screenHeight, 1);
 	RenderMesh(meshList[GEO_BG], true);
 	modelStack.PopMatrix();
-
 	goManager->Render(this);
 }
 
 void SceneOcean::Exit()
 {
+	//Cleanup sound
+	CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_OCEAN, 1, 0.5);
+	//Cleanup scenebase
 	SceneBase::Exit();
 	//Cleanup GameObjects
 	goManager->Exit();
+	//Cleanup inventory
 	inventory->Clear();
 }

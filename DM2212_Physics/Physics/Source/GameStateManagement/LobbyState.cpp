@@ -87,7 +87,12 @@ bool CLobbyState::Update(const double dElapsedTime)
 	{
 		CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 	}
-
+	if (GameManager::GetInstance()->getGameState() == GameManager::GS_CUTSCENE
+		&& !DialogueManager::GetInstance()->isDialogue())
+	{
+		// switch to main menu
+		CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
+	}
 	return true;
 }
 

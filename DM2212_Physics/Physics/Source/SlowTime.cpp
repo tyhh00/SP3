@@ -2,7 +2,7 @@
 #include "SlowTime.h"
 #include "Application.h"
 #include "MeshBuilder.h"
-
+#include "../Source/SoundController/SoundController.h"
 
 SlowTimeAbility::SlowTimeAbility(Mesh* mesh) : Ability('Q', ABILITY_SLOWTIME, 10.f, mesh)
 {
@@ -31,8 +31,16 @@ void SlowTimeAbility::Update(double dt)
 	//if ability timer < 0, activate ability
 	if (input->IsKeyPressed(buttonChar) && abilityTimer <= 0)
 	{
-		abilityTimer = 8;
-		abilityCD_timeleft = 10.0f;
+		abilityTimer = 10;
+		abilityCD_timeleft = 12.0f;
+	}
+	if (abilityTimer > 8.5)
+	{
+		CSoundController::GetInstance()->PlaySoundByID(SLOWTIME);
+	}
+	// > 8.5
+	else if (abilityTimer > 0 && abilityTimer <= 8.5)
+	{
 		goManager->SetmSpeed(0.1f);
 		SetLighting();
 	}

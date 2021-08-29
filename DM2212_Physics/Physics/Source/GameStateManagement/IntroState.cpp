@@ -62,7 +62,12 @@ bool CIntroState::Init(void)
 	soundController->LoadSound("Sounds\\Sound_ProwlerFootsteps.wav", SOUND_TYPE::PROWLER_FOOTSTEPS, true);
 	soundController->LoadSound("Sounds\\Sound_SpawnMinion.wav", SOUND_TYPE::PROWLER_SPAWN_MINION, true);
 	soundController->LoadSound("Sounds\\Sound_Eating.wav", SOUND_TYPE::EATING, true);
-	soundController->LoadSound("Sounds\\Sound_Eating.wav", SOUND_TYPE::COIN, true);
+	soundController->LoadSound("Sounds\\Sound_slowTime.wav", SOUND_TYPE::SLOWTIME, true);
+	soundController->LoadSound("Sounds\\Sound_Thunder.wav", SOUND_TYPE::THUNDER, true);
+	soundController->LoadSound("Sounds\\Sound_CrabAttack.wav", SOUND_TYPE::CRABATTACK, true);
+	soundController->LoadSound("Sounds\\Sound_Sand.wav", SOUND_TYPE::CRABWALK, true);
+	soundController->LoadSound("Sounds\\Sound_Trident.wav", SOUND_TYPE::TRIDENT, true);
+	soundController->LoadSound("Sounds\\Sound_Coin.wav", SOUND_TYPE::COIN, true);
 	soundController->LoadSound("Sounds\\Sound_Jump.wav", SOUND_TYPE::JUMP, true);
 	soundController->LoadSound("Sounds\\Sound_Blackhole_Dead.wav", SOUND_TYPE::BLACKHOLE_DEAD, true);
 	soundController->LoadSound("Sounds\\Sound_Blackhole_Shoot.wav", SOUND_TYPE::BLACKHOLE_SHOOT, true);
@@ -73,6 +78,7 @@ bool CIntroState::Init(void)
 	soundController->LoadSound("Sounds\\Sound_MainMenu.wav", SOUND_TYPE::BG_MAINMENU, true, true);
 	soundController->LoadSound("Sounds\\Sound_GraveyardBGM.wav", SOUND_TYPE::BG_GRAVEYARD, true, true);
 	soundController->LoadSound("Sounds\\Sound_ChurchBG.wav", SOUND_TYPE::BG_CHURCH, true, true);
+	soundController->LoadSound("Sounds\\Sound_OceanBG.wav", SOUND_TYPE::BG_OCEAN, true, true);
 	soundController->LoadSound("Sounds\\Sound_JungleBG.wav", SOUND_TYPE::BG_JUNGLE, true, true);
 	soundController->LoadSound("Sounds\\Sound_LobbyBG.wav", SOUND_TYPE::BG_LOBBY, true, true);
 	soundController->LoadSound("Sounds\\Sound_RobotBG.wav", SOUND_TYPE::BG_ROBOTSCENE, true, true);
