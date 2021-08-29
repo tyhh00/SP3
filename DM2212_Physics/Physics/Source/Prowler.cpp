@@ -44,6 +44,7 @@ void Prowler::Init(SceneBase* scene, Inventory* inventory, Player* _player, Game
 	physics->SetMovable(true);
 	physics->SetEnableCollisionResponse(true);
 	physics->SetGravity(Vector3(0,-98.f,0));
+	//type = GameObject::GO_ENEMY;
 	this->AddToResponseWhitelist(GO_PLAYER);
 
 	animatedSprites = MeshBuilder::GenerateSpriteAnimation(20, 9, 5.0f, 5.0f);

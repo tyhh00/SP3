@@ -105,6 +105,10 @@ void GrapplingAbility::Render()
 void GrapplingAbility::Reset()
 {
 	abilityCD_timeleft = 0;
+	isGrappling = false;
+	grapplingHook.active = false;
+	temp = Vector3(0, 0, 0);
+	initialDisplacement = Vector3(0, 0, 0);
 }
 
 ABILITY_TYPE GrapplingAbility::GetAbilityType()
