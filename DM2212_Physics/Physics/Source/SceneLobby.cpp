@@ -394,8 +394,16 @@ void SceneLobby::Init()
 	goManager->AddAllGO(tiles);
 
 
-	// Dialogue
-	if (gameManager->getGameState() == GameManager::GS_INTRO)
+	// Game State Based Dialogue
+	if (gameManager->getMachineStatus(1)
+		&& gameManager->getMachineStatus(2)
+		&& gameManager->getMachineStatus(3)
+		&& gameManager->getMachineStatus(4))
+	{
+		gameManager->setGameState(GameManager::GS_END);
+		dialogueManager->AddDialogue(PLAYER, "Alright, thats all the parts. Let's go back!");
+	}
+	else if (gameManager->getGameState() == GameManager::GS_INTRO)
 	{
 		dialogueManager->AddDialogue(PLAYER, "Ouch my head hurts..Where am I? What happened to me..");
 		dialogueManager->AddDialogue(PLAYER, "(You look around the room, but all you find is a funny looking machine.)");
@@ -415,6 +423,7 @@ void SceneLobby::Init()
 	sceneManager = SceneManager::GetInstance();
 
 	gameManager->initAbilities(this, &camera, goManager, player);
+
 }
 
 void SceneLobby::Update(double dt)
@@ -423,6 +432,23 @@ void SceneLobby::Update(double dt)
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
 
+	// game end story dialogue 
+	if (gameManager->getGameState() == GameManager::GS_END
+		&& !dialogueManager->isDialogue())
+	{
+		dialogueManager->AddDialogue(PLAYER, "(You start up the time machine. You feel the space around you shift and when you open your eyes, you find yourself in the same room.)", LEFT, 3.0f);
+		dialogueManager->AddDialogue(PLAYER, "(However, you are not alone. In front of you is a man with pink hair and a smug face, and passionately arguing with him on the other side is a girl with blonde hair.)", LEFT, 4.0f);
+		dialogueManager->AddDialogue(ROBERT, "Must you be so annoying? I already told you to fuck off.", LEFT, 3.0f);
+		dialogueManager->AddDialogue(ROBERTIA, "Stop this now, Robert! You've completely lost sight of yourself. I'm so disappointed in you.", RIGHT, 4.0f);
+		dialogueManager->AddDialogue(PLAYER, "!!? (That girl looks exactly like me!!)");
+		dialogueManager->AddDialogue(PLAYER, "Urk! (Suddenly, you feel a strong pressure weighing you down, as if the space around you is doing its best to erase your existence)", LEFT, 4.0f);
+		dialogueManager->AddDialogue(ROBERTIA, "!!!! what? You...", RIGHT);
+		dialogueManager->AddDialogue(PLAYER, "(You start to suffocate, as you stumble around, you end up triggering the time machine and give in to the space around you as it swallows you whole.)", LEFT, 4.0f);
+		dialogueManager->AddDialogue(PLAYER, "(You awaken in an empty room with nothing but an odd looking machine in front of you and no memory of anything before this moment)", LEFT, 4.0f);
+		dialogueManager->AddDialogue(PLAYER, "Where am I?");
+		dialogueManager->AddDialogue(NONE, "Congratulations! You've reached the end of Robertia's Rescue 2. We will now bring you back to the main menu.");
+		gameManager->setGameState(GameManager::GS_CUTSCENE);
+	}
 	// button manager
 	buttonManager->Update(dt);
 	// TIME MACHINE INTERACTION

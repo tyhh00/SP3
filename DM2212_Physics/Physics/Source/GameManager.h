@@ -18,6 +18,7 @@ public:
 		GS_INTRO,
 		GS_DEFAULT,
 		GS_END,
+		GS_CUTSCENE,
 
 		GS_TOTAL,
 	};
