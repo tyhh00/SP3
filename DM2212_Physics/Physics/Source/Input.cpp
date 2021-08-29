@@ -86,6 +86,7 @@ std::string Input::GetTypedEntry()
 		typedEntry = "";
 		return val;
 	}
+	return "";
 }
 
 void Input::ClearTypedEntry()
