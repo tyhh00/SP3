@@ -12,6 +12,8 @@ public:
 	ThunderBlock(GameObjectManager* goManager) //constructor that initialises the goManager
 	{
 		goM = goManager;
+		this->type = GO_THUNDERBLOCK;
+		this->geoTypeID = this->type;
 		lightning = nullptr;
 	};
 	~ThunderBlock()
@@ -20,6 +22,7 @@ public:
 	void Init()
 	{
 		this->type = GO_THUNDERBLOCK;
+		this->geoTypeID = this->type;
 		theta = 0;
 	};
 	void Update(double dt)

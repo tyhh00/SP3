@@ -206,7 +206,7 @@ void SceneJungle::Update(double dt)
 		playedDialogue = true;
 	}
 	else
-		player->physics->SetEnableUpdate(true);
+		//player->physics->SetEnableUpdate(true);
 
 	goManager->Update(dt, &this->camera);
 
