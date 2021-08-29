@@ -3,6 +3,7 @@
 #include "LoadTGA.h"
 #include "Trident.h"
 
+//TRIDENT FUNCTIONS
 Trident::Trident() : Weapon(I_TRIDENT)
 {
 	isStackable = false;
@@ -10,11 +11,9 @@ Trident::Trident() : Weapon(I_TRIDENT)
 	mesh = MeshBuilder::GenerateQuad("trident", Color(1, 1, 1), 2.0f);
 	mesh->textureID = LoadTGA("Image/Items/Weapons/Trident.tga");
 }
-
 Trident::~Trident()
 {
 }
-
 void Trident::Init(Camera* cam, GameObjectManager* goManager, GameObject* target)
 {
 	camera = cam;
@@ -22,7 +21,6 @@ void Trident::Init(Camera* cam, GameObjectManager* goManager, GameObject* target
 	tridentGO = nullptr;
 	player = target;
 }
-
 void Trident::Update(double dt)
 {
 	double mouseposx, mouseposy;
@@ -59,17 +57,43 @@ void Trident::Update(double dt)
 		}
 	}
  }
-
 bool Trident::IsEqual(Item* item1)
 {
 	Trident* checkApple = static_cast<Trident*>(item1);
 	return false;
 }
-
 void Trident::CollidedWith(GameObject* go)
 {
 }
+void Trident::CursorToWorldPosition(double& theX, double& theY)
+{
+	double x, y;
+	Application::GetCursorPos(&x, &y);
+	int w = Application::GetWindowWidth();
+	int h = Application::GetWindowHeight();
+	// convert to world space
+	x /= (w / scene->GetScreenWidth());
+	y = h - y;
+	y /= (h / scene->GetScreenHeight());
+	x -= scene->GetScreenWidth() * 0.5 - camera->position.x;
+	y -= scene->GetScreenHeight() * 0.5 - camera->position.y;
 
+	theX = x;
+	theY = y;
+}
+bool Trident::checkWithinScreen()
+{
+	if (tridentGO->pos.x > camera->position.x - scene->GetScreenWidth() * 0.5
+		&& tridentGO->pos.x < camera->position.x + scene->GetScreenWidth() * 0.5
+		&& tridentGO->pos.y > camera->position.y - scene->GetScreenHeight() * 0.5
+		&& tridentGO->pos.y < camera->position.y + scene->GetScreenHeight() * 0.5)
+	{
+		return true;
+	}
+	return false;
+}
+
+//TRIDENT GO FUNCTIONS
 void TridentGO::CollidedWith(GameObject* go)
 {
 	switch (go->type)
@@ -100,36 +124,6 @@ void TridentGO::CollidedWith(GameObject* go)
 		break;
 	}
 }
-
-void Trident::CursorToWorldPosition(double& theX, double& theY)
-{
-	double x, y;
-	Application::GetCursorPos(&x, &y);
-	int w = Application::GetWindowWidth();
-	int h = Application::GetWindowHeight();
-	// convert to world space
-	x /= (w / scene->GetScreenWidth());
-	y = h - y;
-	y /= (h / scene->GetScreenHeight());
-	x -= scene->GetScreenWidth() * 0.5 - camera->position.x;
-	y -= scene->GetScreenHeight() * 0.5 - camera->position.y;
-
-	theX = x;
-	theY = y;
-}
-
-bool Trident::checkWithinScreen()
-{
-	if (tridentGO->pos.x > camera->position.x - scene->GetScreenWidth() * 0.5
-		&& tridentGO->pos.x < camera->position.x + scene->GetScreenWidth() * 0.5
-		&& tridentGO->pos.y > camera->position.y - scene->GetScreenHeight() * 0.5
-		&& tridentGO->pos.y < camera->position.y + scene->GetScreenHeight() * 0.5)
-	{
-		return true;
-	}
-	return false;
-}
-
 TridentGO::TridentGO()
 {
 	mesh = MeshBuilder::GenerateQuad("trident", Color(1,1,1), 2.0f);
@@ -139,7 +133,6 @@ TridentGO::TridentGO()
 	physics->SetGravity(Vector3(0, -10.f, 0));
 	slowedObj = false;
 }
-
 TridentGO::~TridentGO()
 {
 	if (mesh)
@@ -148,11 +141,9 @@ TridentGO::~TridentGO()
 		mesh = NULL;
 	}
 }
-
 void TridentGO::Init()
 {
 }
-
 void TridentGO::Update(double dt)
 {
 }

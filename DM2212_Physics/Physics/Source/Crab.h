@@ -6,12 +6,11 @@
 #include "Physics.h"
 #include "Input.h"
 #include "Enemy.h"
-#include "Inventory.h"
-
 
 class Crab : public Enemy {
 public:
-	enum MOVEMENT_TYPE {
+	enum MOVEMENT_TYPE
+	{
 		LAR,
 		CHASE,
 		MTYPE_TOTAL
@@ -31,24 +30,22 @@ private:
 		DIE,
 		GSTATE_TOTAL
 	};
-
+	GameObject* player; // to keep track of player pos
+	MOVEMENT_TYPE mType; //movement types of crab
+	ENEMY_STATE state; //state of enemy
+	SpriteAnimation* animatedSprites;
 
 	float activeRange; //if player is within range, walk left and right
 	float hostileRange; //if player is within range, chase player
 	float attackRange; //if player within range, attack player
 
-	double crabTimer;
+	double crabTimer; //timer that switches between IDLE and WLAR state
 	double WLARTimer; //walk left and right timer
-	double deathTimer;
-	ENEMY_STATE state;
-	float tempVel;
-	MOVEMENT_TYPE mType;
-	GameObject *player; // to keep track of player pos
-	
-	SpriteAnimation* animatedSprites;
+	double deathTimer; //time it takes for animation + deletion
+	float tempVel; //temporary velocity of crab
 
-	void updateMType(double dt);
-	void CollidedWith(GameObject* go);
+	void updateMType(double dt); //update the mType
+	void CollidedWith(GameObject* go); //check if collided with block type
 };
 
 

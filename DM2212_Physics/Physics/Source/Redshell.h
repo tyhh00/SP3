@@ -5,13 +5,13 @@
 
 class Redshell : public Consumable {
 public:
-	Redshell(int _quantity = 1);
-	void Init() override;
-	void Update(double dt) override;
-	bool IsEqual(Item* item) override;
+	Redshell(int _quantity = 1); //constructor
+	void Init() override; //init
+	void Update(double dt) override; //update
+	bool IsEqual(Item* item) override; //item
 	
 private:
-	Input* input;
+	Input* input; //input
 };
 
 
