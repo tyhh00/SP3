@@ -146,37 +146,11 @@ void SceneSplashScreen::Update(double dt)
 		if (meshList[GEO_BG]->material.kAmbient.r >= 1.0)
 		{
 			meshList[GEO_BG]->material.kAmbient.Set(1.0, 1.0, 1.0);
-			ASTATE = AS_INNOCENT;
+			ASTATE = AS_WAIT;
 			AS_timer = 0;
 		}
 		break;
-	/*case AS_WAIT:
-		if (AS_timer > 0.5f)
-		{
-			AS_timer = 0;
-			ASTATE = AS_EVIL;
-			meshList[GEO_BG]->material.kAmbient.Set(1.0f, 0.2f, 0.2f);
-			break;
-		}
-		else
-		{
-			AS_timer += dt;
-		}
-		break;
-	case AS_EVIL:
-		if (AS_timer > 0.1f)
-		{
-			AS_timer = 0;
-			ASTATE = AS_INNOCENT;
-			meshList[GEO_BG]->material.kAmbient.Set(1.0f, 1.0f, 1.0f);
-			break;
-		}
-		else
-		{
-			AS_timer += dt;
-		}
-		break;*/
-	case AS_INNOCENT:
+	case AS_WAIT:
 		if (AS_timer > 1.0f)
 		{
 			CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
@@ -264,20 +238,6 @@ void SceneSplashScreen::Render()
 	modelStack.Scale(m_worldWidth, m_worldHeight, 1);
 	RenderMesh(meshList[GEO_BG], true);
 	modelStack.PopMatrix();
-
-	std::ostringstream ss;
-	
-	/*ss.str("");
-	ss << "mat: " << Vector3(meshList[GEO_BG]->material.kDiffuse.r, meshList[GEO_BG]->material.kDiffuse.g, meshList[GEO_BG]->material.kDiffuse.b);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 0, 4);*/
-
-	// fps tings
-	ss.str("");
-	ss.precision(5);
-	ss << "FPS: " << fps;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 0, 2);
-
-	RenderTextOnScreen(meshList[GEO_TEXT], "SplashScreen", Color(1, 1, 1), 2, 0, 0);
 }
 
 void SceneSplashScreen::Exit()

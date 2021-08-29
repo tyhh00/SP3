@@ -59,7 +59,7 @@ void SceneGraveyard::Init()
 	inventory->Init(this);
 	// Dialogue Manager
 	dialogueManager = DialogueManager::GetInstance();
-	//Store keyboard instance
+	// Store keyboard instance
 	input = Input::GetInstance();
 	// Game Manager
 	gameManager = GameManager::GetInstance();
@@ -182,7 +182,7 @@ void SceneGraveyard::Init()
 	camera.SetFocusTarget(player->pos);
 	camera.SetMode(Camera::CENTER);
 
-	// ABILITIESZ
+	// ABILITIES
 	gameManager->initAbilities(this, &camera, goManager, player);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 
@@ -211,12 +211,6 @@ void SceneGraveyard::Update(double dt)
 	if (input->IsKeyPressed('0'))
 	{
 		m_speed += 0.1f;
-	}
-
-	if (input->IsKeyPressed('C'))
-	{
-		LoadBossScene();
-		story_state = CHURCH_DEFAULT;
 	}
 
 	goManager->Update(dt, &this->camera);
@@ -401,27 +395,6 @@ void SceneGraveyard::Render()
 
 	goManager->Render(this);
 	inventory->Render();
-
-	std::ostringstream ss;
-	//ss.str("");
-	//ss << "LIGHT COLOR: " << Vector3(lights[0].color.r, lights[0].color.g, lights[0].color.b);
-	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
-	/*ss.str("");
-	ss << "player vel: " << player->physics->GetVelocity();
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);*/
-	//ss.str("");
-	//ss << "camera pos: " << camera.position;
-	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);
-
-
-
-	// fps tings
-	ss.str("");
-	ss.precision(5);
-	ss << "FPS: " << fps;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 0, 2);
-
-	RenderTextOnScreen(meshList[GEO_TEXT], "Graveyard", Color(1, 1, 1), 2, 0, 0);
 }
 
 void SceneGraveyard::InitLights()

@@ -104,9 +104,6 @@
     <ClCompile Include="Source\Utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\LevelEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -149,13 +146,7 @@
     <ClCompile Include="Source\SoundController/SoundInfo.cpp">
       <Filter>Source Files\SoundController</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneCollision.cpp">
-      <Filter>Source Files\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SceneGraveyard.cpp">
-      <Filter>Source Files\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ScenePhysics.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\SceneSplashScreen.cpp">
@@ -344,6 +335,9 @@
     <ClCompile Include="Source\Bottle.cpp">
       <Filter>Source Files\Items\Consumables</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SceneBase.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -380,9 +374,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\LevelEditor.h">
@@ -439,13 +430,7 @@
     <ClInclude Include="Source\GameStateManagement\PlayGameState.h">
       <Filter>Header Files\GameStateManagement</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneCollision.h">
-      <Filter>Header Files\Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\SceneGraveyard.h">
-      <Filter>Header Files\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ScenePhysics.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneSplashScreen.h">
@@ -651,6 +636,9 @@
     </ClInclude>
     <ClInclude Include="Source\Bottle.h">
       <Filter>Header Files\Items\Consumables</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneBase.h">
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

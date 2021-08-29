@@ -185,17 +185,9 @@ void SceneJungle::Init()
 	camera.SetMode(Camera::CENTER);
 
 	// ABILITIES
-	/*DashAbility* ability = new DashAbility(meshList[GEO_ABILITYICON_DASH]);
-	ability->SetCamera(&camera);
-	ability->SetScenePointer(this);
-
-	GrapplingAbility* ability2 = new GrapplingAbility(inventory, meshList[GEO_ABILITYICON_GRAPPLINGHOOK]);
-	ability2->SetCamera(&camera);
-	ability2->SetScenePointer(this);
-	ability2->SetGOManager(this->goManager);*/
-
 	gameManager->initAbilities(this, &camera, goManager, player);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
+	// SOUND
 	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_JUNGLE, 1, 0.5);
 }
 

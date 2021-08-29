@@ -50,27 +50,6 @@ void Camera::Reset()
 
 void Camera::Update(Vector3 focusTarget, double dt)
 {
-
-	// use C to unlock view and move camera freely (for editing level/just viewing level purposes etc)
-	// no need anym with second update func
-	/*if (input->IsKeyPressed('C'))
-	{		
-		ToggleAutoLock();
-	}*/
-	
-	// example of switching mode;; to be removed in final product zz
-	if (input->IsKeyPressed('M'))
-	{
-		SetMode(CENTER);
-	}
-	if (input->IsKeyPressed('N'))
-	{
-		SetMode(EDGE);
-	}
-
-	
-	
-
 	// update target based on new/next target
 	// if focus target exceeds maxd, set new target 
 	if (view_locked) // if view is locked to follow focustarget
@@ -93,8 +72,6 @@ void Camera::Update(Vector3 focusTarget, double dt)
 			newTarget.y = focusTarget.y - NEWD_Y;
 		}
 	}
-
-
 	
 	if (target != newTarget)
 	{

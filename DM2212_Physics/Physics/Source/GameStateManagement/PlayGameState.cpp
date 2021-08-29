@@ -268,7 +268,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 			buttonManager->activateButton("highlight");
 			buttonHighlight->setOrigin(button->buttonClicked->getOriginX(), button->buttonClicked->getOriginY());
 		}
-		if (button->justClicked && lastClickedTime > 0.1)
+		if (button->justClicked && lastClickedTime > 0.5)
 		{
 			if (button->buttonClicked->getName() == "resume")
 			{
@@ -319,7 +319,6 @@ bool CPlayGameState::Update(const double dElapsedTime)
 			else if (button->buttonClicked->getName() == "lobby")
 			{
 				// Load the menu state
-
 				CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
 				lastClickedTime = 0;
 				return true;

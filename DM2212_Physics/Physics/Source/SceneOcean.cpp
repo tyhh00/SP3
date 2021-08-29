@@ -177,7 +177,7 @@ void SceneOcean::Init()
 	inventory->AddItem(trident);
 
 	// STORYSTATE INIT
-	story_state = YH_TEXT;
+	story_state = INTRO;
 
 	// SOUND
 	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_OCEAN);
@@ -309,9 +309,6 @@ void SceneOcean::Update(double dt)
 	case OCEAN_NULL:
 		break;
 	}
-
-	//Lights update when slowtime ability used
-	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
 
 }
 

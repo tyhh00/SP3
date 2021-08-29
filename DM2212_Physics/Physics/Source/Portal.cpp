@@ -2,6 +2,7 @@
 #include "Portal.h"
 #include "Application.h"
 #include "MeshBuilder.h"
+#include "SoundController/SoundController.h"
 #include "Player.h"
 
 
@@ -53,7 +54,6 @@ void PortalAbility::Update(double dt)
 				startPortal.pos = player->pos;
 				anim_timer = 0;
 				ghost_portal = true;
-				//camera->SetMode(Camera::CENTER);
 
 				state = OPENING_ANIM;
 				break;
@@ -118,6 +118,7 @@ void PortalAbility::Update(double dt)
 			ptr->invisibility = true;;
 			ghost_player = true;
 
+			CSoundController::GetInstance()->PlaySoundByID(PORTAL);
 			state = TELEPORTING;
 		}
 		else
