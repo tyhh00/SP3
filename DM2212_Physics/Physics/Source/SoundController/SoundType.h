@@ -42,6 +42,7 @@ enum SOUND_TYPE {
 	COIN,
 	JUMP,
 	HURT,
+	PORTAL,
 	BG_JUNGLE,
 	BG_LOBBY,
 
