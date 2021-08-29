@@ -11,6 +11,9 @@
 Inventory::Inventory()
 {
 	currentItem = nullptr;
+	emptyMesh = nullptr;
+	selectedMesh = nullptr;
+	barMesh = nullptr;
 }
 
 Inventory::~Inventory()
@@ -50,6 +53,8 @@ void Inventory::Init(SceneBase* scene)
 	barMesh = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 2.0f);
 
 	buttonManager = new ButtonManager(80, 60);
+
+	currentItem = nullptr;
 
 	for (int i = 0; i < TOTAL_WEAPON_SLOTS; i++)
 	{
@@ -112,6 +117,8 @@ void Inventory::Update(double dt)
 	{
 		if (i < weaponSize)
 		{
+			if (weaponVector[i] == nullptr)
+				continue;
 			buttonManager->getButtonByName("WeaponItem" + std::to_string(i + 1))->setQuadImage(weaponVector[i]->GetItemMesh());
 		}
 	}
@@ -122,6 +129,8 @@ void Inventory::Update(double dt)
 	{
 		if (i < consumableSize)
 		{
+			if (consumableVector[i] == nullptr)
+				continue;
 			buttonManager->getButtonByName("ConsumableItem" + std::to_string(i + 1))->setQuadImage(consumableVector[i]->GetItemMesh());
 		}
 	}
@@ -171,6 +180,11 @@ void Inventory::Render()
 		{
 			if (i < weaponSize)
 			{
+				if (weaponVector[i] == nullptr)
+				{
+					buttonManager->getButtonByName("WeaponItem" + std::to_string(i + 1))->setText("");
+					continue;
+				}
 				buttonManager->getButtonByName("WeaponItem" + std::to_string(i + 1))->setText(std::to_string(weaponVector[i]->GetQuantity()));
 				if (weaponVector[i]->GetIsDurable())
 				{
@@ -190,6 +204,11 @@ void Inventory::Render()
 		{
 			if (i < consumableSize)
 			{
+				if (consumableVector[i] == nullptr)
+				{
+					buttonManager->getButtonByName("ConsumableItem" + std::to_string(i + 1))->setText("");
+					continue;
+				}
 				buttonManager->getButtonByName("ConsumableItem" + std::to_string(i + 1))->setText(std::to_string(consumableVector[i]->GetQuantity()));
 				if (consumableVector[i]->GetIsDurable())
 				{
@@ -403,7 +422,6 @@ void Inventory::AddItem(Item* newItem)
 	}
 	//if cannot find an existing item or is existing item is not stackable, add it to the item vector
 	itemVector.push_back(newItem);
-
 	UpdateItemVector();
 }
 
