@@ -4,10 +4,11 @@
 #include "MeshBuilder.h"
 
 
-SlowTimeAbility::SlowTimeAbility(Mesh* mesh) : Ability('Q', ABILITY_SLOWTIME, 3.f, mesh)
+SlowTimeAbility::SlowTimeAbility(Mesh* mesh) : Ability('Q', ABILITY_SLOWTIME, 10.f, mesh)
 {
 	input = Input::GetInstance();
 	abilityTimer = 0;
+	abilityCD_timeleft = 0;
 }
 
 SlowTimeAbility::~SlowTimeAbility()
@@ -19,20 +20,24 @@ void SlowTimeAbility::Init()
 
 void SlowTimeAbility::Update(double dt)
 {
+	//ability cooldown timer
 	abilityCD_timeleft -= dt;
 	if (abilityCD_timeleft < 0)
 		abilityCD_timeleft = 0.0f;
 
-
+	//update lighting
 	scene->lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
 
+	//if ability timer < 0, activate ability
 	if (input->IsKeyPressed(buttonChar) && abilityTimer <= 0)
 	{
 		abilityTimer = 8;
+		abilityCD_timeleft = 10.0f;
 		goManager->SetmSpeed(0.1f);
 		SetLighting();
 	}
 
+	//if ability timer > 0, update ability timer. If <= 0, reset back to normal
 	if (abilityTimer > 0)
 	{ 
 		abilityTimer -= dt;
@@ -40,7 +45,6 @@ void SlowTimeAbility::Update(double dt)
 		{
 			goManager->SetmSpeed(1.f);
 			scene->InitLights();
-			std::cout << "Initting Lights" << std::endl;
 		}
 	}
 }
@@ -48,7 +52,7 @@ void SlowTimeAbility::Update(double dt)
 void SlowTimeAbility::Render()
 {}
 
-void SlowTimeAbility::Reset()
+void SlowTimeAbility::Reset() //reset
 {
 	abilityTimer = 0;
 	abilityCD_timeleft = 0;

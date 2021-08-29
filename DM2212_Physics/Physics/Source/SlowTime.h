@@ -13,22 +13,23 @@
 class SlowTimeAbility : public Ability {
 	
 public:
-	SlowTimeAbility(Mesh* mesh);
-	~SlowTimeAbility();
+	SlowTimeAbility(Mesh* mesh); //constructor
+	~SlowTimeAbility(); //destructor
 
-	void Init();
-	void Update(double dt);
-	void Render();
-	void Reset();
-	ABILITY_TYPE GetAbilityType();
+	void Init(); //init
+	void Update(double dt); //update
+	void Render(); //render
+	void Reset(); //reset
+	ABILITY_TYPE GetAbilityType(); //ability type
 
 private:
-
+	//INPUT
 	Input* input;
-	void CursorToWorldPosition(double& theX, double& theY);
-	void SetLighting();
+	//VARIABLE
 	double abilityTimer;
 
+	void CursorToWorldPosition(double& theX, double& theY); //mouse to world position
+	void SetLighting(); //set lightning render to lightup when slowtime
 };
 
 #endif
