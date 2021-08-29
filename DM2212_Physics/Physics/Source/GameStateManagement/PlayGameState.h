@@ -49,14 +49,17 @@ protected:
 
 	float m_screenWidth, m_screenHeight;
 
-	double lastClickedTime;
+	double lastClickedTime; // to prevent double clicking of buttons in same position
 
 	GAME_STATE currentState;
+
+	// Meshes
 	Mesh* resumeButtonMesh, *lobbyButtonMesh, *retryButtonMesh, *optionsButtonMesh, *backButtonMesh;
 	Mesh* menuBG;
 	Mesh* volumeBar[6];
 	Mesh* leftArrowMesh, *rightArrowMesh;
 
+	// Button Lists
 	Button* buttonHighlight;
 	std::vector<Button*> pauseButtonsList;
 	std::vector<Button*> optionsButtonsList;

@@ -81,8 +81,8 @@ void DialogueManager::Render(SceneBase* scene)
 	{
 
 		Dialogue* dialogue = dialogueList.front();
-		// Persona Icon
 
+		// Persona Icon
 		if (dialogue->displayPos == LEFT)
 		{
 			// Dialogue Box BG
