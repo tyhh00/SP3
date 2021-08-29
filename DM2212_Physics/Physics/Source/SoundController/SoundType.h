@@ -35,5 +35,7 @@ enum SOUND_TYPE {
 
 	EATING,
 	COIN,
+	JUMP,
 	BG_JUNGLE,
+	BG_LOBBY,
 };

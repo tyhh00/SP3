@@ -225,6 +225,7 @@ void Player::UpdateMovement(double dt)
 		if (input->IsKeyPressed(VK_SPACE)
 			&& physics->GetOnGround())
 		{
+			CSoundController::GetInstance()->PlaySoundByID(JUMP);
 			std::cout << "Space Key Pressed" << std::endl;
 			float accel_amt = jump_force / physics->GetMass();
 			physics->AddVelocity(Vector3(0, accel_amt, 0));

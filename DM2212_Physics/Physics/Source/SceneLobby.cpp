@@ -5,6 +5,7 @@
 #include "LoadTGA.h"
 #include <sstream>
 #include "LevelLoader.h"
+#include "../Source/SoundController/SoundController.h"
 #include "Utility.h"
 #include <sstream>
 #include "Debug.h"
@@ -419,6 +420,7 @@ void SceneLobby::Init()
 	sceneManager = SceneManager::GetInstance();
 
 	gameManager->initAbilities(this, &camera, goManager, player);
+	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_LOBBY);
 }
 
 void SceneLobby::Update(double dt)
@@ -926,4 +928,5 @@ void SceneLobby::Exit()
 		buttonManager->deleteButton(settingsUIButtons[i]);
 	}
 	settingsUIButtons.clear();
+	CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_LOBBY, 1, 0.5);
 }
