@@ -15,12 +15,12 @@ Trident::~Trident()
 {
 }
 
-void Trident::Init(Camera* cam, GameObjectManager* goManager, Vector3& pos)
+void Trident::Init(Camera* cam, GameObjectManager* goManager, GameObject* target)
 {
 	camera = cam;
 	GOmanager = goManager;
 	tridentGO = nullptr;
-	playerPos = &pos;
+	player = target;
 }
 
 void Trident::Update(double dt)
@@ -37,8 +37,8 @@ void Trident::Update(double dt)
 	{
 		tridentGO = new TridentGO;
 		tridentGO->Init();
-		tridentGO->pos = *playerPos;
-		tridentGO->physics->pos = *playerPos;
+		tridentGO->pos = player->pos;
+		tridentGO->physics->pos = player->physics->pos;
 		tridentGO->scale.Set(5, 5, 5);
 		Vector3 mousePos(mouseposx, mouseposy, 0);
 		Vector3 vel = mouseDownPos - mousePos;

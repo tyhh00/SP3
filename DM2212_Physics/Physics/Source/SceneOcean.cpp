@@ -194,7 +194,7 @@ void SceneOcean::Init()
 
 	// TRIDENT
 	Trident* trident = new Trident;
-	trident->Init(&camera, goManager, player->pos);
+	trident->Init(&camera, goManager, player);
 	inventory->AddItem(trident);
 
 	story_state = INTRO;
