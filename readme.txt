@@ -1,6 +1,9 @@
 ROBERTIA'S RESCUE 2
--------------------------------------->
+
+==========================================
 //CONTROLS:
+==========================================
+
 W, A, S, D - Movement
 SPACE - Jump (Only within scenes, not in lobby)
 E - Interact (Item Pick Up, Interact with NPCs, Enter Portal etc)
@@ -11,10 +14,12 @@ TAB - Toggle Inventory (OPEN/CLOSE)
 1,2,3,4,5 - Select Inventory Slot
 ESC - Pause, Return to Main Menu
 
-//HIDDEN CONTROLS:
+HIDDEN CONTROLS:
 Go to Uppermost Left of Lobby Scene, Interact with wizard that will pop up - Interact to open up Level Editor
---------------------------------------->
+
+==========================================
 //SCENES:
+==========================================
 
 ***LOBBY***
 Portals - Portals to enter each of the 4 scenes(JUNGLE, GRAVEYARD, OCEAN AND ROBOT)
@@ -68,10 +73,17 @@ Lightning - Damages player & crab if they are within the lightning.
 /ITEMS:
 
 //ENEMIES:
+Plasma Robot - Attacks player with Explosive Plasma that can break surrounding blocks and if collided with player will do 10 damage. With AOE damage reduction
 
 //SPECIAL BLOCKS:
------------------------------------------------->
+Non-Respawnable Explosive Blocks - When hit by an explosive, its destroyed for the rest of the level, used to make level more challenging
+Respawnable Explosive Blocks - To introduce newer players to the whole idea of exploding blocks where after about 3 seconds they will respawn
+Plasma Engine Block - Summons a plasma bullet periodically at the way its position. Allowing for 360degree potential of how the plasma bullets are shot
+
+
+==========================================
 // ABILITIES:
+==========================================
 
 ***PORTAL***
 Press assigned key to open a portal. Use mouse to control position of end portal. Upon releasing key, opens the end portal and teleports the player towards the end portal. Player does not collide with anything during this period.
@@ -83,17 +95,21 @@ Press assigned key to initiate a dash movement. It also disables collision so yo
 Press assigned key to hook the grappler to a block and it will pull you towards it and keep its momentum. You can also release the hook by letting go of the mouse button.
 
 ***BLACKHOLE***
+Press assigned key to throw a black hole towards the cursor direction. Attaches onto walls and bounces once or twice off floors to start sucking enemies & bullets into its void. Deals 5 damage per second to everything at its demise, and an additional 10 damage at the black hole's final explosion animation
 
 ***RECALLL***
+Press assigned key to retrace back 3.5seconds worth of movement. Allowing players to save themselves from falling into void due to explodable blocks
 
 ***SLOWTIME***
 Upon pressing assigned key, the objects slow down, with the exception of the trident, player and lightning. 
 
--------------------------------------->
+==========================================
 //STORY
+==========================================
 
 ***INTRO***
 Player plays as Robertia. Robertia wakes up in an empty room with nothing but a time machine looking object, with amnesia. The time machine is her only clue to what happened to her. However, upon interaction, it explodes into 4 separate pieces, each warping into a new time/dimension, opening a link/portal to those worlds while doing so. Robertia now has to travel to each world and find the parts in order to put the machine back together and find out what happened to her.
+
 ***ENDING***
 Robertia now has all the parts and sets up the machine. She triggers it and is warped.
 She finds herself in the same room, however, she is with two other people, who are having an argument. One of them is Robert, a pink-haired guy with a smug look on his face. The other person however, is a blonde haired girl who looks exactly like Robertia. Though not revealed in the dialogue in the game, it is obvious and clear that this girl is Robertia from another timeline. Due to the two existing in the same timeline, the world desperately tried to erase one of them, causing both of them to feel pressure and uncomfortable as if the space around them is closing in on them. In this state, Robertia, before understanding the situation, accidentally triggers the time machine again, and is warped into another timeline. 
