@@ -314,6 +314,7 @@ void Player::CollidedWith(GameObject* go)
 	{
 	case SceneBase::GEO_COIN:
 		GameManager::GetInstance()->addCoins(dynamic_cast<Coin*>(go)->getCoinVal());
+		CSoundController::GetInstance()->PlaySoundByID(COIN);
 
 		goManager->RemoveGO(go);
 		break;
@@ -402,7 +403,7 @@ void Player::CollidedWith(GameObject* go)
 	{
 		Campfire* campfire = dynamic_cast<Campfire*>(go);
 		if (campfire->GetIsLit())
-			currentHP += 1.f; //heal player if stand beside campfire
+			currentHP += 0.1f; //heal player if stand beside campfire
 	}
 		break;
 	case SceneBase::GEO_OCEAN_SEASHELL1:

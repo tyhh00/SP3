@@ -29,11 +29,14 @@ void Pistol::Init()
 void Pistol::Update(double dt)
 {
 	shootInterval += dt;
+
+	//shoot bullet
 	if (input->IsMousePressed(0) && shootInterval > 0.5f)
 	{
 		double x, y;
 		CursorToWorldPosition(x, y);
 
+		//calc displacement from mouse pos and set the bullet vel to that dir
 		Vector3 displacement = Vector3(x, y, 0) - *playerPos;
 		bulletSpawner->SpawnBullet(Vector3(playerPos->x, playerPos->y + 1, 0), displacement, displacement);
 

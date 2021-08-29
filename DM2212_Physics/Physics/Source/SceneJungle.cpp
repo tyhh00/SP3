@@ -3,6 +3,7 @@
 #include "MeshBuilder.h"
 #include "Application.h"
 #include "LoadTGA.h"
+#include "../Source/SoundController/SoundController.h"
 #include <sstream>
 #include "LevelLoader.h"
 #include "Utility.h"
@@ -195,6 +196,7 @@ void SceneJungle::Init()
 
 	gameManager->initAbilities(this, &camera, goManager, player);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
+	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_JUNGLE);
 }
 
 void SceneJungle::Update(double dt)
@@ -313,7 +315,7 @@ void SceneJungle::Exit()
 	//Cleanup GameObjects
 	goManager->Exit();
 	inventory->Clear();
-
+	CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_JUNGLE, 1, 0.5);
 }
 
 void SceneJungle::InitLights()

@@ -20,7 +20,7 @@ void Prowler::Init(SceneBase* scene, Inventory* inventory, Player* _player, Game
 	this->inventory = inventory;
 	this->goManager = _goManager;
 	player = _player;
-	currentHP = 50;
+
 
 	state = IDLE;
 
@@ -30,8 +30,8 @@ void Prowler::Init(SceneBase* scene, Inventory* inventory, Player* _player, Game
 	defendRange = 40.f;
 	shootTimer = 2;
 
-	currentHP = 7;
-	maxHP = 7; // IN SECONDS
+	currentHP = 100;
+	maxHP = 100;
 	
 	attackAnimationTimer = 0;
 	stunnedTimer = 0;
@@ -126,7 +126,7 @@ void Prowler::Update(double dt)
 		break;
 	case ATTACK:
 	{
-		if ((player->pos - pos).Length() < attackRange * 0.5f && readyToAttack)
+		if ((player->pos - pos).Length() < attackRange && readyToAttack)
 		{
 			player->currentHP -= ATTACK_DAMAGE;
 			readyToAttack = false;
