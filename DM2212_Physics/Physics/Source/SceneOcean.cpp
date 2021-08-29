@@ -177,7 +177,7 @@ void SceneOcean::Init()
 	inventory->AddItem(trident);
 
 	// STORYSTATE INIT
-	story_state = YH_TEXT;
+	story_state = INTRO;
 
 	// SOUND
 	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_OCEAN);
