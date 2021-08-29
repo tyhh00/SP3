@@ -13,7 +13,7 @@
 
 SceneMainMenu::SceneMainMenu() : buttonManager(NULL)
 	, PlayButtonMesh(NULL)
-	, CreditsButtonMesh(NULL)
+//	, CreditsButtonMesh(NULL)
 	, QuitButtonMesh(NULL)
 	, title(NULL)
 	, background(NULL)
@@ -56,16 +56,16 @@ void SceneMainMenu::Init()
 
 	PlayButtonMesh = MeshBuilder::GenerateQuad("Play button", Color(1, 1, 1), 1.0f);
 	PlayButtonMesh->textureID = LoadTGA("Image/PlayButton.tga");
-	CreditsButtonMesh = MeshBuilder::GenerateQuad("Credits button", Color(1, 1, 1), 1.0f);
-	CreditsButtonMesh->textureID = LoadTGA("Image/CreditsButton.tga");
+//	CreditsButtonMesh = MeshBuilder::GenerateQuad("Credits button", Color(1, 1, 1), 1.0f);
+//	CreditsButtonMesh->textureID = LoadTGA("Image/CreditsButton.tga");
 	QuitButtonMesh = MeshBuilder::GenerateQuad("Quit button", Color(1, 1, 1), 1.0f);
 	QuitButtonMesh->textureID = LoadTGA("Image/QuitButton.tga");
 
-	Button* playButton = ButtonFactory::createNoTextButton("play", 40, 25, 12, 6, PlayButtonMesh);
+	Button* playButton = ButtonFactory::createNoTextButton("play", 40, 20, 12, 6, PlayButtonMesh);
 	buttonManager->addButton(playButton);
-	Button* creditsButton = ButtonFactory::createNoTextButton("credits", 40, 17, 12, 6, CreditsButtonMesh);
-	buttonManager->addButton(creditsButton);
-	Button* quitButton = ButtonFactory::createNoTextButton("quit", 40, 9, 12, 6, QuitButtonMesh);
+//	Button* creditsButton = ButtonFactory::createNoTextButton("credits", 40, 17, 12, 6, CreditsButtonMesh);
+//	buttonManager->addButton(creditsButton);
+	Button* quitButton = ButtonFactory::createNoTextButton("quit", 40, 12, 12, 6, QuitButtonMesh);
 	buttonManager->addButton(quitButton);
 	buttonHighlight = ButtonFactory::createNoTextButton("highlight", 40, 30,
 		13, 7, highlight);
@@ -101,10 +101,10 @@ void SceneMainMenu::Update(double dt)
 			{
 				CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
 			}
-			else if (button->buttonClicked->getName() == "credits")
-			{
-				//...
-			}
+			//else if (button->buttonClicked->getName() == "credits")
+			//{
+			//	//...
+			//}
 			else if (button->buttonClicked->getName() == "quit")
 			{
 				Application::quit = true;
@@ -212,7 +212,7 @@ void SceneMainMenu::Render()
 
 
 	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5, m_worldHeight * 0.7, 0.1);
+	modelStack.Translate(m_worldWidth * 0.5, m_worldHeight * 0.6, 0.1);
 	modelStack.Scale(83.579, 30, 1);
 	RenderMesh(title, false);
 	modelStack.PopMatrix();
@@ -238,11 +238,11 @@ void SceneMainMenu::Exit()
 		delete PlayButtonMesh;
 		PlayButtonMesh = NULL;
 	}
-	if (CreditsButtonMesh)
+	/*if (CreditsButtonMesh)
 	{
 		delete CreditsButtonMesh;
 		CreditsButtonMesh = NULL;
-	}
+	}*/
 	if (QuitButtonMesh)
 	{
 		delete QuitButtonMesh;

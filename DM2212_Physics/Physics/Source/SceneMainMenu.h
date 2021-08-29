@@ -22,7 +22,7 @@ public:
 	virtual void Exit();
 
 protected:
-	Mesh* PlayButtonMesh, *CreditsButtonMesh, *QuitButtonMesh;
+	Mesh* PlayButtonMesh, *QuitButtonMesh;
 	Mesh* title;
 
 	Button* buttonHighlight;
