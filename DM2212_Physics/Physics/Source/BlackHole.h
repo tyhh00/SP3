@@ -14,6 +14,7 @@ public:
 
 	void Update(double dt);
 	void Render();
+	void Reset();
 	ABILITY_TYPE GetAbilityType();
 	void InitSpawner(GameObjectManager* gom, Bullet* bullet);
 

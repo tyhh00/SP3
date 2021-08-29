@@ -344,6 +344,9 @@
     <ClCompile Include="Source\Lightning.cpp">
       <Filter>Source Files\GameObjects\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Bottle.cpp">
+      <Filter>Source Files\Items\Consumables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -642,6 +645,15 @@
     </ClInclude>
     <ClInclude Include="Source\Lightning.h">
       <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Whale.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\YH.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bottle.h">
+      <Filter>Header Files\Items\Consumables</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

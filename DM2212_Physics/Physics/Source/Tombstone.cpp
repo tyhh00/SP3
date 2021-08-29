@@ -23,12 +23,13 @@ void Tombstone::Init(SceneBase* scene, Inventory* inventory)
 	this->scene = scene;
 	this->inventory = inventory;
 
+	this->SetIsSlowed(false);
 	type = GO_TOMBSTONE;
 
 	physics->SetEnableCollisionResponse(false);
 
-	currentHP = 5;
-	maxHP = 5; // IN SECONDS
+	currentHP = 1;
+	maxHP = 1; // IN SECONDS
 
 }
 

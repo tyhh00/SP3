@@ -27,6 +27,7 @@ public:
 		I_TRIDENT,
 		I_REDSHELL,
 		I_BLUESHELL,
+		I_BOTTLE,
 		I_TOTAL
 	};
 

@@ -82,6 +82,7 @@ void Inventory::Init(SceneBase* scene)
 	}
 	maxQuantity[Item::I_BONE] = 15;
 	maxQuantity[Item::I_SKULL] = 10;
+	maxQuantity[Item::I_BATTERY] = 10;
 
 	this->scene = scene;
 }
@@ -97,12 +98,12 @@ void Inventory::Update(double dt)
 		currentItem->Update(dt);
 		if (currentItem->GetQuantity() <= 0)
 			DeleteItem(currentItem);
-		else if (currentItem->GetDurability() <= 0)
+		/*else if (currentItem->GetDurability() <= 0)
 		{
 			currentItem->RemoveQuantity(1);
 			if (currentItem->GetQuantity() > 0)
 				currentItem->SetDurability(1);
-		}
+		}*/
 	}
 	
 	//update weapon slots

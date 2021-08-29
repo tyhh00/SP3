@@ -8,9 +8,7 @@ GameManager::GameManager()
 {
 	for (int i = 0; i < 2; i++)
 	{
-		
 		currAbility[i] = nullptr;
-		
 	}
 }
 
@@ -64,6 +62,7 @@ void GameManager::Init()
 
 	ABILITY_KEYBIND_1 = 'Q';
 	ABILITY_KEYBIND_2 = 'Z';
+	INTERACT_KEYBIND = 'E';
 }
 
 bool GameManager::getMachineStatus(int partNum)
@@ -172,6 +171,30 @@ void GameManager::setCoins(int coinsCollected)
 	this->coinsCollected = Math::Clamp(this->coinsCollected, 0, abs(coinsCollected));
 	//This UI is created in LobbyState
 	UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("coinvalue")->setText(std::to_string(this->coinsCollected));
+}
+
+void GameManager::resetAll()
+{
+	for (int i = 0; i < 2; i++)
+	{
+		currAbility[i] = nullptr;
+	}
+
+	gameElapsed = 0.f;
+	score = 0;
+	coinsCollected = 0;
+
+	// set state to GS_INTRO
+	game_state = GS_INTRO;
+
+	// set machine part status
+	for (int i = 0; i < 4; i++)
+	{
+		timeMachineStatus[i] = false;
+	}
+
+	ABILITY_KEYBIND_1 = 'Q';
+	ABILITY_KEYBIND_2 = 'Z';
 }
 
 int GameManager::getCoins()

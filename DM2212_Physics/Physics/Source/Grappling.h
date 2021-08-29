@@ -36,8 +36,8 @@ public:
 
 	void Init();
 	void Update(double dt);
-//	void UpdatePlayer(Vector3& pos, Physics* playerPhysics, float& _maxVel);
 	void Render();
+	void Reset();
 	ABILITY_TYPE GetAbilityType();
 
 private:

@@ -3,6 +3,7 @@
 #include "LoadTGA.h"
 #include "Battery.h"
 #include "Flashlight.h"
+#include "GameManager.h"
 
 Battery::Battery(Mesh* _mesh, Inventory* inventory, int _quantity) : Consumable(I_BATTERY, mesh)
 {
@@ -21,7 +22,7 @@ void Battery::Init()
 
 void Battery::Update(double dt)
 {
-	if (input->IsKeyPressed('E'))
+	if (input->IsKeyPressed(GameManager::GetInstance()->INTERACT_KEYBIND))
 	{
 		Item* item = inventory->GetItem(I_FLASHLIGHT);
 		if (item != nullptr)

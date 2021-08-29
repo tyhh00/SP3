@@ -395,6 +395,10 @@ void SceneBase::Init()
 	LoadTile(GEO_OCEAN_PILLAR, "OCEAN_pillar.tga", 5, 5, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_OCEAN_RUIN, "OCEAN_ruin.tga", 8, 8, SHAPE_TYPE::RECTANGLE);
 
+	LoadTile(GEO_OCEAN_WHALE, "OCEAN_whale.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_YH, "OCEAN_yh.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+	LoadTile(GEO_OCEAN_BOTTLE, "OCEAN_bottle.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+
 	LoadTile(GEO_MACHINEPART_1, "MachinePart_1.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_MACHINEPART_2, "MachinePart_2.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_MACHINEPART_3, "MachinePart_3.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
@@ -824,7 +828,7 @@ void SceneBase::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 		for (unsigned i = 0; i < line.length(); ++i)
 		{
 			Mtx44 characterSpacing;
-			characterSpacing.SetToTranslation(0.5f + accumulator, 0.5f - step * size, 1);
+			characterSpacing.SetToTranslation(0.5f + accumulator, 0.5f - step * size * 0.5, 1);
 			Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 			glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 			mesh->Render((unsigned)line[i] * 6, 6);

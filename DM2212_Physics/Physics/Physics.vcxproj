@@ -155,6 +155,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Blueshell.cpp" />
+    <ClCompile Include="Source\Bottle.cpp" />
     <ClCompile Include="Source\Lightning.cpp" />
     <ClCompile Include="Source\PlasmaEngine.cpp" />
     <ClCompile Include="Source\BananaBullet.cpp" />
@@ -245,6 +246,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Blueshell.h" />
+    <ClInclude Include="Source\Bottle.h" />
     <ClInclude Include="Source\Lightning.h" />
     <ClInclude Include="Source\PlasmaEngine.h" />
     <ClInclude Include="Source\BananaBullet.h" />
@@ -342,6 +344,8 @@
     <ClInclude Include="Source\SoundController/SoundInfo.h" />
     <ClInclude Include="Source\SoundController/SoundType.h" />
     <ClInclude Include="Source\UIManager.h" />
+    <ClInclude Include="Source\Whale.h" />
+    <ClInclude Include="Source\YH.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

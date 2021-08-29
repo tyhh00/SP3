@@ -50,6 +50,11 @@ void BlackHoleAbility::Render()
 {
 }
 
+void BlackHoleAbility::Reset()
+{
+	abilityCD_timeleft = 0;
+}
+
 ABILITY_TYPE BlackHoleAbility::GetAbilityType()
 {
 	return ABILITY_TYPE::ABILITY_BLACKHOLE;

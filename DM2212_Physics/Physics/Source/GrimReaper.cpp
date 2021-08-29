@@ -23,7 +23,7 @@ void GrimReaper::Init(SceneBase* scene, GameObjectManager* GOM, Vector3 &target)
 	state = INACTIVE;
 
 	idle_speed = 10.0f;
-	hostile_speed = 25.0f;
+	hostile_speed = 30.0f;
 
 	activeRange = 30.0f;
 	whackRange = 5.0f;
@@ -49,6 +49,7 @@ void GrimReaper::Init(SceneBase* scene, GameObjectManager* GOM, Vector3 &target)
 
 	animatedSprites->PlayAnimation("HostileIdle", -1, 1.0f);
 
+	maxHP = goManager->GetNumGOsbyType(GO_TOMBSTONE) * 10;
 }
 
 
@@ -57,7 +58,6 @@ void GrimReaper::Update(double dt)
 { 
 	currentHP = goManager->GetNumGOsbyType(GO_TOMBSTONE) * 10;
 	
-	std::cout << "GrimReaper.cpp : CURRENT HP: " << currentHP << std::endl;
 	if (currentHP <= 0)
 	{
 		dead = true;
@@ -85,6 +85,7 @@ void GrimReaper::Update(double dt)
 		if (attack_timer <= 0)
 		{
 			state = WHACKING;
+			attack_timer = 1.0f;
 			animatedSprites->PlayAnimation("HostileAttack", 0, 1.0f);
 			animatedSprites->Reset();
 			break;
@@ -134,10 +135,14 @@ bool GrimReaper::Interact()
 
 void GrimReaper::CollidedWith(GameObject* go)
 {
-	if (go->type == GO_PLAYER && 
-		state == WHACKING && cooldown_timer <= 0)
+	if (go->type == GO_PLAYER)
 	{
-		go->currentHP -= 30;
-		cooldown_timer += 2.f;
+		
+		if (state == WHACKING && cooldown_timer <= 0 && attack_timer < 0.5)
+		{
+			std::cout << "GRIM REAPER ATTACKED" << std::endl;
+			go->currentHP -= 30;
+			cooldown_timer += 2.f;
+		}
 	}
 }

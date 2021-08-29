@@ -36,6 +36,7 @@ public:
 
 	int dashDir = 0;
 	float curr_max_vel;
+	bool invisibility;
 private:
 	const float MAX_VEL = 30.f;
 	const float MAX_SPRINTVEL = 45.f;
@@ -47,7 +48,6 @@ private:
 
 
 	bool isDashing = false;
-
 
 	float accel;
 	float speed_multiplier;

@@ -49,6 +49,8 @@ protected:
 
 	float m_screenWidth, m_screenHeight;
 
+	double lastClickedTime;
+
 	GAME_STATE currentState;
 	Mesh* resumeButtonMesh, *lobbyButtonMesh, *retryButtonMesh, *optionsButtonMesh, *backButtonMesh;
 	Mesh* menuBG;

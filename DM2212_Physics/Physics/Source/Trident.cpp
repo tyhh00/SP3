@@ -38,6 +38,7 @@ void Trident::Update(double dt)
 		tridentGO = new TridentGO;
 		tridentGO->Init();
 		tridentGO->pos = *playerPos;
+		tridentGO->physics->pos = *playerPos;
 		tridentGO->scale.Set(5, 5, 5);
 		Vector3 mousePos(mouseposx, mouseposy, 0);
 		Vector3 vel = mouseDownPos - mousePos;
@@ -79,8 +80,15 @@ void TridentGO::CollidedWith(GameObject* go)
 		this->physics->pos.x = -100;
 		break;
 	case GameObject::GO_DRAGON:
-		std::cout << "AAAAAAA" << std::endl;
-		go->currentHP -= 10;
+		if (go->parent != nullptr)
+		{
+			go->parent->currentHP -= 10;
+			std::cout << "parent curHP: " << go->parent->currentHP << std::endl;
+		}
+		else //parent (dragon head)
+		{
+			go->currentHP -= 10;
+		}
 		this->pos.x = -100;
 		this->physics->pos.x = -100;
 		break;

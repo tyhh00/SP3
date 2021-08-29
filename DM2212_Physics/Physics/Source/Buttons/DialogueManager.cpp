@@ -18,6 +18,10 @@ DialogueManager::DialogueManager() : dialogueBG_left(NULL)
 	personaMesh[GATEKEEPER]->textureID = LoadTGA("Image/GatekeeperIcon.tga");
 	personaMesh[GRIMREAPER] = MeshBuilder::GenerateQuad("Grim Reaper Icon", Color(1, 1, 1), 1.0f);
 	personaMesh[GRIMREAPER]->textureID = LoadTGA("Image/GrimReaperIcon.tga");
+	personaMesh[WHALE] = MeshBuilder::GenerateQuad("Whale Icon", Color(1, 1, 1), 1.0f);
+	personaMesh[WHALE]->textureID = LoadTGA("Image/whaleIcon.tga");
+	personaMesh[YH] = MeshBuilder::GenerateQuad("yh Icon", Color(1, 1, 1), 1.0f);
+	personaMesh[YH]->textureID = LoadTGA("Image/Tiles/OCEAN_yh.tga");
 }
 
 DialogueManager::~DialogueManager() {
@@ -86,7 +90,7 @@ void DialogueManager::Render(SceneBase* scene)
 			scene->RenderMeshOnScreen(dialogue->personaIcon, 70, 15, 20, 30, 0.9f);
 		}
 		// Text Dialogue
-		scene->RenderTextOnScreen(scene->GetMesh(SceneBase::GEO_TEXT), dialogue->text, Color(1.0f, 1.0f, 1.0f), 2, 25, 12, 30, Text::getFont(CALIBRI)->textWidth, 256);
+		scene->RenderTextOnScreen(scene->GetMesh(SceneBase::GEO_TEXT), dialogue->text, Color(1.0f, 1.0f, 1.0f), 2, 25, 12, 50, Text::getFont(CALIBRI)->textWidth, 256);
 	}
 }
 

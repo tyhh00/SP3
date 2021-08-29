@@ -13,13 +13,15 @@ Crab::~Crab()
 {
 }
 
-void Crab::Init(Vector3 &target, MOVEMENT_TYPE type)
+void Crab::Init(GameObject* target, MOVEMENT_TYPE type)
 {
-	playerPos = &target;
+
+	player = target;
 
 	this->currentHP = 30;
 	this->maxHP = 30;
 	this->type = GO_CRAB;
+	//this->rangeCheckMulti = 1.1;
 
 	state = IDLE;
 	mType = type;
@@ -33,7 +35,7 @@ void Crab::Init(Vector3 &target, MOVEMENT_TYPE type)
 
 	physics->SetMovable(true);
 
-	animatedSprites = MeshBuilder::GenerateSpriteAnimation(8, 7, 2.0f, 2.0f);
+	animatedSprites = MeshBuilder::GenerateSpriteAnimation(10, 6, 2.0f, 2.0f);
 
 	animatedSprites->AddAnimation("attackRight", 0, 8);
 	animatedSprites->AddAnimation("deathRight", 8, 16);
@@ -52,26 +54,16 @@ void Crab::Init(Vector3 &target, MOVEMENT_TYPE type)
 
 void Crab::Update(double dt)
 { 
-
-	if (timeout > 0)
-	{
-		timeout -= dt;
-	}
-	else if (timeout <= 0)
-	{
-		timeout = 0;
-	}
-
 	switch (state)
 	{
 	case IDLE:
-		if ((*playerPos - pos).Length() < hostileRange) //checks if player within hostile range, changes state to wlar and chases player
+		if ((player->pos - pos).Length() < hostileRange) //checks if player within hostile range, changes state to wlar and chases player
 		{
 			state = WLAR;
 			mType = CHASE;
 			updateMType(dt);
 		}
-		else if ((*playerPos - pos).Length() < activeRange) //checks if player within range, if not within range then dont do anything
+		else if ((player->pos - pos).Length() < activeRange) //checks if player within range, if not within range then dont do anything
 		{
 			if (crabTimer <= 0)
 			{
@@ -113,7 +105,7 @@ void Crab::Update(double dt)
 			}
 		}
 
-		if ((*playerPos - pos).Length() < hostileRange) //checks if within hostile range, then chases player
+		if ((player->pos - pos).Length() < hostileRange) //checks if within hostile range, then chases player
 		{
 			mType = CHASE;
 			updateMType(dt);
@@ -134,21 +126,35 @@ void Crab::Update(double dt)
 		}
 		break;
 	case ATTACK:
-		if ((*playerPos - pos).Length() < attackRange) //checks if player within attack range
+		if (timeout > 0)
 		{
-			if (timeout < 0) //cooldown for attack
+			timeout -= dt;
+		}
+
+		if ((player->pos - pos).Length() < attackRange) //checks if player within attack range
+		{
+			if (timeout <= 0) //cooldown for attack
 			{
 				if (tempVel <= 0)
 				{
-					animatedSprites->PlayAnimation("attackLeft", 0, 1.0f);
 					animatedSprites->Reset();
+					animatedSprites->PlayAnimation("attackLeft", 0, 1.0f);
+					if (timeout <= 0)
+					{
+						player->currentHP -= 5;
+						timeout = 0.8;
+					}
 				}
 				else
 				{
-					animatedSprites->PlayAnimation("attackRight", 0, 1.0f);
 					animatedSprites->Reset();
+					animatedSprites->PlayAnimation("attackRight", 0, 1.0f);
+					if (timeout <= 0)
+					{
+						player->currentHP -= 5;
+						timeout = 0.8;
+					}
 				}
-				timeout = 1;
 			}
 		}
 		else //if not within attack range, then set state back to WLAR
@@ -205,6 +211,7 @@ void Crab::Update(double dt)
 		animatedSprites->PlayAnimation("left", -1, 1.0f);
 	}*/
 
+
 }
 
 void Crab::updateMType(double dt)
@@ -224,9 +231,9 @@ void Crab::updateMType(double dt)
 		physics->SetVelocity(Vector3(tempVel, physics->GetVelocity().y, physics->GetVelocity().z));		
 		break;
 	case CHASE:
-		tempVel = (*playerPos - pos).Normalized().x * 10;
+		tempVel = (player->pos - pos).Normalized().x * 10;
 		physics->SetVelocity(Vector3(tempVel, physics->GetVelocity().y, physics->GetVelocity().z));
-		if ((*playerPos - pos).Length() < attackRange)
+		if ((player->pos - pos).Length() < attackRange)
 		{
 			state = ATTACK;
 		}
@@ -240,7 +247,6 @@ void Crab::CollidedWith(GameObject* go) //walk into a wall
 	{
 	case SceneBase::GEO_OCEAN_1_MIDRIGHT:
 	case SceneBase::GEO_OCEAN_1_MIDLEFT:
-	case SceneBase::GEO_LOBBY_FLOOR:
 		tempVel *= -1;
 		WLARTimer = 3;
 		break;
@@ -248,10 +254,6 @@ void Crab::CollidedWith(GameObject* go) //walk into a wall
 
 	if (go->type == GO_PLAYER)
 	{
-		if (timeout <= 0)
-		{
-			go->currentHP -= 5;
-			timeout = 1;
-		}
+		
 	}
 }

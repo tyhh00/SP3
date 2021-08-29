@@ -167,7 +167,8 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 
 			if (dis.Dot(N) < go1_fScale.x + go2_fScale.x
 				&& abs(dis.Dot(NP)) < go2_fScale.y
-				&& go1->physics->GetVelocity().Dot(N) > 0)
+				//&& go1->physics->GetVelocity().Dot(N) > 0
+				)
 			{
 				go2->physics->SetCollisionNormal(N);
 				return true;
@@ -182,7 +183,8 @@ bool GameObjectManager::CheckCollision(GameObject* go1, GameObject* go2, float d
 
 			if (dis.Dot(N) < go1_fScale.y + go2_fScale.y
 				&& abs(dis.Dot(NP)) < go2_fScale.x
-				&& go1->physics->GetVelocity().Dot(N) > 0)
+				//&& go1->physics->GetVelocity().Dot(N) > 0
+				)
 			{
 				go2->physics->SetCollisionNormal(N);/*
 				go1->physics->scale = Vector3(go1_fScale.y, go1_fScale.x, go1_fScale.z);
@@ -377,7 +379,7 @@ void GameObjectManager::Update(double dt, Camera* camera)
 			{
 				GameObject* go2 = (GameObject*)*it2;
 
-				if (go2 == nullptr)
+				if (go2 == nullptr || !go2->active)
 					continue;
 
 				if (go2->dead)
@@ -516,7 +518,7 @@ void GameObjectManager::Render(SceneBase* scene)
 	for (std::vector<GameObject*>::iterator it = m_movableGOList.begin(); it != m_movableGOList.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go != nullptr && go->active)
+		if (go != nullptr && go->active && !go->invisible)
 		{
 			go->Render(scene);
 			
@@ -526,7 +528,7 @@ void GameObjectManager::Render(SceneBase* scene)
 	{
 		GameObject* go = (GameObject*)*it;
 
-		if (go == nullptr || !go->active)
+		if (go == nullptr || !go->active || go->invisible)
 			continue;
 
 		go->Render(scene);

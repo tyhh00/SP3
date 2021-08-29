@@ -2,6 +2,7 @@
 #include "Portal.h"
 #include "Application.h"
 #include "MeshBuilder.h"
+#include "Player.h"
 
 
 PortalAbility::PortalAbility(Mesh* mesh) : Ability('Z', ABILITY_PORTAL, 7.0f, mesh)
@@ -116,7 +117,8 @@ void PortalAbility::Update(double dt)
 			player->enableCollision = false;
 			player->physics->SetEnableUpdate(false);
 			player->physics->SetEnableCollisionResponse(false);
-			player->pos.z = -10;
+			Player* ptr = dynamic_cast<Player*>(player);
+			ptr->invisibility = true;;
 			ghost_player = true;
 
 			state = TELEPORTING;
@@ -142,7 +144,8 @@ void PortalAbility::Update(double dt)
 			player->enableCollision = true;
 			player->physics->SetEnableUpdate(true);
 			player->physics->SetEnableCollisionResponse(true);
-			player->pos.z = 0;
+			Player* ptr = dynamic_cast<Player*>(player);
+			ptr->invisibility = false;
 			ghost_player = false;
 			state = CLOSINGSTART_ANIM;
 			std::cout << "PORTAL ABILITY: Teleportation End." << std::endl;
@@ -230,6 +233,18 @@ void PortalAbility::Render()
 		scene->modelStack.PopMatrix();
 	}
 	
+}
+
+void PortalAbility::Reset()
+{
+	state = DEFAULT;
+	ghost_portal = false;
+	ghost_player = false;
+	startPortal.active = false;
+	endPortal.active = false;
+	anim_timer = 0;
+	abilityCD_timeleft = 0;
+
 }
 
 ABILITY_TYPE PortalAbility::GetAbilityType()

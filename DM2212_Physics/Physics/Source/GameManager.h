@@ -22,6 +22,10 @@ public:
 		GS_TOTAL,
 	};
 
+	char ABILITY_KEYBIND_1;
+	char ABILITY_KEYBIND_2;
+	char INTERACT_KEYBIND;
+
 	void Init();
 
 	bool getMachineStatus(int partNum);
@@ -47,6 +51,7 @@ public:
 	int getCoins();
 	void setCoins(int coins);
 
+	void resetAll(); // TO BE CALLED WHEN QUITTING GAME TO MENU; to reset when reentering;
 
 protected:
 
@@ -62,8 +67,6 @@ protected:
 	// TIME MACHINE PARTS COLLECTION STATUS
 	bool timeMachineStatus[4];
 	// ABILITIES
-	char ABILITY_KEYBIND_1;
-	char ABILITY_KEYBIND_2;
 	Ability* abilityArray[ABILITY_COUNT];
 	Ability* currAbility[2];
 	

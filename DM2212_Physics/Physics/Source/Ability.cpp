@@ -21,6 +21,7 @@ Ability::~Ability()
 	}
 }
 
+
 void Ability::SetCamera(Camera* camera)
 {
 	this->camera = camera;

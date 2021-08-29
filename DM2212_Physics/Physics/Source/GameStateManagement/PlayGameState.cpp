@@ -201,6 +201,8 @@ bool CPlayGameState::Init(void)
 		buttonManager->deactivateButton(optionsButtonsList[i]->getName());
 	}
 
+	lastClickedTime = 0;
+
 	return true;
 }
 
@@ -254,6 +256,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 	UIManager::GetInstance()->Update(dElapsedTime);
 	buttonManager->deactivateButton("highlight");
 	buttonManager->Update(sceneManager->getScene(), dElapsedTime);
+	lastClickedTime += dElapsedTime;
 	for (auto button : buttonManager->getButtonsInteracted())
 	{
 		if (button->hovering 
@@ -265,7 +268,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 			buttonManager->activateButton("highlight");
 			buttonHighlight->setOrigin(button->buttonClicked->getOriginX(), button->buttonClicked->getOriginY());
 		}
-		if (button->justClicked)
+		if (button->justClicked && lastClickedTime > 0.1)
 		{
 			if (button->buttonClicked->getName() == "resume")
 			{
@@ -274,6 +277,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 					buttonManager->deactivateButton(pauseButtonsList[i]->getName());
 				}
 				currentState = DEFAULT;
+				lastClickedTime = 0;
 				break;
 			}
 			else if (button->buttonClicked->getName() == "retry")
@@ -283,6 +287,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 				buttonManager->deactivateButton("menuBG");
 				sceneManager->resetScene();
 				currentState = DEFAULT;
+				lastClickedTime = 0;
 				break;
 			}
 			else if (button->buttonClicked->getName() == "options")
@@ -295,6 +300,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 				{
 					buttonManager->activateButton(optionsButtonsList[i]->getName());
 				}
+				lastClickedTime = 0;
 				break;
 			}
 			else if (button->buttonClicked->getName() == "back")
@@ -307,6 +313,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 				{
 					buttonManager->activateButton(pauseButtonsList[i]->getName());
 				}
+				lastClickedTime = 0;
 				break;
 			}
 			else if (button->buttonClicked->getName() == "lobby")
@@ -315,6 +322,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 				sceneManager->resetScene();
 				cout << "Loading LobbyState" << endl;
 				CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
+				lastClickedTime = 0;
 				return true;
 			}
 			else if (button->buttonClicked->getName() == "rightarrow")
@@ -323,12 +331,14 @@ bool CPlayGameState::Update(const double dElapsedTime)
 				if (soundController->GetMasterVolume() > 0.2)
 					soundController->MasterVolumeIncrease();
 				UpdateVolumeBar();
+				lastClickedTime = 0;
 			}
 			else if (button->buttonClicked->getName() == "leftarrow")
 			{
 				soundController->MasterVolumeDecrease();
 				soundController->MasterVolumeDecrease();
 				UpdateVolumeBar();
+				lastClickedTime = 0;
 			}
 		}
 	}
@@ -357,6 +367,10 @@ void CPlayGameState::Destroy(void)
 {
 	cout << "CPlayGameState::Destroy()\n" << endl;
 	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, false);
+	if (gameManager->getCurrAbility(1) != nullptr)
+		gameManager->getCurrAbility(1)->Reset();
+	if (gameManager->getCurrAbility(1) != nullptr)
+		gameManager->getCurrAbility(2)->Reset();
 	sceneManager->destroy();
 	dialogueManager->Exit();
 }

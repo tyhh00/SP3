@@ -204,7 +204,7 @@ void SceneGraveyard::Update(double dt)
 	if (input->IsKeyPressed('C'))
 	{
 		LoadBossScene();
-		story_state = CHURCH_INTRO;
+		story_state = CHURCH_DEFAULT;
 	}
 
 	goManager->Update(dt, &this->camera);
@@ -235,7 +235,7 @@ void SceneGraveyard::Update(double dt)
 			{
 				dialogueManager->AddDialogue(PLAYER, "??!! Who's there?", LEFT);
 				dialogueManager->AddDialogue(GATEKEEPER, "Oh. You must be the one who broke the space-time continuum and made boss angry", RIGHT, 3.0f);
-				dialogueManager->AddDialogue(GATEKEEPER, "That [inserts time machine part] inside the church belongs to you doesn't it", RIGHT, 3.0f);
+				dialogueManager->AddDialogue(GATEKEEPER, "That machinery part inside the church belongs to you doesn't it", RIGHT, 3.0f);
 				dialogueManager->AddDialogue(PLAYER, "!!!", LEFT);
 				dialogueManager->AddDialogue(GATEKEEPER, "Here's a pickaxe. bring me 5 skulls and 10 bones and I'll let you into the church.", RIGHT, 3.0f);
 				story_state = GY_GATEKEEPER_DIALOGUE;
@@ -253,16 +253,19 @@ void SceneGraveyard::Update(double dt)
 	case GY_GATEKEEPER2:
 		if (abs(gatekeeper->pos.x - player->pos.x) < 20)
 		{
-			if (gatekeeper->Interact() && input->IsKeyPressed('E'))
+			if (gatekeeper->Interact() && input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 			{
 				if (gatekeeper->CheckEntry())
 				{
-					dialogueManager->AddDialogue(GATEKEEPER, "You have been granted entry to the church.", RIGHT, 2.0f);
+					dialogueManager->AddDialogue(GATEKEEPER, "Did you bring the goods?", RIGHT, 2.0f);
+					dialogueManager->AddDialogue(PLAYER, "Here.");
+					dialogueManager->AddDialogue(GATEKEEPER, "Nice and ripe. Thanks.", RIGHT, 2.0f);
+					dialogueManager->AddDialogue(GATEKEEPER, "You can enter the church now.", RIGHT, 2.0f);
 					story_state = GY_GATEKEEPER2_DIALOGUE;
 				}
 				else
 				{
-					dialogueManager->AddDialogue(GATEKEEPER, "Didn't I say to bring me 5 skulls and 20 bones?", RIGHT, 2.0f);
+					dialogueManager->AddDialogue(GATEKEEPER, "Didn't I say to bring me 5 skulls and 10 bones?", RIGHT, 2.0f);
 				}
 			}
 		}
@@ -298,6 +301,8 @@ void SceneGraveyard::Update(double dt)
 			machinepart->active = true;
 			machinepart->pos = reaper->pos;
 			story_state = CHURCH_END;
+			dialogueManager->AddDialogue(GRIMREAPER, "Ugh.. it seems I have lost.", RIGHT);
+			dialogueManager->AddDialogue(GRIMREAPER, "Greedy humans.. You were never supposed to mess with the spacetime continuum, only disaster awaits you.", RIGHT);
 		}
 		break;
 	case CHURCH_END:
