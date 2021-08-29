@@ -72,6 +72,8 @@ bool CIntroState::Init(void)
 	soundController->LoadSound("Sounds\\Sound_Blackhole_Dead.wav", SOUND_TYPE::BLACKHOLE_DEAD, true);
 	soundController->LoadSound("Sounds\\Sound_Blackhole_Shoot.wav", SOUND_TYPE::BLACKHOLE_SHOOT, true);
 	soundController->LoadSound("Sounds\\Sound_Recall.wav", SOUND_TYPE::RECALL_USE, true);
+	soundController->LoadSound("Sounds\\Sound_Hurt.wav", SOUND_TYPE::HURT, true);
+	soundController->LoadSound("Sounds\\Sound_Portal.wav", SOUND_TYPE::PORTAL, true);
 	//Loopables
 	soundController->LoadSound("Sounds\\Sound_GameBG1.wav", SOUND_TYPE::BG_ARCADE, true, true);
 	soundController->LoadSound("Sounds\\Sound_GameBG2.wav", SOUND_TYPE::BG_ARCADE2, true, true);

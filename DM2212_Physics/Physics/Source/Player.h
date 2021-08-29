@@ -46,8 +46,7 @@ private:
 
 	Camera* cam;
 
-
-	bool isDashing = false;
+	float prevFrameHealth = 0;
 
 	float accel;
 	float speed_multiplier;
