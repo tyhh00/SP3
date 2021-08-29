@@ -40,9 +40,7 @@ protected:
 	bool showAbilityUI;
 	bool showSettingsUI;
 
-
 	bool selectedAbilities = false;
-	bool showEtoInteract = false;
 
 	Player* player;
 	GameObject* timeMachine, * abilityMachine, *settingMachine, * wizardMachine;

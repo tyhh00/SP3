@@ -127,6 +127,7 @@ void SceneJungle::Init()
 			campfire->active = true;
 			campfire->scale = go->scale;
 			campfire->pos = go->pos;
+			campfire->geoTypeID = GEOMETRY_TYPE::GEO_JUNGLE_CAMPFIRE;
 			campfire->physics = go->physics->Clone();
 			campfire->physics->SetInelasticity(0.99f);
 			campfire->physics->SetIsBouncable(false);
@@ -198,44 +199,21 @@ void SceneJungle::Init()
 
 void SceneJungle::Update(double dt)
 {
+	std::cout << player->pos << std::endl;
 	SceneBase::Update(dt);
 	inventory->Update(dt);
 	camera.Update(player->pos, dt);
 
+	//play dialogue
 	if (!playedDialogue)
 	{
+		player->physics->SetEnableUpdate(false);
 		dialogueManager->AddDialogue(PLAYER, "Wow, what a change in environment!", LEFT, 3.0f);
 		dialogueManager->AddDialogue(PLAYER, "Let's explore this jungle :D", LEFT, 3.0f);
 		playedDialogue = true;
 	}
-	if (input->IsKeyPressed('P'))
-	{
-		std::cout << "PRESSESD P" << std::endl;
-		//Apple* newApple = new Apple();
-		//inventory->AddItem(newApple);
-		//inventory.setmax(i_apple, 10);
-	}
-	if (input->IsKeyPressed('O'))
-	{
-		std::cout << "PRESSESD O" << std::endl;
-		//Cheese* newCheese = new Cheese();
-		//inventory->AddItem(newCheese);
-	}
-	if (input->IsKeyPressed('L'))
-	{
-		std::cout << "PRESSED L" << std::endl;
-		//Cheese* newCheese = new Cheese(2);
-		//inventory->AddItem(newCheese);
-	}
-
-	if(input->IsKeyPressed('9'))
-	{
-		m_speed = Math::Max(0.f, m_speed - 0.1f);
-	}
-	if(input->IsKeyPressed('0'))
-	{
-		m_speed += 0.1f;
-	}
+	else
+		player->physics->SetEnableUpdate(true);
 
 	goManager->Update(dt, &this->camera);
 

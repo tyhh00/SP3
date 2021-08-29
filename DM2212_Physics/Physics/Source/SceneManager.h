@@ -6,7 +6,6 @@
 #include "ScenePhysics.h"
 #include "SceneJungle.h"
 #include "LevelEditor.h"
-
 #include "SceneRobot.h"
 #include "SceneGraveyard.h"
 #include "SceneOcean.h"
@@ -26,18 +25,18 @@ class SceneManager : public CSingletonTemplate<SceneManager>
 {
 	friend CSingletonTemplate<SceneManager>;
 public:
-	int sceneNum; 
-	SceneBase* physics, *jungle, * graveyard, * levelEditor, * robot, *church, *ocean;
-	SceneBase* activeScene;
+	int sceneNum; //scene number
+	SceneBase* physics, *jungle, * graveyard, * levelEditor, * robot, *church, *ocean; //world pointers
+	SceneBase* activeScene; //active scene pointer
 
-	SceneManager();
-	~SceneManager();
+	SceneManager(); //constructor
+	~SceneManager(); //destructor
 
-	void init();
-	void setScene(worlds sceneType);
-	void resetScene();
-	SceneBase* getScene();
-	void update(double dt);
-	void render();
-	void destroy();
+	void init(); //initialiser
+	void setScene(worlds sceneType); //set scene to scene type chosen
+	void resetScene(); //resets scene
+	SceneBase* getScene(); //returns scene it currently points to
+	void update(double dt); //updates current scene it is pointing to
+	void render(); //renders current scene it is pointing to
+	void destroy(); //destroys current scene it is pointing to
 };

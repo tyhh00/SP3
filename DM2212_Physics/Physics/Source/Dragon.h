@@ -5,40 +5,40 @@
 #include "Physics.h"
 #include "Input.h"
 #include "Enemy.h"
-#include "Inventory.h"
-
+#include "GameObjectManager.h"
+//#include "Inventory.h"
 
 class Dragon : public Enemy {
 public:
 	Dragon();
 	~Dragon();
 
-	void Init(SceneBase* scene, GameObject* target, int numParts, GameObjectManager* goManager); // keep target only if you need to access player pos
-	void Update(double dt);
-	void Render(SceneBase* scene);
-	float convertidk(float pain);
+	void Init(SceneBase* scene, GameObject* target, int numParts, GameObjectManager* goManager); //init
+	void Update(double dt); //update
+	void Render(SceneBase* scene); //render
+	float convertidk(float pain); //update angle
 
 private:
 	enum ENEMY_STATE {
-		INACTIVE, // default state, not moving
 		SINCURVE,
-		ATTACK,
-		DEAD,
 		GSTATE_TOTAL
 	};
-
-	float activeRange;
-	
+	//ENEMY STATE
 	ENEMY_STATE state;
 
-	GameObject *player; // to keep track of player pos
+	//PLAYER
+	GameObject* player; 
 	
+	//DRAGON HEAD
 	GameObject* dragonHead;
 
-	Inventory* inventory;
+	//GAME OBJECT MANAGER
 	GameObjectManager* goM;
 
+	//DRAGON GO VECTOR LIST
 	std::vector<GameObject*> dragon;
+	
+	//VARIABLES
 	float angle; 
 	float curve;
 	double curveTimer;

@@ -32,33 +32,43 @@ public:
 
 protected:
 	enum STORY_STATE {
-		INTRO, // if got tutorial then let player pick up flashlight and learn to use it,, can run dialogues too if any
-		FINDWHALE, // wait for initial meeting w gatekeeper, add dialogue + give pickaxe
-		WHALE_TEXT,
-		GATEKEEPER2, // wait for church entry requirements
-		FIND_YH,
-		YH_TEXT,
-		OCEAN_END,
-
+		INTRO, // intro to the scene
+		FINDWHALE, // player interact with whale, whale ask for requirements
+		WHALE_TEXT, // if requirements are met, set state to FIND_YH. else, tell player requirements not met
+		FIND_YH, // player interact with yh, yh ask for bottle
+		YH_TEXT, // if bottle found, set state to OCEAN_END. else, tell player bottle not found
+		OCEAN_END, // sets gameWin to true
 		SS_TOTAL,
 	};
 
-	float m_speed;
-
+	//STORY STATE
+	STORY_STATE story_state;
+	
+	//PLAYER
 	Player* player;
+	
+	//INVENTORY
 	Inventory* inventory;
-
+	
+	//INPUT
 	Input* input;
+	
+	//GAME OBJECT MANAGER
 	GameObjectManager* goManager;
+	
+	//GAME MANAGER
 	GameManager* gameManager;
+	
+	//DIALOGUE MANAGER
 	DialogueManager* dialogueManager;
-
-	double gridLength, gridHeight;
-
+	
+	//NPCS
 	YongHong* yh;
 	Whale* whale;
 
-	STORY_STATE story_state;
+	//VARIABLES
+	double gridLength, gridHeight;
+	float m_speed;
 };
 
 #endif
