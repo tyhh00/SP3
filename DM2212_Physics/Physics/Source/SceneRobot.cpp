@@ -20,6 +20,8 @@
 #include "BlackHole.h"
 #include "PlasmaEngine.h"
 
+#include "Buttons/DialogueManager.h"
+
 SceneRobot::SceneRobot()
 {
 	goManager = new GameObjectManager();
@@ -172,6 +174,9 @@ void SceneRobot::Init()
 	gameManager->initAbilities(this, &camera, goManager, player);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 
+	
+	DialogueManager::GetInstance()->AddDialogue(PLAYER, "Wow, what a change in environment!", PERSONA_DISPLAY::LEFT, 3.0f);
+	DialogueManager::GetInstance()->AddDialogue(PLAYER, "Let's explore this jungle :D", PERSONA_DISPLAY::LEFT, 3.0f);
 }
 
 void SceneRobot::Update(double dt)
