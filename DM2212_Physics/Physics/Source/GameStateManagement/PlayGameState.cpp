@@ -319,7 +319,6 @@ bool CPlayGameState::Update(const double dElapsedTime)
 			else if (button->buttonClicked->getName() == "lobby")
 			{
 				// Load the menu state
-				sceneManager->resetScene();
 				cout << "Loading LobbyState" << endl;
 				CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
 				lastClickedTime = 0;
