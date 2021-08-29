@@ -531,6 +531,62 @@ void SceneLobby::Update(double dt)
 	// BUTTON COLLISION RESPONSE
 	for (auto& buttonCollide : buttonManager->getButtonsInteracted())
 	{
+		for (int i = 0; i < abilityUIButtons.size() - 1; i++) 
+		{
+			if (buttonCollide->buttonClicked->getName() == ("abilityDelete") && buttonCollide->justClicked)
+			{
+				selectedAbilities = false;
+				gameManager->removeAbility(1);
+				gameManager->removeAbility(2);
+				buttonManager->getButtonByName("abilitySelection1")->setOrigin(100, buttonCollide->buttonClicked->getOriginY());
+				buttonManager->getButtonByName("abilitySelection2")->setOrigin(100, buttonCollide->buttonClicked->getOriginY());
+			}
+			else if (buttonCollide->buttonClicked->getName() == ("abilitySlot" + std::to_string(i + 1)) && buttonCollide->justClicked)
+			{
+				int abilityNum = -1;
+				if (gameManager->getCurrAbility(1) == nullptr)
+				{
+					abilityNum = 1;
+					buttonManager->getButtonByName("abilitySelection1")->setOrigin(buttonCollide->buttonClicked->getOriginX(), buttonCollide->buttonClicked->getOriginY());
+				}
+				else if (gameManager->getCurrAbility(1) != nullptr && gameManager->getCurrAbility(2) == nullptr)
+				{
+					std::cout << gameManager->getCurrAbility(1)->GetAbilityType() << " " << i << std::endl;
+					if (gameManager->getCurrAbility(1)->GetAbilityType() != i)
+					{
+						selectedAbilities = true;
+						abilityNum = 2;
+						buttonManager->getButtonByName("abilitySelection2")->setOrigin(buttonCollide->buttonClicked->getOriginX(), buttonCollide->buttonClicked->getOriginY());
+					}
+				}
+			
+				if (abilityNum == -1)
+					continue;
+				
+				switch (i)
+				{
+				case 0:
+					gameManager->setAbility(abilityNum, ABILITY_GRAPPLER);
+					break;
+				case 1:
+					gameManager->setAbility(abilityNum, ABILITY_DASH);
+					break;
+				case 2:
+					gameManager->setAbility(abilityNum, ABILITY_PORTAL);
+					break;
+				case 3:
+					gameManager->setAbility(abilityNum, ABILITY_RECALL);
+					break;
+				case 4:
+					gameManager->setAbility(abilityNum, ABILITY_SLOWTIME);
+					break;
+				case 5:
+					gameManager->setAbility(abilityNum, ABILITY_BLACKHOLE);
+					break;
+				}
+			}
+		}
+	}
 		if (buttonCollide->justClicked)
 		{
 
