@@ -50,7 +50,7 @@ void Inventory::Init(SceneBase* scene)
 	emptyMesh->textureID = LoadTGA("Image/blackUI.tga");
 	selectedMesh = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 2.0f);
 	selectedMesh->textureID = LoadTGA("Image/blueUI.tga");
-	barMesh = MeshBuilder::GenerateQuad("button", Color(1, 1, 1), 2.0f);
+	barMesh = MeshBuilder::GenerateQuad("button", Color(1, 1, 0), 2.0f);
 
 	buttonManager = new ButtonManager(80, 60);
 

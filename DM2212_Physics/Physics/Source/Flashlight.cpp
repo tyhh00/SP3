@@ -14,6 +14,7 @@ Flashlight::Flashlight(Mesh* _mesh) : Weapon(I_FLASHLIGHT, mesh)
 	batt_usage_rate = 2.0f;
 	rate_multiplier = 1.0f;
 	mesh = _mesh;
+	isDurable = true;
 }
 
 Flashlight::~Flashlight()
@@ -22,7 +23,6 @@ Flashlight::~Flashlight()
 
 void Flashlight::Init()
 {
-
 }
 
 void Flashlight::Update(double dt)
