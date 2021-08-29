@@ -200,14 +200,17 @@ void SceneJungle::Update(double dt)
 	//play dialogue
 	if (!playedDialogue)
 	{
-		player->physics->SetEnableUpdate(false);
+		if (player->physics)
+			player->physics->SetEnableUpdate(false);
 		dialogueManager->AddDialogue(PLAYER, "Wow, what a change in environment!", LEFT, 3.0f);
 		dialogueManager->AddDialogue(PLAYER, "Let's explore this jungle :D", LEFT, 3.0f);
 		playedDialogue = true;
 	}
 	else
-		//player->physics->SetEnableUpdate(true);
-
+	{
+		if (player->physics)
+			player->physics->SetEnableUpdate(true);
+	}
 	goManager->Update(dt, &this->camera);
 
 	if (player->currentHP <= 0)
@@ -304,7 +307,7 @@ void SceneJungle::Exit()
 	//Cleanup GameObjects
 	goManager->Exit();
 	inventory->Clear();
-	CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_JUNGLE, 1, 0.5);
+	CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_JUNGLE);
 }
 
 void SceneJungle::InitLights()
