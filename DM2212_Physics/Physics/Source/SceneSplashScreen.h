@@ -27,8 +27,6 @@ protected:
 
 		AS_BRIGHTEN,
 		AS_WAIT,
-		AS_EVIL,
-		AS_INNOCENT,
 
 		ASTATE_TOTAL
 	};
