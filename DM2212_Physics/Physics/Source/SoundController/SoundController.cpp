@@ -113,6 +113,8 @@ bool CSoundController::StopPlayingSoundByID(const int ID)
 	CSoundInfo* pSoundInfo = GetSound(ID);
 	if (cSoundEngine->isCurrentlyPlaying(pSoundInfo->GetSound()))
 	{
+		//activeSound[ID]->stop();
+		//activeSound[ID]->drop();
 		cSoundEngine->stopAllSoundsOfSoundSource(pSoundInfo->GetSound());
 		return true;
 	}
@@ -168,7 +170,7 @@ void CSoundController::FadeUpdater(double dt)
 			if ((cSoundEngine->isCurrentlyPlaying(pSoundInfo->GetSound())))
 			{
 				this->VolumeDecrease(i, fadeOut[i]->magnitudePerSecond * dt);
-				if (GetSound(i)->GetSound()->getDefaultVolume() <= 0.0f)
+				if (activeSound[i]->getVolume() <= 0.0f)
 				{
 					this->StopPlayingSoundByID(i);
 					delete fadeOut[i];
@@ -214,7 +216,7 @@ void CSoundController::PlaySoundByID(const int ID)
 	}
 	else if (cSoundEngine->isCurrentlyPlaying(pSoundInfo->GetSound()))
 	{
-		//cout << "Sound #" << ID << " is currently being played." << endl;
+		cout << "Sound #" << ID << " is currently being played." << endl;
 		return;
 	}
 
@@ -237,7 +239,6 @@ float& CSoundController::GetMasterVolume()
 	float f = cSoundEngine->getSoundVolume();
 	return f;
 }
-
 
 void CSoundController::SetMasterVolume(float v)
 {
