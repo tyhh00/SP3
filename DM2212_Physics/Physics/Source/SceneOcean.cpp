@@ -6,7 +6,6 @@
 #include <sstream>
 #include "LevelLoader.h"
 #include "Utility.h"
-
 #include "Debug.h"
 
 //Entity Includes
@@ -179,6 +178,9 @@ void SceneOcean::Init()
 
 	// STORYSTATE INIT
 	story_state = INTRO;
+
+	// SOUND
+	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_OCEAN);
 }
 
 void SceneOcean::Update(double dt)
@@ -417,12 +419,10 @@ void SceneOcean::Render()
 		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightPosition_cameraspace.x);
 	}
 
-
 	if (inventory->GetCurrentItem())
 	{
 		std::stringstream ss;
 		ss << "curr item: " << inventory->GetCurrentItemType();
-
 		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1.0f, 1.0f, 1.0f), 4, 10, 10);
 	}
 
@@ -434,14 +434,17 @@ void SceneOcean::Render()
 	modelStack.Scale(m_screenWidth, m_screenHeight, 1);
 	RenderMesh(meshList[GEO_BG], true);
 	modelStack.PopMatrix();
-
 	goManager->Render(this);
 }
 
 void SceneOcean::Exit()
 {
+	//Cleanup sound
+	CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_OCEAN, 1, 0.5);
+	//Cleanup scenebase
 	SceneBase::Exit();
 	//Cleanup GameObjects
 	goManager->Exit();
+	//Cleanup inventory
 	inventory->Clear();
 }

@@ -5,6 +5,7 @@
 #include "SpriteAnimation.h"
 #include "Physics.h"
 #include "Lightning.h"
+#include "../Source/SoundController/SoundController.h"
 
 class ThunderBlock : public GameObject {
 public:
@@ -49,6 +50,7 @@ public:
 		lightning->AddToResponseWhitelist(GO_PLAYER);
 		lightning->AddToResponseWhitelist(GO_ENEMY);
 		goM->AddGO(lightning);
+		CSoundController::GetInstance()->PlaySoundByID(THUNDER); //crab attack sound
 	};
 
 private:

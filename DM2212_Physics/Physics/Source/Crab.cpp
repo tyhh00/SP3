@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
+#include "../Source/SoundController/SoundController.h"
 
 Crab::Crab() : Enemy(OCEAN_CRAB)
 {
@@ -87,6 +88,7 @@ void Crab::Update(double dt)
 		}
 		break;
 	case WLAR: 
+		CSoundController::GetInstance()->PlaySoundByID(CRABWALK); //crab attack sound
 		if (mType == LAR)
 		{
 			if (crabTimer <= 0) //changes back to idle state after 3 seconds
@@ -139,6 +141,7 @@ void Crab::Update(double dt)
 					{
 						player->currentHP -= 5;
 						timeout = 0.8;
+						CSoundController::GetInstance()->PlaySoundByID(CRABATTACK); //crab attack sound
 					}
 				}
 				else
@@ -149,6 +152,7 @@ void Crab::Update(double dt)
 					{
 						player->currentHP -= 5;
 						timeout = 0.8;
+						CSoundController::GetInstance()->PlaySoundByID(CRABATTACK); //crab attack sound
 					}
 				}
 			}

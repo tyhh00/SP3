@@ -2,6 +2,7 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 #include "Trident.h"
+#include "../Source/SoundController/SoundController.h"
 
 //TRIDENT FUNCTIONS
 Trident::Trident() : Weapon(I_TRIDENT)
@@ -33,6 +34,7 @@ void Trident::Update(double dt)
 	}
 	if (input->IsMouseReleased(0) && tridentGO == nullptr)
 	{
+		CSoundController::GetInstance()->PlaySoundByID(TRIDENT);
 		tridentGO = new TridentGO;
 		tridentGO->Init();
 		tridentGO->pos = player->pos;
