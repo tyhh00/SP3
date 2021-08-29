@@ -268,7 +268,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 			buttonManager->activateButton("highlight");
 			buttonHighlight->setOrigin(button->buttonClicked->getOriginX(), button->buttonClicked->getOriginY());
 		}
-		if (button->justClicked && lastClickedTime > 0.2)
+		if (button->justClicked && lastClickedTime > 0.5)
 		{
 			if (button->buttonClicked->getName() == "resume")
 			{
