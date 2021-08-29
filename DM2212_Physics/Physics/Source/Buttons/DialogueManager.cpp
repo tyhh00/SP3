@@ -12,8 +12,11 @@ DialogueManager::DialogueManager() : dialogueBG_left(NULL)
 	dialogueBG_left->textureID = LoadTGA("Image/DialogueBoxRight.tga");
 	dialogueBG_right = MeshBuilder::GenerateQuad("dialogue box bg", Color(1, 1, 1), 1.0f);
 	dialogueBG_right->textureID = LoadTGA("Image/DialogueBoxLeft.tga");
+	personaMesh[NONE] = nullptr;
 	personaMesh[PLAYER] = MeshBuilder::GenerateQuad("Player Icon", Color(1, 1, 1), 1.0f);
 	personaMesh[PLAYER]->textureID = LoadTGA("Image/PlayerIcon.tga");
+	personaMesh[ROBERTIA] = MeshBuilder::GenerateQuad("Player Copy Icon", Color(1, 1, 1), 1.0f);
+	personaMesh[ROBERTIA]->textureID = LoadTGA("Image/RobertiaIcon.tga");
 	personaMesh[GATEKEEPER] = MeshBuilder::GenerateQuad("Gatekeeper Icon", Color(1, 1, 1), 1.0f);
 	personaMesh[GATEKEEPER]->textureID = LoadTGA("Image/GatekeeperIcon.tga");
 	personaMesh[GRIMREAPER] = MeshBuilder::GenerateQuad("Grim Reaper Icon", Color(1, 1, 1), 1.0f);
@@ -22,6 +25,8 @@ DialogueManager::DialogueManager() : dialogueBG_left(NULL)
 	personaMesh[WHALE]->textureID = LoadTGA("Image/whaleIcon.tga");
 	personaMesh[YH] = MeshBuilder::GenerateQuad("yh Icon", Color(1, 1, 1), 1.0f);
 	personaMesh[YH]->textureID = LoadTGA("Image/Tiles/OCEAN_yh.tga");
+	personaMesh[ROBERT] = MeshBuilder::GenerateQuad("Robert Icon", Color(1, 1, 1), 1.0f);
+	personaMesh[ROBERT]->textureID = LoadTGA("Image/RobertIcon.tga");
 }
 
 DialogueManager::~DialogueManager() {
@@ -74,21 +79,26 @@ void DialogueManager::Render(SceneBase* scene)
 {
 	if (dialogueList.size() > 0)
 	{
-		
+
 		Dialogue* dialogue = dialogueList.front();
 		// Persona Icon
+
+
 		if (dialogue->displayPos == LEFT)
 		{
 			// Dialogue Box BG
 			scene->RenderMeshOnScreen(dialogueBG_left, 40, 12, 60, 20);
-			scene->RenderMeshOnScreen(dialogue->personaIcon, 10, 15, 20, 30, 0.9f);
+			if (dialogue->personaIcon != nullptr)
+				scene->RenderMeshOnScreen(dialogue->personaIcon, 10, 15, 20, 30, 0.9f);
 		}
 		else
 		{
 			// Dialogue Box BG
 			scene->RenderMeshOnScreen(dialogueBG_right, 40, 12, 60, 20);
-			scene->RenderMeshOnScreen(dialogue->personaIcon, 70, 15, 20, 30, 0.9f);
+			if (dialogue->personaIcon != nullptr)
+				scene->RenderMeshOnScreen(dialogue->personaIcon, 70, 15, 20, 30, 0.9f);
 		}
+
 		// Text Dialogue
 		scene->RenderTextOnScreen(scene->GetMesh(SceneBase::GEO_TEXT), dialogue->text, Color(1.0f, 1.0f, 1.0f), 2, 25, 12, 50, Text::getFont(CALIBRI)->textWidth, 256);
 	}

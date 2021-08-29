@@ -156,6 +156,18 @@ void SceneGraveyard::Init()
 			pickaxe = go;
 			pickaxe->active = false;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_COIN)
+		{
+			Coin* coin = new Coin(1);
+			coin->active = true;
+			coin->scale = go->scale * 0.85;
+			coin->pos = go->pos;
+			coin->physics = go->physics->Clone();
+			coin->Init();
+			goManager->AddGO(coin);
+			delete go;
+			go = nullptr;
+		}
 		
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
@@ -300,6 +312,7 @@ void SceneGraveyard::Update(double dt)
 		{
 			machinepart->active = true;
 			machinepart->pos = reaper->pos;
+			machinepart->pos.z = 0.1;
 			story_state = CHURCH_END;
 			dialogueManager->AddDialogue(GRIMREAPER, "Ugh.. it seems I have lost.", RIGHT);
 			dialogueManager->AddDialogue(GRIMREAPER, "Greedy humans.. You were never supposed to mess with the spacetime continuum, only disaster awaits you.", RIGHT);

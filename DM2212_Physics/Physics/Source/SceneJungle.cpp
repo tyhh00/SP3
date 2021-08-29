@@ -197,11 +197,11 @@ void SceneJungle::Init()
 	gameManager->initAbilities(this, &camera, goManager, player);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 	CSoundController::GetInstance()->PlaySoundByID(SOUND_TYPE::BG_JUNGLE);
+	std::cout << "PLaying sound" << std::endl;
 }
 
 void SceneJungle::Update(double dt)
 {
-	std::cout << player->pos << std::endl;
 	SceneBase::Update(dt);
 	inventory->Update(dt);
 	camera.Update(player->pos, dt);

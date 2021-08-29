@@ -6,7 +6,10 @@
 #include <string>
 
 enum PERSONA {
+	NONE,
 	PLAYER,
+	ROBERTIA,
+	ROBERT,
 	GATEKEEPER,
 	GRIMREAPER,
 	WHALE,
