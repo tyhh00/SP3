@@ -38,6 +38,7 @@ void Trident::Update(double dt)
 		tridentGO = new TridentGO;
 		tridentGO->Init();
 		tridentGO->pos = *playerPos;
+		tridentGO->physics->pos = *playerPos;
 		tridentGO->scale.Set(5, 5, 5);
 		Vector3 mousePos(mouseposx, mouseposy, 0);
 		Vector3 vel = mouseDownPos - mousePos;

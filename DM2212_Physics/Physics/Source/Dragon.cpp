@@ -146,7 +146,6 @@ void Dragon::Update(double dt)
 						player->currentHP -= 5;
 						timeout = 2;
 					}
-					std::cout << player->currentHP << std::endl;
 				}
 			}
 		//5	dragon.at(i)->physics->SetVelocity(Vector3(-dt, dragon.at(i)->physics->GetVelocity().y, dragon.at(i)->physics->GetVelocity().z));
@@ -154,6 +153,9 @@ void Dragon::Update(double dt)
 		break;
 	}
 
+	this->pos = dragonHead->pos;
+	this->physics->pos = dragonHead->physics->pos;
+	std::cout << "dragonPos: " << this->pos << std::endl;
 
 	for (int i = 1; i < dragon.size(); i++)
 	{
@@ -161,7 +163,6 @@ void Dragon::Update(double dt)
 		dragon.at(i)->pos = dragon.at(i - 1)->pos + Vector3(dragon.at(i - 1)->scale.x * -2 * cos(Math::DegreeToRadian( 0.5 * angle)),
 			dragon.at(i - 1)->scale.x * -2 * sin(Math::DegreeToRadian(0.5 * angle)), 0);
 	}
-
 }
 
 void Dragon::Render(SceneBase* scene)

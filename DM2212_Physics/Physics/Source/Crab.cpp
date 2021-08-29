@@ -35,7 +35,7 @@ void Crab::Init(GameObject* target, MOVEMENT_TYPE type)
 
 	physics->SetMovable(true);
 
-	animatedSprites = MeshBuilder::GenerateSpriteAnimation(8, 7, 2.0f, 2.0f);
+	animatedSprites = MeshBuilder::GenerateSpriteAnimation(10, 6, 2.0f, 2.0f);
 
 	animatedSprites->AddAnimation("attackRight", 0, 8);
 	animatedSprites->AddAnimation("deathRight", 8, 16);
