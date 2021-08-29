@@ -211,7 +211,6 @@ void SceneJungle::Update(double dt)
 		if (player->physics)
 			player->physics->SetEnableUpdate(true);
 	}
-
 	goManager->Update(dt, &this->camera);
 
 	if (player->currentHP <= 0)
