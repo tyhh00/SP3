@@ -236,9 +236,6 @@
     <ClCompile Include="Source\Buttons\ButtonFactory.cpp">
       <Filter>Source Files\Buttons</Filter>
     </ClCompile>
-    <ClCompile Include="Source\LobbyPortal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SceneMainMenu.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>

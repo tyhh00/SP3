@@ -12,30 +12,32 @@
 class YongHong : public GameObject {
 public:
 
-	YongHong()
+	YongHong() //constructor
 	{
+		//MESH
 		mesh = MeshBuilder::GenerateQuad("YongHong", Color(1, 1, 1), 2.0f);
 		mesh->textureID = LoadTGA("Image/Tiles/OCEAN_yh.tga");
 	}
-	~YongHong()
+	~YongHong() //destructor
 	{
 	}
 
-	void Init(Inventory* inventory)
+	void Init(Inventory* inventory)//init
 	{
+		//INPUT
 		input = Input::GetInstance();
 
+		//INVENTORY
 		this->inventory = inventory;
 	}
-	void Update(double dt)
+	void Update(double dt) //update
 	{
 	}
-	bool Interact()
+	bool Interact() //interact
 	{
 		return true;
 	}
-
-	bool CheckEntry()
+	bool CheckEntry() //check requirements for bottle
 	{
 		Item* bottle = inventory->GetItem(Item::I_BOTTLE);
 		if (bottle != nullptr)
@@ -45,14 +47,15 @@ public:
 				return true;
 			}
 		}
-		std::cout << "YongHong.h : CHECKING FOR BOTTLE" << std::endl;
 		return false;
 	}
 
 
 private:
-	
+	//INPUT
 	Input* input;
+
+	//INVENTORY
 	Inventory* inventory;
 };
 

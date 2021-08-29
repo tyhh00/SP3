@@ -8,7 +8,6 @@
 #include "SceneBase.h"
 #include "Camera.h"
 
-
 class GameObjectManager
 {
 

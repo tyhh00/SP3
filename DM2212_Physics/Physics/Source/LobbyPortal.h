@@ -29,18 +29,28 @@ enum PortalState {
 class LobbyPortal : public GameObject {
 	
 private:
+	//PORTAL STATE
+	PortalState state; 
+
+	//SPRITE ANIMATOR
 	SpriteAnimation* LobbyPortalSprite;
-	double animTimer;
-	PortalState state;
+
+	//VARIABLE
+	double animTimer; //animation timer
+	
 public:
 
-	LobbyPortal::~LobbyPortal()
+	LobbyPortal::~LobbyPortal() //deconstructor
 	{
 		delete LobbyPortalSprite;
 		LobbyPortalSprite = NULL;
-	}
-	void Init(LobbyColor color) {
+	} 
+	void Init(LobbyColor color) //init
+	{
+		//STATE
 		state = idleState;
+
+		//CHECK PORTAL COLOR
 		if (color == red)
 		{
 			LobbyPortalSprite = MeshBuilder::GenerateSpriteAnimation(5, 5, 2.0f, 2.0f);
@@ -50,7 +60,6 @@ public:
 			LobbyPortalSprite->AddAnimation("closing", array, 17);
 			LobbyPortalSprite->AddAnimation("active", 17, 22);
 			LobbyPortalSprite->textureID = LoadTGA("Image/portal_graveyard.tga");
-			//LobbyPortalSprite->PlayAnimation("idle", 0, 1.0f);
 		}
 		if (color == green)
 		{
@@ -61,7 +70,6 @@ public:
 			LobbyPortalSprite->AddAnimation("closing", array, 17);
 			LobbyPortalSprite->AddAnimation("active", 17, 22);
 			LobbyPortalSprite->textureID = LoadTGA("Image/portal_jungle.tga");
-			//LobbyPortalSprite->PlayAnimation("idle", -1, 1.0f);
 		}
 		if (color == blue)
 		{
@@ -72,7 +80,6 @@ public:
 			LobbyPortalSprite->AddAnimation("closing", array, 17);
 			LobbyPortalSprite->AddAnimation("active", 17, 22);
 			LobbyPortalSprite->textureID = LoadTGA("Image/portal_ocean.tga");
-			//LobbyPortalSprite->PlayAnimation("idle", -1, 1.0f);
 		}
 		if (color == purple)
 		{
@@ -83,16 +90,17 @@ public:
 			LobbyPortalSprite->AddAnimation("closing", array, 17);
 			LobbyPortalSprite->AddAnimation("active", 17, 22);
 			LobbyPortalSprite->textureID = LoadTGA("Image/portal_robot.tga");
-			//LobbyPortalSprite->PlayAnimation("idle", -1, 1.0f);
 		}
 
+		//MESH
 		mesh = LobbyPortalSprite;
 	}
 	void Update(double dt) 
 	{
+		//UPDATE
 		LobbyPortalSprite->Update(dt);
 
-		
+		//SWITCH STATE
 		switch (state)
 		{
 		case idleState:
@@ -102,7 +110,6 @@ public:
 		}
 		case openingState:
 		{
-			//LobbyPortalSprite->PlayAnimation("opening", 0, 1.0f);
 			if (animTimer > 0)
 			{
 				animTimer -= dt;
@@ -120,7 +127,6 @@ public:
 		}
 		case closingState:
 		{
-			//LobbyPortalSprite->PlayAnimation("closing", 0, 1.0f);
 			if (animTimer > 0)
 			{
 				animTimer -= dt;
@@ -132,9 +138,9 @@ public:
 			break;
 		}
 		}
-
 	}
-	void Open() {
+	void Open() //portal open animation function
+	{
 		if (state == idleState)
 		{
 			state = openingState;
@@ -143,7 +149,8 @@ public:
 			animTimer = 1.0;
 		}
 	}
-	void Close() {
+	void Close() //portal close animation function
+	{
 		if (state == activeState)
 		{
 			state = closingState;
@@ -152,7 +159,8 @@ public:
 			animTimer = 1.0;
 		}
 	}
-	void PlayAnimation(std::string anim_name, int repeat, double anim_time) {
+	void PlayAnimation(std::string anim_name, int repeat, double anim_time) //portal play animation function
+	{
 		LobbyPortalSprite->PlayAnimation(anim_name, repeat, anim_time);
 	}
 };

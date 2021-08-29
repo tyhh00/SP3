@@ -185,7 +185,6 @@
     <ClCompile Include="Source\Grappling.cpp" />
     <ClCompile Include="Source\GrimReaper.cpp" />
     <ClCompile Include="Source\Buttons\ButtonFactory.cpp" />
-    <ClCompile Include="Source\LobbyPortal.cpp" />
     <ClCompile Include="Source\Monkey.cpp" />
     <ClCompile Include="Source\Pickaxe.cpp" />
     <ClCompile Include="Source\PlasmaBullet.cpp" />
