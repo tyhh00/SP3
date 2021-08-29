@@ -9,6 +9,9 @@ Q - Use Ability 1
 Z - Use Ability 2
 TAB - Toggle Inventory (OPEN/CLOSE)
 ESC - Pause, Return to Main Menu
+
+//HIDDEN CONTROLS:
+Go to Uppermost Left of Lobby Scene, Interact with wizard that will pop up - Interact to open up Level Editor
 --------------------------------------->
 //SCENES:
 
