@@ -593,7 +593,6 @@ void SceneLobby::Update(double dt)
 					}
 					else if (gameManager->getCurrAbility(1) != nullptr && gameManager->getCurrAbility(2) == nullptr)
 					{
-						std::cout << gameManager->getCurrAbility(1)->GetAbilityType() << " " << i << std::endl;
 						if (gameManager->getCurrAbility(1)->GetAbilityType() != i)
 						{
 							selectedAbilities = true;
