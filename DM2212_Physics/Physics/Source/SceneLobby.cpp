@@ -841,24 +841,7 @@ void SceneLobby::Render()
 	buttonManager->Render(this);
 	dialogueManager->Render(this);
 
-	std::ostringstream ss;
-	//ss.str("");
-	//ss << "LIGHT COLOR: " << Vector3(lights[0].color.r, lights[0].color.g, lights[0].color.b);
-	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
-	/*ss.str("");
-	ss << "player vel: " << player->physics->GetVelocity();
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);*/
-	/*ss.str("");
-	ss << "camera pos: " << camera.position;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 0, 12);*/
-
-
-
-	// fps tings
-	ss.str("");
-	ss.precision(5);
-	ss << "FPS: " << fps;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 0, 2);
+	
 }
 
 void SceneLobby::InitLights()
@@ -950,5 +933,6 @@ void SceneLobby::Exit()
 		buttonManager->deleteButton(settingsUIButtons[i]);
 	}
 	settingsUIButtons.clear();
+
 	CSoundController::GetInstance()->StopPlayingSoundByID(SOUND_TYPE::BG_LOBBY, 1, 0.5);
 }

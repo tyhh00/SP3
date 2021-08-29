@@ -310,9 +310,6 @@ void SceneOcean::Update(double dt)
 		break;
 	}
 
-	//Lights update when slowtime ability used
-	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
-
 }
 
 //Initialise Lights

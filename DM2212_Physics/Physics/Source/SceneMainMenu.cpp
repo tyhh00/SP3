@@ -13,7 +13,6 @@
 
 SceneMainMenu::SceneMainMenu() : buttonManager(NULL)
 	, PlayButtonMesh(NULL)
-//	, CreditsButtonMesh(NULL)
 	, QuitButtonMesh(NULL)
 	, title(NULL)
 	, background(NULL)
@@ -56,15 +55,11 @@ void SceneMainMenu::Init()
 
 	PlayButtonMesh = MeshBuilder::GenerateQuad("Play button", Color(1, 1, 1), 1.0f);
 	PlayButtonMesh->textureID = LoadTGA("Image/PlayButton.tga");
-//	CreditsButtonMesh = MeshBuilder::GenerateQuad("Credits button", Color(1, 1, 1), 1.0f);
-//	CreditsButtonMesh->textureID = LoadTGA("Image/CreditsButton.tga");
 	QuitButtonMesh = MeshBuilder::GenerateQuad("Quit button", Color(1, 1, 1), 1.0f);
 	QuitButtonMesh->textureID = LoadTGA("Image/QuitButton.tga");
 
 	Button* playButton = ButtonFactory::createNoTextButton("play", 40, 20, 12, 6, PlayButtonMesh);
 	buttonManager->addButton(playButton);
-//	Button* creditsButton = ButtonFactory::createNoTextButton("credits", 40, 17, 12, 6, CreditsButtonMesh);
-//	buttonManager->addButton(creditsButton);
 	Button* quitButton = ButtonFactory::createNoTextButton("quit", 40, 12, 12, 6, QuitButtonMesh);
 	buttonManager->addButton(quitButton);
 	buttonHighlight = ButtonFactory::createNoTextButton("highlight", 40, 30,
@@ -101,10 +96,6 @@ void SceneMainMenu::Update(double dt)
 			{
 				CGameStateManager::GetInstance()->SetActiveGameState("LobbyState");
 			}
-			//else if (button->buttonClicked->getName() == "credits")
-			//{
-			//	//...
-			//}
 			else if (button->buttonClicked->getName() == "quit")
 			{
 				Application::quit = true;
@@ -214,16 +205,6 @@ void SceneMainMenu::Render()
 	modelStack.PopMatrix();
 
 	buttonManager->Render(this);
-
-	std::ostringstream ss;
-
-	// fps tings
-	ss.str("");
-	ss.precision(5);
-	ss << "FPS: " << fps;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 0, 3);
-
-	RenderTextOnScreen(meshList[GEO_TEXT], "Main Menu", Color(1, 1, 1), 2, 0, 0);
 }
 
 void SceneMainMenu::Exit()
@@ -234,11 +215,6 @@ void SceneMainMenu::Exit()
 		delete PlayButtonMesh;
 		PlayButtonMesh = NULL;
 	}
-	/*if (CreditsButtonMesh)
-	{
-		delete CreditsButtonMesh;
-		CreditsButtonMesh = NULL;
-	}*/
 	if (QuitButtonMesh)
 	{
 		delete QuitButtonMesh;

@@ -196,18 +196,6 @@ void SceneRobot::Update(double dt)
 		DialogueManager::GetInstance()->AddDialogue(PLAYER, "another type II civilization,, this can't be good..", PERSONA_DISPLAY::LEFT, 3.0f);
 	}
 
-	// Updating of light things
-	lights[0].position.Set(player->pos.x, player->pos.y, player->pos.z + 10);
-	double mouseposx, mouseposy;
-	CursorToWorldPosition(mouseposx, mouseposy);
-	lights[1].position.Set(mouseposx, mouseposy, 10);
-
-	
-	if (input->IsMousePressed(0))
-	{
-		// flashlgiht power/exponent
-	}
-
 	if(input->IsKeyPressed('9'))
 	{
 		m_speed = Math::Max(0.f, m_speed - 0.1f);
@@ -215,17 +203,6 @@ void SceneRobot::Update(double dt)
 	if(input->IsKeyPressed('0'))
 	{
 		m_speed += 0.1f;
-	}
-
-	if (input->IsKeyReleased('F'))
-	{
-		//spawner->SpawnBullet(player->pos, player->physics->GetNormal(), player->physics->GetNormal());
-		/*PlasmaBullet* bul = new PlasmaBullet(Vector3(2, 2, 2), player);
-		bul->physics->SetVelocity(player->physics->GetNormal() * 12);
-		bul->physics->SetNormal(player->physics->GetNormal());
-		bul->pos = player->pos;
-		bul->pos.z += 1;
-		goManager->AddGO(bul);*/
 	}
 	
 	goManager->Update(dt, &this->camera);
@@ -317,28 +294,6 @@ void SceneRobot::Render()
 	modelStack.PopMatrix();
 
 	goManager->Render(this);
-
-
-	std::ostringstream ss;
-	/*ss.str("");
-	ss << "LIGHT COLOR: " << Vector3(lights[0].color.r, lights[0].color.g, lights[0].color.b);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 6);
-	ss.str("");
-	ss << "player pos: " << player->pos;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);
-	ss.str("");
-	ss << "camera pos: " << camera.position;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);*/
-
-
-
-	// fps tings
-	ss.str("");
-	ss.precision(5);
-	ss << "FPS: " << fps;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 3);
-
-	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(1, 1, 1), 3, 0, 0);
 }
 
 void SceneRobot::InitLights()

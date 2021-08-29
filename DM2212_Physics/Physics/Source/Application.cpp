@@ -115,8 +115,8 @@ void Application::Init()
 	//Create a window and create its OpenGL context
 	m_width = 1600;
 	m_height = 900;
-//	m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
-	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
+	m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
+//	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
 
 	//GLFWimage icon[1];
 	//icon[0].pixels = stbi_load("../App/Image/fasticon.png", &icon[0].width, &icon[0].height, 0, 4);

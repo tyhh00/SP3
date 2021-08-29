@@ -161,6 +161,7 @@ void Player::Update(double dt)
 		}
 	}
 
+	// Limit Player Vel
 	curr_max_vel = Math::Clamp(curr_max_vel, MAX_VEL, 100.f);
 	physics->SetVelocity(Vector3(Math::Clamp(physics->GetVelocity().x, -curr_max_vel, curr_max_vel), physics->GetVelocity().y, physics->GetVelocity().z));
 
@@ -170,7 +171,7 @@ void Player::Update(double dt)
 
 void Player::UpdateMovement(double dt)
 {
-	if (mode == WASD)
+	if (mode == WASD) // TOP DOWN, screw accel, no friction, no gravity, just uses vel
 	{
 		float speed = 20.f;
 		if (input->IsKeyDown('A'))
@@ -198,11 +199,12 @@ void Player::UpdateMovement(double dt)
 		}
 
 	}
-	else if (mode == PLATFORMER)
+	else if (mode == PLATFORMER) // uses accel, friction, vel, gravity, etc
 	{
 		Vector3 leftAccel(-accel * speed_multiplier, 0, 0);
 		Vector3 rightAccel(accel * speed_multiplier, 0, 0);
 
+		// CHECK FOR SPRINT
 		speed_multiplier = 1.0f;
 		stamina_rate_multiplier = 0.0f;
 		curr_max_vel = MAX_VEL;
@@ -214,6 +216,7 @@ void Player::UpdateMovement(double dt)
 			staminaCD = 0.65;
 		}
 
+		// LEFT AND RIGHT
 		if (input->IsKeyDown('A'))
 		{
 			dashDir = -1;
@@ -238,6 +241,7 @@ void Player::UpdateMovement(double dt)
 			physics->AddVelocity(Vector3(0, accel_amt, 0));
 		}
 
+		// UPDATE STAMINA
 		staminaCD -= dt;
 
 		if (stamina < max_stamina && staminaCD <= 0.0)
@@ -283,12 +287,6 @@ void Player::Render(SceneBase* scene)
 		scene->modelStack.PopMatrix();
 	}
 	
-	// Render Stamina Bar??
-	/*ProgressBar stamina_bar(staminaBar, 40, 5, 15.f, 1.f);
-	stamina_bar.RenderHorizontal(scene, stamina, max_stamina);*/
-
-
-	//UIManager::GetInstance()->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, true);
 	//This is initialised in UIManager
 	ProgressBar* pHealthBar = dynamic_cast<ProgressBar*>(
 		UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("playerhealth")
@@ -299,24 +297,11 @@ void Player::Render(SceneBase* scene)
 		UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("staminabar")
 		);
 	pStaminaBar->SetProgress(stamina / max_stamina);
-
-	//// hp
-	//float HPscale = 2;
-	//for (int i = 0; i < lives; i++)
-	//{
-	//	scene->modelStack.PushMatrix();
-	//	scene->RenderMeshOnScreen(livesIcon, HPscale * 0.5 + i * HPscale, 60 - HPscale * 0.5, HPscale, HPscale);
-	//	scene->modelStack.PopMatrix();
-	//}
-	
 }
 
 void Player::CollidedWith(GameObject* go)
 {
-	if (go->type == GO_ENEMY)
-	{
-	}
-
+	// INTERACTION W MAP
 	switch (go->geoTypeID)
 	{
 	case SceneBase::GEO_COIN:
