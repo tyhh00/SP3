@@ -38,27 +38,33 @@ protected:
 
 	bool showMachinePartsUI;
 	bool showAbilityUI;
+	bool showSettingsUI;
+
 
 	bool selectedAbilities = false;
 	bool showEtoInteract = false;
 
 	Player* player;
-	GameObject* timeMachine, * abilityMachine;
+	GameObject* timeMachine, * abilityMachine, *settingMachine;
 	LobbyPortal* portal_graveyard, *portal_jungle, *portal_ocean, *portal_robot;
 
 	Mesh* machinePartsUIBG, * machinePartsSlot;
 	std::vector<Button*> machinePartsUIButtons;
-	ButtonManager* buttonManager;
 
 	Mesh* abilityUIBG, * grapplingAbilityUI, * dashAbilityUI, * portalAbilityUI, * recallAbilityUI, * slowTimeAbilityUI, * blackHoleAbilityUI;
 	Mesh* ability1, * ability2, *clearAbility;
 	std::vector<Button*> abilityUIButtons;
+
+	Mesh* settingsBG;
+	Button* settingsSelectedButton;
+	std::vector<Button*> settingsUIButtons;
 
 	Input* input;
 	Inventory* inventory;
 	GameObjectManager* goManager;
 	DialogueManager* dialogueManager;
 	GameManager* gameManager;
+	ButtonManager* buttonManager;
 
 	double gridLength, gridHeight;
 	void CursorToWorldPosition(double& theX, double& theY);

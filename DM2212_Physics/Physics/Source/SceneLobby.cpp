@@ -24,6 +24,8 @@ SceneLobby::SceneLobby()
 
 	machinePartsUIBG = MeshBuilder::GenerateQuad("Machine Parts Display BG", Color(1, 1, 1), 1.0f);
 	machinePartsUIBG->textureID = LoadTGA("Image/TimeMachineBG.tga");
+	settingsBG = MeshBuilder::GenerateQuad("Settings BG", Color(1, 1, 1), 1.0f);
+	settingsBG->textureID = LoadTGA("Image/TimeMachineBG.tga");
 	machinePartsSlot = MeshBuilder::GenerateQuad("Machine Parts Slots", Color(1, 1, 1), 1.0f);
 	machinePartsSlot->textureID = LoadTGA("Image/TimeMachinePartsSlot.tga");
 
@@ -122,6 +124,11 @@ SceneLobby::~SceneLobby()
 		delete clearAbility;
 		clearAbility = NULL;
 	}
+	if (settingsBG)
+	{
+		delete settingsBG;
+		settingsBG = NULL;
+	}
 }
 
 void SceneLobby::Init()
@@ -149,14 +156,13 @@ void SceneLobby::Init()
 	// Inventory 
 	inventory->Init(this);
 
-	showAbilityUI = false;
 	
 	// Unique Meshes
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BG]->textureID = LoadTGA("Image/bg_lobby.tga");
 
 
-	// Buttons
+	// MACHINE PARTS UI SETTINGS
 	if (gameManager->getMachineStatus(1))
 	{
 		Button* part = ButtonFactory::createNoTextButton("machinePart1", 31.25, 37.5,
@@ -203,48 +209,35 @@ void SceneLobby::Init()
 		machinePartsUIButtons[i]->disable();
 		buttonManager->addButton(machinePartsUIButtons[i]);
 	}
-	
-	showMachinePartsUI = false;
-	
 
 
-
-	//ABILITY
+	// ABILITY SELECTION UI SETTINGS
 	Button* abilitySlot1 = ButtonFactory::createNoTextButton("abilitySlot1", 23.125, 37.5,
 		15, 15, grapplingAbilityUI);
 	abilityUIButtons.push_back(abilitySlot1);
-
 	Button* abilitySlot2 = ButtonFactory::createNoTextButton("abilitySlot2", 39.375, 37.5,
 		10, 10, dashAbilityUI);
 	abilityUIButtons.push_back(abilitySlot2);
-
 	Button* abilitySlot3 = ButtonFactory::createNoTextButton("abilitySlot3", 55.625, 37.5,
 		10, 10, portalAbilityUI);
 	abilityUIButtons.push_back(abilitySlot3);
-
 	Button* abilitySlot4 = ButtonFactory::createNoTextButton("abilitySlot4", 23.125, 21.25,
 		10, 10, recallAbilityUI);
 	abilityUIButtons.push_back(abilitySlot4);
-
 	Button* abilitySlot5 = ButtonFactory::createNoTextButton("abilitySlot5", 39.375, 21.25,
 		10, 10, slowTimeAbilityUI);
 	abilityUIButtons.push_back(abilitySlot5);
-
 	Button* abilitySlot6 = ButtonFactory::createNoTextButton("abilitySlot6", 55.625, 21.25,
 		10, 10, blackHoleAbilityUI);
 	abilityUIButtons.push_back(abilitySlot6);
-
 	Button* abilityDelete = ButtonFactory::createTextButton("abilityDelete", 40, 10, 15, 5, 4, 4, Color(1, 1, 1), "Clear", 4);
 	abilityUIButtons.push_back(abilityDelete);
-
 	Button* abilityBG = ButtonFactory::createNoTextButton("abilityBG", 40, 30,
 		70, 50, abilityUIBG);
 	abilityUIButtons.push_back(abilityBG);
-
 	Button* abilitySelection1 = ButtonFactory::createNoTextButton("abilitySelection1", 100, 37.5,
 		15, 15, ability1);
 	buttonManager->addButton(abilitySelection1);
-
 	Button* abilitySelection2 = ButtonFactory::createNoTextButton("abilitySelection2", 100, 37.5,
 		15, 15, ability2);
 	buttonManager->addButton(abilitySelection2);
@@ -256,7 +249,39 @@ void SceneLobby::Init()
 		buttonManager->addButton(abilityUIButtons[i]);
 	}
 
+	// SETTINGS MACHINE UI SETTINGS
+	Button* ability1Text = ButtonFactory::createTextButton("ability_1_text", 35, 32, 10, 3, 0, 0, Color(1, 1, 1), "ABILITY 1", 3, CALIBRI);
+	settingsUIButtons.push_back(ability1Text);
+	Button* ability2Text = ButtonFactory::createTextButton("ability_2_text", 35, 27.5, 10, 3, 0, 0, Color(1, 1, 1), "ABILITY 2", 3, CALIBRI);
+	settingsUIButtons.push_back(ability2Text);
+	Button* interactText = ButtonFactory::createTextButton("interact_text", 35, 22.5, 10, 3, 0, 0, Color(1, 1, 1), "INTERACT", 3, CALIBRI);
+	settingsUIButtons.push_back(interactText);
+	Button* ability1_keybind = ButtonFactory::createTextButton("ability_1_keybind", 50, 35, 4, 4, 1, 3.5, Color(0.55, 0.55, 0.8), 
+		std::string(1, gameManager->ABILITY_KEYBIND_1), 3, SUPERMARIO);
+	settingsUIButtons.push_back(ability1_keybind);
+	Button* ability2_keybind = ButtonFactory::createTextButton("ability_2_keybind", 50, 30, 4, 4, 1, 3.5, Color(0.55, 0.55, 0.8), 
+		std::string(1, gameManager->ABILITY_KEYBIND_2), 3, SUPERMARIO);
+	settingsUIButtons.push_back(ability2_keybind);
+	Button* interact_keybind = ButtonFactory::createTextButton("interact_keybind", 50, 25, 4, 4, 1, 3.5, Color(0.55, 0.55, 0.8), 
+		std::string(1, gameManager->INTERACT_KEYBIND), 3, SUPERMARIO);
+	settingsUIButtons.push_back(interact_keybind);
 
+	settingsSelectedButton = ability1_keybind;
+	Button* settingsSelect = ButtonFactory::createNoTextButton("settings_selector", settingsSelectedButton->getOriginX(), settingsSelectedButton->getOriginY(),
+		3, 3, ability1);
+	settingsUIButtons.push_back(settingsSelect);
+	Button* settingsUIBG = ButtonFactory::createNoTextButton("settingsBG", 40, 30, 40, 30, settingsBG);
+	settingsUIButtons.push_back(settingsUIBG);
+	for (int i = 0; i < settingsUIButtons.size(); i++)
+	{
+		settingsUIButtons[i]->disable();
+		buttonManager->addButton(settingsUIButtons[i]);
+	}
+
+	showMachinePartsUI = false;
+	showAbilityUI = false;
+	showSettingsUI = false;
+	
 
 	//Level Loading
 	std::vector<GameObject*> tiles;
@@ -351,6 +376,10 @@ void SceneLobby::Init()
 		{
 			abilityMachine = go;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_SETTINGS_MACHINE)
+		{
+			settingMachine = go;
+		}
 	}
 	tiles.erase(std::remove(tiles.begin(), tiles.end(), nullptr), tiles.end());
 
@@ -383,7 +412,6 @@ void SceneLobby::Init()
 
 void SceneLobby::Update(double dt)
 {
-	std::cout << player->pos << std::endl;
 	SceneBase::Update(dt);
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
@@ -413,6 +441,36 @@ void SceneLobby::Update(double dt)
 				for (int i = 0; i < machinePartsUIButtons.size(); i++)
 				{
 					buttonManager->deactivateButton(machinePartsUIButtons[i]->getName());
+				}
+			}
+		}
+	}
+	else
+		showEtoInteract = false;
+
+	// SETTINGS MACHINE
+	if (abs(settingMachine->pos.y - player->pos.y) < 10 && abs(settingMachine->pos.x - player->pos.x) < 10)
+	{
+		if (!showAbilityUI)
+			showEtoInteract = true;
+		else
+			showEtoInteract = false;
+		if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+		{
+			showSettingsUI = !showSettingsUI;
+			showAbilityUI = false;
+			if (showSettingsUI)
+			{
+				for (int i = 0; i < settingsUIButtons.size(); i++)
+				{
+					buttonManager->activateButton(settingsUIButtons[i]->getName());
+				}
+			}
+			else
+			{
+				for (int i = 0; i < settingsUIButtons.size(); i++)
+				{
+					buttonManager->deactivateButton(settingsUIButtons[i]->getName());
 				}
 			}
 		}
@@ -464,59 +522,83 @@ void SceneLobby::Update(double dt)
 	
 	for (auto& buttonCollide : buttonManager->getButtonsInteracted())
 	{
-		for (int i = 0; i < abilityUIButtons.size() - 1; i++) 
+		if (buttonCollide->justClicked)
 		{
-			if (buttonCollide->buttonClicked->getName() == ("abilityDelete") && buttonCollide->justClicked)
+
+			for (int i = 0; i < abilityUIButtons.size() - 1; i++)
 			{
-				selectedAbilities = false;
-				gameManager->removeAbility(1);
-				gameManager->removeAbility(2);
-				buttonManager->getButtonByName("abilitySelection1")->setOrigin(100, buttonCollide->buttonClicked->getOriginY());
-				buttonManager->getButtonByName("abilitySelection2")->setOrigin(100, buttonCollide->buttonClicked->getOriginY());
+				if (buttonCollide->buttonClicked->getName() == ("abilityDelete"))
+				{
+					selectedAbilities = false;
+					gameManager->removeAbility(1);
+					gameManager->removeAbility(2);
+					buttonManager->getButtonByName("abilitySelection1")->setOrigin(100, buttonCollide->buttonClicked->getOriginY());
+					buttonManager->getButtonByName("abilitySelection2")->setOrigin(100, buttonCollide->buttonClicked->getOriginY());
+				}
+				else if (buttonCollide->buttonClicked->getName() == ("abilitySlot" + std::to_string(i + 1)))
+				{
+					int abilityNum = -1;
+					if (gameManager->getCurrAbility(1) == nullptr)
+					{
+						abilityNum = 1;
+						buttonManager->getButtonByName("abilitySelection1")->setOrigin(buttonCollide->buttonClicked->getOriginX(), buttonCollide->buttonClicked->getOriginY());
+					}
+					else if (gameManager->getCurrAbility(1) != nullptr && gameManager->getCurrAbility(2) == nullptr)
+					{
+						selectedAbilities = true;
+						abilityNum = 2;
+						buttonManager->getButtonByName("abilitySelection2")->setOrigin(buttonCollide->buttonClicked->getOriginX(), buttonCollide->buttonClicked->getOriginY());
+					}
+
+					if (abilityNum == -1)
+						continue;
+
+					switch (i)
+					{
+					case 0:
+						gameManager->setAbility(abilityNum, ABILITY_GRAPPLER);
+						break;
+					case 1:
+						gameManager->setAbility(abilityNum, ABILITY_DASH);
+						break;
+					case 2:
+						gameManager->setAbility(abilityNum, ABILITY_PORTAL);
+						break;
+					case 3:
+						gameManager->setAbility(abilityNum, ABILITY_RECALL);
+						break;
+					case 4:
+						gameManager->setAbility(abilityNum, ABILITY_SLOWTIME);
+						break;
+					case 5:
+						gameManager->setAbility(abilityNum, ABILITY_BLACKHOLE);
+						break;
+					}
+				}
 			}
-			else if (buttonCollide->buttonClicked->getName() == ("abilitySlot" + std::to_string(i + 1)) && buttonCollide->justClicked)
+
+			if (buttonCollide->buttonClicked->getName() == "ability_1_keybind")
 			{
-				int abilityNum = -1;
-				if (gameManager->getCurrAbility(1) == nullptr)
-				{
-					abilityNum = 1;
-					buttonManager->getButtonByName("abilitySelection1")->setOrigin(buttonCollide->buttonClicked->getOriginX(), buttonCollide->buttonClicked->getOriginY());
-				}
-				else if (gameManager->getCurrAbility(1) != nullptr && gameManager->getCurrAbility(2) == nullptr)
-				{
-					selectedAbilities = true;
-					abilityNum = 2;
-					buttonManager->getButtonByName("abilitySelection2")->setOrigin(buttonCollide->buttonClicked->getOriginX(), buttonCollide->buttonClicked->getOriginY());
-				}
-			
-				if (abilityNum == -1)
-					continue;
-				
-				switch (i)
-				{
-				case 0:
-					gameManager->setAbility(abilityNum, ABILITY_GRAPPLER);
-					break;
-				case 1:
-					gameManager->setAbility(abilityNum, ABILITY_DASH);
-					break;
-				case 2:
-					gameManager->setAbility(abilityNum, ABILITY_PORTAL);
-					break;
-				case 3:
-					gameManager->setAbility(abilityNum, ABILITY_RECALL);
-					break;
-				case 4:
-					gameManager->setAbility(abilityNum, ABILITY_SLOWTIME);
-					break;
-				case 5:
-					gameManager->setAbility(abilityNum, ABILITY_BLACKHOLE);
-					break;
-				}
+				settingsSelectedButton = buttonCollide->buttonClicked;
+				buttonManager->getButtonByName("settings_selector")->setOrigin(settingsSelectedButton->getOriginX(),
+					settingsSelectedButton->getOriginY());
+			}
+			else if (buttonCollide->buttonClicked->getName() == "ability_2_keybind")
+			{
+				settingsSelectedButton = buttonCollide->buttonClicked;
+				buttonManager->getButtonByName("settings_selector")->setOrigin(settingsSelectedButton->getOriginX(),
+					settingsSelectedButton->getOriginY());
+			}
+			else if (buttonCollide->buttonClicked->getName() == "interact_keybind")
+			{
+				settingsSelectedButton = buttonCollide->buttonClicked;
+				buttonManager->getButtonByName("settings_selector")->setOrigin(settingsSelectedButton->getOriginX(),
+					settingsSelectedButton->getOriginY());
 			}
 		}
 	}
-
+	
+	std::cout << input->GetTypedEntry() << std::endl;
 
 	// PORTALS
 	if ((selectedAbilities && (portal_graveyard->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_graveyard->pos.x - 4)) && (player->pos.x <= (portal_graveyard->pos.x + 4)))
@@ -770,4 +852,9 @@ void SceneLobby::Exit()
 		buttonManager->deleteButton(abilityUIButtons[i]);
 	}
 	abilityUIButtons.clear();
+	for (int i = 0; i < settingsUIButtons.size(); i++)
+	{
+		buttonManager->deleteButton(settingsUIButtons[i]);
+	}
+	settingsUIButtons.clear();
 }

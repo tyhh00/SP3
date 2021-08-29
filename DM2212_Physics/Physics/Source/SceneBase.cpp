@@ -404,6 +404,8 @@ void SceneBase::Init()
 	LoadTile(GEO_MACHINEPART_3, "MachinePart_3.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 	LoadTile(GEO_MACHINEPART_4, "MachinePart_4.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
 
+	LoadTile(GEO_SETTINGS_MACHINE, "SettingsMachine.tga", 1, 1, SHAPE_TYPE::RECTANGLE);
+
 	//Entities (Player, etc)
 
 	meshList[GEO_BLACKHOLE] = MeshBuilder::GenerateQuad("black_hole", Color(1, 1, 1), 2.0f);
