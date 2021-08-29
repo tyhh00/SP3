@@ -263,12 +263,13 @@ bool CPlayGameState::Update(const double dElapsedTime)
 			&& button->buttonClicked->getName() != "menuBG"
 			&& button->buttonClicked->getName() != "leftarrow"
 			&& button->buttonClicked->getName() != "rightarrow"
+			&& button->buttonClicked->getName() != "volumebar"
 			)
 		{
 			buttonManager->activateButton("highlight");
 			buttonHighlight->setOrigin(button->buttonClicked->getOriginX(), button->buttonClicked->getOriginY());
 		}
-		if (button->justClicked && lastClickedTime > 0.2)
+		if (button->justClicked && lastClickedTime > 0.5)
 		{
 			if (button->buttonClicked->getName() == "resume")
 			{

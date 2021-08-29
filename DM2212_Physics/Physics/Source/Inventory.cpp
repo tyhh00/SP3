@@ -403,7 +403,6 @@ void Inventory::AddItem(Item* newItem)
 	}
 	//if cannot find an existing item or is existing item is not stackable, add it to the item vector
 	itemVector.push_back(newItem);
-	currentItem = newItem;
 
 	UpdateItemVector();
 }

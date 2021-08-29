@@ -163,6 +163,10 @@ void SceneLobby::Init()
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BG]->textureID = LoadTGA("Image/bg_lobby.tga");
 
+	portal_graveyard = nullptr;
+	portal_ocean = nullptr;
+	portal_jungle = nullptr;
+	portal_robot = nullptr;
 
 	if (gameManager->getMachineStatus(1))
 	{
@@ -322,13 +326,16 @@ void SceneLobby::Init()
 		}
 		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_PORTAL_GRAVEYARD)
 		{
-			portal_graveyard = new LobbyPortal();
-			portal_graveyard->active = true;
-			portal_graveyard->scale = go->scale;
-			portal_graveyard->pos = go->pos;
-			portal_graveyard->physics = go->physics->Clone();
-			portal_graveyard->Init(red);
-			goManager->AddGO(portal_graveyard);
+			if (!gameManager->getMachineStatus(4))
+			{
+				portal_graveyard = new LobbyPortal();
+				portal_graveyard->active = true;
+				portal_graveyard->scale = go->scale;
+				portal_graveyard->pos = go->pos;
+				portal_graveyard->physics = go->physics->Clone();
+				portal_graveyard->Init(red);
+				goManager->AddGO(portal_graveyard);
+			}
 
 			//Delete portal
 			delete go;
@@ -336,13 +343,16 @@ void SceneLobby::Init()
 		}
 		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_PORTAL_JUNGLE)
 		{
-			portal_jungle = new LobbyPortal();
-			portal_jungle->active = true;
-			portal_jungle->scale = go->scale;
-			portal_jungle->pos = go->pos;
-			portal_jungle->physics = go->physics->Clone();
-			portal_jungle->Init(green);
-			goManager->AddGO(portal_jungle);
+			if (!gameManager->getMachineStatus(2))
+			{
+				portal_jungle = new LobbyPortal();
+				portal_jungle->active = true;
+				portal_jungle->scale = go->scale;
+				portal_jungle->pos = go->pos;
+				portal_jungle->physics = go->physics->Clone();
+				portal_jungle->Init(green);
+				goManager->AddGO(portal_jungle);
+			}
 
 			//Delete portal
 			delete go;
@@ -350,13 +360,16 @@ void SceneLobby::Init()
 		}
 		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_PORTAL_OCEAN)
 		{
-			portal_ocean = new LobbyPortal();
-			portal_ocean->active = true;
-			portal_ocean->scale = go->scale;
-			portal_ocean->pos = go->pos;
-			portal_ocean->physics = go->physics->Clone();
-			portal_ocean->Init(blue);
-			goManager->AddGO(portal_ocean);
+			if (!gameManager->getMachineStatus(3))
+			{
+				portal_ocean = new LobbyPortal();
+				portal_ocean->active = true;
+				portal_ocean->scale = go->scale;
+				portal_ocean->pos = go->pos;
+				portal_ocean->physics = go->physics->Clone();
+				portal_ocean->Init(blue);
+				goManager->AddGO(portal_ocean);
+			}
 
 			//Delete portal
 			delete go;
@@ -364,13 +377,16 @@ void SceneLobby::Init()
 		}
 		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_PORTAL_ROBOT)
 		{
-			portal_robot = new LobbyPortal();
-			portal_robot->active = true;
-			portal_robot->scale = go->scale;
-			portal_robot->pos = go->pos;
-			portal_robot->physics = go->physics->Clone();
-			portal_robot->Init(purple);
-			goManager->AddGO(portal_robot);
+			if (!gameManager->getMachineStatus(1))
+			{
+				portal_robot = new LobbyPortal();
+				portal_robot->active = true;
+				portal_robot->scale = go->scale;
+				portal_robot->pos = go->pos;
+				portal_robot->physics = go->physics->Clone();
+				portal_robot->Init(purple);
+				goManager->AddGO(portal_robot);
+			}
 
 			//Delete portal
 			delete go;
@@ -663,73 +679,86 @@ void SceneLobby::Update(double dt)
 	}
 
 	// PORTALS
-	if (((portal_graveyard->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_graveyard->pos.x - 4)) && (player->pos.x <= (portal_graveyard->pos.x + 4)))
+	if (portal_graveyard)
 	{
-		besidePortal = true;
-		if (selectedAbilities)
+		if (((portal_graveyard->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_graveyard->pos.x - 4)) && (player->pos.x <= (portal_graveyard->pos.x + 4)))
 		{
-			showEtoInteract = true;
-			portal_graveyard->Open();
-			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+			besidePortal = true;
+			if (selectedAbilities)
 			{
-				sceneManager->setScene(w_graveyard);
-				CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+				showEtoInteract = true;
+				portal_graveyard->Open();
+				if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+				{
+					sceneManager->setScene(w_graveyard);
+					CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+				}
 			}
 		}
-	}
-	else {
-		portal_graveyard->Close();
-	}
-	if (((portal_jungle->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_jungle->pos.x - 4)) && (player->pos.x <= (portal_jungle->pos.x + 4)))
-	{
-		besidePortal = true;
-		if (selectedAbilities)
-		{
-			showEtoInteract = true;
-			portal_jungle->Open();
-			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
-			{
-				sceneManager->setScene(w_jungle);
-				CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
-			}
+		else {
+			portal_graveyard->Close();
 		}
 	}
-	else {
-		portal_jungle->Close();
-	}
-	if (((portal_ocean->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_ocean->pos.x - 4)) && (player->pos.x <= (portal_ocean->pos.x + 4)))
+	
+	if (portal_jungle)
 	{
-		besidePortal = true;
-		if (selectedAbilities)
+		if (((portal_jungle->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_jungle->pos.x - 4)) && (player->pos.x <= (portal_jungle->pos.x + 4)))
 		{
-			showEtoInteract = true;
-			portal_ocean->Open();
-			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+			besidePortal = true;
+			if (selectedAbilities)
 			{
-				sceneManager->setScene(w_ocean);
-				CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+				showEtoInteract = true;
+				portal_jungle->Open();
+				if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+				{
+					sceneManager->setScene(w_jungle);
+					CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+				}
 			}
 		}
-	}
-	else {
-		portal_ocean->Close();
-	}
-	if (((portal_robot->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_robot->pos.x - 4)) && (player->pos.x <= (portal_robot->pos.x + 4)))
-	{
-		besidePortal = true;
-		if (selectedAbilities)
-		{
-			showEtoInteract = true;
-			portal_robot->Open();
-			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
-			{
-				sceneManager->setScene(w_robot);
-				CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
-			}
+		else {
+			portal_jungle->Close();
 		}
 	}
-	else {
-		portal_robot->Close();
+	if (portal_ocean)
+	{
+		if (((portal_ocean->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_ocean->pos.x - 4)) && (player->pos.x <= (portal_ocean->pos.x + 4)))
+		{
+			besidePortal = true;
+			if (selectedAbilities)
+			{
+				showEtoInteract = true;
+				portal_ocean->Open();
+				if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+				{
+					sceneManager->setScene(w_ocean);
+					CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+				}
+			}
+		}
+		else {
+			portal_ocean->Close();
+		}
+	}
+	if (portal_robot)
+	{
+		if (portal_robot && ((portal_robot->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_robot->pos.x - 4)) && (player->pos.x <= (portal_robot->pos.x + 4)))
+		{
+			besidePortal = true;
+			if (selectedAbilities)
+			{
+				showEtoInteract = true;
+				portal_robot->Open();
+				if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+				{
+					sceneManager->setScene(w_robot);
+					CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+				}
+			}
+		}
+		else {
+			portal_robot->Close();
+		}
 	}
 
 	//Show pop-up of if player has not selected abilities and want to enter portal
@@ -737,11 +766,14 @@ void SceneLobby::Update(double dt)
 		buttonManager->activateButton("selectAbilitiesFirst");
 	else
 		buttonManager->deactivateButton("selectAbilitiesFirst");
-
-	portal_graveyard->Update(dt);
-	portal_jungle->Update(dt);
-	portal_ocean->Update(dt);
-	portal_robot->Update(dt);
+	if (portal_graveyard)
+		portal_graveyard->Update(dt);
+	if (portal_jungle)
+		portal_jungle->Update(dt);
+	if (portal_ocean)
+		portal_ocean->Update(dt);
+	if (portal_robot)
+		portal_robot->Update(dt);
 
 
 	if(Application::IsKeyPressed('9'))

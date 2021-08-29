@@ -11,8 +11,7 @@
 
 enum worlds
 {
-	w_physics = 0,
-	w_jungle,
+	w_jungle = 0,
 	w_graveyard,
 	w_robot,
 	w_ocean,
