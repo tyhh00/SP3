@@ -26,7 +26,7 @@ float ProgressBar::GetProgress()
 	return this->progress;
 }
 
-void ProgressBar::Render(SceneBase* scene)
+void ProgressBar::Render(SceneBase* scene, int  z)
 {
 	if (barType == HORIZONTAL)
 	{

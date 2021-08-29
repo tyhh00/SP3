@@ -150,6 +150,9 @@ void SceneLobby::Init()
 	inventory->Init(this);
 
 	showAbilityUI = false;
+	selectedAbilities = false;
+	showMachinePartsUI = false;
+
 	
 	// Unique Meshes
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
@@ -389,7 +392,6 @@ void SceneLobby::Init()
 
 void SceneLobby::Update(double dt)
 {
-	std::cout << player->pos << std::endl;
 	SceneBase::Update(dt);
 	//inventory->Update(dt);
 	camera.Update(player->pos, dt);
@@ -492,9 +494,13 @@ void SceneLobby::Update(double dt)
 				}
 				else if (gameManager->getCurrAbility(1) != nullptr && gameManager->getCurrAbility(2) == nullptr)
 				{
-					selectedAbilities = true;
-					abilityNum = 2;
-					buttonManager->getButtonByName("abilitySelection2")->setOrigin(buttonCollide->buttonClicked->getOriginX(), buttonCollide->buttonClicked->getOriginY());
+					std::cout << gameManager->getCurrAbility(1)->GetAbilityType() << " " << i << std::endl;
+					if (gameManager->getCurrAbility(1)->GetAbilityType() != i)
+					{
+						selectedAbilities = true;
+						abilityNum = 2;
+						buttonManager->getButtonByName("abilitySelection2")->setOrigin(buttonCollide->buttonClicked->getOriginX(), buttonCollide->buttonClicked->getOriginY());
+					}
 				}
 			
 				if (abilityNum == -1)

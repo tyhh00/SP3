@@ -84,7 +84,7 @@ public:
 	bool isVisible();
 	void setSize(float size);
 	void changeFont(FONTTYPE type);
-	void Render(SceneBase* scene);
+	void Render(SceneBase* scene, int z = 1);
 
 };
 
