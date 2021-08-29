@@ -80,7 +80,7 @@ Press assigned key to open a portal. Use mouse to control position of end portal
 Press assigned key to initiate a dash movement. It also disables collision so you can phase through blocks
 
 ***GRAPPLE***
-Press assigned key to hook the grappler to a block and it will pull you towards it and keep its momentum.
+Press assigned key to hook the grappler to a block and it will pull you towards it and keep its momentum. You can also release the hook by letting go of the mouse button.
 
 ***BLACKHOLE***
 
