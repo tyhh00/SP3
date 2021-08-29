@@ -59,7 +59,7 @@ void SceneGraveyard::Init()
 	inventory->Init(this);
 	// Dialogue Manager
 	dialogueManager = DialogueManager::GetInstance();
-	//Store keyboard instance
+	// Store keyboard instance
 	input = Input::GetInstance();
 	// Game Manager
 	gameManager = GameManager::GetInstance();
@@ -182,7 +182,7 @@ void SceneGraveyard::Init()
 	camera.SetFocusTarget(player->pos);
 	camera.SetMode(Camera::CENTER);
 
-	// ABILITIESZ
+	// ABILITIES
 	gameManager->initAbilities(this, &camera, goManager, player);
 	player->SetAbilities(gameManager->getCurrAbility(1), gameManager->getCurrAbility(2));
 
@@ -211,12 +211,6 @@ void SceneGraveyard::Update(double dt)
 	if (input->IsKeyPressed('0'))
 	{
 		m_speed += 0.1f;
-	}
-
-	if (input->IsKeyPressed('C'))
-	{
-		LoadBossScene();
-		story_state = CHURCH_DEFAULT;
 	}
 
 	goManager->Update(dt, &this->camera);
