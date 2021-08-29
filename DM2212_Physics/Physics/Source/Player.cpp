@@ -109,6 +109,12 @@ void Player::Update(double dt)
 	// MOVEMENT SECTION
 	UpdateMovement(dt);
 
+	if (this->pos.y < 0 || this->pos.y > cam->worldHeight + 20)
+	{
+		dead = true;
+		return;
+	}
+
 	// ABILITIES SECTION
 	for (int i = 0; i < 2; i++)
 	{

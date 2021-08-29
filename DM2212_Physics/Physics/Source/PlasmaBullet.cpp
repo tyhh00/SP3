@@ -18,6 +18,8 @@ PlasmaBullet::PlasmaBullet(Vector3 scale, GameObject* attachedPlayer, float bull
 
 	animatedSprite->PlayAnimation("chargingup", 0, 1.0f);
 
+	rangeCheckMulti = 0.5;
+
 	aliveTimer = 0.0;
 
 	//PLASMA BULLET FUNCTIONALITY
