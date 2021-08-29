@@ -183,7 +183,6 @@ CPlayGameState::~CPlayGameState(void)
 bool CPlayGameState::Init(void)
 {
 
-
 	uiManager->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, true);
 
 	currentState = DEFAULT;
