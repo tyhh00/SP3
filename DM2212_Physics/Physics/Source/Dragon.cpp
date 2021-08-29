@@ -27,6 +27,10 @@ void Dragon::Init(SceneBase* scene,GameObject* target, int numParts, GameObjectM
 	this->currentHP = 100;
 	this->type = GO_DRAGON;
 
+	this->AddToGOCollisionWhitelist(GO_DRAGON);
+	this->AddToResponseWhitelist(GO_DRAGON);
+	this->AddToResponseWhitelist(GO_TILE);
+
 	angle = 0;
 	curve = 10;
 	curveTimer = 0.1f;
@@ -40,6 +44,11 @@ void Dragon::Init(SceneBase* scene,GameObject* target, int numParts, GameObjectM
 	dragonHead->invisible = true;
 	dragonHead->maxHP = 110;
 	dragonHead->currentHP = 110;
+	dragonHead->physics->SetMovable(true);
+	dragonHead->physics->SetGravity(Vector3(0, 0, 0));
+	dragonHead->AddToGOCollisionWhitelist(GO_DRAGON);
+	dragonHead->AddToResponseWhitelist(GO_DRAGON);
+	dragonHead->AddToResponseWhitelist(GO_TILE);
 	dragon.push_back(dragonHead);
 
 	for (int i = 0; i < numParts; i++)
@@ -52,6 +61,9 @@ void Dragon::Init(SceneBase* scene,GameObject* target, int numParts, GameObjectM
 		go->mesh->textureID = LoadTGA("Image/Tiles/enemy_dragonBody.tga");
 		go->invisible = true;
 		go->parent = dragonHead;
+		go->AddToGOCollisionWhitelist(GO_DRAGON);
+		go->AddToResponseWhitelist(GO_DRAGON);
+		go->AddToResponseWhitelist(GO_TILE);
 		dragon.push_back(go);
 	}
 
@@ -63,6 +75,9 @@ void Dragon::Init(SceneBase* scene,GameObject* target, int numParts, GameObjectM
 	go->mesh->textureID = LoadTGA("Image/Tiles/enemy_dragonTail.tga");
 	go->invisible = true;
 	go->parent = dragonHead;
+	go->AddToGOCollisionWhitelist(GO_DRAGON);
+	go->AddToResponseWhitelist(GO_DRAGON);
+	go->AddToResponseWhitelist(GO_TILE);
 	dragon.push_back(go);
 
 	for (int i = 0; i < dragon.size(); i++)
@@ -118,7 +133,7 @@ void Dragon::Update(double dt)
 		for (int i = 0; i < dragon.size(); i++)
 		{
 			float angleZ = (360.f / dragon.size()) * i - angle;
-			dragon.at(0)->pos.y = pos.y + sin(Math::DegreeToRadian(angleZ)) * 5;
+			dragon.at(0)->pos.y += sin(Math::DegreeToRadian(angleZ)) * 5;
 			dragon.at(i)->physics->SetRotateZ(angleZ);
 			if (dragon.at(i)->physics->GetRotateZ() < 0)
 			{
@@ -155,7 +170,8 @@ void Dragon::Update(double dt)
 
 	this->pos = dragonHead->pos;
 	this->physics->pos = dragonHead->physics->pos;
-	std::cout << "dragonPos: " << this->pos << std::endl;
+	std::cout << "dragonPos: " << dragonHead->pos << std::endl;
+	std::cout << "thisPos: " << this->pos << std::endl;
 
 	for (int i = 1; i < dragon.size(); i++)
 	{
