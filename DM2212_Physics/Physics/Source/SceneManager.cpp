@@ -8,7 +8,6 @@ SceneManager::SceneManager()
 	: activeScene(NULL) //set active scene to null
 {
 	//Worlds
-	physics = new ScenePhysics();
 	jungle = new SceneJungle();
 	levelEditor = new LevelEditor();
 	graveyard = new SceneGraveyard();
@@ -18,11 +17,6 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager() //deletion of scene
 {
-	if (physics)
-	{
-		delete physics;
-		physics = NULL;
-	}
 	if (levelEditor)
 	{
 		delete levelEditor;
@@ -58,9 +52,6 @@ void SceneManager::setScene(worlds sceneType)
 {
 	switch (sceneType)
 	{
-	case w_physics:
-		activeScene = physics;
-		break;
 	case w_jungle:
 		activeScene = jungle;
 		break;
