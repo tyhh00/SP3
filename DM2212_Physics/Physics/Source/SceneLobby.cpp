@@ -155,7 +155,6 @@ void SceneLobby::Init()
 	meshList[GEO_BG] = MeshBuilder::GenerateQuad("bg", Color(1, 1, 1), 1.0f);
 	meshList[GEO_BG]->textureID = LoadTGA("Image/bg_lobby.tga");
 
-
 	// Buttons
 	if (gameManager->getMachineStatus(1))
 	{
@@ -353,6 +352,10 @@ void SceneLobby::Init()
 		{
 			timeMachine = go;
 		}
+		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_LEVELEDITOR)
+		{
+			wizardMachine = go;
+		}
 		else if (go->geoTypeID == GEOMETRY_TYPE::GEO_LOBBY_ABILITY_MACHINE)
 		{
 			abilityMachine = go;
@@ -428,6 +431,26 @@ void SceneLobby::Update(double dt)
 		showEtoInteract = false;
 	}
 
+
+	//LEVELEDITOR MACHINE
+	if (abs(wizardMachine->pos.y - player->pos.y) < 17 && abs(wizardMachine->pos.x - player->pos.x) < 7)
+	{
+		if (abs(wizardMachine->pos.y - player->pos.y) < 8)
+		{
+			showEtoInteract = true;
+			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+			{
+				sceneManager->setScene(w_levelEditor);
+				CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+			}
+		}
+		wizardMachine->invisible = false;
+	}
+	else
+	{
+		wizardMachine->invisible = true;
+	}
+
 	//ABILITY MACHINE
 	if (abs(abilityMachine->pos.y - player->pos.y) < 10 && abs(abilityMachine->pos.x - player->pos.x) < 10)
 	{
@@ -461,7 +484,7 @@ void SceneLobby::Update(double dt)
 	else
 	{
 		if (!showEtoInteract)
-			showEtoInteract = false;
+			showEtoInteract = false; //?????????????????????????????
 	}
 
 	//disable movement when showing UI

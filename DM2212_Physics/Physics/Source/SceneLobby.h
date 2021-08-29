@@ -43,7 +43,7 @@ protected:
 	bool showEtoInteract = false;
 
 	Player* player;
-	GameObject* timeMachine, * abilityMachine;
+	GameObject* timeMachine, * abilityMachine, * wizardMachine;
 	LobbyPortal* portal_graveyard, *portal_jungle, *portal_ocean, *portal_robot;
 
 	Mesh* machinePartsUIBG, * machinePartsSlot;
