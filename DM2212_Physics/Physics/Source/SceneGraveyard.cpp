@@ -253,7 +253,7 @@ void SceneGraveyard::Update(double dt)
 	case GY_GATEKEEPER2:
 		if (abs(gatekeeper->pos.x - player->pos.x) < 20)
 		{
-			if (gatekeeper->Interact() && input->IsKeyPressed('E'))
+			if (gatekeeper->Interact() && input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
 			{
 				if (gatekeeper->CheckEntry())
 				{
