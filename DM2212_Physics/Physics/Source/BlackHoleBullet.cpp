@@ -154,21 +154,29 @@ void BlackHoleBullet::Update(double dt)
 
 void BlackHoleBullet::CollidedWith(GameObject* go)
 {
-	if (state == SUICIDE)
+	if (state == SUICIDE && scale.x >= 7 && scale.y >= 7)
 	{
 		if (go->type == GameObject::GO_TILE)
 		{
 			//DEBUG_MSG("Found tile");
-			if (scale.x >= 7 && scale.y >= 7)
+
+			if (go->IsResponable())
 			{
-				if (go->IsResponable())
-				{
-					go->SetTemporaryDisable(4);
-				}
-				else if (go->IsDamagableByExplosive())
-				{
-					go->dead = true;
-				}
+				go->SetTemporaryDisable(4);
+			}
+			else if (go->IsDamagableByExplosive())
+			{
+				go->dead = true;
+			}
+			
+		}
+		else if (go->type == GameObject::GO_ENEMY)
+		{
+			go->currentHP -= 5;
+			if (go->currentHP < 0)
+			{
+				go->currentHP = 0;
+				go->dead = true;
 			}
 		}
 		

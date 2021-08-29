@@ -224,7 +224,7 @@ void Text::changeFont(FONTTYPE type) {
  * 
  * \param scene - Scene to render text on
  */
-void Text::Render(SceneBase* scene) {
+void Text::Render(SceneBase* scene, int z) {
 
     std::vector<std::string> splitVar;
     splitText(this->text.str(), '\n', splitVar);
@@ -237,7 +237,7 @@ void Text::Render(SceneBase* scene) {
         ss.str("");
         ss.clear();
         ss << entry;
-        scene->RenderTextOnScreen(scene->GetMesh(this->textFont->geoType), ss.str(), color, size, startX, startY - this->textFont->verticalOffset * size * i, textFont->textWidth, 256);
+        scene->RenderTextOnScreen(scene->GetMesh(this->textFont->geoType), ss.str(), color, size, startX, startY - this->textFont->verticalOffset * size * i, (float)z+1, textFont->textWidth, 256);
         i++;
     }
 

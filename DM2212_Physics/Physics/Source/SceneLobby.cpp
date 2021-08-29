@@ -283,6 +283,13 @@ void SceneLobby::Init()
 	showSettingsUI = false;
 	
 
+	Button* pressEtoInteract = ButtonFactory::createTextButton("pressEtoInteract", 33.5, 10, 15, 5, 3, 3, Color(1, 1, 1), "Press E to Interact", 4);
+	buttonManager->addButton(pressEtoInteract);
+
+	Button* selectAbilitiesFirst = ButtonFactory::createTextButton("selectAbilitiesFirst", 29, 8, 15, 5, 3, 3, Color(1, 1, 1), "Select your abilities first!", 4);
+	buttonManager->addButton(selectAbilitiesFirst);
+	buttonManager->deactivateButton("selectAbilitiesFirst");
+
 	//Level Loading
 	std::vector<GameObject*> tiles;
 	if(LevelLoader::GetInstance()->LoadTiles("LOBBY", this->meshList, this->tileSize, tiles, gridLength, gridHeight))
@@ -421,7 +428,7 @@ void SceneLobby::Update(double dt)
 	// TIME MACHINE
 	if (abs(timeMachine->pos.y - player->pos.y) < 20 && abs(timeMachine->pos.x - player->pos.x) < 10)
 	{
-		if (!showAbilityUI)
+		if (!showMachinePartsUI)
 			showEtoInteract = true;
 		else
 			showEtoInteract = false;
@@ -446,7 +453,9 @@ void SceneLobby::Update(double dt)
 		}
 	}
 	else
+	{
 		showEtoInteract = false;
+	}
 
 	// SETTINGS MACHINE
 	if (abs(settingMachine->pos.y - player->pos.y) < 10 && abs(settingMachine->pos.x - player->pos.x) < 10)
@@ -597,58 +606,82 @@ void SceneLobby::Update(double dt)
 			}
 		}
 	}
+
+	bool besidePortal = false;
 	
 	std::cout << input->GetTypedEntry() << std::endl;
 
 	// PORTALS
-	if ((selectedAbilities && (portal_graveyard->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_graveyard->pos.x - 4)) && (player->pos.x <= (portal_graveyard->pos.x + 4)))
+	if (((portal_graveyard->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_graveyard->pos.x - 4)) && (player->pos.x <= (portal_graveyard->pos.x + 4)))
 	{
-		portal_graveyard->Open();
-		if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+		besidePortal = true;
+		if (selectedAbilities)
 		{
-			sceneManager->setScene(w_graveyard);
-			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+			portal_graveyard->Open();
+			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+			{
+				sceneManager->setScene(w_graveyard);
+				CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+			}
 		}
 	}
 	else {
 		portal_graveyard->Close();
 	}
-	if ((selectedAbilities && (portal_jungle->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_jungle->pos.x - 4)) && (player->pos.x <= (portal_jungle->pos.x + 4)))
+	if (((portal_jungle->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_jungle->pos.x - 4)) && (player->pos.x <= (portal_jungle->pos.x + 4)))
 	{
-		portal_jungle->Open();
-		if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+		besidePortal = true;
+		if (selectedAbilities)
 		{
-			sceneManager->setScene(w_jungle);
-			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+			portal_jungle->Open();
+			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+			{
+				sceneManager->setScene(w_jungle);
+				CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+			}
 		}
 	}
 	else {
 		portal_jungle->Close();
 	}
-	if ((selectedAbilities && (portal_ocean->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_ocean->pos.x - 4)) && (player->pos.x <= (portal_ocean->pos.x + 4)))
+	if (((portal_ocean->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_ocean->pos.x - 4)) && (player->pos.x <= (portal_ocean->pos.x + 4)))
 	{
-		portal_ocean->Open();
-		if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+		besidePortal = true;
+		if (selectedAbilities)
 		{
-			sceneManager->setScene(w_ocean);
-			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+			portal_ocean->Open();
+			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+			{
+				sceneManager->setScene(w_ocean);
+				CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+			}
 		}
 	}
 	else {
 		portal_ocean->Close();
 	}
-	if ((selectedAbilities && (portal_robot->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_robot->pos.x - 4)) && (player->pos.x <= (portal_robot->pos.x + 4)))
+	if (((portal_robot->pos.y - 10.5) == player->pos.y) && (player->pos.x >= (portal_robot->pos.x - 4)) && (player->pos.x <= (portal_robot->pos.x + 4)))
 	{
-		portal_robot->Open();
-		if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+		besidePortal = true;
+		if (selectedAbilities)
 		{
-			sceneManager->setScene(w_robot);
-			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+			portal_robot->Open();
+			if (input->IsKeyPressed(gameManager->INTERACT_KEYBIND))
+			{
+				sceneManager->setScene(w_robot);
+				CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+			}
 		}
 	}
 	else {
 		portal_robot->Close();
 	}
+
+	//Show pop-up of if player has not selected abilities and want to enter portal
+	if (besidePortal && !selectedAbilities)
+		buttonManager->activateButton("selectAbilitiesFirst");
+	else
+		buttonManager->deactivateButton("selectAbilitiesFirst");
 
 	portal_graveyard->Update(dt);
 	portal_jungle->Update(dt);
@@ -667,6 +700,11 @@ void SceneLobby::Update(double dt)
 
 	if (!dialogueManager->Update(dt))
 		goManager->Update(dt, &this->camera);
+
+	if (showEtoInteract)
+		buttonManager->activateButton("pressEtoInteract");
+	else
+		buttonManager->deactivateButton("pressEtoInteract");
 }
 
 void SceneLobby::Render()
@@ -763,9 +801,6 @@ void SceneLobby::Render()
 	ss.precision(5);
 	ss << "FPS: " << fps;
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 2, 0, 2);
-	
-	if (showEtoInteract)
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press E to interact", Color(1, 1, 1), 7, 55, 15);
 }
 
 void SceneLobby::InitLights()

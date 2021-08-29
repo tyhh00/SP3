@@ -111,6 +111,12 @@ void Player::Update(double dt)
 	// MOVEMENT SECTION
 	UpdateMovement(dt);
 
+	if (this->pos.y < 0 || this->pos.y > cam->worldHeight + 20)
+	{
+		dead = true;
+		return;
+	}
+
 	// ABILITIES SECTION
 	for (int i = 0; i < 2; i++)
 	{
@@ -274,7 +280,7 @@ void Player::Render(SceneBase* scene)
 	stamina_bar.RenderHorizontal(scene, stamina, max_stamina);*/
 
 
-
+	//UIManager::GetInstance()->SetActive(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS, true);
 	//This is initialised in UIManager
 	ProgressBar* pHealthBar = dynamic_cast<ProgressBar*>(
 		UIManager::GetInstance()->GetButtonManager(UI_TYPE::UNIVERSAL_GAMEPLAY_STATS)->getButtonByName("playerhealth")

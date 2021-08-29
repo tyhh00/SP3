@@ -65,6 +65,7 @@ protected:
 	DialogueManager* dialogueManager;
 	GameManager* gameManager;
 	ButtonManager* buttonManager;
+	Mesh* pressEtoInteract;
 
 	double gridLength, gridHeight;
 	void CursorToWorldPosition(double& theX, double& theY);

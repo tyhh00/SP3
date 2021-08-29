@@ -22,7 +22,7 @@ public:
 	Trident();
 	~Trident();
 
-	void Init(Camera* cam, GameObjectManager* goManager, Vector3& pos);
+	void Init(Camera* cam, GameObjectManager* goManager, GameObject* target);
 	void Update(double dt);
 	bool IsEqual(Item* item1);
 	void CollidedWith(GameObject* go);
@@ -34,7 +34,7 @@ private:
 	Camera* camera;
 	GameObjectManager* GOmanager;
 	TridentGO* tridentGO;
-	Vector3* playerPos;
+	GameObject* player;
 	Vector3 mouseDownPos;
 	SpriteAnimation* animatedSprites;
 };
