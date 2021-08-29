@@ -51,8 +51,13 @@ Grim Reaper(BOSS) - Constantly Chases down the player. Once in attack range, sto
 
 ***OCEAN***
 /ITEMS:
+Red Shell - Item requirement to move onto next requirement. Press E to pickup.
+Blue Shell - Item requirement to move onto next requirement. Press E to pickup.
+Waterbottle - Item requirement to move onto next requirement. Press E to pickup.
 
 //ENEMIES:
+Crab - Idle every few seconds, move left and right every few seconds, if player within their range then chase them and attack them
+Dragon - Moves in a sin-curve towards the left direction. Damages player when they get too close.
 
 ***ROBOT***
 /ITEMS:
@@ -73,6 +78,7 @@ Press assigned key to open a portal. Use mouse to control position of end portal
 ***RECALLL***
 
 ***SLOWTIME***
+Upon pressing assigned key, the objects slow down, with the exception of the trident, player and lightning. 
 
 -------------------------------------->
 //STORY
